@@ -169,6 +169,8 @@ class Landing extends Component {
         )
     }
 
+
+
     // Results
     renderResultPosts(){
         return(
@@ -186,9 +188,9 @@ class Landing extends Component {
                                         <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden", overflowX:"scroll"}}>
                                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
                                               <Grid style={{marginBottom:10,}} item>
-                                                  <Badge color="primary" style={{textTransform: 'none', marginRight:3,}}>tag1</Badge>
-                                                  <Badge color="primary" style={{textTransform: 'none', marginRight:3,}}>tag2</Badge>
-                                                  <Badge color="primary" style={{textTransform: 'none', marginRight:3,}}>tag3</Badge>
+                                                {value.tags.map(t => (
+                                                  <Badge color="primary" style={{textTransform: 'none', marginRight:3,}}>{t.title}</Badge>
+                                                ))}
                                               </Grid>
                                           </Grid>
                                         </Grid>

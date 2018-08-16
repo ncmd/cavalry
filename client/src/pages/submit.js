@@ -63,15 +63,19 @@ class Submit extends Component {
     handlePostTitle = postTitle => event => {
         this.setState({
             [postTitle]: event.target.value,
+        },() => {
+          this.validateTitle(this.state.postTitle)
         });
-        console.log(event.target.value)
+
     };
 
     handlePostDescription = postDescription => event => {
         this.setState({
             [postDescription]: event.target.value,
+        }, ()=> {
+          this.validateDescription(this.state.postDescription);
         });
-        console.log(event.target.value)
+
     };
 
     handlePostTags = tags => event => {
@@ -255,6 +259,11 @@ class Submit extends Component {
       if (tagRegex.test(tags)) {
           // // console.log("Valid Email Address:",email);
           this.setState({tagsValid:true});
+          var myArray = tags.split(',');
+          this.setState({
+            tags: myArray
+          })
+
           console.log("Tags are valid!")
       } else {
           console.log("Still invalid...")
@@ -262,27 +271,50 @@ class Submit extends Component {
       }
   }
 
+  validateTitle(title){
+      if (this.state.postTitle !=='') {
+          // // console.log("Valid Email Address:",email);
+          this.setState({titleValid:true});
+          console.log("Title is valid!")
+      } else {
+          console.log("Still invalid...")
+          this.setState({titleValid:false})
+      }
+  }
+
+  validateDescription(description){
+      if (this.state.postDescription !=='') {
+          // // console.log("Valid Email Address:",email);
+          this.setState({descriptionValid:true});
+          console.log("Description is valid!")
+      } else {
+          console.log("Still invalid...")
+          this.setState({descriptionValid:false})
+      }
+  }
+
   renderReviewButton(){
-    if(this.state.tagsValid === true && this.state.titleValid === true && this.state.descriptionValid === true){
+    if(this.state.tagsValid === true && this.state.postTitle !== '' && this.state.postDescription !== ''){
       return (
         <Grid item >
-            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.submitPost(this.state.postTitle,this.state.postDescription, this.state.tags)}>REVIEW</Button>
+            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.submitPost(this.state.postTitle,this.state.postDescription, this.state.tags)}>SUBMIT</Button>
         </Grid>
       )
     } else {
       return (
         <Grid item >
-            <Button disabled style={{background:submitButton, color:'white'}} >SUBMIT</Button>
+            <Button disabled style={{background:'grey',  color:'white'}} >Complete Form</Button>
         </Grid>
       )
     }
 
   }
 
-    submitPost(title,description){
+    submitPost(title,description,tags){
         console.log("Clicked Once")
-        this.props.addPost(title,description);
+        this.props.addPost(title,description,tags);
     }
+
     render() {
         return (
             <div>
@@ -311,9 +343,9 @@ class Submit extends Component {
                                     <Typography variant="button" style={{color:'white'}}>Tags</Typography>
                                       {this.state.tagsValid
                                       ?
-                                      <Input valid type="textarea" placeholder="Examples: Malware, APT, PUP; Separate each tag with ',' " onChange={this.handlePostTags('tags')}/>
+                                      <Input valid type="textarea" placeholder="Examples: malware,apt,pup; Separate each tag with ',' " onChange={this.handlePostTags('tags')}/>
                                       :
-                                      <Input invalid type="textarea" placeholder="Examples: Malware, APT, PUP; Separate each tag with ',' " onChange={this.handlePostTags('tags')}/>
+                                      <Input invalid type="textarea" placeholder="Examples: malware,apt,pup; Separate each tag with ',' " onChange={this.handlePostTags('tags')}/>
                                       }
                                 </FormGroup>
                                 <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
@@ -329,7 +361,7 @@ class Submit extends Component {
                                         <Button style={{border:'2px solid black', borderColor:'#474f97', color:'white', marginRight:40}}>CANCEL</Button>
                                     </Grid>
                                     <Grid item >
-                                        <Button style={{background:submitButton, color:'white'}} onClick={()=> this.submitPost(this.state.postTitle,this.state.postDescription)}>REVIEW</Button>
+                                        {this.renderReviewButton()}
                                     </Grid>
                                 </Grid>
                             </Form>
