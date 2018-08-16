@@ -23,8 +23,8 @@ export const getPosts = () => async dispatch => {
     dispatch({ type: GET_POSTS, payload: res.data });
 };
 
-export const addPost = (title,description) => async dispatch =>{
-    const data = {title:title,description:description};
+export const addPost = (title,description,tags) => async dispatch =>{
+    const data = {title:title,description:description,tags:tags};
     const res = await axios.post('https://cavalry-app.herokuapp.com/api/post/new',data,axiosConfig);
     dispatch({ type: ADD_POST, payload: res.data });
 };

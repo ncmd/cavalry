@@ -24,6 +24,10 @@ class Submit extends Component {
             postDescription:'',
             objectives: [{title:'Identify Source Computer',description:'Identify the Computer information such as the Hostname, IP Address, Owner of Computer.'}],
             tasks: [],
+            tags:'',
+            tagsValid:false,
+            titleValid:false,
+            descriptionValid:false,
             checked: [0],
             objectiveTasks: [],
             objectiveTaskCounter: 0,
@@ -68,6 +72,15 @@ class Submit extends Component {
             [postDescription]: event.target.value,
         });
         console.log(event.target.value)
+    };
+
+    handlePostTags = tags => event => {
+        this.setState({
+            [tags]: event.target.value,
+        }, () => {
+          console.log("Validating...")
+          this.validateTags(this.state.tags)
+        });
     };
 
     // Function for expanding 'objectives' onClick
@@ -219,6 +232,53 @@ class Submit extends Component {
     });
   }
 
+  renderTags(){
+    return this.state.tags.map((t,index) => {
+      return (
+        <Grid key={(Math.random()+Math.random())+index} style={{minWidth:'100%'}}>
+          <FormGroup>
+              <Typography variant="button" style={{color:'white'}}>Objective {index+1}</Typography>
+              <Input placeholder={t.title}  onChange={this.handlePostTitle('postTitle')}/>
+          </FormGroup>
+          <FormGroup>
+              <Typography variant="button" style={{color:'white'}}>Objective {index+1} Description</Typography>
+              <Input type="textarea" style={{height:200}} placeholder={t.description} onChange={this.handlePostDescription('postDescription')}/>
+          </FormGroup>
+        </Grid>
+      );
+    });
+  }
+
+  validateTags(tags){
+      const tagRegex = /^.*[^,]$/
+      console.log(tags)
+      if (tagRegex.test(tags)) {
+          // // console.log("Valid Email Address:",email);
+          this.setState({tagsValid:true});
+          console.log("Tags are valid!")
+      } else {
+          console.log("Still invalid...")
+          this.setState({tagsValid:false})
+      }
+  }
+
+  renderReviewButton(){
+    if(this.state.tagsValid === true && this.state.titleValid === true && this.state.descriptionValid === true){
+      return (
+        <Grid item >
+            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.submitPost(this.state.postTitle,this.state.postDescription, this.state.tags)}>REVIEW</Button>
+        </Grid>
+      )
+    } else {
+      return (
+        <Grid item >
+            <Button disabled style={{background:submitButton, color:'white'}} >SUBMIT</Button>
+        </Grid>
+      )
+    }
+
+  }
+
     submitPost(title,description){
         console.log("Clicked Once")
         this.props.addPost(title,description);
@@ -247,12 +307,21 @@ class Submit extends Component {
                                     <Typography variant="button" style={{color:'white'}}>Description</Typography>
                                     <Input type="textarea" style={{height:200}} placeholder="Received alert of malware on user's machine" onChange={this.handlePostDescription('postDescription')}/>
                                 </FormGroup>
+                                <FormGroup>
+                                    <Typography variant="button" style={{color:'white'}}>Tags</Typography>
+                                      {this.state.tagsValid
+                                      ?
+                                      <Input valid type="textarea" placeholder="Examples: Malware, APT, PUP; Separate each tag with ',' " onChange={this.handlePostTags('tags')}/>
+                                      :
+                                      <Input invalid type="textarea" placeholder="Examples: Malware, APT, PUP; Separate each tag with ',' " onChange={this.handlePostTags('tags')}/>
+                                      }
+                                </FormGroup>
                                 <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
                                   {this.renderObjectives()}
                                 </Grid>
                                 <Grid container alignItems="center" direction="row" justify="flex-end" >
                                     <Grid item >
-                                        <Button style={{ height:30, background:'#474f97', textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective()} >Add Step</Button>
+                                        <Button style={{ height:30, background:'#474f97', textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective()} >Add Objective</Button>
                                     </Grid>
                                 </Grid>
                                 <Grid container alignItems="center" direction="row" justify="space-between" >

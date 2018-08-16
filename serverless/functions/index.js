@@ -34,4 +34,3 @@ exports.aggregate = functions.firestore.document('posts/{postId}').onCreate(asyn
 
 
 // Aggregate list of subscribers to be viewed in dashboard
-

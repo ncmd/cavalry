@@ -21,6 +21,7 @@ import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
 import compose from 'recompose/compose';
 import PropTypes from 'prop-types';
+import { Badge } from 'reactstrap';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const buttonBlue = "linear-gradient(#283593, #1a237e)";
@@ -182,10 +183,14 @@ class Landing extends Component {
                                                 {value.title}
                                             </Typography>
                                         </Grid>
-                                        <Grid item>
-                                            <Typography variant="subheading" style={{color:'#939ed5',  marginTop:10}}>
-                                                Name * Month DD, YYYY
-                                            </Typography>
+                                        <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden", overflowX:"scroll"}}>
+                                          <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
+                                              <Grid style={{marginBottom:10,}} item>
+                                                  <Badge color="primary" style={{textTransform: 'none', marginRight:3,}}>tag1</Badge>
+                                                  <Badge color="primary" style={{textTransform: 'none', marginRight:3,}}>tag2</Badge>
+                                                  <Badge color="primary" style={{textTransform: 'none', marginRight:3,}}>tag3</Badge>
+                                              </Grid>
+                                          </Grid>
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -220,7 +225,7 @@ class Landing extends Component {
                         flexGrow: 1,
                         justify: 'center',
                         background: bodyBlue,
-                        height:this.state.height+(10*100)
+                        height:this.state.height+(this.state.posts.length*100)
                     }}
                 >
                     <Banner/>
