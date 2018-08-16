@@ -91,6 +91,7 @@ class Landing extends Component {
                     prevPosts.push({
                         title: r.title,
                         description: r.description,
+                        tags:r.tags,
                     });
                     this.setState({
                         posts: prevPosts,
@@ -169,28 +170,41 @@ class Landing extends Component {
         )
     }
 
+    renderTags(postIndex){
+      // console.log(this.state.posts[postIndex].tags.length)
+      if (this.state.posts[postIndex].tags.length !== 0){
+        return(
+          this.state.posts[postIndex].tags.map((value) => (
+            <Badge key={value+Math.random()+(Math.random())} color="primary" style={{textTransform: 'none', marginRight:3,}}>{value}</Badge>
+          ))
+        )
+      }
+
+    }
 
 
     // Results
     renderResultPosts(){
         return(
-            this.state.posts.map(value => (
+            this.state.posts.map((value,index) => (
                     <Grid item xs={12} key={value.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
                         <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}} component={Link} to="/post">
-                            <Grid container style={{flexGrow:1}}>
+                            <Grid container style={{flexGrow:1, marginLeft:10}}>
                                 <Grid item xs={8} style={{textAlign:'left'}}>
                                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                                         <Grid item>
                                             <Typography variant="title" style={{color:'white'}}>
                                                 {value.title}
                                             </Typography>
+                                            <Typography variant="subheading" style={{color:'#939ed5', marginTop:10}}>
+                                                {value.description}
+                                            </Typography>
                                         </Grid>
                                         <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden", overflowX:"scroll"}}>
                                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
                                               <Grid style={{marginBottom:10,}} item>
-                                                {value.tags.map(t => (
-                                                  <Badge color="primary" style={{textTransform: 'none', marginRight:3,}}>{t.title}</Badge>
-                                                ))}
+                                                {this.renderTags(index)}
+
                                               </Grid>
                                           </Grid>
                                         </Grid>
