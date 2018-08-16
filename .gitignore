@@ -1,0 +1,7 @@
+firestore.json
+stripe.go
+.idea/workspace.xml
+.idea/*
+.idea
+/client/node_modules
+config.toml

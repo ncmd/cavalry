@@ -1,0 +1,23 @@
+1. create-react-app client
+2. created package.json
+3. cd client; installed redux redux-thunk axios @material-ui/core react-router react-router-dom react-redux
+4. created components and redux directories
+5. created reducers
+6. created actions
+7. added provider, redux store, and thunk middleware in src/index.js
+8. created header
+9. set public/index.html body margin to 0 <body style="margin:0">
+10. added browser-router and routes to client/App.js
+11. created landing page
+12. created banner section
+13. created filter section
+13. created results section
+
+
+
+Todo:
+- signin
+- logout
+- stripe monthly payment
+- dashboard
+-
