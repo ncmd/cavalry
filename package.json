@@ -18,7 +18,7 @@
     "dockerhubusername": "calvarytactics"
   },
   "scripts": {
-    "commit": "./scripts/commit.sh",
+    "commit": "git add . ; git commit -m \"Deploy\"; git push",
     "dev": "concurrently \"npm run dev-frontend \" \"npm run dev-backend\"",
     "dev-frontend": "npm run start --prefix client",
     "dev-backend": "cd server; go run *.go",

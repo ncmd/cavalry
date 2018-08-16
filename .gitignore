@@ -4,4 +4,5 @@ stripe.go
 .idea/*
 .idea
 /client/node_modules
+node_modules/
 config.toml
