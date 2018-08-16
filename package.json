@@ -10,23 +10,22 @@
   "license": "UNLICENSED",
   "config": {
     "servername": "cavalry-app",
-    "servport": "8000",
+    "serverport": "8000",
     "hosted": "https://cavalry-app.firebaseapp.com",
     "herokusite": "calvary-app.herokuapp.com",
-    "gitusername": "calvarytactics",
-    "githubprojectname": "https://github.com/calvarytactics/calvary.git",
-    "dockerhubusername": "calvarytactics"
+    "gitusername": "ncmd",
+    "githubprojectname": "https://github.com/ncmd/calvary.git"
   },
   "scripts": {
     "commit": "git add . ; git commit -m \"Deploy\"; git push",
     "dev": "concurrently \"npm run dev-frontend \" \"npm run dev-backend\"",
     "dev-frontend": "npm run start --prefix client",
     "dev-backend": "cd server; go run *.go",
-    "deploy-all": "concurrently \"npm run deployf\" \"npm run deployb\" \"npm run heroku-logs\"",
-    "deployb": "cd server; godep save ./... ; git add . ; git commit -m \"Deploy\" ; git push heroku master ; cd ..",
-    "deployf": "cd client ; yarn build ; firebase deploy && open $npm_package_config_hosted",
-    "functions": "cd serverless/functions/ ; firebase deploy --only functions; cd ..",
-    "heroku-be-refresh": "cd server; heroku apps:destroy --app $npm_package_config_servername --confirm $npm_package_config_servername ; git init ; git add . ; heroku create $npm_package_config_servername; cd .. ; npm run deployb",
+    "deploy-all": "concurrently \"npm run deploy-frontend\" \"npm run deploy-backend\" \"npm run heroku-logs\" \"npm run commit\" \"npm run deploy-serverless\"",
+    "deploy-backend": "cd server; godep save ./... ; git add . ; git commit -m \"Deploy\" ; git push heroku master ; cd ..",
+    "deploy-frontend": "cd client ; yarn build ; firebase deploy && open $npm_package_config_hosted",
+    "deploy-serverless": "cd serverless/functions/ ; firebase deploy --only functions; cd ..",
+    "heroku-backend-refresh": "cd server; heroku apps:destroy --app $npm_package_config_servername --confirm $npm_package_config_servername ; git init ; git add . ; heroku create $npm_package_config_servername; cd .. ; npm run deployb",
     "heroku-logs": "cd server ; heroku logs --tail ; cd .."
   },
   "dependencies": {},
