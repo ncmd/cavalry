@@ -18,13 +18,14 @@ let axiosConfig = {
     }
 };
 
+let backend = ''
 
 if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   //Dev
-  let backend = 'http://localhost:8000'
+  backend = 'http://localhost:8000'
 } else {
   //Prod
-  let backend = 'https://cavalry-app.herokuapp.com'
+  backend = 'https://cavalry-app.herokuapp.com'
 }
 
 
