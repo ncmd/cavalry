@@ -1,6 +1,5 @@
 import { auth } from './firebase';
 
-
 // Check if email exists
 export const checkEmailExists = (email) =>
     auth.fetchSignInMethodsForEmail(email).then((response) => {
@@ -19,7 +18,6 @@ export const doCreateUserWithEmailAndPassword = (email, password) =>
         return errorMessage
     });
 
-
 // Sign In
 export const doSignInWithEmailAndPassword = (email, password) =>
     auth.signInWithEmailAndPassword(email, password).catch(function(error) {
@@ -31,7 +29,13 @@ export const doSignInWithEmailAndPassword = (email, password) =>
 
 // Sign out
 export const doSignOut = () =>
-    auth.signOut();
+    auth.signOut().then( () => {
+        return null
+    }).catch(function(error) {
+        // Handle Errors here.
+        console.log("Error Message:",error);
+        return error
+    });
 
 // Password Reset
 export const doPasswordReset = (email) =>

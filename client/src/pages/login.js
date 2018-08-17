@@ -188,7 +188,23 @@ class Login extends Component {
         }
     }
 
-    handleLogin(){
+    handleLogin(user,password){
+
+      auth.doSignInWithEmailAndPassword(user,password).then((response) => {
+          console.log("Response:",response)
+          // if (response[0]=== "password"){
+          //     this.setState({
+          //         emailExists:true,
+          //         emailError:"Email Exists!"
+          //     });
+          //     console.log(email, this.state.emailError)
+          // }
+          // if (response[0]!== "password"){
+          //     this.setState({
+          //         emailExists:false,
+          //     });
+          // }
+      })
 
     }
 

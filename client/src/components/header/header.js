@@ -11,6 +11,7 @@ import {
     NavLink
 } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { auth } from '../firebase';
 
 const headerSignupButton = "linear-gradient(to right, #ff1744, #F44336 ";
 const headerBlue = "#1a237e";
@@ -23,7 +24,8 @@ class header extends Component {
             // Gets Max Height of Window on Load
             width: window.innerWidth,
             height: window.innerHeight,
-            isOpen: false
+            isOpen: false,
+            isLoggedIn: false
         };
         this.toggle = this.toggle.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -47,6 +49,55 @@ class header extends Component {
     // Gets Max Height of Window on Load
     updateWindowDimensions() {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
+    }
+
+    renderUserNotLoggedIn(){
+      return (
+
+          <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
+              <NavLink href="/login">
+                  <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}>
+                      <Typography style={{color:'white'}} variant={"button"} >
+                          LOG IN
+                      </Typography>
+                  </Button>
+              </NavLink>
+          </NavItem>
+      )
+    }
+
+    renderUserNotSignedUp(){
+      return (
+          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
+              <NavLink href="/signup">
+                  <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
+                      <Typography style={{color:'white'}} variant={"button"} >
+                          SIGNUP
+                      </Typography>
+                  </Button>
+              </NavLink>
+          </NavItem>
+      )
+    }
+
+    renderUserLoggedIn(){
+      return (
+
+          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
+              <NavLink href="/landing">
+                  <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}} onClick={auth.doSignOut}>
+                      <Typography style={{color:'white'}} variant={"button"} >
+                          SIGNOUT
+                      </Typography>
+                  </Button>
+              </NavLink>
+          </NavItem>
+
+      )
+    }
+
+    renderNothing(){
+      return ({})
     }
 
     render() {
@@ -91,24 +142,18 @@ class header extends Component {
                                         </Button>
                                     </NavLink>
                                 </NavItem>
-                                <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
-                                    <NavLink href="/login">
-                                        <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}>
-                                            <Typography style={{color:'white'}} variant={"button"} >
-                                                LOG IN
-                                            </Typography>
-                                        </Button>
-                                    </NavLink>
-                                </NavItem>
-                                <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
-                                    <NavLink href="/signup">
-                                        <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
-                                            <Typography style={{color:'white'}} variant={"button"} >
-                                                SIGNUP
-                                            </Typography>
-                                        </Button>
-                                    </NavLink>
-                                </NavItem>
+                                {this.state.isLoggedIn
+                                    ?
+                                    this.renderUserLoggedIn()
+                                    :
+                                    this.renderUserNotLoggedIn()
+                                }
+                                {this.state.isLoggedIn
+                                    ?
+                                    this.renderNothing()
+                                    :
+                                    this.renderUserNotSignedUp()
+                                }
                             </Nav>
                         </Collapse>
                     </Navbar>

@@ -67,10 +67,10 @@ class Landing extends Component {
             filterPosts:['CATEGORY', 'PLATFORM', 'SKILLS', 'COST'],
             anchorEl: null,
             selectedIndex: 0,
-            resultPosts:['RESULT1', 'RESULT2', 'RESULT3', 'RESULT4', 'RESULT5', 'RESULT6', 'RESULT7', 'RESULT8'],
             posts:[],
             width: window.innerWidth,
-            height: window.innerHeight
+            height: window.innerHeight,
+            isLoggedIn: false,
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
@@ -175,7 +175,7 @@ class Landing extends Component {
       if (this.state.posts[postIndex].tags.length !== 0){
         return(
           this.state.posts[postIndex].tags.map((value) => (
-            <Badge key={value+Math.random()+(Math.random())} color="primary" style={{textTransform: 'none', marginRight:3,}}>{value}</Badge>
+            <Badge key={value+Math.random()+(Math.random())} color="primary" style={{textTransform: 'none', marginRight:5,}}>{value}</Badge>
           ))
         )
       }
@@ -190,7 +190,7 @@ class Landing extends Component {
                     <Grid item xs={12} key={value.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
                         <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}} component={Link} to="/post">
                             <Grid container style={{flexGrow:1, marginLeft:10}}>
-                                <Grid item xs={8} style={{textAlign:'left'}}>
+                                <Grid item xs={9} style={{textAlign:'left'}}>
                                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                                         <Grid item>
                                             <Typography variant="title" style={{color:'white'}}>
@@ -210,26 +210,42 @@ class Landing extends Component {
                                         </Grid>
                                     </Grid>
                                 </Grid>
+                                <Hidden smDown>
                                 <Grid item style={{ textAlign:'left',borderLeft: '2px solid rgba(0, 0, 0, 0.12)'}}>
                                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                                         <Grid item>
                                             <Typography variant="subheading" style={{color:'white', marginLeft:20}}>
-                                                Company
+                                                Rating
                                             </Typography>
                                         </Grid>
                                         <Grid item>
                                             <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
-                                                Company description that
+                                                Comments
+                                            </Typography>
+                                            <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
+                                                Views
                                             </Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>
+                              </Hidden>
                             </Grid>
                         </Button>
                     </Grid>
                 )
             )
         )
+    }
+
+    renderBannerIfLoggedIn(){
+      if (this.state.isLoggedIn === false){
+        return(
+          <div>
+            <Banner/>
+            <Subscribe/>
+          </div>
+        )
+      }
     }
 
     render() {
@@ -244,11 +260,10 @@ class Landing extends Component {
                         height:this.state.height+(this.state.posts.length*100)
                     }}
                 >
-                    <Banner/>
-                    <Subscribe/>
+                    {this.renderBannerIfLoggedIn()}
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
                         {/* Hide if below at tablet size or lower*/}
-                        <Hidden mdDown>
+                        <Hidden smDown>
                         <Grid item style={{width:220,height:800, borderColor:'#474f97', textTransform: 'none', marginRight:20}}>
                             <Grid container style={{flexGrow:1, margin:"0 auto"}} >
                                 {this.renderFilterPosts()}

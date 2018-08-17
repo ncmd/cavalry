@@ -9,6 +9,7 @@ import {
     EMAIL_JIDOKA,
     APPLY_SECURITY,
     ADD_SUBSCRIBER,
+    LOGIN_USER,
 } from './types';
 
 let axiosConfig = {
@@ -40,6 +41,11 @@ export const setUserEmail = (email) => async dispatch => {
     const data = {email:email};
     dispatch({ type: SET_EMAIL, payload: data });
     console.log(data);
+};
+
+export const loginUser = (auth) => async dispatch => {
+  const data = {login:auth};
+  dispatch({ type: LOGIN_USER, payload: data });
 };
 
 
