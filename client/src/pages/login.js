@@ -165,7 +165,7 @@ class Login extends Component {
     renderButton(){
         if (this.state.validEmail === true && this.state.emailExists === true && this.state.password !== ''){
             return(
-                <Button raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}  onClick={() =>this.handleLogin()}>Login</Button>
+                <Button raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}  onClick={() =>this.handleLogin(this.state.email,this.state.password)}>Login</Button>
             )
         } else if (this.state.validEmail === true && this.state.emailExists === false){
             return(
@@ -188,22 +188,17 @@ class Login extends Component {
         }
     }
 
-    handleLogin(user,password){
+    handleLogin(email,password){
+      console.log(email,password)
 
-      auth.doSignInWithEmailAndPassword(user,password).then((response) => {
+      auth.doSignInWithEmailAndPassword(email,password).then((response) => {
           console.log("Response:",response)
-          // if (response[0]=== "password"){
-          //     this.setState({
-          //         emailExists:true,
-          //         emailError:"Email Exists!"
-          //     });
-          //     console.log(email, this.state.emailError)
-          // }
-          // if (response[0]!== "password"){
-          //     this.setState({
-          //         emailExists:false,
-          //     });
-          // }
+          if (response.operationType === "signIn"){
+              console.log("Login Success!")
+          }
+            if (response.operationType !== "signIn"){
+              console.log("Login Failed!")
+          }
       })
 
     }
