@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import {
     addUser
 } from '../../redux/actions';
+import * as auth from "../firebase/auth";
 
 class SplitForm extends Component {
 
@@ -25,6 +26,7 @@ class SplitForm extends Component {
                 .then((payload) => {
                   console.log(this.props.users,payload.token.id)
                     this.props.addUser(this.props.users.email,payload.token.id)
+                    auth.doCreateUserWithEmailAndPassword(this.props.users.email,this.props.users.password)
                 });
         } else {
             console.log("Stripe.js hasn't loaded yet.");

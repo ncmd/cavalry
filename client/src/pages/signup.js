@@ -216,7 +216,7 @@ class Signup extends Component {
                 sContact: false,
                 recaptcha: ''
             });
-            this.props.setUserEmail(this.state.email);
+            this.props.setUserEmail(this.state.email,this.state.password);
         }
     };
 

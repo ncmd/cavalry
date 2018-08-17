@@ -49,8 +49,8 @@ export const addSubscriber = (email) => async dispatch =>{
 };
 
 
-export const setUserEmail = (email) => async dispatch => {
-    const data = {email:email};
+export const setUserEmail = (email,password) => async dispatch => {
+    const data = {email:email,password:password};
     dispatch({ type: SET_EMAIL, payload: data });
     console.log("setUserEmail:",data);
 };
