@@ -44,7 +44,8 @@ export const addPost = (title,description,tags) => async dispatch =>{
 
 export const addSubscriber = (email) => async dispatch =>{
     const data = {email:email};
-    const res = await axios.post(backend+'/api/subscriber/new',data,axiosConfig);
+    const res = await axios.post(backend+'/api/subscribe/new',data);
+    console.log("Add Sub Response:",res)
     dispatch({ type: ADD_SUBSCRIBER, payload: res.data });
 };
 
