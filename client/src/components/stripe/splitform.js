@@ -23,6 +23,7 @@ class SplitForm extends Component {
             this.props.stripe
                 .createToken()
                 .then((payload) => {
+                  console.log(this.props.users,payload.token.id)
                     this.props.addUser(this.props.users.email,payload.token.id)
                 });
         } else {
