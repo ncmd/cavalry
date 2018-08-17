@@ -5838,7 +5838,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@>=15.5.0, prop-types@^15.5.10, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
+prop-types@>=15.5.0, prop-types@^15.5.10, prop-types@^15.5.7, prop-types@^15.5.8, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2:
   version "15.6.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
   dependencies:
@@ -6043,12 +6043,23 @@ react-event-listener@^0.6.2:
     prop-types "^15.6.0"
     warning "^4.0.1"
 
+react-flip-move@^3.0.1, react-flip-move@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/react-flip-move/-/react-flip-move-3.0.2.tgz#2f6f16ca6cb0a8490fba15a98b3440a76127e825"
+
 react-google-recaptcha@^0.14.0:
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/react-google-recaptcha/-/react-google-recaptcha-0.14.0.tgz#faa315c837f287aab20cfaf3a1beaa5f8c6a49ee"
   dependencies:
     prop-types ">=15.5.0"
     react-async-script ">=0.11.0"
+
+react-images-upload@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-images-upload/-/react-images-upload-1.2.1.tgz#47c2678c80e4d304986d6c75440bd2b948eea87f"
+  dependencies:
+    react "^16.2.0"
+    react-flip-move "^3.0.1"
 
 react-jss@^8.1.0:
   version "8.6.1"
@@ -6164,6 +6175,12 @@ react-stripe-elements@^2.0.1:
   dependencies:
     prop-types "^15.5.10"
 
+react-text-truncate@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/react-text-truncate/-/react-text-truncate-0.13.1.tgz#0632cbf8bdd5f7826865c7cc55dc8a2c3a2c9147"
+  dependencies:
+    prop-types "^15.5.7"
+
 react-transition-group@^2.2.1, react-transition-group@^2.3.1:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/react-transition-group/-/react-transition-group-2.4.0.tgz#1d9391fabfd82e016f26fabd1eec329dbd922b5a"
@@ -6173,7 +6190,7 @@ react-transition-group@^2.2.1, react-transition-group@^2.3.1:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react@^16.4.2:
+react@^16.2.0, react@^16.4.2:
   version "16.4.2"
   resolved "https://registry.yarnpkg.com/react/-/react-16.4.2.tgz#2cd90154e3a9d9dd8da2991149fdca3c260e129f"
   dependencies:

@@ -70,6 +70,9 @@ class subscribe extends Component {
 
     addSub(){
         this.props.addSubscriber(this.state.email)
+        this.setState({
+          subButtonClicked: true
+        })
         console.log("Added Subscriber!")
     }
 

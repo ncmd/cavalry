@@ -6,7 +6,7 @@ import {
     addPost
 } from '../redux/actions';
 import Grid from "@material-ui/core/Grid";
-import { Form, FormGroup, Input } from 'reactstrap';
+import { Form, FormGroup, Input,CustomInput } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
@@ -22,7 +22,7 @@ class Submit extends Component {
             height: window.innerHeight,
             postTitle:'',
             postDescription:'',
-            objectives: [{title:'Identify Source Computer',description:'Identify the Computer information such as the Hostname, IP Address, Owner of Computer.'}],
+            objectives: [],
             tasks: [],
             tags:'',
             tagsValid:false,
@@ -35,13 +35,16 @@ class Submit extends Component {
             objectiveTaskItemCounter: 0,
             taskItemCounter: 0,
             objectiveTitle: '',
+            objectiveDescription: '',
+            objectiveIndex:0,
             taskTitle: '',
             objectiveContent: [],
             expandObjectiveState: false,
             status: null
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
-        this.handleChangeObjective = this.handleChangeObjective.bind(this);
+        this.handleChangeObjectiveTitle = this.handleChangeObjectiveTitle.bind(this);
+        this.handleChangeObjectiveDescription = this.handleChangeObjectiveDescription.bind(this);
         this.handleChangeTask = this.handleChangeTask.bind(this);
     }
 
@@ -74,6 +77,7 @@ class Submit extends Component {
             [postDescription]: event.target.value,
         }, ()=> {
           this.validateDescription(this.state.postDescription);
+          console.log("Handle Post Description",this.state.postDescription)
         });
 
     };
@@ -127,10 +131,21 @@ class Submit extends Component {
     }
   }
 
-  // Function that updates the 'objectiveTitle' state values using 'onChange' event
-  handleChangeObjective(event) {
-    this.setState({ objectiveTitle: event.target.value });
-  }
+  handleChangeObjectiveTitle = objectiveTitle => event => {
+    this.setState({
+        [objectiveTitle]: event.target.value,
+    },() => {
+      console.log(this.state.objectiveTitle)
+    });
+  };
+
+  handleChangeObjectiveDescription = objectiveDescription => event => {
+    this.setState({
+        [objectiveDescription]: event.target.value,
+    },() => {
+      console.log(this.state.objectiveDescription)
+    });
+  };
 
   // Function that updates the 'taskTitle' state values using 'onChange' event
   handleChangeTask(event) {
@@ -188,7 +203,7 @@ class Submit extends Component {
   }
 
   // Adding Objective to New Runbook
-  addObjective(objectiveTitle, objectiveIndex) {
+  addObjective(objectiveTitle, objectiveDescription, objectiveIndex) {
     // Get Previous Objective State which should start as an empty array '[]'
     const prevObjectives = this.state.objectives;
 
@@ -197,6 +212,7 @@ class Submit extends Component {
     // 'expanded' determines if the objective expands to show 'tasks'
     prevObjectives.push({
       title: objectiveTitle,
+      description: objectiveDescription,
       index: objectiveIndex,
       tasks: [],
       expanded: false,
@@ -208,7 +224,12 @@ class Submit extends Component {
     this.setState({
       objectives: prevObjectives,
       objectiveItemCounter: this.state.objectiveItemCounter + 1,
-      objectiveTitle: '',
+      objectiveIndex: this.state.objectiveIndex + 1,
+    }, () => {
+      this.setState({
+        objectiveTitle: '',
+        objectiveDescription: '',
+      })
     });
 
     this.updateWindowDimensions()
@@ -218,19 +239,13 @@ class Submit extends Component {
     // When user clicks on 'Review', the state should be appended temporary in redux
   }
 
-
   renderObjectives(){
     return this.state.objectives.map((obj,index) => {
       return (
-        <Grid key={(Math.random()+Math.random())+index} style={{minWidth:'100%'}}>
-          <FormGroup>
+        <Grid key={(Math.random()+Math.random())+index} style={{minWidth:'100%', marginBottom:20}}>
               <Typography variant="button" style={{color:'white'}}>Objective {index+1}</Typography>
-              <Input placeholder={obj.title}  onChange={this.handlePostTitle('postTitle')}/>
-          </FormGroup>
-          <FormGroup>
-              <Typography variant="button" style={{color:'white'}}>Objective {index+1} Description</Typography>
-              <Input type="textarea" style={{height:200}} placeholder={obj.description} onChange={this.handlePostDescription('postDescription')}/>
-          </FormGroup>
+              <Typography variant="button" style={{color:'white'}}>Title: {obj.title}</Typography>
+              <Typography variant="button" style={{color:'white'}}>Description: {obj.description}</Typography>
         </Grid>
       );
     });
@@ -348,12 +363,18 @@ class Submit extends Component {
                                       <Input invalid type="textarea" placeholder="Examples: malware,apt,pup; Separate each tag with ',' " onChange={this.handlePostTags('tags')}/>
                                       }
                                 </FormGroup>
-                                <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
                                   {this.renderObjectives()}
-                                </Grid>
+                                  <FormGroup>
+                                      <Typography variant="button" style={{color:'white'}}>Objective</Typography>
+                                      <Input placeholder="Identify Source Computer" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
+                                  </FormGroup>
+                                  <FormGroup>
+                                      <Typography variant="button" style={{color:'white'}}>Objective Description</Typography>
+                                      <Input type="textarea" style={{height:200}} value={this.state.objectiveDescription} placeholder="Identify the Computer information such as the Hostname, IP Address, Owner of Computer." onChange={this.handleChangeObjectiveDescription('objectiveDescription')}/>
+                                  </FormGroup>
                                 <Grid container alignItems="center" direction="row" justify="flex-end" >
                                     <Grid item >
-                                        <Button style={{ height:30, background:'#474f97', textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective()} >Add Objective</Button>
+                                        <Button style={{ height:30, background:'#474f97', textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex)} >Add Objective</Button>
                                     </Grid>
                                 </Grid>
                                 <Grid container alignItems="center" direction="row" justify="space-between" >
