@@ -215,7 +215,7 @@ class Submit extends Component {
       title: objectiveTitle,
       description: objectiveDescription,
       index: objectiveIndex,
-      tasks: [],
+      pictures:[],
       expanded: false,
     });
 
@@ -250,7 +250,7 @@ class Submit extends Component {
                  <Typography style={{color:'black'}}>Title: {obj.title}</Typography>
 
                    Description: <ReactMarkdown source={obj.description}/>
-                 
+
                </Grid>
                </Grid>
            </Grid>
@@ -370,9 +370,9 @@ class Submit extends Component {
 
                                       {this.state.descriptionValid
                                       ?
-                                      <Input valid type="textarea" style={{height:140}} placeholder="Received alert of malware on user's machine" onChange={this.handlePostDescription('postDescription')}/>
+                                      <Input valid type="textarea" style={{height:100}} placeholder="Received alert of malware on user's machine" onChange={this.handlePostDescription('postDescription')}/>
                                       :
-                                      <Input invalid type="textarea" style={{height:140}} placeholder="Received alert of malware on user's machine" onChange={this.handlePostDescription('postDescription')}/>
+                                      <Input invalid type="textarea" style={{height:100}} placeholder="Received alert of malware on user's machine" onChange={this.handlePostDescription('postDescription')}/>
                                       }
                                 </FormGroup>
                                 <FormGroup>

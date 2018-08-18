@@ -202,7 +202,7 @@ class Landing extends Component {
                                         </Grid>
                                         <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden", overflowX:"scroll"}}>
                                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
-                                              <Grid style={{marginBottom:10,}} item>
+                                              <Grid style={{}} item>
                                                 {this.renderTags(index)}
 
                                               </Grid>
