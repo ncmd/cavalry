@@ -97,13 +97,13 @@ class Landing extends Component {
     }
 
     componentWillMount(){
-
         // Get all Posts
         this.props.getPosts().then(() => {
             let prevPosts = this.state.posts;
             if (this.props.posts !== null ){
                 this.props.posts.map(r => {
                     prevPosts.push({
+                        id: r.id,
                         title: r.title,
                         description: r.description,
                         tags:r.tags,
@@ -197,6 +197,13 @@ class Landing extends Component {
 
     }
 
+    findAndReplace(string, target, replacement) {
+      var i = 0, length = string.length;
+      for (i; i < length; i++) {
+       string = string.replace(target, replacement);
+      }
+      return string;
+    }
 
     // Results
     renderResultPosts(props){
@@ -204,7 +211,10 @@ class Landing extends Component {
         return(
             this.state.posts.map((value,index) => (
                     <Grid item xs={12} key={value.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
-                        <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}} component={Link} to="/post">
+                      <Link
+                            to={{ pathname: '/post/' + value.id + '/'+this.findAndReplace(value.title,' ','_') }}
+                        >
+                        <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
                             <Grid container style={{flexGrow:1, marginLeft:10}}>
                                 <Grid item xs={9} style={{textAlign:'left'}}>
                                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
@@ -236,10 +246,10 @@ class Landing extends Component {
                                         </Grid>
                                         <Grid item>
                                             <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
-                                                Comments
+                                                Objectives
                                             </Typography>
                                             <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
-                                                Views
+                                                Comments
                                             </Typography>
                                         </Grid>
                                     </Grid>
@@ -247,6 +257,7 @@ class Landing extends Component {
                               </Hidden>
                             </Grid>
                         </Button>
+                      </Link>
                     </Grid>
                 )
             )

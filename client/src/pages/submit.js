@@ -12,6 +12,8 @@ import Button from '@material-ui/core/Button';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { exec, init } from 'pell'
 import 'pell/dist/pell.css'
+import IndentIcon from '@material-ui/icons/FormatIndentIncrease';
+import OutdentIcon from '@material-ui/icons/FormatIndentDecrease';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
@@ -117,6 +119,18 @@ class Submit extends Component {
                     const url = window.prompt('Enter the image URL (Limited to Height-800px Width-800px)')
                     if (url) exec('insertImage', url)
                   }
+                },
+                {
+                  name: 'outdent',
+                  title: 'Outdent',
+                  icon: '⬅️',
+                  result: () => { exec('outdent')}
+                },
+                {
+                  name: 'indent',
+                  title: 'Indent',
+                  icon: '➡️',
+                  result: () => { exec('indent')}
                 },
                 {
                   name: 'link',

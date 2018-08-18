@@ -17,7 +17,11 @@ class App extends Component {
                         <Route exact path="/" component={Landing} />
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/signup" component={Signup} />
-                        <Route exact path="/post" component={Post} />
+                        <Route
+                          exact
+                          path="/post/:postId/:postTitle"
+                          component={Post}
+                        />
                         <Route exact path="/dashboard" component={Dashboard} />
                         <Route exact path="/status" component={Status} />
                         <Route exact path="/submit" component={Submit} />
