@@ -9,16 +9,54 @@ import Grid from "@material-ui/core/Grid";
 import { Form, FormGroup, Input } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { exec, init } from 'pell'
+import 'pell/dist/pell.css'
+import Turndown from 'turndown'
 
+const { turndown } = new Turndown({ headingStyle: 'atx' })
 const ReactMarkdown = require('react-markdown');
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
+const editor = null
+
+// a little function to help us with reordering the result
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
+
+const grid = 8;
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: 'none',
+  padding: grid * 2,
+  margin: `0 0 ${grid}px 0`,
+  width: '100%',
+
+  // change background colour if dragging
+  background: isDragging ? 'lightgreen' : 'grey',
+
+  // styles we need to apply on draggables
+  ...draggableStyle,
+});
+
+const getListStyle = isDraggingOver => ({
+  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  padding: grid,
+  width: '100%',
+});
 
 class Submit extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
+           html: null,
             width: window.innerWidth,
             height: window.innerHeight,
             postTitle:'',
@@ -41,16 +79,70 @@ class Submit extends Component {
             taskTitle: '',
             objectiveContent: [],
             expandObjectiveState: false,
-            status: null
+            status: null,
         };
+        this.onDragEnd = this.onDragEnd.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.handleChangeObjectiveTitle = this.handleChangeObjectiveTitle.bind(this);
         this.handleChangeObjectiveDescription = this.handleChangeObjectiveDescription.bind(this);
         this.handleChangeTask = this.handleChangeTask.bind(this);
     }
 
+    onDragEnd(result) {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const objectives = reorder(
+      this.state.objectives,
+      result.source.index,
+      result.destination.index
+    );
+
+    this.setState({
+      objectives,
+    });
+  }
+
+  renderThisHtml(){
+
+  }
+
+
     componentDidMount() {
         // Window Dimensions
+        this.editor = init({
+          element: document.getElementById('editor'),
+          onChange: objectiveDescription => this.setState({ objectiveDescription }, () => {
+            console.log(this.state.objectiveDescription)
+          }),
+          styleWithCSS: false,
+          actions: [
+                'bold',
+                'underline',
+                {
+                  name: 'image',
+                  result: () => {
+                    const url = window.prompt('Enter the image URL')
+                    if (url) exec('insertImage', url)
+                  }
+                },
+                {
+                  name: 'link',
+                  result: () => {
+                    const url = window.prompt('Enter the link URL')
+                    if (url) exec('createLink', url)
+                  }
+                }
+              ],
+              classes: {
+                actionbar: 'pell-actionbar-custom-name',
+                button: 'pell-button-custom-name',
+                content: 'pell-content-custom-name',
+                selected: 'pell-button-selected-custom-name'
+              },
+        })
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
     }
@@ -213,7 +305,7 @@ class Submit extends Component {
     // 'expanded' determines if the objective expands to show 'tasks'
     prevObjectives.push({
       title: objectiveTitle,
-      description: objectiveDescription,
+      description:  objectiveDescription,
       index: objectiveIndex,
       pictures:[],
       expanded: false,
@@ -238,25 +330,6 @@ class Submit extends Component {
     // Now after the user clicks on 'Review' these values should be saved temporarily
     // After reviewing the Form, the 'objectives' state should be sent to back-end as normal when creating runbook
     // When user clicks on 'Review', the state should be appended temporary in redux
-  }
-
-  renderObjectives(){
-    return (
-        this.state.objectives.map((obj,index) => (
-           <Grid key={(Math.random()+Math.random())+index} item style={{ marginTop:10,background:'white',textTransform: 'none', width:'100%'}}>
-             <Grid container alignItems="center" direction="row" justify="space-between" >
-               <Grid key={(Math.random()+Math.random())+index+2} item style={{ margin:10,background:'white',textTransform: 'none', width:'100%'}}>
-                 <Typography style={{color:'black'}}>Objective {index+1}</Typography>
-                 <Typography style={{color:'black'}}>Title: {obj.title}</Typography>
-
-                   Description: <ReactMarkdown source={obj.description}/>
-
-               </Grid>
-               </Grid>
-           </Grid>
-       ))
-  )
-
   }
 
   renderTags(){
@@ -330,7 +403,6 @@ class Submit extends Component {
         </Grid>
       )
     }
-
   }
 
     submitPost(title,description,tags,objectives){
@@ -338,9 +410,46 @@ class Submit extends Component {
         this.props.addPost(title,description,tags,objectives);
     }
 
+    renderObjectives(){
+      return (
+        <DragDropContext onDragEnd={this.onDragEnd}>
+        <Droppable droppableId="droppable">
+          {(provided, snapshot) => (
+            <div
+              ref={provided.innerRef}
+              style={getListStyle(snapshot.isDraggingOver)}
+            >
+              {this.state.objectives.map((obj, index) => (
+
+                <Draggable key={obj.title} draggableId={obj.title+1} index={index}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      style={getItemStyle(
+                        snapshot.isDragging,
+                        provided.draggableProps.style
+                      )}
+                    >
+                        <Typography style={{color:'black'}}>Objective {index+1}</Typography>
+                        <Typography style={{color:'black'}}>Title: {obj.title}</Typography>
+                        Description: <div dangerouslySetInnerHTML={{__html: obj.description}} />
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
+      </DragDropContext>
+      )
+    }
+
     render() {
 
-      var placeholderObjDescription = " ----------Bullet Points----------\n - Hostname\n ------------New Line------------\n line1<space><space><enter> \n line2\n --------------Code--------------\n ```js\n var React = require('react');\n ```\n -------------Tables-------------\n | Column1 | Column2 |\n | row | ✔ |"
+      var placeholderObjDescription = " ----------Bullet Points----------\n - Hostname\n\n ------------New Line------------\n line1<space><space><enter> \n line2\n\n --------------Link--------------\n [Link to Google](https://www.google.com)\n\n -------------Tables-------------\n | Column1 | Column2 |\n | row | ✔ |"
         return (
             <div>
                 <Header/>
@@ -391,13 +500,10 @@ class Submit extends Component {
                                   </FormGroup>
                                   <FormGroup>
                                       <Typography variant="button" style={{color:'white'}}>Objective Description <a style={{textTransform: 'none'}} href='https://github.github.com/gfm/'>(Supports Markdown Formatting)</a></Typography>
-                                      <Input type="textarea" style={{height:350}} value={this.state.objectiveDescription}
-                                        placeholder={placeholderObjDescription}
-                                        onChange={this.handleChangeObjectiveDescription('objectiveDescription')}/>
-                                  </FormGroup>
-                                  <Grid container alignItems="center" direction="column" justify="flex-end" >
+                                      <div id="editor" className="pell" style={{width:'100%'}}/>
 
-                                </Grid>
+                                  </FormGroup>
+
                                 <Grid container alignItems="center" direction="row" justify="flex-end" >
                                     <Grid item >
                                         <Button style={{ height:30, background:'#474f97', textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex)} >Add Objective</Button>
@@ -414,7 +520,7 @@ class Submit extends Component {
                                         {this.renderReviewButton()}
                                     </Grid>
                                 </Grid>
-                                <Grid container alignItems="center" direction="row" justify="space-between" >
+                                <Grid container alignItems="center" direction="row" justify="space-between" style={{marginTop:20}}>
                                 {this.renderObjectives()}
                                 </Grid>
                             </Form>
