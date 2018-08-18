@@ -19,6 +19,7 @@
     "pell": "^1.0.4",
     "react": "^16.4.2",
     "react-beautiful-dnd": "^9.0.0",
+    "react-content-loader": "^3.1.2",
     "react-dom": "^16.4.2",
     "react-flip-move": "^3.0.2",
     "react-google-recaptcha": "^0.14.0",

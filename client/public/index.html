@@ -22,19 +22,26 @@
          margin:0;
        }
        .pell-content-custom-name{
+         padding: 10px;
          background-color: white;
-         height:350px;
+         min-height:350px;
          border-color: black;
          border-style: solid;
          border-top-width: 0;
        }
        .pell-content-custom-name>div{
-         padding: 10px;
+         padding:0px;
+       }
+       .pell-content-custom-name>ul>li{
+         padding:0px;
        }
        .pell-actionbar-custom-name{
          background-color: white;
          border-color: black;
          border-style: solid;
+       }
+       img {
+         max-width:760px;
        }
      </style>
 
@@ -48,7 +55,6 @@
         Learn how to configure a non-root public URL by running `npm run build`.
       -->
     <title>cavalry: plan to win</title>
-    <script type="text/javascript" src="dist/purify.min.js"></script>
     <script id="stripe-js" src="https://js.stripe.com/v3/" async></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
     <script src="https://www.gstatic.com/firebasejs/5.3.0/firebase.js"></script>

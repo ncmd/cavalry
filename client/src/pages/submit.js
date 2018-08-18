@@ -12,13 +12,10 @@ import Button from '@material-ui/core/Button';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { exec, init } from 'pell'
 import 'pell/dist/pell.css'
-import Turndown from 'turndown'
 
-const { turndown } = new Turndown({ headingStyle: 'atx' })
-const ReactMarkdown = require('react-markdown');
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
-const editor = null
+
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -67,17 +64,12 @@ class Submit extends Component {
             tagsValid:false,
             titleValid:false,
             descriptionValid:false,
+            objectiveTitleValid:false,
+            objectiveDescriptionValid:false,
             checked: [0],
-            objectiveTasks: [],
-            objectiveTaskCounter: 0,
-            objectiveItemCounter: 0,
-            objectiveTaskItemCounter: 0,
-            taskItemCounter: 0,
             objectiveTitle: '',
             objectiveDescription: '',
             objectiveIndex:0,
-            taskTitle: '',
-            objectiveContent: [],
             expandObjectiveState: false,
             status: null,
         };
@@ -105,26 +97,24 @@ class Submit extends Component {
     });
   }
 
-  renderThisHtml(){
-
-  }
-
-
     componentDidMount() {
         // Window Dimensions
         this.editor = init({
           element: document.getElementById('editor'),
+          value:'test?',
           onChange: objectiveDescription => this.setState({ objectiveDescription }, () => {
-            console.log(this.state.objectiveDescription)
+          this.validateObjectiveDescription(this.state.objectiveDescription)
           }),
           styleWithCSS: false,
           actions: [
                 'bold',
+                'olist',
+                'ulist',
                 'underline',
                 {
                   name: 'image',
                   result: () => {
-                    const url = window.prompt('Enter the image URL')
+                    const url = window.prompt('Enter the image URL (Limited to Height-800px Width-800px)')
                     if (url) exec('insertImage', url)
                   }
                 },
@@ -228,7 +218,7 @@ class Submit extends Component {
     this.setState({
         [objectiveTitle]: event.target.value,
     },() => {
-      console.log(this.state.objectiveTitle)
+      this.validateObjectiveTitle(this.state.objectiveTitle);
     });
   };
 
@@ -236,7 +226,7 @@ class Submit extends Component {
     this.setState({
         [objectiveDescription]: event.target.value,
     },() => {
-      console.log(this.state.objectiveDescription)
+        this.validateObjectiveTitle(this.state.objectiveDescription);
     });
   };
 
@@ -274,9 +264,8 @@ class Submit extends Component {
       }
       // If given objectiveIndex does not match this obj.index, increase counter by 1
       thisCounter = thisCounter + 1;
-
       // 'return' to prevent error 'Expected to return a value in arrow function  array-callback-return'
-        return prevObjectives
+      return prevObjectives
     });
   }
 
@@ -321,6 +310,7 @@ class Submit extends Component {
     }, () => {
       this.setState({
         objectiveTitle: '',
+        objectiveTitleValid:false,
         objectiveDescription: '',
       })
     });
@@ -377,6 +367,26 @@ class Submit extends Component {
           this.setState({titleValid:false})
       }
   }
+  validateObjectiveTitle(title){
+      if (this.state.objectiveTitle !=='') {
+          // // console.log("Valid Email Address:",email);
+          this.setState({objectiveTitleValid:true});
+          console.log("Objective Title is valid!")
+      } else {
+          console.log("Objective Title Still invalid...")
+          this.setState({objectiveTitleValid:false})
+      }
+  }
+  validateObjectiveDescription(description){
+      if (this.state.objectiveDescription !=='') {
+          // // console.log("Valid Email Address:",email);
+          this.setState({objectiveDescriptionValid:true});
+          console.log("Objective Title is valid!")
+      } else {
+          console.log("Objective Title Still invalid...")
+          this.setState({objectiveDescriptionValid:false})
+      }
+  }
 
   validateDescription(description){
       if (this.state.postDescription !=='') {
@@ -399,7 +409,7 @@ class Submit extends Component {
     } else {
       return (
         <Grid item >
-            <Button disabled style={{background:'grey',  color:'white'}} >Complete Form</Button>
+            <Button disabled style={{background:'grey',  color:'white'}} >Review</Button>
         </Grid>
       )
     }
@@ -435,6 +445,11 @@ class Submit extends Component {
                         <Typography style={{color:'black'}}>Objective {index+1}</Typography>
                         <Typography style={{color:'black'}}>Title: {obj.title}</Typography>
                         Description: <div dangerouslySetInnerHTML={{__html: obj.description}} />
+                      <Grid container alignItems="center" direction="row" justify="flex-end" >
+                            <Grid item >
+                              <Button style={{background:submitButton,color:'white'}} onClick={() => this.removeObjective(obj.index)}>Remove Objective</Button>
+                            </Grid>
+                        </Grid>
                     </div>
                   )}
                 </Draggable>
@@ -447,9 +462,29 @@ class Submit extends Component {
       )
     }
 
+    renderAddObjectiveButton(){
+      if (this.state.objectiveTitleValid === true && this.state.objectiveDescriptionValid === true){
+        return (
+          <Button style={{ height:30, background:'#474f97', textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex)} >Add Objective</Button>
+        )
+      } else if (this.state.objectiveTitleValid === false && this.state.objectiveDescriptionValid === false){
+        return (
+          <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Title & Description</Button>
+        )
+      } else if (this.state.objectiveTitleValid === false && this.state.objectiveDescriptionValid === true){
+        return (
+          <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Title</Button>
+        )
+      } else if (this.state.objectiveTitleValid === true && this.state.objectiveDescriptionValid === false){
+        return (
+          <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Description</Button>
+        )
+      }
+    }
+
     render() {
 
-      var placeholderObjDescription = " ----------Bullet Points----------\n - Hostname\n\n ------------New Line------------\n line1<space><space><enter> \n line2\n\n --------------Link--------------\n [Link to Google](https://www.google.com)\n\n -------------Tables-------------\n | Column1 | Column2 |\n | row | ✔ |"
+      // var placeholderObjDescription = " ----------Bullet Points----------\n - Hostname\n\n ------------New Line------------\n line1<space><space><enter> \n line2\n\n --------------Link--------------\n [Link to Google](https://www.google.com)\n\n -------------Tables-------------\n | Column1 | Column2 |\n | row | ✔ |"
         return (
             <div>
                 <Header/>
@@ -462,9 +497,9 @@ class Submit extends Component {
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="column" justify="center" >
-                        <Grid item >
-                            <Form style={{ marginTop:20, marginBottom:20, width:500}}>
+                    <Grid container style={{background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto"}} alignItems="center" direction="column" justify="center" >
+                        <Grid item>
+                            <Form style={{ marginTop:20, marginBottom:20,flexGrow:1, width:800}}>
                                 <FormGroup>
                                     <Typography variant="button" style={{color:'white'}}>Title</Typography>
                                       {this.state.titleValid
@@ -496,17 +531,21 @@ class Submit extends Component {
 
                                   <FormGroup>
                                       <Typography variant="button" style={{color:'white'}}>Objective</Typography>
-                                      <Input placeholder="Identify Source Computer" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
+                                        {this.state.objectiveTitleValid
+                                        ?
+                                        <Input valid placeholder="Identify Source Computer" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
+                                        :
+                                        <Input invalid placeholder="Identify Source Computer" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
+                                        }
                                   </FormGroup>
                                   <FormGroup>
-                                      <Typography variant="button" style={{color:'white'}}>Objective Description <a style={{textTransform: 'none'}} href='https://github.github.com/gfm/'>(Supports Markdown Formatting)</a></Typography>
+                                      <Typography variant="button" style={{color:'white'}}>Objective Description </Typography>
                                       <div id="editor" className="pell" style={{width:'100%'}}/>
-
                                   </FormGroup>
 
                                 <Grid container alignItems="center" direction="row" justify="flex-end" >
                                     <Grid item >
-                                        <Button style={{ height:30, background:'#474f97', textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex)} >Add Objective</Button>
+                                        {this.renderAddObjectiveButton()}
                                     </Grid>
                                 </Grid>
                                 <Grid container alignItems="center" direction="row" justify="space-between" >
@@ -514,7 +553,7 @@ class Submit extends Component {
                                         <Button style={{border:'2px solid black', borderColor:'#474f97', color:'white', marginRight:40}}>DISCARD</Button>
                                     </Grid>
                                     <Grid item >
-                                        <Button style={{border:'2px solid black', borderColor:'#474f97', color:'white', marginRight:40}}>SAVE DRAFT</Button>
+                                        <Button style={{border:'2px solid black', borderColor:'#474f97', color:'white', marginRight:40}}>SAVE</Button>
                                     </Grid>
                                     <Grid item >
                                         {this.renderReviewButton()}
@@ -531,9 +570,7 @@ class Submit extends Component {
         );
     }
 }
-
 function mapStateToProps({ posts }) {
     return { posts };
 }
-
 export default connect(mapStateToProps,{addPost})(withRouter(Submit));

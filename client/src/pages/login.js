@@ -3,7 +3,6 @@ import Header from '../components/header/header';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import  { Redirect } from 'react-router-dom'
 import {
     pingBackend,
 } from '../redux/actions';
