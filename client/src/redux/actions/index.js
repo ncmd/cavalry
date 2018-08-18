@@ -36,8 +36,8 @@ export const getPosts = () => async dispatch => {
     dispatch({ type: GET_POSTS, payload: res.data });
 };
 
-export const addPost = (title,description,tags) => async dispatch =>{
-    const data = {title:title,description:description,tags:tags};
+export const addPost = (title,description,tags,objectives) => async dispatch =>{
+    const data = {title:title,description:description,tags:tags,objectives:objectives};
     const res = await axios.post(backend+'/api/post/new',data,axiosConfig);
     dispatch({ type: ADD_POST, payload: res.data });
 };

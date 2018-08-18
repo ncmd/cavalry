@@ -6,10 +6,11 @@ import {
     addPost
 } from '../redux/actions';
 import Grid from "@material-ui/core/Grid";
-import { Form, FormGroup, Input,CustomInput } from 'reactstrap';
+import { Form, FormGroup, Input } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
+const ReactMarkdown = require('react-markdown');
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
 
@@ -240,15 +241,22 @@ class Submit extends Component {
   }
 
   renderObjectives(){
-    return this.state.objectives.map((obj,index) => {
-      return (
-        <Grid key={(Math.random()+Math.random())+index} style={{minWidth:'100%', marginBottom:20}}>
-              <Typography variant="button" style={{color:'white'}}>Objective {index+1}</Typography>
-              <Typography variant="button" style={{color:'white'}}>Title: {obj.title}</Typography>
-              <Typography variant="button" style={{color:'white'}}>Description: {obj.description}</Typography>
-        </Grid>
-      );
-    });
+    return (
+        this.state.objectives.map((obj,index) => (
+           <Grid key={(Math.random()+Math.random())+index} item style={{ marginTop:10,background:'white',textTransform: 'none', width:'100%'}}>
+             <Grid container alignItems="center" direction="row" justify="space-between" >
+               <Grid key={(Math.random()+Math.random())+index+2} item style={{ margin:10,background:'white',textTransform: 'none', width:'100%'}}>
+                 <Typography style={{color:'black'}}>Objective {index+1}</Typography>
+                 <Typography style={{color:'black'}}>Title: {obj.title}</Typography>
+
+                   Description: <ReactMarkdown source={obj.description}/>
+                 
+               </Grid>
+               </Grid>
+           </Grid>
+       ))
+  )
+
   }
 
   renderTags(){
@@ -312,7 +320,7 @@ class Submit extends Component {
     if(this.state.tagsValid === true && this.state.postTitle !== '' && this.state.postDescription !== ''){
       return (
         <Grid item >
-            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.submitPost(this.state.postTitle,this.state.postDescription, this.state.tags)}>SUBMIT</Button>
+            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.submitPost(this.state.postTitle,this.state.postDescription, this.state.tags, this.state.objectives)}>SUBMIT</Button>
         </Grid>
       )
     } else {
@@ -325,12 +333,14 @@ class Submit extends Component {
 
   }
 
-    submitPost(title,description,tags){
+    submitPost(title,description,tags,objectives){
         console.log("Clicked Once")
-        this.props.addPost(title,description,tags);
+        this.props.addPost(title,description,tags,objectives);
     }
 
     render() {
+
+      var placeholderObjDescription = " ----------Bullet Points----------\n - Hostname\n ------------New Line------------\n line1<space><space><enter> \n line2\n --------------Code--------------\n ```js\n var React = require('react');\n ```\n -------------Tables-------------\n | Column1 | Column2 |\n | row | ✔ |"
         return (
             <div>
                 <Header/>
@@ -348,30 +358,46 @@ class Submit extends Component {
                             <Form style={{ marginTop:20, marginBottom:20, width:500}}>
                                 <FormGroup>
                                     <Typography variant="button" style={{color:'white'}}>Title</Typography>
-                                    <Input placeholder="Malware found on user's machine"  onChange={this.handlePostTitle('postTitle')}/>
+                                      {this.state.titleValid
+                                      ?
+                                      <Input valid placeholder="Malware found on user's machine"  onChange={this.handlePostTitle('postTitle')}/>
+                                      :
+                                      <Input invalid placeholder="Malware found on user's machine"  onChange={this.handlePostTitle('postTitle')}/>
+                                      }
                                 </FormGroup>
                                 <FormGroup>
                                     <Typography variant="button" style={{color:'white'}}>Description</Typography>
-                                    <Input type="textarea" style={{height:200}} placeholder="Received alert of malware on user's machine" onChange={this.handlePostDescription('postDescription')}/>
+
+                                      {this.state.descriptionValid
+                                      ?
+                                      <Input valid type="textarea" style={{height:140}} placeholder="Received alert of malware on user's machine" onChange={this.handlePostDescription('postDescription')}/>
+                                      :
+                                      <Input invalid type="textarea" style={{height:140}} placeholder="Received alert of malware on user's machine" onChange={this.handlePostDescription('postDescription')}/>
+                                      }
                                 </FormGroup>
                                 <FormGroup>
                                     <Typography variant="button" style={{color:'white'}}>Tags</Typography>
                                       {this.state.tagsValid
                                       ?
-                                      <Input valid type="textarea" placeholder="Examples: malware,apt,pup; Separate each tag with ',' " onChange={this.handlePostTags('tags')}/>
+                                      <Input valid type="textarea" placeholder={"Separate each tag with ',' (comma)\nExample: malware,apt,pup;"} onChange={this.handlePostTags('tags')}/>
                                       :
-                                      <Input invalid type="textarea" placeholder="Examples: malware,apt,pup; Separate each tag with ',' " onChange={this.handlePostTags('tags')}/>
+                                      <Input invalid type="textarea" placeholder={"Separate each tag with ',' (comma)\nExample: malware,apt,pup"} onChange={this.handlePostTags('tags')}/>
                                       }
                                 </FormGroup>
-                                  {this.renderObjectives()}
+
                                   <FormGroup>
                                       <Typography variant="button" style={{color:'white'}}>Objective</Typography>
                                       <Input placeholder="Identify Source Computer" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
                                   </FormGroup>
                                   <FormGroup>
-                                      <Typography variant="button" style={{color:'white'}}>Objective Description</Typography>
-                                      <Input type="textarea" style={{height:200}} value={this.state.objectiveDescription} placeholder="Identify the Computer information such as the Hostname, IP Address, Owner of Computer." onChange={this.handleChangeObjectiveDescription('objectiveDescription')}/>
+                                      <Typography variant="button" style={{color:'white'}}>Objective Description <a style={{textTransform: 'none'}} href='https://github.github.com/gfm/'>(Supports Markdown Formatting)</a></Typography>
+                                      <Input type="textarea" style={{height:350}} value={this.state.objectiveDescription}
+                                        placeholder={placeholderObjDescription}
+                                        onChange={this.handleChangeObjectiveDescription('objectiveDescription')}/>
                                   </FormGroup>
+                                  <Grid container alignItems="center" direction="column" justify="flex-end" >
+
+                                </Grid>
                                 <Grid container alignItems="center" direction="row" justify="flex-end" >
                                     <Grid item >
                                         <Button style={{ height:30, background:'#474f97', textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex)} >Add Objective</Button>
@@ -379,11 +405,17 @@ class Submit extends Component {
                                 </Grid>
                                 <Grid container alignItems="center" direction="row" justify="space-between" >
                                     <Grid item >
-                                        <Button style={{border:'2px solid black', borderColor:'#474f97', color:'white', marginRight:40}}>CANCEL</Button>
+                                        <Button style={{border:'2px solid black', borderColor:'#474f97', color:'white', marginRight:40}}>DISCARD</Button>
+                                    </Grid>
+                                    <Grid item >
+                                        <Button style={{border:'2px solid black', borderColor:'#474f97', color:'white', marginRight:40}}>SAVE DRAFT</Button>
                                     </Grid>
                                     <Grid item >
                                         {this.renderReviewButton()}
                                     </Grid>
+                                </Grid>
+                                <Grid container alignItems="center" direction="row" justify="space-between" >
+                                {this.renderObjectives()}
                                 </Grid>
                             </Form>
                         </Grid>
