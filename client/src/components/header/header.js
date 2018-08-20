@@ -113,26 +113,15 @@ class header extends Component {
                 >
                     <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',padding:5}} color={headerBlue} dark expand="sm">
                         <NavbarBrand href="/" style={{marginLeft:5}}>
-                            {/*<Grid key={1} item style={{background:headerSignupButton, height:35, minWidth:35, textAlign:'center', paddingTop:8,paddingLeft:8, paddingRight:8}}>*/}
                             <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
                                 <Typography style={{color:'white'}} variant={"button"} >
                                     CAVALRY
                                 </Typography>
                             </Button>
-                            {/*</Grid>*/}
                         </NavbarBrand>
                         <NavbarToggler onClick={this.toggle} style={{marginRight:5}}/>
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav className="ml-auto" navbar>
-                                <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
-                                    <NavLink href="/status">
-                                        <Button style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}  >
-                                            <Typography style={{color:'white'}} variant={"button"} >
-                                                STATUS
-                                            </Typography>
-                                        </Button>
-                                    </NavLink>
-                                </NavItem>
                                 <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
                                     <NavLink href="/submit">
                                         <Button style={{ height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}  >

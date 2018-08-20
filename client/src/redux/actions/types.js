@@ -8,3 +8,4 @@ export const EMAIL_JIDOKA = 'email_jidoka';
 export const APPLY_SECURITY = 'apply_security';
 export const ADD_SUBSCRIBER = 'add_subscriber';
 export const LOGIN_USER = 'login_user';
+export const GET_POST = 'get_post';

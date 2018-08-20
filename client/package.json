@@ -32,6 +32,7 @@
     "react-scripts": "1.1.4",
     "react-stripe-elements": "^2.0.1",
     "react-text-truncate": "^0.13.1",
+    "react-truncate": "^2.4.0",
     "reactstrap": "^6.3.1",
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",

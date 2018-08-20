@@ -22,7 +22,7 @@ import withWidth from '@material-ui/core/withWidth';
 import compose from 'recompose/compose';
 import PropTypes from 'prop-types';
 import { Badge } from 'reactstrap';
-import ContentLoader from "react-content-loader"
+import Truncate from 'react-truncate';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const buttonBlue = "linear-gradient(#283593, #1a237e)";
@@ -32,20 +32,6 @@ const filter1Options = [
     'Hide all notification content',
 ];
 
-const MyLoader = props => (
-	<ContentLoader
-		height={475}
-		width={400}
-		speed={2}
-		primaryColor="#f3f3f3"
-		secondaryColor="#ecebeb"
-		{...props}
-	>
-		<rect x="1" y="1" rx="5" ry="5" width="396" height="152" />
-		<circle cx="179" cy="31.05" r="1" />
-		<circle cx="169" cy="44.05" r="0" />
-	</ContentLoader>
-)
 
 const styles = theme => ({
     root: {
@@ -79,7 +65,7 @@ class Landing extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filterPosts:['CATEGORY', 'PLATFORM', 'SKILLS', 'COST'],
+            filterPosts:['CATEGORY', 'PLATFORM', 'SKILLS', 'COST', 'RATING'],
             anchorEl: null,
             selectedIndex: 0,
             posts:[],
@@ -107,6 +93,7 @@ class Landing extends Component {
                         title: r.title,
                         description: r.description,
                         tags:r.tags,
+                        objectives: r.objectives
                     });
                     this.setState({
                         posts: prevPosts,
@@ -206,24 +193,49 @@ class Landing extends Component {
     }
 
     // Results
-    renderResultPosts(props){
+    renderResultPosts(){
 
         return(
             this.state.posts.map((value,index) => (
                     <Grid item xs={12} key={value.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
-                      <Link
-                            to={{ pathname: '/post/' + value.id + '/'+this.findAndReplace(value.title,' ','_') }}
-                        >
+                      <Link to={{ pathname: '/post/' + value.id + '/'+this.findAndReplace(value.title,' ','-') }}>
                         <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
                             <Grid container style={{flexGrow:1, marginLeft:10}}>
                                 <Grid item xs={9} style={{textAlign:'left'}}>
                                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
-                                        <Grid item>
-                                            <Typography variant="title" style={{color:'white'}}>
-                                                {value.title}
+                                        <Grid item zeroMinWidth>
+                                            <Typography variant="title" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                              <Hidden mdDown>
+                                              <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
+                                                 {value.title}
+                                             </Truncate>
+                                           </Hidden>
                                             </Typography>
-                                            <Typography variant="subheading" style={{color:'#939ed5', marginTop:10}}>
-                                                {value.description}
+
+                                            <Typography variant="subheading" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                              <Hidden mdDown>
+                                              <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
+                                                 {value.description}
+                                             </Truncate>
+                                             </Hidden>
+                                           </Typography>
+
+
+
+                                          <Typography variant="body2" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                           <Hidden smUp>
+                                           <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
+                                              {value.title}
+                                          </Truncate>
+                                        </Hidden>
+                                         </Typography>
+                                         <Typography variant="caption" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                           <Hidden smUp>
+                                           <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
+                                              {value.description}
+                                          </Truncate>
+                                        </Hidden>
+
                                             </Typography>
                                         </Grid>
                                         <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden", overflowX:"scroll"}}>
@@ -246,10 +258,7 @@ class Landing extends Component {
                                         </Grid>
                                         <Grid item>
                                             <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
-                                                Objectives
-                                            </Typography>
-                                            <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
-                                                Comments
+                                                {value.objectives.length} Objectives
                                             </Typography>
                                         </Grid>
                                     </Grid>

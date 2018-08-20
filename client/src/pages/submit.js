@@ -74,6 +74,9 @@ class Submit extends Component {
             objectiveIndex:0,
             expandObjectiveState: false,
             status: null,
+            contentPlaceholder:'<font color="#9E9E9E"><b>Tip: List all dependencies of this objective and how to complete it</b>\n<li>Scope</li>\n<li>Reference URLs</li>\n<li>Contact Information</li>\n<li>Book Titles</li>\n<li>Code</li>\n<li>Screenshots</li>\n<li>Costs</li>\n<li>Pros & Cons</li>\n<li>Warnings</li>\n<li>Estimated Time</li>\n<li>Trends</li></font>',
+            contentPlaceholderDefault:'<font color="#9E9E9E"><b>Tip: List all dependencies of this objective and how to complete it</b>\n<li>Scope</li>\n<li>Reference URLs</li>\n<li>Contact Information</li>\n<li>Book Titles</li>\n<li>Code</li>\n<li>Screenshots</li>\n<li>Costs</li>\n<li>Pros & Cons</li>\n<li>Warnings</li>\n<li>Estimated Time</li>\n<li>Trends</li></font>',
+            contentClicked: false,
         };
         this.onDragEnd = this.onDragEnd.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -103,7 +106,6 @@ class Submit extends Component {
         // Window Dimensions
         this.editor = init({
           element: document.getElementById('editor'),
-          value:'test?',
           onChange: objectiveDescription => this.setState({ objectiveDescription }, () => {
           this.validateObjectiveDescription(this.state.objectiveDescription)
           }),
@@ -113,13 +115,6 @@ class Submit extends Component {
                 'olist',
                 'ulist',
                 'underline',
-                {
-                  name: 'image',
-                  result: () => {
-                    const url = window.prompt('Enter the image URL (Limited to Height-800px Width-800px)')
-                    if (url) exec('insertImage', url)
-                  }
-                },
                 {
                   name: 'outdent',
                   title: 'Outdent',
@@ -138,6 +133,20 @@ class Submit extends Component {
                     const url = window.prompt('Enter the link URL')
                     if (url) exec('createLink', url)
                   }
+                },
+                {
+                  name: 'image',
+                  result: () => {
+                    const url = window.prompt('Enter the image URL (Limited to Height-800px Width-800px)')
+                    if (url) exec('insertImage', url)
+                  }
+                },
+                {
+                  name: 'clear editor',
+                  title:'Clear Editor',
+                  icon: 'Clear Editor',
+                  result: () => { exec(this.editor.content.innerHTML = '')
+                  }
                 }
               ],
               classes: {
@@ -147,8 +156,25 @@ class Submit extends Component {
                 selected: 'pell-button-selected-custom-name'
               },
         })
+        this.editor.content.onclick = this.clickEvent.bind(this)
+        this.editor.content.innerHTML = this.state.contentPlaceholder
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    clickEvent(){
+      console.log("Clicked")
+      if (this.state.contentClicked === false){
+        this.setState({
+          contentPlaceholder: '',
+          contentClicked:true,
+          objectiveDescription: '',
+        },() => {
+          console.log(this.state.contentPlaceholder)
+          this.editor.content.innerHTML = this.state.contentPlaceholder
+        })
+      }
+
     }
 
     componentWillUnmount() {
@@ -327,6 +353,7 @@ class Submit extends Component {
         objectiveTitleValid:false,
         objectiveDescription: '',
       })
+      this.editor.content.innerHTML = this.state.contentPlaceholderDefault
     });
 
     this.updateWindowDimensions()
@@ -497,8 +524,6 @@ class Submit extends Component {
     }
 
     render() {
-
-      // var placeholderObjDescription = " ----------Bullet Points----------\n - Hostname\n\n ------------New Line------------\n line1<space><space><enter> \n line2\n\n --------------Link--------------\n [Link to Google](https://www.google.com)\n\n -------------Tables-------------\n | Column1 | Column2 |\n | row | ✔ |"
         return (
             <div>
                 <Header/>
@@ -518,9 +543,9 @@ class Submit extends Component {
                                     <Typography variant="button" style={{color:'white'}}>Title</Typography>
                                       {this.state.titleValid
                                       ?
-                                      <Input valid placeholder="Malware found on user's machine"  onChange={this.handlePostTitle('postTitle')}/>
+                                      <Input valid placeholder="Subject of a problem or process"  onChange={this.handlePostTitle('postTitle')}/>
                                       :
-                                      <Input invalid placeholder="Malware found on user's machine"  onChange={this.handlePostTitle('postTitle')}/>
+                                      <Input invalid placeholder="Subject of a problem or process"  onChange={this.handlePostTitle('postTitle')}/>
                                       }
                                 </FormGroup>
                                 <FormGroup>
@@ -528,18 +553,18 @@ class Submit extends Component {
 
                                       {this.state.descriptionValid
                                       ?
-                                      <Input valid type="textarea" style={{height:100}} placeholder="Received alert of malware on user's machine" onChange={this.handlePostDescription('postDescription')}/>
+                                      <Input valid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know" onChange={this.handlePostDescription('postDescription')}/>
                                       :
-                                      <Input invalid type="textarea" style={{height:100}} placeholder="Received alert of malware on user's machine" onChange={this.handlePostDescription('postDescription')}/>
+                                      <Input invalid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know" onChange={this.handlePostDescription('postDescription')}/>
                                       }
                                 </FormGroup>
                                 <FormGroup>
                                     <Typography variant="button" style={{color:'white'}}>Tags</Typography>
                                       {this.state.tagsValid
                                       ?
-                                      <Input valid type="textarea" placeholder={"Separate each tag with ',' (comma)\nExample: malware,apt,pup;"} onChange={this.handlePostTags('tags')}/>
+                                      <Input valid type="textarea" placeholder={"Separate each tag with ',' (comma)\nExample: information technology, legal, security"} onChange={this.handlePostTags('tags')}/>
                                       :
-                                      <Input invalid type="textarea" placeholder={"Separate each tag with ',' (comma)\nExample: malware,apt,pup"} onChange={this.handlePostTags('tags')}/>
+                                      <Input invalid type="textarea" placeholder={"Separate each tag with ',' (comma)\nExample: information technology, legal, security"} onChange={this.handlePostTags('tags')}/>
                                       }
                                 </FormGroup>
 
@@ -547,9 +572,9 @@ class Submit extends Component {
                                       <Typography variant="button" style={{color:'white'}}>Objective</Typography>
                                         {this.state.objectiveTitleValid
                                         ?
-                                        <Input valid placeholder="Identify Source Computer" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
+                                        <Input valid placeholder="Step 1 on how to solve the problem or process" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
                                         :
-                                        <Input invalid placeholder="Identify Source Computer" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
+                                        <Input invalid placeholder="Step 1 on how to solve the problem or process" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
                                         }
                                   </FormGroup>
                                   <FormGroup>
@@ -574,6 +599,7 @@ class Submit extends Component {
                                     </Grid>
                                 </Grid>
                                 <Grid container alignItems="center" direction="row" justify="space-between" style={{marginTop:20}}>
+                                  <Typography variant={'button'} style={{color:'white'}}>You can sort the objectives by dragging and dropping the objects</Typography>
                                 {this.renderObjectives()}
                                 </Grid>
                             </Form>

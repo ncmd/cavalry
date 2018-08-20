@@ -32,5 +32,7 @@ exports.aggregate = functions.firestore.document('posts/{postId}').onCreate(asyn
 // When a user is created, create an aggregate list for Backend to Hold, so frontend can check if user exists with 1 q
 
 
+// When post is submitted aggretage tag list
+
 
 // Aggregate list of subscribers to be viewed in dashboard

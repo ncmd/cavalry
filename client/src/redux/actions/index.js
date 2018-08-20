@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {
     GET_POSTS,
+    GET_POST,
     ADD_POST,
     REMOVE_POST,
     PING_BACKEND,
@@ -41,6 +42,17 @@ export const addPost = (title,description,tags,objectives) => async dispatch =>{
     const res = await axios.post(backend+'/api/post/new',data,axiosConfig);
     dispatch({ type: ADD_POST, payload: res.data });
 };
+
+// export const getPost = (postId,postTitle,data) => async dispatch =>{
+//     const res = await axios.get(backend+'/api/post/'+postId+'/'+postTitle);
+//     dispatch({ type: GET_POST, payload: res.data });
+// };
+
+export const getPost = (uri) => async dispatch => {
+  console.log("URI:",uri);
+  const res = await axios.get(backend+`${uri}`);
+    dispatch({ type: GET_POST, payload: res.data });
+}
 
 export const addSubscriber = (email) => async dispatch =>{
     const data = {email:email};
