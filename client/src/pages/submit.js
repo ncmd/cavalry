@@ -10,13 +10,16 @@ import { Form, FormGroup, Input } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { exec, init } from 'pell'
-import 'pell/dist/pell.css'
-import IndentIcon from '@material-ui/icons/FormatIndentIncrease';
-import OutdentIcon from '@material-ui/icons/FormatIndentDecrease';
+import ReactQuill, { Quill } from 'react-quill';
+import ImageResize from 'quill-image-resize-module-react';
+Quill.register('modules/ImageResize', ImageResize);
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
+
+const modules = {
+  ImageResize: {}
+};
 
 
 // a little function to help us with reordering the result
@@ -58,6 +61,7 @@ class Submit extends Component {
            html: null,
             width: window.innerWidth,
             height: window.innerHeight,
+            text: '',
             postTitle:'',
             postDescription:'',
             objectives: [],
@@ -74,8 +78,8 @@ class Submit extends Component {
             objectiveIndex:0,
             expandObjectiveState: false,
             status: null,
-            contentPlaceholder:'<font color="#9E9E9E"><b>Tip: List all dependencies of this objective and how to complete it</b>\n<li>Scope</li>\n<li>Reference URLs</li>\n<li>Contact Information</li>\n<li>Book Titles</li>\n<li>Code</li>\n<li>Screenshots</li>\n<li>Costs</li>\n<li>Pros & Cons</li>\n<li>Warnings</li>\n<li>Estimated Time</li>\n<li>Trends</li></font>',
-            contentPlaceholderDefault:'<font color="#9E9E9E"><b>Tip: List all dependencies of this objective and how to complete it</b>\n<li>Scope</li>\n<li>Reference URLs</li>\n<li>Contact Information</li>\n<li>Book Titles</li>\n<li>Code</li>\n<li>Screenshots</li>\n<li>Costs</li>\n<li>Pros & Cons</li>\n<li>Warnings</li>\n<li>Estimated Time</li>\n<li>Trends</li></font>',
+            contentPlaceholder:'<font color="#9E9E9E"><b>Tip: List all dependencies of this objective and how to complete it</b>\n<li>Scope</li>\n<li>Reference URLs</li>\n<li>Teams Involved & Contact Information</li>\n<li>Book Titles</li>\n<li>Applications Used</li>\n<li>Pictures & Files</li>\n<li>Costs</li>\n<li>Pros & Cons</li>\n<li>Warnings</li>\n<li>Estimated Time</li>\n<li>Trends</li></font>',
+            contentPlaceholderDefault:'<font color="#9E9E9E"><b>Tip: List all dependencies of this objective and how to complete it</b>\n<li>Scope</li>\n<li>Reference URLs</li>\n<li>Teams Involved & Contact Information</li>\n<li>Book Titles</li>\n<li>Applications Used</li>\n<li>Pictures & Files</li>\n<li>Costs</li>\n<li>Pros & Cons</li>\n<li>Warnings</li>\n<li>Estimated Time</li>\n<li>Trends</li></font>',
             contentClicked: false,
         };
         this.onDragEnd = this.onDragEnd.bind(this);
@@ -83,6 +87,7 @@ class Submit extends Component {
         this.handleChangeObjectiveTitle = this.handleChangeObjectiveTitle.bind(this);
         this.handleChangeObjectiveDescription = this.handleChangeObjectiveDescription.bind(this);
         this.handleChangeTask = this.handleChangeTask.bind(this);
+        this.handleChangeEditor = this.handleChangeEditor.bind(this);
     }
 
     onDragEnd(result) {
@@ -101,63 +106,13 @@ class Submit extends Component {
       objectives,
     });
   }
+  handleChangeEditor(value) {
+    this.setState({ text: value })
+  }
 
     componentDidMount() {
         // Window Dimensions
-        this.editor = init({
-          element: document.getElementById('editor'),
-          onChange: objectiveDescription => this.setState({ objectiveDescription }, () => {
-          this.validateObjectiveDescription(this.state.objectiveDescription)
-          }),
-          styleWithCSS: false,
-          actions: [
-                'bold',
-                'olist',
-                'ulist',
-                'underline',
-                {
-                  name: 'outdent',
-                  title: 'Outdent',
-                  icon: '⬅️',
-                  result: () => { exec('outdent')}
-                },
-                {
-                  name: 'indent',
-                  title: 'Indent',
-                  icon: '➡️',
-                  result: () => { exec('indent')}
-                },
-                {
-                  name: 'link',
-                  result: () => {
-                    const url = window.prompt('Enter the link URL')
-                    if (url) exec('createLink', url)
-                  }
-                },
-                {
-                  name: 'image',
-                  result: () => {
-                    const url = window.prompt('Enter the image URL (Limited to Height-800px Width-800px)')
-                    if (url) exec('insertImage', url)
-                  }
-                },
-                {
-                  name: 'clear editor',
-                  title:'Clear Editor',
-                  icon: 'Clear Editor',
-                  result: () => { exec(this.editor.content.innerHTML = '')
-                  }
-                }
-              ],
-              classes: {
-                actionbar: 'pell-actionbar-custom-name',
-                button: 'pell-button-custom-name',
-                content: 'pell-content-custom-name',
-                selected: 'pell-button-selected-custom-name'
-              },
-        })
-        this.editor.content.onclick = this.clickEvent.bind(this)
-        this.editor.content.innerHTML = this.state.contentPlaceholder
+
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
     }
@@ -165,6 +120,17 @@ class Submit extends Component {
     clickEvent(){
       console.log("Clicked")
       if (this.state.contentClicked === false){
+        this.setState({
+          contentPlaceholder: '',
+          contentClicked:true,
+          objectiveDescription: '',
+        },() => {
+          console.log(this.state.contentPlaceholder)
+          this.editor.content.innerHTML = this.state.contentPlaceholder
+        })
+      }
+
+      if (this.state.contentClicked === true && this.state.contentPlaceholder === this.state.contentPlaceholderDefault){
         this.setState({
           contentPlaceholder: '',
           contentClicked:true,
@@ -262,11 +228,11 @@ class Submit extends Component {
     });
   };
 
-  handleChangeObjectiveDescription = objectiveDescription => event => {
+  handleChangeObjectiveDescription (value) {
     this.setState({
-        [objectiveDescription]: event.target.value,
+        objectiveDescription: value,
     },() => {
-        this.validateObjectiveTitle(this.state.objectiveDescription);
+        this.validateObjectiveDescription(this.state.objectiveDescription);
     });
   };
 
@@ -353,7 +319,6 @@ class Submit extends Component {
         objectiveTitleValid:false,
         objectiveDescription: '',
       })
-      this.editor.content.innerHTML = this.state.contentPlaceholderDefault
     });
 
     this.updateWindowDimensions()
@@ -441,7 +406,7 @@ class Submit extends Component {
   }
 
   renderReviewButton(){
-    if(this.state.tagsValid === true && this.state.postTitle !== '' && this.state.postDescription !== ''){
+    if(this.state.tagsValid === true && this.state.postTitle !== '' && this.state.postDescription !== '' && this.state.objectives.length > 0){
       return (
         <Grid item >
             <Button style={{background:submitButton, color:'white'}} onClick={()=> this.submitPost(this.state.postTitle,this.state.postDescription, this.state.tags, this.state.objectives)}>SUBMIT</Button>
@@ -504,7 +469,7 @@ class Submit extends Component {
     }
 
     renderAddObjectiveButton(){
-      if (this.state.objectiveTitleValid === true && this.state.objectiveDescriptionValid === true){
+      if (this.state.objectiveTitleValid === true && this.state.objectiveDescriptionValid === true && this.state.objectiveDescription.length !== 0 && this.state.objectiveTitle.length !== 0){
         return (
           <Button style={{ height:30, background:'#474f97', textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex)} >Add Objective</Button>
         )
@@ -536,11 +501,11 @@ class Submit extends Component {
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto"}} alignItems="center" direction="column" justify="center" >
+                    <Grid container style={{background:'#283593', flexGrow:1, margin:"0 auto"}} alignItems="center" direction="column" justify="center" >
                         <Grid item>
                             <Form style={{ marginTop:20, marginBottom:20,flexGrow:1, width:800}}>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white'}}>Title</Typography>
+                                    <Typography variant="button" style={{color:'white'}}>Runbook Title</Typography>
                                       {this.state.titleValid
                                       ?
                                       <Input valid placeholder="Subject of a problem or process"  onChange={this.handlePostTitle('postTitle')}/>
@@ -549,7 +514,7 @@ class Submit extends Component {
                                       }
                                 </FormGroup>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white'}}>Description</Typography>
+                                    <Typography variant="button" style={{color:'white'}}>Runbook Description</Typography>
 
                                       {this.state.descriptionValid
                                       ?
@@ -559,7 +524,7 @@ class Submit extends Component {
                                       }
                                 </FormGroup>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white'}}>Tags</Typography>
+                                    <Typography variant="button" style={{color:'white'}}>Runbook Tags</Typography>
                                       {this.state.tagsValid
                                       ?
                                       <Input valid type="textarea" placeholder={"Separate each tag with ',' (comma)\nExample: information technology, legal, security"} onChange={this.handlePostTags('tags')}/>
@@ -579,10 +544,20 @@ class Submit extends Component {
                                   </FormGroup>
                                   <FormGroup>
                                       <Typography variant="button" style={{color:'white'}}>Objective Description </Typography>
-                                      <div id="editor" className="pell" style={{width:'100%'}}/>
+                                      <ReactQuill modules={{
+                                        ImageResize: {
+                                              parchment: Quill.import('parchment')
+                                          },
+                                            toolbar: [
+                                        [{ 'header': [1, 2, false] }],
+                                        ['bold', 'italic', 'underline','strike', 'blockquote'],
+                                        [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
+                                        ['link', 'image'],
+                                        ['clean']
+                                      ],}} style={{background:'white', height:300, border:0}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
                                   </FormGroup>
 
-                                <Grid container alignItems="center" direction="row" justify="flex-end" >
+                                <Grid container style={{marginTop:20}} alignItems="center" direction="row" justify="flex-end" >
                                     <Grid item >
                                         {this.renderAddObjectiveButton()}
                                     </Grid>

@@ -6,8 +6,6 @@ import {
 } from '../redux/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import compose from 'recompose/compose';
-import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
@@ -47,24 +45,9 @@ class Post extends Component {
                     objectives: prevObjectives,
                   })
                   console.log("Objectives:",prevObjectives)
+                  return null
                 })
               }
-
-            //   if (this.props.posts > 0 ){
-            //     this.props.posts.map(r => {
-            //         prevPost.push({
-            //             title: r.title,
-            //             description: r.description,
-            //             objectives: r.objectives,
-            //         });
-            //         this.setState({
-            //             post: prevPost,
-            //         });
-            //         return null
-            //         console.log(this.state.post)
-            //     });
-            // }
-
         });
     }
 
@@ -81,32 +64,18 @@ class Post extends Component {
         this.state.objectives.map( (obj,index) => {
           console.log("OOOO:",obj)
           return(
-            <Grid key={obj.title}container alignItems={'stretch'} justify={'flex-start'} direction={'column'}  >
-                <Grid style={{marginTop:50, marginLeft:50}} item>
-                  <Typography variant={'subheading'} style={{color:'white'}}>{obj.title}</Typography>
+            <Grid key={obj.title} style={{background:'white', maxWidth:'50em', margin:20}} container spacing={8} alignItems={'center'} justify={'flex-start'} direction={'column'}  >
+                <Grid style={{marginTop:30, marginLeft:50, marginRight:'auto',maxWidth:'50em'}} item>
+                  <Typography variant={'headline'} style={{color:'black'}}>{obj.title}</Typography>
                 </Grid>
-                <Grid style={{marginTop:50, marginLeft:50}} item>
-                  <Typography variant={'subheading'} style={{color:'white'}}> <div dangerouslySetInnerHTML={{__html: obj.description}} /></Typography>
+                <Grid style={{marginTop:20, marginLeft:50, marginRight:'auto', maxWidth:'50em', marginBottom:50}} item>
+                  <div dangerouslySetInnerHTML={{__html: obj.description}} />
                 </Grid>
               </Grid>
               )
         })
       )
 
-
-
-
-      // if (this.state.objectives.length > 0){
-        // console.log("ALL OBJECTIVES:",this.state.objectives)
-        // this.state.post.objectives.map((obj, index) => {
-        //   console.log("Objective",obj)
-        //   return (
-        //     <Grid style={{marginTop:50, marginLeft:'auto', marginRight:'auto', maxWidth:'50em'}} item>
-        //       <Typography variant={'subheading'} style={{color:'white'}}>{obj.title}</Typography>
-        //     </Grid>
-        //   )
-        // })
-      // }
     }
 
     render() {
@@ -132,7 +101,7 @@ class Post extends Component {
                     </Grid>
 
                     {/* Bottom Section */}
-                    <Grid container style={{ height:1400,background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em"}}  alignItems={'flex-start'} justify={'flex-start'} direction={'column'}  >
+                    <Grid container style={{ height:1400,background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
                       {this.renderObjectives()}
                     </Grid>
                 </div>

@@ -198,7 +198,7 @@ class Landing extends Component {
         return(
             this.state.posts.map((value,index) => (
                     <Grid item xs={12} key={value.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
-                      <Link to={{ pathname: '/post/' + value.id + '/'+this.findAndReplace(value.title,' ','-') }}>
+                      <Link to={{ pathname: '/post/' + value.id + '/'+this.findAndReplace(this.findAndReplace(value.title,' ','-'),'\'','')}}>
                         <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
                             <Grid container style={{flexGrow:1, marginLeft:10}}>
                                 <Grid item xs={9} style={{textAlign:'left'}}>
@@ -242,7 +242,6 @@ class Landing extends Component {
                                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
                                               <Grid style={{}} item>
                                                 {this.renderTags(index)}
-
                                               </Grid>
                                           </Grid>
                                         </Grid>

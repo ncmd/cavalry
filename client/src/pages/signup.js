@@ -119,7 +119,7 @@ class Signup extends Component {
         this.setState({
             [password]: event.target.value,
         }, () => {
-            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9!@#$%^&*)(+=._-]{8,}$/
             if (passwordRegex.test(password)) {
                 this.setState({validPassword:true})
             } else {
@@ -137,7 +137,7 @@ class Signup extends Component {
     };
 
     validatePassword(password){
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
+        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9!@#[$%^&*)(+=._-]{8,}$/
         if (passwordRegex.test(password)) {
             // // console.log("Valid Email Address:",email);
             this.setState({validPassword:true})
@@ -403,8 +403,11 @@ class Signup extends Component {
                 <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:40}} >
                     <StripeProvider stripe={this.state.stripe}>
                         <div className="Checkout" >
+                          <Typography variant="caption" style={{color:'#b2b9e1'}}>
+                            You're about to set up an ongoing, autorenewing subscription to Cavalry for your email:
+                          </Typography>
                             <Typography variant="caption" style={{color:'#b2b9e1', marginBottom:20 }}>
-                                You're about to set up an ongoing, autorenewing subscription to Cavalry for your email ____USERNAME____.<br/><br/>
+                                 <Typography style={{color:'white'}}>{this.state.email}</Typography><br/>
                                 You'll pay USD $10.00 for this, monthly.<br/><br/>
                                 This subscription will renew automatically each month until you cancel. You may cancel at any time. If you cancel, you will not be billed for any additional months of service, and service will continue until the end of the billing period. If you cancel, you will not receive a refund for any service already paid for. Receipts will be delivered via email.
                                 By purchasing Cavalry Subscription, you agree to the Cavalry User Agreement.
@@ -449,8 +452,8 @@ class Signup extends Component {
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
                         <Grid style={{background:'transparent', width:'100%',height:105, marginTop:20}} container direction={'row'} justify={'center'} alignItems={'center'}>
-                            <Paper style={{height:105, width:105, background: "linear-gradient(to right, #ff1744, #F44336 "}}>
-                                <Typography variant="display3"  style={{color:'white',textAlign:"center", marginTop:'auto',marginBottom:'auto', padding:'10px 0'}}>C</Typography>
+                            <Paper style={{height:105, paddingLeft:20,paddingRight:20, background: "linear-gradient(to right, #ff1744, #F44336 "}}>
+                                <Typography variant="display3"  style={{color:'white',textAlign:"center", marginTop:'auto',marginBottom:'auto', padding:'10px 0'}}>CAVALRY</Typography>
                             </Paper>
                         </Grid>
                         {content}
