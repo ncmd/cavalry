@@ -41,7 +41,7 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   width: '100%',
 
   // change background colour if dragging
-  background: isDragging ? 'lightgreen' : 'grey',
+  background: isDragging ? 'lightgreen' : 'white',
 
   // styles we need to apply on draggables
   ...draggableStyle,
@@ -527,9 +527,9 @@ class Submit extends Component {
                                     <Typography variant="button" style={{color:'white'}}>Runbook Tags</Typography>
                                       {this.state.tagsValid
                                       ?
-                                      <Input valid type="textarea" placeholder={"Separate each tag with ',' (comma)\nExample: information technology, legal, security"} onChange={this.handlePostTags('tags')}/>
+                                      <Input valid placeholder={"Separate each tag with ',' (comma"} onChange={this.handlePostTags('tags')}/>
                                       :
-                                      <Input invalid type="textarea" placeholder={"Separate each tag with ',' (comma)\nExample: information technology, legal, security"} onChange={this.handlePostTags('tags')}/>
+                                      <Input invalid placeholder={"Separate each tag with ',' (comma)"} onChange={this.handlePostTags('tags')}/>
                                       }
                                 </FormGroup>
 
@@ -549,15 +549,14 @@ class Submit extends Component {
                                               parchment: Quill.import('parchment')
                                           },
                                             toolbar: [
-                                        [{ 'header': [1, 2, false] }],
+                                        [{ 'size': ['small', false, 'large', 'huge'] }, { 'color': [] }, { 'background': [] }],[{ 'align': [] }],[{ 'font': [] }],
                                         ['bold', 'italic', 'underline','strike', 'blockquote'],
                                         [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-                                        ['link', 'image'],
+                                        ['link', 'image','video'],
                                         ['clean']
-                                      ],}} style={{background:'white', height:300, border:0}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
+                                      ],}} style={{background:'white', height:600-72}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
                                   </FormGroup>
-
-                                <Grid container style={{marginTop:20}} alignItems="center" direction="row" justify="flex-end" >
+                                <Grid container style={{marginTop:92}} alignItems="center" direction="row" justify="flex-end" >
                                     <Grid item >
                                         {this.renderAddObjectiveButton()}
                                     </Grid>
