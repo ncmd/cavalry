@@ -3,7 +3,7 @@ import Header from '../components/header/header';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    addPost
+    getPost
 } from '../redux/actions';
 import Grid from "@material-ui/core/Grid";
 import { Form, FormGroup, Input } from 'reactstrap';
@@ -48,7 +48,7 @@ const getListStyle = isDraggingOver => ({
   width: '100%',
 });
 
-class Submit extends Component {
+class Edit extends Component {
 
     constructor(props) {
         super(props);
@@ -110,6 +110,24 @@ class Submit extends Component {
 
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+
+        this.props.getPost('/api'+this.props.location.pathname).then(() => {
+              if(this.props.posts.objectives.length > 0) {
+                let prevObjectives = this.state.objectives;
+                console.log("Post Props Objectives:",this.props.posts.objectives)
+                this.props.posts.objectives.map( r => {
+                  prevObjectives.push({
+                    title: r.title,
+                    description: r.description,
+                  })
+                  this.setState({
+                    objectives: prevObjectives,
+                  })
+                  console.log("Objectives:",prevObjectives)
+                  return null
+                })
+              }
+        });
     }
 
     clickEvent(){
@@ -582,4 +600,4 @@ class Submit extends Component {
 function mapStateToProps({ posts }) {
     return { posts };
 }
-export default connect(mapStateToProps,{addPost})(withRouter(Submit));
+export default connect(mapStateToProps,{getPost})(withRouter(Edit));

@@ -54,6 +54,12 @@ export const getPost = (uri) => async dispatch => {
     dispatch({ type: GET_POST, payload: res.data });
 }
 
+export const editPost = (uri) => async dispatch => {
+  console.log("URI:",uri);
+  const res = await axios.get(backend+`${uri}`);
+    dispatch({ type: GET_POST, payload: res.data });
+}
+
 export const addSubscriber = (email) => async dispatch =>{
     const data = {email:email};
     const res = await axios.post(backend+'/api/subscribe/new',data);

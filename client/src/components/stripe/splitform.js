@@ -13,7 +13,11 @@ class SplitForm extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {complete: false};
+        this.state = {
+          complete: false,
+          error:true,
+          paymentError: false,
+        };
     }
 
     handleSubmit = (ev) => {
@@ -27,12 +31,23 @@ class SplitForm extends Component {
                   console.log(this.props.users,payload.token.id)
                     this.props.addUser(this.props.users.email,payload.token.id)
                     auth.doCreateUserWithEmailAndPassword(this.props.users.email,this.props.users.password)
+                }, (response) => {
+                  console.log("RESPONSE PURCHASE:",response)
+                  if (response === null){
+                    this.setState({
+                      complete: true,
+                      paymentError: null,
+                      error:false,
+                    });
+                  } else {
+                    this.setState({
+                      paymentError: response,
+                      error:true,
+                    });
+                  }
                 });
         } else {
             console.log("Stripe.js hasn't loaded yet.");
-        }
-        if (ev.ok){
-            this.setState({complete: true});
         }
     };
 
@@ -82,59 +97,83 @@ class SplitForm extends Component {
         };
     };
 
+    renderConfirmedPayment(){
+      return(
+        <div><Typography style={{color:'white'}}>Payment Confirmed!</Typography></div>
+      )
+    }
+
+    renderPaymentError(){
+      return(
+        <div>
+          <Typography style={{color:'white'}}>Payment Error! <br/> {this.state.paymentError}</Typography></div>
+      )
+    }
+
+
 
     render() {
         console.log(this.props.users.email);
-        if (this.state.complete) {
+        if (this.state.complete === true) {
             return <h1>Purchase Complete</h1>;
-        };
-        return (
-            <form onSubmit={this.handleSubmit}>
-                <label style={{width:250, color:'white'}}>
-                    Card Number
-                    <CardNumberElement
-                        onBlur={this.handleBlur}
-                        onChange={this.handleChange}
-                        onFocus={this.handleFocus}
-                        onReady={this.handleReady}
-                        {...this.createOptions(this.props.fontSize)}
-                    />
-                </label><br/>
-                <label style={{color:'white'}}>
-                    Expiration Date
-                    <CardExpiryElement
-                        onBlur={this.handleBlur}
-                        onChange={this.handleChange}
-                        onFocus={this.handleFocus}
-                        onReady={this.handleReady}
-                        {...this.createOptions(this.props.fontSize)}
-                    />
-                </label>{' '}
-                <label  style={{color:'white' ,width:100}}>
-                    CVC
-                    <CardCVCElement
-                        onBlur={this.handleBlur}
-                        onChange={this.handleChange}
-                        onFocus={this.handleFocus}
-                        onReady={this.handleReady}
-                        {...this.createOptions(this.props.fontSize)}
-                    />
-                </label><br/>
-                <label style={{color:'white' , width:100}}>
-                    Postal Code
-                    <PostalCodeElement
-                        onBlur={this.handleBlur}
-                        onChange={this.handleChange}
-                        onFocus={this.handleFocus}
-                        onReady={this.handleReady}
-                        {...this.createOptions(this.props.fontSize)}
-                    />
-                </label><br/>
-                <button style={{width:'100%'}}>Pay</button><br/>
-                <img src="./images/powered_by_stripe.png" alt="Powered By Strip" style={{width:250, marginBottom:20}}/>
-                <Typography variant="caption" style={{color:'white'}}>Stripe is a secure PCI compliant Credit Card Processing Service and your credit card information is sent directly to them. <br/>For more information:  <a href={'https://stripe.com/docs/security'} target="_blank">https://stripe.com/docs/security</a></Typography>
-            </form>
-        );
+        }
+
+        if (this.state.complete === false) {
+          return (
+              <form onSubmit={this.handleSubmit}>
+                  <label style={{width:250, color:'white'}}>
+                      Card Number
+                      <CardNumberElement
+                          onBlur={this.handleBlur}
+                          onChange={this.handleChange}
+                          onFocus={this.handleFocus}
+                          onReady={this.handleReady}
+                          {...this.createOptions(this.props.fontSize)}
+                      />
+                  </label><br/>
+                  <label style={{color:'white'}}>
+                      Expiration Date
+                      <CardExpiryElement
+                          onBlur={this.handleBlur}
+                          onChange={this.handleChange}
+                          onFocus={this.handleFocus}
+                          onReady={this.handleReady}
+                          {...this.createOptions(this.props.fontSize)}
+                      />
+                  </label>{' '}
+                  <label  style={{color:'white' ,width:100}}>
+                      CVC
+                      <CardCVCElement
+                          onBlur={this.handleBlur}
+                          onChange={this.handleChange}
+                          onFocus={this.handleFocus}
+                          onReady={this.handleReady}
+                          {...this.createOptions(this.props.fontSize)}
+                      />
+                  </label><br/>
+                  <label style={{color:'white' , width:100}}>
+                      Postal Code
+                      <PostalCodeElement
+                          onBlur={this.handleBlur}
+                          onChange={this.handleChange}
+                          onFocus={this.handleFocus}
+                          onReady={this.handleReady}
+                          {...this.createOptions(this.props.fontSize)}
+                      />
+                  </label><br/>
+                  <button style={{width:'100%'}}>Pay</button>
+                    {this.state.error
+                    ?
+                    this.renderConfirmedPayment()
+                    :
+                    this.renderPaymentError()
+                    }
+                  <br/>
+                  <img src="./images/powered_by_stripe.png" alt="Powered By Strip" style={{width:250, marginBottom:20}}/>
+                  <Typography variant="caption" style={{color:'white'}}>Stripe is a secure PCI compliant Credit Card Processing Service and your credit card information is sent directly to them. <br/>For more information:  <a href={'https://stripe.com/docs/security'} target="_blank">https://stripe.com/docs/security</a></Typography>
+              </form>
+          );
+        }
     }
 }
 

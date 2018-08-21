@@ -39,7 +39,9 @@ class Signup extends Component {
             validEmail: false,
             validPassword: false,
             validConfirmPassword: false,
-            recaptcha:''
+            recaptcha:'',
+            userSuccessfullySubscribed:false,
+            tooltipEmailError:'',
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         window.addEventListener('resize', () => {
@@ -190,7 +192,8 @@ class Signup extends Component {
             if (response[0]=== "password"){
                 this.setState({
                    emailExists:true,
-                    emailError:"Email Exists!"
+                    emailError:"Email Exists!",
+                    tooltipEmailError:'Email Exists!'
                 });
                 console.log(email, this.state.emailError)
             }
@@ -263,6 +266,11 @@ class Signup extends Component {
                 <FormFeedback tooltip style={{marginLeft:51}}>{this.state.emailError}</FormFeedback>
             )
         }
+        if (this.state.email !== '' && this.state.validEmail === true && this.state.emailExists === true){
+            return(
+                <FormFeedback tooltip style={{marginLeft:51}}>Thie Email Exists</FormFeedback>
+            )
+        }
     }
 
     renderErrorPassword(){
@@ -292,9 +300,13 @@ class Signup extends Component {
                 return(
                     <Button raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:20}}  onClick={() =>this.handleContinue()}>Continue</Button>
                 )
+            } if(this.state.validEmail === true && this.state.validPassword === true && this.state.validConfirmPassword === true && this.state.recaptcha !== '' && this.state.emailExists === true){
+                return(
+                    <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'gray', color:'white', marginTop:20}} >Email Exists!</Button>
+                )
             } else {
                 return(
-                    <Button disabled  raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:20, color:'white'}} >Are you a Robot?</Button>
+                    <Button disabled  raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:20, color:'white'}} >Hmmm... Something is not right...</Button>
                 )
             }
         } else if (this.state.validEmail === false && (this.state.validPassword === false || this.state.validConfirmPassword === false) && this.state.recaptcha === ''){
@@ -399,7 +411,7 @@ class Signup extends Component {
 
         return (
             <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"30em"}} alignItems="center" direction="column" justify="center" >
-                <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}>CAVALRY Subscription</Typography><br/>
+                <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}>Cavalry Subscription</Typography><br/>
                 <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:40}} >
                     <StripeProvider stripe={this.state.stripe}>
                         <div className="Checkout" >
@@ -427,6 +439,14 @@ class Signup extends Component {
         )
     }
 
+    renderThankYou(){
+      return (
+        <div>
+          <Typography style={{color:'white'}}>Thank you! We sent you an Invoice for your Subscription!</Typography>
+        </div>
+      )
+    }
+
     render() {
 
         let content = {};
@@ -437,6 +457,10 @@ class Signup extends Component {
 
         if (this.state.showPaymentOption === true){
             content = this.renderSubscription()
+        }
+
+        if (this.state.userSuccessfullySubscribed === true){
+          content = this.renderThankYou()
         }
 
         return (

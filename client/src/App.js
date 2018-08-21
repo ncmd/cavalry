@@ -6,6 +6,7 @@ import Login from './pages/login';
 import Signup from './pages/signup';
 import Dashboard from './pages/dashboard';
 import Post from './pages/post';
+import Edit from './pages/edit';
 import Submit from './pages/submit';
 
 class App extends Component {
@@ -21,6 +22,11 @@ class App extends Component {
                           exact
                           path="/post/:postId/:postTitle"
                           component={Post}
+                        />
+                        <Route
+                          exact
+                          path="/post/:postId/:postTitle/edit"
+                          component={Edit}
                         />
                         <Route exact path="/dashboard" component={Dashboard} />
                         <Route exact path="/status" component={Status} />
