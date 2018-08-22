@@ -102,7 +102,8 @@ class Landing extends Component {
                 });
             }
         });
-        console.log(this.state.posts)
+        console.log("POSTS PROPS",this.props.posts)
+        console.log("USERS PROPS",this.props.users)
     }
 
     componentWillUnmount() {
@@ -323,8 +324,8 @@ Landing.propTypes = {
 };
 
 
-function mapStateToProps({ posts }) {
-    return { posts };
+function mapStateToProps({ posts,users }) {
+    return { posts,users };
 }
 
 export default connect(mapStateToProps,{getPosts})(withRouter(compose(withStyles(styles),withWidth())(Landing)));

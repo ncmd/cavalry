@@ -11,6 +11,7 @@ import {
     APPLY_SECURITY,
     ADD_SUBSCRIBER,
     LOGIN_USER,
+    FETCH_USER,
 } from './types';
 
 let axiosConfig = {
@@ -43,11 +44,6 @@ export const addPost = (title,description,tags,objectives) => async dispatch =>{
     dispatch({ type: ADD_POST, payload: res.data });
 };
 
-// export const getPost = (postId,postTitle,data) => async dispatch =>{
-//     const res = await axios.get(backend+'/api/post/'+postId+'/'+postTitle);
-//     dispatch({ type: GET_POST, payload: res.data });
-// };
-
 export const getPost = (uri) => async dispatch => {
   console.log("URI:",uri);
   const res = await axios.get(backend+`${uri}`);
@@ -68,14 +64,15 @@ export const addSubscriber = (email) => async dispatch =>{
 };
 
 
-export const setUserEmail = (email,password) => async dispatch => {
+export const setUserEmail = (email,password) => dispatch => {
     const data = {email:email,password:password};
     dispatch({ type: SET_EMAIL, payload: data });
     console.log("setUserEmail:",data);
 };
 
-export const loginUser = (auth) => async dispatch => {
+export const loginUser = (auth) => dispatch => {
   const data = {login:auth};
+  console.log("DATA LOGINUSER:",data)
   dispatch({ type: LOGIN_USER, payload: data });
 };
 

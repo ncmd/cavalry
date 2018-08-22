@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    pingBackend,
+    loginUser,
 } from '../redux/actions';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -195,7 +195,9 @@ class Login extends Component {
           console.log("Response:",response)
           if (response.operationType === "signIn"){
               console.log("Login Success!")
+              this.props.loginUser(response.user.uid)
               this.props.history.push('/')
+              console.log("RESPONSE:",response.user.uid)
           }
             if (response.operationType !== "signIn"){
               console.log("Login Failed!")
@@ -276,8 +278,8 @@ class Login extends Component {
     }
 }
 
-function mapStateToProps({ status }) {
-    return { status };
+function mapStateToProps({ users }) {
+    return { users };
 }
 
-export default connect(mapStateToProps,{pingBackend})(withRouter(Login));
+export default connect(mapStateToProps,{loginUser})(withRouter(Login));
