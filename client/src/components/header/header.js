@@ -72,15 +72,6 @@ class header extends Component {
 
       return (
         <Nav className="ml-auto" navbar>
-        <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
-            <NavLink href="/submit">
-                <Button style={{ height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}  >
-                    <Typography style={{color:'white'}} variant={"button"} >
-                        POST
-                    </Typography>
-                </Button>
-            </NavLink>
-        </NavItem>
 
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
               <NavLink href="/login">

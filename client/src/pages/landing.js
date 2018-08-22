@@ -65,7 +65,8 @@ class Landing extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filterPosts:['CATEGORY', 'PLATFORM', 'SKILLS', 'COST', 'RATING'],
+            filterPosts:['TAG'],
+            filterOptions:[],
             anchorEl: null,
             selectedIndex: 0,
             posts:[],
@@ -96,17 +97,21 @@ class Landing extends Component {
         // Get all Posts
         this.props.getPosts().then(() => {
             let prevPosts = this.state.posts;
+            let prevTags = this.state.filterOptions.slice();
             if (this.props.posts !== null ){
-                this.props.posts.map(r => {
+                this.props.posts.map((r,index) => {
                     prevPosts.push({
                         id: r.id,
                         title: r.title,
                         description: r.description,
                         tags:r.tags,
                         objectives: r.objectives
-                    });
+                    })
+                    prevTags.push(r.tags)
+
                     this.setState({
                         posts: prevPosts,
+                        filterOptions: prevTags,
                     });
                     return null
                 });
@@ -114,6 +119,10 @@ class Landing extends Component {
         });
         console.log("POSTS PROPS",this.props.posts)
         console.log("USERS PROPS",this.props.users)
+    }
+
+    allTags(){
+
     }
 
     componentWillUnmount() {
@@ -129,8 +138,14 @@ class Landing extends Component {
     };
 
     handleMenuItemClick = (event, index) => {
-        this.setState({ selectedIndex: index, anchorEl: null });
-    };
+        this.setState({ selectedIndex: index, anchorEl: null },() => {
+          console.log("Index:",this.state.selectedIndex)
+          console.log("Option:",this.state.filterOptions[this.state.selectedIndex])
+          this.state.posts.map((post,index) => {
+            console.log(post)
+          })
+        })
+      }
 
     handleClose = () => {
         this.setState({ anchorEl: null });
@@ -153,7 +168,7 @@ class Landing extends Component {
                         >
                             <ListItemText
                                 primary={<Typography style={{color:'white'}} variant="button">{value}</Typography>}
-                                secondary={<Typography style={{color:'#939ed5'}} variant="caption">{filter1Options[this.state.selectedIndex]}</Typography>}
+                                secondary={<Typography style={{color:'#939ed5'}} variant="caption">{this.state.filterOptions[this.state.selectedIndex]}</Typography>}
                             />
                         </ListItem>
                     </List>
@@ -163,15 +178,15 @@ class Landing extends Component {
                         open={Boolean(this.state.anchorEl)}
                         onClose={this.handleClose}
                     >
-                        {filter1Options.map((filter1Options, index) => (
+                        {this.state.filterOptions.map((option, index) => (
                             <MenuItem
-                                key={filter1Options+1}
+                                key={option+1}
                                 selected={index === this.state.selectedIndex}
                                 onClick={event => this.handleMenuItemClick(event, index)}
                                 style={{width:188, background:'#283593', color:'white' , margin:'-8px 0 -8px 0'}}
                             >
                                 <Typography variant="caption" style={{color:'white'}}>
-                                    {filter1Options}
+                                    {option}
                                 </Typography>
                             </MenuItem>
                         ))}
@@ -262,11 +277,6 @@ class Landing extends Component {
                                 <Grid item style={{ textAlign:'left',borderLeft: '2px solid rgba(0, 0, 0, 0.12)'}}>
                                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                                         <Grid item>
-                                            <Typography variant="subheading" style={{color:'white', marginLeft:20}}>
-                                                Rating
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item>
                                             <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
                                                 {value.objectives.length} Objectives
                                             </Typography>
@@ -292,6 +302,10 @@ class Landing extends Component {
           </div>
         )
       }
+    }
+
+    filterRenderedPosts(tag){
+
     }
 
     render() {
