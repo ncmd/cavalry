@@ -23,6 +23,7 @@ import compose from 'recompose/compose';
 import { Badge } from 'reactstrap';
 import Truncate from 'react-truncate';
 import { firebase } from '../components/firebase';
+import HashTable from "../classes/HashTable";
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const buttonBlue = "linear-gradient(#283593, #1a237e)";
@@ -66,16 +67,68 @@ class Landing extends Component {
         super(props);
         this.state = {
             filterPosts:['TAG'],
-            filterOptions:[],
+            filterOptions:['Anything'],
             anchorEl: null,
             selectedIndex: 0,
             posts:[],
             width: window.innerWidth,
             height: window.innerHeight,
             isLoggedIn: false,
+            initialSize: 1,
+            arraySize: [],
+            insert: "",
+            find: "",
+            erase: "",
+            hTable: null
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
+
+    newHashTable() {
+    let hTable = new HashTable(this.state.initialSize);
+    let arraySize = [];
+    for (let i = 0; i < hTable.size; i++) {
+      arraySize.push(i);
+    }
+    this.setState({
+      arraySize,
+      hTable
+    });
+  }
+  insert(item) {
+    if (this.state.hTable !== null) {
+      this.state.hTable.insert(item);
+      this.forceUpdate();
+    }
+  }
+  find() {
+    if (this.state.hTable !== null) {
+      const result = this.state.hTable.find(this.state.find);
+    }
+    // This is not the truly way to find and element in the table
+    // The good one is the above commented lines
+    // const found = document.querySelector(
+    //   '[data-key="' + this.state.find + '"]'
+    // );
+    // if (found != null) {
+    //   found.classList.add("found");
+    //   setTimeout(() => {
+    //     found.classList.remove("found");
+    //   }, 3000);
+    // }
+  }
+  clear() {
+    if (this.state.hTable !== null) {
+      this.state.hTable.clear();
+      this.forceUpdate();
+    }
+  }
+  erase() {
+    if (this.state.hTable !== null && this.state.erase !== null) {
+      this.state.hTable.erase(this.state.erase);
+      this.forceUpdate();
+    }
+  }
 
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
@@ -98,6 +151,7 @@ class Landing extends Component {
         this.props.getPosts().then(() => {
             let prevPosts = this.state.posts;
             let prevTags = this.state.filterOptions.slice();
+            this.newHashTable()
             if (this.props.posts !== null ){
                 this.props.posts.map((r,index) => {
                     prevPosts.push({
@@ -107,14 +161,21 @@ class Landing extends Component {
                         tags:r.tags,
                         objectives: r.objectives
                     })
-                    prevTags.push(r.tags)
+                    if(r.tags.length > 1){
+                      r.tags.map((t,index) => {
+                        this.insert(t)
+                      })
+                    } else {
+                       this.insert(r.tags)
+                    }
 
                     this.setState({
                         posts: prevPosts,
-                        filterOptions: prevTags,
+                        filterOptions: this.state.hTable.buckets[0].values()
                     });
                     return null
-                });
+                    console.log()
+                })
             }
         });
         console.log("POSTS PROPS",this.props.posts)
@@ -142,7 +203,7 @@ class Landing extends Component {
           console.log("Index:",this.state.selectedIndex)
           console.log("Option:",this.state.filterOptions[this.state.selectedIndex])
           this.state.posts.map((post,index) => {
-            console.log(post)
+
           })
         })
       }

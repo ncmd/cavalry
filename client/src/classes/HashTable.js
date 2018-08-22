@@ -1,3 +1,4 @@
+import LList from "./LList";
 import HashTableIterator from "./HashTableIterator";
 
 class HashTable {
@@ -5,6 +6,9 @@ class HashTable {
     this.elements = 0;
     this.size = size;
     this.buckets = [];
+    for (let i = 0; i < size; i++) {
+      this.buckets.push(new LList([]));
+    }
   }
   empty() {
     return this.elements === 0;
