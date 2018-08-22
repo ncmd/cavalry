@@ -14,15 +14,15 @@ import {Link} from "react-router-dom";
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    getPosts
+    getPosts,getUser
 } from '../redux/actions';
 import { withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import withWidth from '@material-ui/core/withWidth';
 import compose from 'recompose/compose';
-import PropTypes from 'prop-types';
 import { Badge } from 'reactstrap';
 import Truncate from 'react-truncate';
+import { firebase } from '../components/firebase';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const buttonBlue = "linear-gradient(#283593, #1a237e)";
@@ -83,6 +83,16 @@ class Landing extends Component {
     }
 
     componentWillMount(){
+
+      if(this.props.users.length !== 0){
+        console.log("DidMount Props Users:",this.props.users)
+        firebase.auth.onAuthStateChanged(authUser => {
+          authUser
+          ? this.setState({ isLoggedIn:true })
+          : this.setState({ isLoggedIn:false });
+        })
+      }
+
         // Get all Posts
         this.props.getPosts().then(() => {
             let prevPosts = this.state.posts;
@@ -319,13 +329,9 @@ class Landing extends Component {
     }
 }
 
-Landing.propTypes = {
-    classes: PropTypes.object.isRequired,
-};
-
 
 function mapStateToProps({ posts,users }) {
     return { posts,users };
 }
 
-export default connect(mapStateToProps,{getPosts})(withRouter(compose(withStyles(styles),withWidth())(Landing)));
+export default connect(mapStateToProps,{getPosts,getUser})(withRouter(compose(withStyles(styles),withWidth())(Landing)));

@@ -76,6 +76,11 @@ export const loginUser = (auth) => dispatch => {
   dispatch({ type: LOGIN_USER, payload: data });
 };
 
+export const getUser = (auth) => dispatch => {
+  console.log("FETCHING USER:")
+  dispatch({ type: FETCH_USER});
+};
+
 
 // Need to add user email to the state because need to keep track of email address
 export const addUser = (email,token) => async dispatch =>{

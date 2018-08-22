@@ -49,11 +49,11 @@ class header extends Component {
         console.log("DidMount Props Users:",this.props.users)
         firebase.auth.onAuthStateChanged(authUser => {
           authUser
-          ? this.setState({ isLoggedIn:true })
+          ? this.setState({ isLoggedIn: true })
           : this.setState({ isLoggedIn: false });
         })
       }
-    
+
 
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
