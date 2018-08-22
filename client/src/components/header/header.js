@@ -15,8 +15,9 @@ import { auth,firebase } from '../firebase';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    loginUser
+    loginUser,getUser
 } from '../../redux/actions';
+import {Link} from "react-router-dom";
 
 const headerSignupButton = "linear-gradient(to right, #ff1744, #F44336 ";
 const headerBlue = "#1a237e";
@@ -45,13 +46,19 @@ class header extends Component {
 
     // Gets Max Height of Window on Load
     componentDidMount() {
+      this.props.getUser()
+      console.log(this.props.users)
       if(this.props.users.length !== 0){
         console.log("DidMount Props Users:",this.props.users)
-        firebase.auth.onAuthStateChanged(authUser => {
-          authUser
-          ? this.setState({ isLoggedIn: true })
-          : this.setState({ isLoggedIn: false });
-        })
+        this.setState({isLoggedIn:true})
+
+      } else {
+        this.setState({ isLoggedIn: false });
+        // firebase.auth.onAuthStateChanged(authUser => {
+        //   authUser
+        //   ? this.setState({ isLoggedIn: true })
+        //   : this.setState({ isLoggedIn: false });
+        // })
       }
 
 
@@ -74,22 +81,22 @@ class header extends Component {
         <Nav className="ml-auto" navbar>
 
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
-              <NavLink href="/login">
+              <Link to={{pathname:'/login'}}>
                   <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}>
                       <Typography style={{color:'white'}} variant={"button"} >
                           LOG IN
                       </Typography>
                   </Button>
-              </NavLink>
+              </Link>
           </NavItem>
           <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
-              <NavLink href="/signup">
+            <Link to={{pathname:'/signup'}}>
                   <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
                       <Typography style={{color:'white'}} variant={"button"} >
                           SIGNUP
                       </Typography>
                   </Button>
-              </NavLink>
+              </Link>
           </NavItem>
           </Nav>
       )
@@ -105,22 +112,22 @@ class header extends Component {
       return (
         <Nav className="ml-auto" navbar>
         <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
-            <NavLink href="/submit">
+            <Link to={{pathname:'/submit'}}>
                 <Button style={{ height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}  >
                     <Typography style={{color:'white'}} variant={"button"} >
                         POST
                     </Typography>
                 </Button>
-            </NavLink>
+            </Link>
         </NavItem>
           <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
-              <NavLink href="/">
+              <Link to={{pathname:'/'}}>
                   <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}} onClick={auth.doSignOut}>
                       <Typography style={{color:'white'}} variant={"button"} >
                           SIGNOUT
                       </Typography>
                   </Button>
-              </NavLink>
+              </Link>
           </NavItem>
         </Nav>
       )
@@ -141,14 +148,14 @@ class header extends Component {
                         background:headerBlue,
                     }}
                 >
-                    <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',padding:5}} color={headerBlue} dark expand="sm">
-                        <NavbarBrand href="/" style={{marginLeft:5}}>
+                    <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',paddingTop:10,paddingLeft:1,paddingRight:1}} color={headerBlue} dark expand="sm">
+                        <Link to={{pathname:'/'}} style={{marginLeft:5}}>
                             <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
                                 <Typography style={{color:'white'}} variant={"button"} >
                                     CAVALRY
                                 </Typography>
                             </Button>
-                        </NavbarBrand>
+                        </Link>
                         <NavbarToggler onClick={this.toggle} style={{marginRight:5}}/>
                         <Collapse isOpen={this.state.isOpen} navbar>
 
@@ -172,4 +179,4 @@ function mapStateToProps({ posts,users }) {
     return { posts,users };
 }
 
-export default connect(mapStateToProps,{loginUser})(withRouter(header));
+export default connect(mapStateToProps,{loginUser,getUser})(withRouter(header));

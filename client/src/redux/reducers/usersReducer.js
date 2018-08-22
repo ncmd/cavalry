@@ -7,6 +7,7 @@ import {
 export default function(state = [], action) {
     switch (action.type) {
         case FETCH_USER:
+        console.log("State:",state)
           return state;
         case SET_EMAIL:
             return action.payload;
