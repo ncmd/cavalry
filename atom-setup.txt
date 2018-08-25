@@ -1,3 +1,18 @@
+Install:
+- heroku
+- git
+- github desktop
+
+
+confirm
+GOPATH
+Check Env Path for golang, heroku,
+
 go-plus
 react
 platformio-ide-terminal
+
+
+Client Setup:
+cd client
+npm install --no-optional --no-shrinkwrap --no-package-lock
