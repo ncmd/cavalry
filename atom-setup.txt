@@ -1,0 +1,3 @@
+go-plus
+react
+platformio-ide-terminal

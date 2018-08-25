@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <style type="text/css">
+        body{
+            margin: 0 auto;
+            padding: 0;
+            min-width: 100%;
+            font-family: sans-serif;
+        }
+        table{
+            margin: 50px 0 50px 0;
+        }
+        .content{
+            height: 100px;
+            font-size: 18px;
+            line-height: 30px;
+        }
+        .button a{
+            color: #FFFFFF;
+            text-decoration: none;
+        }
+        .footer a{
+            color: #000000;
+            text-decoration: none;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body bgcolor="#FFFFFF">
+<table bgcolor="#FFFFFF" width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr class="content">
+        <td >
+            <p>
+                Application was submitted!<br/>
+                Customer Name: {{ .customername }} <br/>
+                <br/>
+                Email Address: {{ .customeremail }}<br/>
+                <br/>
+                Phone Number: {{ .customerphone }}<br/>
+            </p>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
