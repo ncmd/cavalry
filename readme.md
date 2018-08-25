@@ -8,16 +8,26 @@
 - nodejs 8.11.4 LTS (windows)
 - yarn 1.9.4 (windows)
 
+# Node -g packages
+- npm install -g concurrently
+- npm install -g cross-var
+
 # Atom Packages:
 - go-plus
 - react
 - platformio-ide-terminal
+--Default Shell: C:\Windows\System32\cmd.exe
 
 # Setup Paths:
 GIT PATH
+NODE PATH
+YARN PATH
 HEROKU PATH
-GOPATH
+- C:\Program Files\Heroku\bin
+GO PATH
 - C:\Users\username\go
+GOROOT
+- C:\go
 PROJECT PATH
 - C:\Users\username\go\src\cavalry
 
@@ -28,6 +38,7 @@ PROJECT PATH
 
 # Server Setup:
 - cd server/
+- go get -v golang.org/x/tools/cmd/goimports
 - go get github.com/tools/godep
 - go get golang.org/x/sys/unix
 - go get firebase.google.com/go
@@ -57,3 +68,9 @@ PROJECT PATH
 - Storage (photos and files)
 - Authentication
 - Stripe (limit $10, payment processing)
+
+# To Do
+--server
+--serverless
+--client
+- filter by tag

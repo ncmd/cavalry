@@ -67,7 +67,7 @@ class Landing extends Component {
         super(props);
         this.state = {
             filterPosts:['TAG'],
-            filterOptions:['Anything'],
+            filterOptions:["Anything"],
             anchorEl: null,
             selectedIndex: 0,
             posts:[],
@@ -101,9 +101,11 @@ class Landing extends Component {
       this.forceUpdate();
     }
   }
-  find() {
+  find(item) {
     if (this.state.hTable !== null) {
-      const result = this.state.hTable.find(this.state.find);
+      const result = this.state.hTable.find(this.state.filterOptions[this.state.selectedIndex]);
+      console.log("Finding Item:",this.state.filterOptions[this.state.selectedIndex])
+      console.log("Result:",result)
     }
     // This is not the truly way to find and element in the table
     // The good one is the above commented lines
@@ -152,6 +154,7 @@ class Landing extends Component {
             let prevPosts = this.state.posts;
             let prevTags = this.state.filterOptions.slice();
             this.newHashTable()
+            this.insert('Anything')
             if (this.props.posts !== null ){
                 this.props.posts.map((r,index) => {
                     prevPosts.push({
@@ -163,10 +166,13 @@ class Landing extends Component {
                     })
                     if(r.tags.length > 1){
                       r.tags.map((t,index) => {
-                        this.insert(t)
+
+                        this.insert(this.findAndReplace(t, " ", ""))
+                        console.log("Insert:",this.findAndReplace(t, " ", ""))
                       })
                     } else {
                        this.insert(r.tags)
+                       console.log("Insert:",r.tags)
                     }
 
                     this.setState({
@@ -202,9 +208,6 @@ class Landing extends Component {
         this.setState({ selectedIndex: index, anchorEl: null },() => {
           console.log("Index:",this.state.selectedIndex)
           console.log("Option:",this.state.filterOptions[this.state.selectedIndex])
-          this.state.posts.map((post,index) => {
-
-          })
         })
       }
 
@@ -214,7 +217,6 @@ class Landing extends Component {
 
     // Filter
     renderFilterPosts(){
-
         return(
             this.state.filterPosts.map(value => (
                 <Grid item xs={12} key={value+1} style={{minWidth:'100%'}} >
@@ -264,7 +266,10 @@ class Landing extends Component {
       if (this.state.posts[postIndex].tags.length !== 0){
         return(
           this.state.posts[postIndex].tags.map((value) => (
-            <Badge key={value+Math.random()+(Math.random())} color="primary" style={{textTransform: 'none', marginRight:5,}}>{value}</Badge>
+            <Grid key={value+Math.random()+(Math.random())} item >
+              <h5><Badge color="primary" style={{textTransform: 'none', marginRight:5,}}>{value}</Badge></h5>
+            </Grid>
+
           ))
         )
       }
@@ -280,8 +285,83 @@ class Landing extends Component {
     }
 
     // Results
-    renderResultPosts(){
+    renderResultPosts(tag){
+      if(tag !== 'Anything'){
+        return(
+          this.state.posts.map((value,index) => (
+            value.tags.map((t,i) => {
+              if(t === tag[0]){
+                console.log("Found:",t,tag[0],value.title)
+                return(
+                    <Grid item xs={12} key={value.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
+                      <Link to={{ pathname: '/post/' + value.id + '/'+this.findAndReplace(this.findAndReplace(value.title,' ','-'),'\'','')}}>
+                        <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
+                            <Grid container style={{flexGrow:1, marginLeft:10}}>
+                                <Grid item xs={9} style={{textAlign:'left'}}>
+                                    <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
+                                        <Grid item zeroMinWidth>
+                                            <Typography variant="title" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                              <Hidden mdDown>
+                                              <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
+                                                 {value.title}
+                                             </Truncate>
+                                           </Hidden>
+                                            </Typography>
 
+                                            <Typography variant="subheading" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                              <Hidden mdDown>
+                                              <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
+                                                 {value.description}
+                                             </Truncate>
+                                             </Hidden>
+                                           </Typography>
+
+                                          <Typography variant="body2" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                           <Hidden smUp>
+                                           <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
+                                              {value.title}
+                                          </Truncate>
+                                        </Hidden>
+                                         </Typography>
+                                         <Typography variant="caption" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                           <Hidden smUp>
+                                           <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
+                                              {value.description}
+                                          </Truncate>
+                                        </Hidden>
+
+                                            </Typography>
+                                        </Grid>
+                                        <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
+                                          <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
+                                              {this.renderTags(index)}
+                                          </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                                <Hidden smDown>
+                                <Grid item style={{ textAlign:'left',borderLeft: '2px solid rgba(0, 0, 0, 0.12)'}}>
+                                    <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
+                                        <Grid item>
+                                            <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
+                                                {value.objectives.length} Objectives
+                                            </Typography>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                              </Hidden>
+                            </Grid>
+                        </Button>
+                      </Link>
+                    </Grid>
+                )
+              }
+            })
+          ))
+        )
+
+      }
+      if(tag === 'Anything'){
         return(
             this.state.posts.map((value,index) => (
                     <Grid item xs={12} key={value.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
@@ -307,8 +387,6 @@ class Landing extends Component {
                                              </Hidden>
                                            </Typography>
 
-
-
                                           <Typography variant="body2" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                            <Hidden smUp>
                                            <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
@@ -325,11 +403,9 @@ class Landing extends Component {
 
                                             </Typography>
                                         </Grid>
-                                        <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden", overflowX:"scroll"}}>
+                                        <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
                                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
-                                              <Grid style={{}} item>
-                                                {this.renderTags(index)}
-                                              </Grid>
+                                              {this.renderTags(index)}
                                           </Grid>
                                         </Grid>
                                     </Grid>
@@ -352,7 +428,10 @@ class Landing extends Component {
                 )
             )
         )
+      }
+
     }
+
 
     renderBannerIfLoggedIn(){
       if (this.state.isLoggedIn === false){
@@ -363,10 +442,6 @@ class Landing extends Component {
           </div>
         )
       }
-    }
-
-    filterRenderedPosts(tag){
-
     }
 
     render() {
@@ -393,7 +468,7 @@ class Landing extends Component {
                         </Hidden>
                         <Grid item xs style={{height:800, borderColor:'#474f97', textTransform: 'none'}}>
                             <Grid container style={{flexGrow:1, margin:"0 auto"}} >
-                                {this.renderResultPosts()}
+                                {this.renderResultPosts(this.state.filterOptions[this.state.selectedIndex])}
                             </Grid>
                         </Grid>
 
