@@ -1,5 +1,6 @@
 {
   "projects": {
-    "staging": "cavalry-app"
+    "staging": "cavalry-app",
+    "default": "cavalry-app"
   }
 }

@@ -1,8 +1,0 @@
-Firebase Hosting (app size and data transferred)
-Firebase Firestore (reads and writes)
-Firebase Functions (runtime and memory)
-Domain (namecheap)
-Storage (photos and files)
-Authentication
-Stripe (limit $10, payment processing)
-Google App Engine (app size, cpu, memory, data transferred)
