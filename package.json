@@ -20,7 +20,7 @@
     "commit": "git add . && git commit -m \"Deploy\" && git push",
     "dev": "concurrently \"npm run dev-frontend \" \"npm run dev-backend\"",
     "dev-frontend": "npm run start --prefix client",
-    "dev-backend": "cd server && go run *.go",
+    "dev-backend": "cd server && go build *.go && go run *.go",
     "deploy-all": "concurrently \"npm run deploy-frontend\" \"npm run deploy-backend\" \"npm run heroku-logs\" \"npm run commit\" \"npm run deploy-serverless\"",
     "deploy-backend": "cd server && godep save ./... && git add . && git commit -m \"Deploy\" && git push heroku master && cd ..",
     "deploy-frontend": "cd client && yarn build && firebase deploy && open $npm_package_config_hosted",
