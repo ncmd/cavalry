@@ -58,7 +58,8 @@ PROJECT PATH
 - firebase init functions
 == DO NOT OVERWRITE ANYTHING
 - cd serverless/functions
-- npm install firebase-functions@latest firebase-admin@latest --save
+- npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
+== Confirm Algolia Keys (algolia.txt)
 
 # Project Cost
 - Firebase Hosting (app size and data transferred)

@@ -12,6 +12,8 @@ import {
     ADD_SUBSCRIBER,
     LOGIN_USER,
     FETCH_USER,
+    SEARCH_BOX,
+    SIGNOUT_USER,
 } from './types';
 
 let axiosConfig = {
@@ -30,7 +32,9 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   backend = 'https://cavalry-app.herokuapp.com'
 }
 
-
+export const searchBox = (data) => dispatch => {
+  dispatch({type: SEARCH_BOX, payload: data})
+}
 
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
 export const getPosts = () => async dispatch => {
@@ -71,13 +75,17 @@ export const setUserEmail = (email,password) => dispatch => {
 };
 
 export const loginUser = (auth) => dispatch => {
-  const data = {login:auth};
+  const data = {logged: true,login:auth};
   console.log("DATA LOGINUSER:",data)
   dispatch({ type: LOGIN_USER, payload: data });
 };
 
+export const signoutUser = () => dispatch => {
+  dispatch({ type: SIGNOUT_USER, payload:{}})
+  console.log("Signout Redux")
+}
+
 export const getUser = (auth) => dispatch => {
-  console.log("FETCHING USER:")
   dispatch({ type: FETCH_USER});
 };
 

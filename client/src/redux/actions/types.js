@@ -10,3 +10,5 @@ export const ADD_SUBSCRIBER = 'add_subscriber';
 export const LOGIN_USER = 'login_user';
 export const GET_POST = 'get_post';
 export const FETCH_USER = 'fetch_user';
+export const SEARCH_BOX = 'search_box';
+export const SIGNOUT_USER = 'signout_user';

@@ -33,7 +33,7 @@ export const doSignInWithEmailAndPassword = (email, password) =>
       // if a user forgets to sign out.
       // ...
       // New sign-in will be persisted with session persistence.
-        
+
       }).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
@@ -47,6 +47,7 @@ export const doSignInWithEmailAndPassword = (email, password) =>
 // Sign out
 export const doSignOut = () =>
     auth.signOut().then( () => {
+      console.log("Signing out!")
         return null
     }).catch(function(error) {
         // Handle Errors here.

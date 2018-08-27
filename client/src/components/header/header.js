@@ -5,19 +5,19 @@ import {
     Collapse,
     Navbar,
     NavbarToggler,
-    NavbarBrand,
     Nav,
-    NavItem,
-    NavLink
+    NavItem
 } from 'reactstrap';
+import Grid from '@material-ui/core/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { auth,firebase } from '../firebase';
+import { auth} from '../firebase';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    loginUser,getUser
+    loginUser,getUser,searchBox,signoutUser
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
+import {AlgoliaSearch} from '../../components/algolia/config';
 
 const headerSignupButton = "linear-gradient(to right, #ff1744, #F44336 ";
 const headerBlue = "#1a237e";
@@ -33,6 +33,7 @@ class header extends Component {
             isOpen: false,
             isLoggedIn: false,
             authUser: null,
+            path:''
         };
         this.toggle = this.toggle.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -47,19 +48,18 @@ class header extends Component {
     // Gets Max Height of Window on Load
     componentDidMount() {
       this.props.getUser()
-      console.log(this.props.users)
-      if(this.props.users.length !== 0){
-        console.log("DidMount Props Users:",this.props.users)
-        this.setState({isLoggedIn:true})
+      console.log(this.props.users.logged)
 
-      } else {
-        this.setState({ isLoggedIn: false });
-        // firebase.auth.onAuthStateChanged(authUser => {
-        //   authUser
-        //   ? this.setState({ isLoggedIn: true })
-        //   : this.setState({ isLoggedIn: false });
-        // })
-      }
+      // firebase.auth.onAuthStateChanged((response) => {
+      //     console.log("Response:",response)
+      //     if (response !== null){
+      //         this.setState({ isLoggedIn: true })
+      //     } else {
+      //         this.props.signoutUser()
+      //         this.setState({ isLoggedIn: false })
+      //     }
+      // })
+
 
 
         this.updateWindowDimensions();
@@ -102,10 +102,10 @@ class header extends Component {
       )
     }
 
-    renderUserNotSignedUp(){
-      return (
-        {}
-      )
+    firebaseSignout(){
+        auth.doSignOut()
+        console.log("State isLoggedIn:",this.state.isLoggedIn)
+        this.props.signoutUser()
     }
 
     renderUserLoggedIn(){
@@ -119,10 +119,11 @@ class header extends Component {
                     </Typography>
                 </Button>
             </Link>
+
         </NavItem>
           <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
               <Link to={{pathname:'/'}}>
-                  <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}} onClick={auth.doSignOut}>
+                  <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}} onClick={() => this.firebaseSignout()}>
                       <Typography style={{color:'white'}} variant={"button"} >
                           SIGNOUT
                       </Typography>
@@ -133,11 +134,23 @@ class header extends Component {
       )
     }
 
+
+
     renderNothing(){
       return ({})
     }
 
+    renderSearch(){
+        console.log("PATH:",this.props.location)
+      if (this.props.location.pathname === '/'){
+        return (
+          <AlgoliaSearch/>
+        )
+      }
+    }
+
     render() {
+
         return (
             <div>
                 <div
@@ -149,25 +162,31 @@ class header extends Component {
                     }}
                 >
                     <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',paddingTop:10,paddingLeft:1,paddingRight:1}} color={headerBlue} dark expand="sm">
-                        <Link to={{pathname:'/'}} style={{marginLeft:5}}>
-                            <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
-                                <Typography style={{color:'white'}} variant={"button"} >
-                                    CAVALRY
-                                </Typography>
-                            </Button>
-                        </Link>
-                        <NavbarToggler onClick={this.toggle} style={{marginRight:5}}/>
-                        <Collapse isOpen={this.state.isOpen} navbar>
-
-
-                                {this.state.isLoggedIn
-                                    ?
-                                    this.renderUserLoggedIn()
-                                    :
-                                    this.renderUserNotLoggedIn()
-                                }
-
-                        </Collapse>
+                      <Grid container style={{flexGrow:1, margin:"0 auto"}} direction="row" justify="space-between" alignItems="flex-start" >
+                        <Grid item xs>
+                          <Link to={{pathname:'/'}} style={{marginLeft:5}}>
+                              <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
+                                  <Typography style={{color:'white'}} variant={"button"} >
+                                      CAVALRY
+                                  </Typography>
+                              </Button>
+                          </Link>
+                        </Grid>
+                        <Grid item xs style={{width:'100%'}}>
+                          {this.renderSearch()}
+                        </Grid>
+                        <Grid item xs>
+                          <NavbarToggler onClick={this.toggle} style={{marginRight:5}}/>
+                          <Collapse isOpen={this.state.isOpen} navbar>
+                            {this.props.users.logged
+                                ?
+                                this.renderUserLoggedIn()
+                                :
+                                this.renderUserNotLoggedIn()
+                            }
+                          </Collapse>
+                        </Grid>
+                      </Grid>
                     </Navbar>
                 </div>
             </div>
@@ -175,8 +194,8 @@ class header extends Component {
     }
 }
 
-function mapStateToProps({ posts,users }) {
-    return { posts,users };
+function mapStateToProps({ posts,users,search }) {
+    return { posts,users,search };
 }
 
-export default connect(mapStateToProps,{loginUser,getUser})(withRouter(header));
+export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser})(withRouter(header));
