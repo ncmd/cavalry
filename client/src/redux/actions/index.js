@@ -4,6 +4,7 @@ import {
     GET_POST,
     ADD_POST,
     REMOVE_POST,
+    UPDATE_POST,
     PING_BACKEND,
     ADD_USER,
     SET_EMAIL,
@@ -14,13 +15,14 @@ import {
     FETCH_USER,
     SEARCH_BOX,
     SIGNOUT_USER,
-} from './types';
+    EDIT_SUBMIT_TITLE,
+    EDIT_SUBMIT_DESCRIPTION,
+    EDIT_SUBMIT_TAGS,
+    EDIT_SUBMIT_OBJECTIVES,
+    EDIT_CLEAR,
+    SET_PATH,
 
-let axiosConfig = {
-    headers: {
-        'Content-Type': 'application/json',
-    }
-};
+} from './types';
 
 let backend = ''
 
@@ -32,9 +34,36 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
   backend = 'https://cavalry-app.herokuapp.com'
 }
 
+export const setPath = (path) => dispatch => {
+  console.log("This Path:",path)
+  const data ={path:path}
+  dispatch({type: SET_PATH, payload: data})
+}
+
 export const searchBox = (data) => dispatch => {
   dispatch({type: SEARCH_BOX, payload: data})
 }
+
+export const editSubmitTitle = (title) => dispatch => {
+    const data = {title}
+    dispatch({ type: EDIT_SUBMIT_TITLE, payload: data });
+};
+export const editSubmitDescription = (description) => dispatch => {
+    const data = {description}
+    dispatch({ type: EDIT_SUBMIT_DESCRIPTION, payload: data });
+};
+export const editSubmitTags = (tags) => dispatch => {
+    const data = {tags}
+    dispatch({ type: EDIT_SUBMIT_TAGS, payload: data });
+};
+export const editSubmitObjectives = (objectives) => dispatch => {
+    const data = {objectives}
+    dispatch({ type: EDIT_SUBMIT_OBJECTIVES, payload: data });
+};
+
+export const editClear = () => dispatch => {
+    dispatch({ type: EDIT_CLEAR });
+};
 
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
 export const getPosts = () => async dispatch => {
@@ -44,13 +73,30 @@ export const getPosts = () => async dispatch => {
 
 export const addPost = (title,description,tags,objectives) => async dispatch =>{
     const data = {title:title,description:description,tags:tags,objectives:objectives};
-    const res = await axios.post(backend+'/api/post/new',data,axiosConfig);
-    dispatch({ type: ADD_POST, payload: res.data });
+    const res = await axios.post(backend+'/api/post/new',data);
+    dispatch({ type: ADD_POST });
 };
 
+function findAndReplace(string, target, replacement) {
+ var i = 0, length = string.length;
+ for (i; i < length; i++) {
+  string = string.replace(target, replacement);
+ }
+ return string;
+}
+
+export const updatePost = (id,title,description,tags,objectives) => async dispatch =>{
+    const data = {id:id,title:title,description:description,tags:tags,objectives:objectives};
+    const res = await axios.post(backend+'/api/post/edit',data);
+    dispatch({ type: UPDATE_POST });
+};
+
+
 export const getPost = (uri) => async dispatch => {
-  console.log("URI:",uri);
+  // console.log("URI:",uri);
+
   const res = await axios.get(backend+`${uri}`);
+  console.log("RES",res)
     dispatch({ type: GET_POST, payload: res.data });
 }
 

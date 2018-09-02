@@ -3,7 +3,12 @@ import Header from '../components/header/header';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    getPost
+    updatePost,
+    editSubmitTitle,
+    editSubmitDescription,
+    editSubmitTags,
+    editSubmitObjectives,
+    editClear,
 } from '../redux/actions';
 import Grid from "@material-ui/core/Grid";
 import { Form, FormGroup, Input } from 'reactstrap';
@@ -14,6 +19,7 @@ import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
 Quill.register('modules/ImageResize', ImageResize);
 
+const objectiveButton = "linear-gradient(to right, #304ffe, #2962ff)";
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
 
@@ -56,7 +62,9 @@ class Edit extends Component {
            html: null,
             width: window.innerWidth,
             height: window.innerHeight,
+            path:'',
             text: '',
+            postId:'',
             postTitle:'',
             postDescription:'',
             objectives: [],
@@ -100,6 +108,7 @@ class Edit extends Component {
     this.setState({
       objectives,
     });
+    this.props.editSubmitObjectives(this.state.objectives)
   }
   handleChangeEditor(value) {
     this.setState({ text: value })
@@ -108,26 +117,23 @@ class Edit extends Component {
     componentDidMount() {
         // Window Dimensions
 
+        console.log("Props Posts",this.props.posts)
+        this.setState({
+          path:this.props.location.pathname,
+          postId:this.props.posts.id,
+          postTitle:this.props.posts.title,
+          postDescription: this.props.posts.description,
+          objectives: this.props.posts.objectives,
+          tags: this.props.posts.tags,
+          tagsValid:true,
+          titleValid:true,
+          descriptionValid:true,
+          objectiveTitleValid:false,
+          objectiveDescriptionValid:false,
+        })
+
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
-
-        this.props.getPost('/api'+this.props.location.pathname).then(() => {
-              if(this.props.posts.objectives.length > 0) {
-                let prevObjectives = this.state.objectives;
-                console.log("Post Props Objectives:",this.props.posts.objectives)
-                this.props.posts.objectives.map( r => {
-                  prevObjectives.push({
-                    title: r.title,
-                    description: r.description,
-                  })
-                  this.setState({
-                    objectives: prevObjectives,
-                  })
-                  console.log("Objectives:",prevObjectives)
-                  return null
-                })
-              }
-        });
     }
 
     clickEvent(){
@@ -158,6 +164,7 @@ class Edit extends Component {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateWindowDimensions);
+
         clearInterval(this.interval);
     }
 
@@ -170,6 +177,8 @@ class Edit extends Component {
             [postTitle]: event.target.value,
         },() => {
           this.validateTitle(this.state.postTitle)
+          this.props.editSubmitTitle(this.state.postTitle);
+          console.log("PROPS SUBMIT",this.props.submit)
         });
 
     };
@@ -179,7 +188,8 @@ class Edit extends Component {
             [postDescription]: event.target.value,
         }, ()=> {
           this.validateDescription(this.state.postDescription);
-          console.log("Handle Post Description",this.state.postDescription)
+          this.props.editSubmitDescription(this.state.postDescription);
+          console.log("PROPS SUBMIT",this.props.submit)
         });
 
     };
@@ -246,6 +256,7 @@ class Edit extends Component {
         objectiveDescription: value,
     },() => {
         this.validateObjectiveDescription(this.state.objectiveDescription);
+
     });
   };
 
@@ -264,6 +275,7 @@ class Edit extends Component {
   // Function to remove an Objective in 'objective' state at a specific Index in state
   // Arguments is 'objectiveIndex' which is the position of where in the array user would like to remove
   removeObjective(objectiveIndex) {
+    console.log("this state objectives:",this.state.objectives)
     // Get static state of 'objectives'
     let prevObjectives = this.state.objectives;
 
@@ -272,17 +284,18 @@ class Edit extends Component {
 
     // Use map to go through all existing objectives matching the given 'objectiveIndex'
     // If there is a match, use 'splice' to remove element in prevObjectives array
-    prevObjectives.map(obj => {
-      if (obj.index === objectiveIndex) {
-        prevObjectives.splice(thisCounter, 1);
+    prevObjectives.map((obj,i) => {
+      if (i === objectiveIndex) {
+        prevObjectives.splice(objectiveIndex, 1);
 
         // Append a new state to Objectives with the modified array state
         this.setState({
           objectives: prevObjectives,
+          objectiveItemCounter: objectiveIndex - 1,
+          objectiveIndex: objectiveIndex - 1,
         });
       }
-      // If given objectiveIndex does not match this obj.index, increase counter by 1
-      thisCounter = thisCounter + 1;
+
       // 'return' to prevent error 'Expected to return a value in arrow function  array-callback-return'
       return prevObjectives
     });
@@ -315,8 +328,6 @@ class Edit extends Component {
       title: objectiveTitle,
       description:  objectiveDescription,
       index: objectiveIndex,
-      pictures:[],
-      expanded: false,
     });
 
     // Set the State of current page of objectives
@@ -327,6 +338,8 @@ class Edit extends Component {
       objectiveItemCounter: this.state.objectiveItemCounter + 1,
       objectiveIndex: this.state.objectiveIndex + 1,
     }, () => {
+      this.props.editSubmitObjectives(this.state.objectives)
+      console.log(this.props.submit)
       this.setState({
         objectiveTitle: '',
         objectiveTitleValid:false,
@@ -369,6 +382,8 @@ class Edit extends Component {
             tags: myArray
           })
 
+          this.props.editSubmitTags(myArray)
+
           console.log("Tags are valid!")
       } else {
           console.log("Still invalid...")
@@ -400,9 +415,9 @@ class Edit extends Component {
       if (this.state.objectiveDescription !=='') {
           // // console.log("Valid Email Address:",email);
           this.setState({objectiveDescriptionValid:true});
-          console.log("Objective Title is valid!")
+          console.log("Objective Description is valid!")
       } else {
-          console.log("Objective Title Still invalid...")
+          console.log("Objective Description Still invalid...")
           this.setState({objectiveDescriptionValid:false})
       }
   }
@@ -418,25 +433,43 @@ class Edit extends Component {
       }
   }
 
+
+
   renderReviewButton(){
     if(this.state.tagsValid === true && this.state.postTitle !== '' && this.state.postDescription !== '' && this.state.objectives.length > 0){
       return (
         <Grid item >
-            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.submitPost(this.state.postTitle,this.state.postDescription, this.state.tags, this.state.objectives)}>SUBMIT</Button>
+            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.updatePost(this.state.postId,this.state.postTitle,this.state.postDescription, this.state.tags, this.state.objectives)}>SUBMIT</Button>
         </Grid>
       )
     } else {
       return (
         <Grid item >
-            <Button disabled style={{background:'grey',  color:'white'}} >Review</Button>
+            <Button disabled style={{background:'grey', textTransform: 'none',  color:'white'}} >Review</Button>
         </Grid>
       )
     }
   }
 
-    submitPost(title,description,tags,objectives){
+    updatePost(id,title,description,tags,objectives){
         console.log("Clicked Once")
-        this.props.addPost(title,description,tags,objectives);
+        this.props.updatePost(id,title,description,tags,objectives);
+    }
+
+    editObjective(index){
+      console.log("INDEX:",index)
+      this.state.objectives.map((o,i) => {
+        if (index === i){
+          this.setState({
+            objectiveTitle: o.title,
+            objectiveTitleValid:true,
+            objectiveDescriptionValid:true,
+            objectiveDescription: o.description
+          },() => {
+            this.removeObjective(index)
+          })
+        }
+      })
     }
 
     renderObjectives(){
@@ -464,10 +497,13 @@ class Edit extends Component {
                         <Typography style={{color:'black'}}>Objective {index+1}</Typography>
                         <Typography style={{color:'black'}}>Title: {obj.title}</Typography>
                         Description: <div dangerouslySetInnerHTML={{__html: obj.description}} />
-                      <Grid container alignItems="center" direction="row" justify="flex-end" >
-                            <Grid item >
-                              <Button style={{background:submitButton,color:'white'}} onClick={() => this.removeObjective(obj.index)}>Remove Objective</Button>
-                            </Grid>
+                      <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" >
+                        <Grid item >
+                          <Button style={{background:submitButton,color:'white'}} onClick={() => this.removeObjective(index)}>Remove</Button>
+                        </Grid>
+                        <Grid item >
+                          <Button style={{background:submitButton,color:'white'}} onClick={() => this.editObjective(index)}>Edit</Button>
+                        </Grid>
                         </Grid>
                     </div>
                   )}
@@ -484,7 +520,7 @@ class Edit extends Component {
     renderAddObjectiveButton(){
       if (this.state.objectiveTitleValid === true && this.state.objectiveDescriptionValid === true && this.state.objectiveDescription.length !== 0 && this.state.objectiveTitle.length !== 0){
         return (
-          <Button style={{ height:30, background:'#474f97', textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex)} >Add Objective</Button>
+          <Button style={{ height:30, background:objectiveButton, textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex)} >Add Objective</Button>
         )
       } else if (this.state.objectiveTitleValid === false && this.state.objectiveDescriptionValid === false){
         return (
@@ -498,6 +534,11 @@ class Edit extends Component {
         return (
           <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Description</Button>
         )
+      } else {
+        return (
+          <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Title & Description</Button>
+        )
+
       }
     }
 
@@ -521,9 +562,9 @@ class Edit extends Component {
                                     <Typography variant="button" style={{color:'white'}}>Runbook Title</Typography>
                                       {this.state.titleValid
                                       ?
-                                      <Input valid placeholder="Subject of a problem or process"  onChange={this.handlePostTitle('postTitle')}/>
+                                      <Input valid placeholder="Subject of a problem or process" value={this.state.postTitle} onChange={this.handlePostTitle('postTitle')}/>
                                       :
-                                      <Input invalid placeholder="Subject of a problem or process"  onChange={this.handlePostTitle('postTitle')}/>
+                                      <Input invalid placeholder="Subject of a problem or process" value={this.state.postTitle}  onChange={this.handlePostTitle('postTitle')}/>
                                       }
                                 </FormGroup>
                                 <FormGroup>
@@ -531,18 +572,18 @@ class Edit extends Component {
 
                                       {this.state.descriptionValid
                                       ?
-                                      <Input valid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know" onChange={this.handlePostDescription('postDescription')}/>
+                                      <Input valid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know"  value={this.state.postDescription}  onChange={this.handlePostDescription('postDescription')}/>
                                       :
-                                      <Input invalid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know" onChange={this.handlePostDescription('postDescription')}/>
+                                      <Input invalid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know" value={this.props.postDescription} onChange={this.handlePostDescription('postDescription')}/>
                                       }
                                 </FormGroup>
                                 <FormGroup>
                                     <Typography variant="button" style={{color:'white'}}>Runbook Tags</Typography>
                                       {this.state.tagsValid
                                       ?
-                                      <Input valid placeholder={"Separate each tag with ',' (comma"} onChange={this.handlePostTags('tags')}/>
+                                      <Input valid placeholder={"Separate each tag with ',' (comma"} value={this.state.tags} onChange={this.handlePostTags('tags')}/>
                                       :
-                                      <Input invalid placeholder={"Separate each tag with ',' (comma)"} onChange={this.handlePostTags('tags')}/>
+                                      <Input invalid placeholder={"Separate each tag with ',' (comma)"} value={this.state.tags} onChange={this.handlePostTags('tags')}/>
                                       }
                                 </FormGroup>
 
@@ -576,10 +617,7 @@ class Edit extends Component {
                                 </Grid>
                                 <Grid container alignItems="center" direction="row" justify="space-between" >
                                     <Grid item >
-                                        <Button style={{border:'2px solid black', borderColor:'#474f97', color:'white', marginRight:40}}>DISCARD</Button>
-                                    </Grid>
-                                    <Grid item >
-                                        <Button style={{border:'2px solid black', borderColor:'#474f97', color:'white', marginRight:40}}>SAVE</Button>
+                                        <Button style={{border:'2px solid black', borderColor:'#474f97', textTransform: 'none', color:'white', marginRight:40}}>DISCARD</Button>
                                     </Grid>
                                     <Grid item >
                                         {this.renderReviewButton()}
@@ -597,7 +635,7 @@ class Edit extends Component {
         );
     }
 }
-function mapStateToProps({ posts }) {
-    return { posts };
+function mapStateToProps({ posts, path,submit}) {
+    return { posts, path, submit };
 }
-export default connect(mapStateToProps,{getPost})(withRouter(Edit));
+export default connect(mapStateToProps,{updatePost,editSubmitTitle,editSubmitDescription,editSubmitTags,editSubmitObjectives,editClear})(withRouter(Edit));

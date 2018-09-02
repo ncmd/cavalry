@@ -6,7 +6,9 @@ import {
 } from '../redux/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import {Link} from "react-router-dom";
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 
@@ -21,21 +23,34 @@ class Post extends Component {
             resultItems:['RESULT1', 'RESULT2', 'RESULT3', 'RESULT4', 'RESULT5', 'RESULT6', 'RESULT7', 'RESULT8'],
             width: window.innerWidth,
             height: window.innerHeight,
-            post:[],
+            postTitle:'',
+            postDescription:'',
             objectives:[],
+            logged:false,
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
+    
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
-        console.log(this.props.location);
+        // console.log(this.props.location);
         this.props.getPost('/api'+this.props.location.pathname).then(() => {
+
+          // console.log("props.title:",this.props.posts.title)
+          // console.log("props.description:",this.props.posts.description)
+          // console.log("props.id:",this.props.posts.id)
+
+              this.setState({
+                postTitle:this.props.posts.title,
+                postDescription:this.props.posts.description,
+              })
+
               if(this.props.posts.objectives.length > 0) {
                 let prevObjectives = this.state.objectives;
-                console.log("Post Props Objectives:",this.props.posts.objectives)
+                // console.log("Post Props Objectives:",this.props.posts.objectives)
                 this.props.posts.objectives.map( r => {
                   prevObjectives.push({
                     title: r.title,
@@ -44,7 +59,7 @@ class Post extends Component {
                   this.setState({
                     objectives: prevObjectives,
                   })
-                  console.log("Objectives:",prevObjectives)
+                  // console.log("Objectives:",prevObjectives)
                   return null
                 })
               }
@@ -62,7 +77,7 @@ class Post extends Component {
     renderObjectives(){
       return(
         this.state.objectives.map( (obj,index) => {
-          console.log("OOOO:",obj)
+          // console.log("OOOO:",obj)
           return(
             <Grid key={obj.title} style={{background:'white', maxWidth:'50em', margin:20}} container spacing={8} alignItems={'center'} justify={'flex-start'} direction={'column'}  >
                 <Grid style={{marginTop:30, marginLeft:50, marginRight:'auto',maxWidth:'50em'}} item>
@@ -79,25 +94,49 @@ class Post extends Component {
     }
 
     render() {
+      function findAndReplace(string, target, replacement) {
+       var i = 0, length = string.length;
+       for (i; i < length; i++) {
+        string = string.replace(target, replacement);
+       }
+       return string;
+      }
+
         return (
             <div>
                 <Header/>
+                  <script type="text/javascript">
+
+                </script>
                 <div
                     style={{
                         flexGrow: 1,
                         justify: 'center',
                         background: bodyBlue,
-                        height:this.state.height+(this.state.resultItems.length*100)
+                        height:this.state.height+1000
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{ height:370,background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'column'} >
-                      <Grid style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em'}} item>
-                        <Typography variant={'display2'} style={{color:'white'}}>{this.props.posts.title}</Typography><br/>
+                    <Grid container style={{ height:300,background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'column'} >
+                      <Grid container alignItems={'flex-start'} justify={'flex-end'} direction={'row'} >
+
+                        <Grid item>
+                            <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+findAndReplace(findAndReplace(this.props.posts.title,' ','-'),'\'','')+'/edit'}}>
+                          <Button style={{background:"linear-gradient(to right, #ff1744, #F44336 "}}>
+                            <Typography style={{color:'white'}}>Edit</Typography>
+                          </Button>
+                        </Link>
+                        </Grid>
+
+
                       </Grid>
                       <Grid style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em'}} item>
-                        <Typography variant={'subheading'} style={{color:'white'}}>{this.props.posts.description}</Typography>
+                        <Typography variant={'display2'} style={{color:'white'}}>{this.state.postTitle}</Typography><br/>
                       </Grid>
+                      <Grid style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em'}} item>
+                        <Typography variant={'subheading'} style={{color:'white'}}>{this.state.postDescription}</Typography>
+                      </Grid>
+
                     </Grid>
 
                     {/* Bottom Section */}

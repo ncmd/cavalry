@@ -4,11 +4,15 @@ import status from './statusReducer';
 import users from './usersReducer';
 import email from './emailReducer';
 import search from './searchReducer';
+import submit from './submitReducer';
+import path from './pathReducer';
 
 export default combineReducers({
-    posts: posts,
-    status: status,
-    users:users,
-    emails: email,
-    search: search,
-});
+  users: users,
+  posts: posts,
+  status: status,
+  emails: email,
+  search: search,
+  submit:submit,
+  path:path,
+})

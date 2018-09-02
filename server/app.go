@@ -24,6 +24,9 @@ func main() {
 	// add post
 	http.HandleFunc("/api/post/new", addpost)
 
+	// add post
+	http.HandleFunc("/api/post/edit", updatepost)
+
 	// add subscriber
 	http.HandleFunc("/api/subscribe/new", addSubscriber)
 

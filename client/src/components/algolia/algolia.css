@@ -1,0 +1,15 @@
+div.ais-Hits {
+  width: 100%;
+}
+
+li.ais-Hits-item {
+  width: 100%;
+  border:0;
+  box-shadow:0 0 0 0;
+  padding:0;
+  margin:0;
+}
+
+ul.ais-Hits-list {
+  margin:0;
+}

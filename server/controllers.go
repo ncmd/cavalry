@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	"cloud.google.com/go/firestore"
 	"firebase.google.com/go"
 	"google.golang.org/api/option"
 )
@@ -158,6 +159,51 @@ func addpost(w http.ResponseWriter, r *http.Request) {
 		log.Println("Added Post!")
 	}
 
+}
+
+func updatepost(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	sa := option.WithCredentialsFile("./firestore.json")
+	app, err := firebase.NewApp(context.Background(), nil, sa)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	client, err := app.Firestore(context.Background())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer client.Close()
+
+	var post Post
+	decoder := json.NewDecoder(r.Body)
+	decoder.Decode(&post)
+	if err != nil {
+		panic(err)
+	}
+	log.Println("Received Request!")
+	if r.Method != "OPTIONS" {
+		// Get a new write batch.
+		batch := client.Batch()
+
+		// Set the value
+		ref := client.Collection("posts").Doc(post.Id)
+		batch.Set(ref, map[string]interface{}{
+			"id":          post.Id,
+			"title":       post.Title,
+			"description": post.Description,
+			"tags":        post.Tags,
+			"objectives":  post.Objectives,
+		}, firestore.MergeAll)
+
+		// Commit the batch.
+		_, err := batch.Commit(context.Background())
+		if err != nil {
+			return
+		}
+		log.Println("Updated Post!")
+	}
 }
 
 // Create a list of subscribers

@@ -11,6 +11,7 @@
 # Node -g packages
 - npm install -g concurrently
 - npm install -g cross-var
+- npm install -g firebase-tools
 
 # Atom Packages:
 - go-plus
@@ -34,6 +35,8 @@ PROJECT PATH
 # Client Setup:
 - cd client/
 - npm install eslint@^4.1.1 && npm install --no-optional --no-shrinkwrap --no-package-lock
+- firebase login
+- firebase init; public, yes, no
 - heroku login
 
 # Server Setup:
@@ -46,6 +49,7 @@ PROJECT PATH
 - go get github.com/stripe/stripe-go
 - go get github.com/BurntSushi/toml
 - heroku git:remote -a cavalry-app
+- cd server/functions npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
 
 # Recover from Heroku Server
 - server/config/config.toml

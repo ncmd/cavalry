@@ -24,12 +24,9 @@
     "deploy-all": "concurrently \"npm run commit\" \"npm run deploy-frontend\" \"npm run deploy-backend\" \"npm run heroku-logs\" \"npm run deploy-serverless\"",
     "deploy-backend": "cd server && godep save ./... & git add . & git commit -m \"Deploy\" && git push heroku master & cd .. & npm run heroku-logs",
     "deploy-frontend": "cd client && yarn build && firebase deploy",
-    "deploy-serverless": "cd serverless/functions/ && firebase deploy --only functions && cd ..",
-    "heroku-backend-refresh": "cross-var \"cd server & heroku apps:destroy --app $npm_package_config_servername --confirm $npm_package_config_servername & git init & git add . & heroku create $npm_package_config_servername & cd ..\"",
+    "deploy-serverless": "cd serverless/functions/ && firebase deploy --only functions --debug && cd ..",
+    "heroku-backend-refresh": "cross-var \"cd server & heroku git:remote -a cavalry-app & heroku apps:destroy --app $npm_package_config_servername --confirm $npm_package_config_servername & git init & git add . & heroku create $npm_package_config_servername & cd ..\"",
     "heroku-logs": "cd server && heroku logs -a cavalry-app --tail && cd .."
   },
-  "dependencies": {},
-  "devDependencies": {
-    "concurrently": "^3.6.1"
-  }
+  "dependencies": {}
 }

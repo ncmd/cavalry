@@ -441,9 +441,12 @@ class Signup extends Component {
 
     renderThankYou(){
       return (
-        <div>
-          <Typography style={{color:'white'}}>Thank you! We sent you an Invoice for your Subscription!</Typography>
-        </div>
+        <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"30em"}} alignItems="center" direction="column" justify="center" >
+            <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}>Thank you for your Subscription!</Typography>
+            <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:40}} >
+                <Typography variant="body2" style={{textAlign:'center',color:'white',marginTop:40}}>We will send you an Invoice to your email address: {this.state.email}</Typography>
+            </Grid>
+        </Grid>
       )
     }
 

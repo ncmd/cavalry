@@ -14,7 +14,7 @@ import { auth} from '../firebase';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    loginUser,getUser,searchBox,signoutUser
+    loginUser,getUser,searchBox,signoutUser,setPath
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
 import {AlgoliaSearch} from '../../components/algolia/config';
@@ -47,8 +47,8 @@ class header extends Component {
 
     // Gets Max Height of Window on Load
     componentDidMount() {
-      this.props.getUser()
-      console.log(this.props.users.logged)
+      // this.props.getUser()
+      // console.log("Header this.props.users.logged:",this.props.users.logged)
 
       // firebase.auth.onAuthStateChanged((response) => {
       //     console.log("Response:",response)
@@ -104,7 +104,7 @@ class header extends Component {
 
     firebaseSignout(){
         auth.doSignOut()
-        console.log("State isLoggedIn:",this.state.isLoggedIn)
+        // console.log("State isLoggedIn:",this.state.isLoggedIn)
         this.props.signoutUser()
     }
 
@@ -141,7 +141,7 @@ class header extends Component {
     }
 
     renderSearch(){
-        console.log("PATH:",this.props.location)
+        // console.log("PATH:",this.props.location)
       if (this.props.location.pathname === '/'){
         return (
           <AlgoliaSearch/>
@@ -194,8 +194,8 @@ class header extends Component {
     }
 }
 
-function mapStateToProps({ posts,users,search }) {
-    return { posts,users,search };
+function mapStateToProps({ posts,users,search,path }) {
+    return { posts,users,search,path };
 }
 
-export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser})(withRouter(header));
+export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath})(withRouter(header));
