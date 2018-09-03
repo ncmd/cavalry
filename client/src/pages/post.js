@@ -17,10 +17,8 @@ class Post extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            filterItems:['FILTER1', 'FILTER2', 'FILTER3', 'FILTER4', 'FILTER5'],
             anchorEl: null,
             selectedIndex: 1,
-            resultItems:['RESULT1', 'RESULT2', 'RESULT3', 'RESULT4', 'RESULT5', 'RESULT6', 'RESULT7', 'RESULT8'],
             width: window.innerWidth,
             height: window.innerHeight,
             postTitle:'',
@@ -106,9 +104,7 @@ class Post extends Component {
         return (
             <div>
                 <Header/>
-                  <script type="text/javascript">
 
-                </script>
                 <div
                     style={{
                         flexGrow: 1,
@@ -118,26 +114,22 @@ class Post extends Component {
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{ height:300,background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'column'} >
-                      <Grid container alignItems={'flex-start'} justify={'flex-end'} direction={'row'} >
-
-                        <Grid item>
-                             <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+findAndReplace(findAndReplace(this.props.posts.title,' ','-'),'\'','')+'/edit'}}>
-                          <Button style={{background:"linear-gradient(to right, #ff1744, #F44336 "}}>
-                            <Typography style={{color:'white'}}>Edit</Typography>
-                          </Button>
-                        </Link>
-                        </Grid>
-
-
+                    <Grid container style={{height:200,background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'column'}>
+                      <Grid style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em',  marginTop:10, }} item xs>
+                        <Typography variant={'display1'} style={{color:'white'}}>{this.state.postTitle}</Typography><br/>
                       </Grid>
-                      <Grid style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em'}} item>
-                        <Typography variant={'display2'} style={{color:'white'}}>{this.state.postTitle}</Typography><br/>
-                      </Grid>
-                      <Grid style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em'}} item>
+                      <Grid style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em'}} item xs>
                         <Typography variant={'subheading'} style={{color:'white'}}>{this.state.postDescription}</Typography>
                       </Grid>
-
+                    </Grid>
+                    <Grid container style={{ background:'#283593',borderColor:'#474f97',  margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
+                      <Grid item xs style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em', marginBottom:10}}>
+                        <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+findAndReplace(findAndReplace(this.props.posts.title,' ','-'),'\'','')+'/edit'}}>
+                         <Button style={{background:"linear-gradient(to right, #ff1744, #F44336 "}}>
+                           <Typography style={{color:'white'}}>Edit</Typography>
+                         </Button>
+                       </Link>
+                      </Grid>
                     </Grid>
 
                     {/* Bottom Section */}
@@ -146,7 +138,7 @@ class Post extends Component {
                     </Grid>
                 </div>
             </div>
-        );
+        )
     }
 }
 

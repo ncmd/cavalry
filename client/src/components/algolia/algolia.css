@@ -13,3 +13,7 @@ li.ais-Hits-item {
 ul.ais-Hits-list {
   margin:0;
 }
+
+input#runbookSearch.form-control {
+  color:'white';
+}

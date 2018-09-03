@@ -18,6 +18,11 @@ import {
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
 import {AlgoliaSearch} from '../../components/algolia/config';
+import InputLabel from '@material-ui/core/InputLabel';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 const headerSignupButton = "linear-gradient(to right, #ff1744, #F44336 ";
 const headerBlue = "#1a237e";
@@ -33,7 +38,9 @@ class header extends Component {
             isOpen: false,
             isLoggedIn: false,
             authUser: null,
-            path:''
+            path:'',
+            open: false,
+            anchorEl: null,
         };
         this.toggle = this.toggle.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -83,8 +90,8 @@ class header extends Component {
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
               <Link to={{pathname:'/login'}}>
                   <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}>
-                      <Typography style={{color:'white'}} variant={"button"} >
-                          LOG IN
+                      <Typography style={{color:'white',textTransform: 'none'}} variant={"button"} >
+                          <b>Login</b>
                       </Typography>
                   </Button>
               </Link>
@@ -92,8 +99,8 @@ class header extends Component {
           <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
             <Link to={{pathname:'/signup'}}>
                   <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
-                      <Typography style={{color:'white'}} variant={"button"} >
-                          SIGNUP
+                      <Typography style={{color:'white',textTransform: 'none'}} variant={"button"} >
+                          <b>Signup</b>
                       </Typography>
                   </Button>
               </Link>
@@ -108,14 +115,23 @@ class header extends Component {
         this.props.signoutUser()
     }
 
+    handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
+
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
+
     renderUserLoggedIn(){
+      const { anchorEl } = this.state;
       return (
         <Nav className="ml-auto" navbar>
         <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
             <Link to={{pathname:'/submit'}}>
-                <Button style={{ height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}  >
-                    <Typography style={{color:'white'}} variant={"button"} >
-                        POST
+                <Button style={{ height:30, background:headerSignupButton, marginRight:10, textTransform: 'none'}}  >
+                    <Typography style={{color:'white',textTransform: 'none'}} variant={"button"} >
+                      <b>Post</b>
                     </Typography>
                 </Button>
             </Link>
@@ -123,11 +139,20 @@ class header extends Component {
         </NavItem>
           <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
               <Link to={{pathname:'/'}}>
-                  <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}} onClick={() => this.firebaseSignout()}>
-                      <Typography style={{color:'white'}} variant={"button"} >
-                          SIGNOUT
-                      </Typography>
-                  </Button>
+                <Button raised="true" variant="raised" style={{height:30, background:'#474f97', color:'white',textTransform: 'none'}} onClick={this.handleClick}>
+                  <b>Account</b>
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  open={this.state.open}
+                  anchorEl={anchorEl}
+                   open={Boolean(anchorEl)}
+                   onClose={this.handleClose}
+                >
+                    <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.firebaseSignout()}>Signout</MenuItem>
+
+                </Menu>
+
               </Link>
           </NavItem>
         </Nav>
@@ -166,8 +191,8 @@ class header extends Component {
                         <Grid item xs>
                           <Link to={{pathname:'/'}} style={{marginLeft:5}}>
                               <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
-                                  <Typography style={{color:'white'}} variant={"button"} >
-                                      CAVALRY
+                                  <Typography style={{color:'white',textTransform: 'none'}} variant={"button"} >
+                                    <b>Cavalry</b>
                                   </Typography>
                               </Button>
                           </Link>

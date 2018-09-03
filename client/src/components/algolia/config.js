@@ -15,7 +15,7 @@ import {
 } from 'react-instantsearch-dom';
 // import Grid from '@material-ui/core/Grid';
 // import Hidden from '@material-ui/core/Hidden';
-import { Input } from 'reactstrap';
+import { Input,InputGroup, InputGroupText, InputGroupAddon,FormFeedback } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import Truncate from 'react-truncate';
@@ -29,7 +29,12 @@ import './algolia.css';
 
 const MySearchBox = ({currentRefinement, refine}) =>
 <form>
-  <Input style={{width:'100%', height:'36px', flexGrow: 1}} type="text" name="search" id="runbookSearch" placeholder="Runbook Search" value={currentRefinement} onChange={e => refine(e.target.value)}/>
+  <InputGroup>
+      <InputGroupAddon addonType="prepend">
+          <InputGroupText style={{background:'#283593', border:'0'}}><span aria-label="emoji" role="img">🔍</span></InputGroupText>
+      </InputGroupAddon>
+      <Input style={{background:'#283593', border:'0', color:'white'}} type="text" name="search" id="runbookSearch" placeholder="Search..." value={currentRefinement} onChange={e => refine(e.target.value)}/>
+  </InputGroup>
 </form>
 
 const CustomSearch = connectSearchBox(MySearchBox);
@@ -43,7 +48,7 @@ function findAndReplace(string, target, replacement) {
 }
 
 export const AlgoliaSearch = () =>
-  <CustomSearch/>
+  <CustomSearch />
 
 
 function Post({ hit }) {
