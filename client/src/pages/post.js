@@ -33,7 +33,7 @@ class Post extends Component {
 
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
-    
+
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
         // console.log(this.props.location);
@@ -121,11 +121,11 @@ class Post extends Component {
                       <Grid container alignItems={'flex-start'} justify={'flex-end'} direction={'row'} >
 
                         <Grid item>
-                            <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+findAndReplace(findAndReplace(this.props.posts.title,' ','-'),'\'','')+'/edit'}}>
+                            {/* <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+findAndReplace(findAndReplace(this.props.posts.title,' ','-'),'\'','')+'/edit'}}>
                           <Button style={{background:"linear-gradient(to right, #ff1744, #F44336 "}}>
                             <Typography style={{color:'white'}}>Edit</Typography>
                           </Button>
-                        </Link>
+                        </Link> */}
                         </Grid>
 
 
@@ -150,8 +150,8 @@ class Post extends Component {
 }
 
 
-function mapStateToProps({ posts }) {
-    return { posts };
+function mapStateToProps({ posts,users }) {
+    return { posts,users };
 }
 export default connect(mapStateToProps, {
   getPost,

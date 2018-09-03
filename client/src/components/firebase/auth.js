@@ -27,7 +27,7 @@ export const doSignInWithEmailAndPassword = (email, password) =>
         console.log("Error Message:",errorCode,errorMessage);
     }, ()=> {
       //set session
-      auth.setPersistence(auth.Auth.Persistence.SESSION).then(function() {
+      auth.setPersistence(auth.Auth.Persistence.LOCAL).then(function() {
       // Existing and future Auth states are now persisted in the current
       // session only. Closing the window would clear any existing state even
       // if a user forgets to sign out.

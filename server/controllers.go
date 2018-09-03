@@ -41,6 +41,12 @@ func pingpong(w http.ResponseWriter, r *http.Request) {
 	w.Write(js)
 }
 
+// get current users
+
+func getuser(w http.ResponseWriter, r *http.Request) {
+
+}
+
 // get last 10 posts
 func getlast10posts(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")

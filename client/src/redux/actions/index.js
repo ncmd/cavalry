@@ -68,7 +68,8 @@ export const editClear = () => dispatch => {
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
 export const getPosts = () => async dispatch => {
     const res = await axios.get(backend+'/api/posts');
-    dispatch({ type: GET_POSTS, payload: res.data });
+    console.log("RES getPosts",res.data)
+    dispatch({ type: 'GET_POSTS', payload: res.data });
 };
 
 export const addPost = (title,description,tags,objectives) => async dispatch =>{
@@ -123,7 +124,7 @@ export const setUserEmail = (email,password) => dispatch => {
 export const loginUser = (auth) => dispatch => {
   const data = {logged: true,login:auth};
   console.log("DATA LOGINUSER:",data)
-  dispatch({ type: LOGIN_USER, payload: data });
+  dispatch({ type: 'LOGIN_USER', payload: data });
 };
 
 export const signoutUser = () => dispatch => {
@@ -131,7 +132,7 @@ export const signoutUser = () => dispatch => {
   console.log("Signout Redux")
 }
 
-export const getUser = (auth) => dispatch => {
+export const getUser = () => dispatch => {
   dispatch({ type: FETCH_USER});
 };
 

@@ -8,8 +8,10 @@ import {
 
 export default function(state = [], action) {
     switch (action.type) {
-        case GET_POSTS:
-            return state;
+        case 'GET_POSTS':
+        console.log("Previous State:",...state)
+        console.log("Payload:",action.payload)
+            return action.payload;
         case GET_POST:
             return action.payload;
         case ADD_POST:

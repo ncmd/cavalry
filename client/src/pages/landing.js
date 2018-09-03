@@ -47,7 +47,7 @@ class Landing extends Component {
     }
 
     componentWillMount(){
-
+      // this.props.getPosts()
       // if(this.props.users.length !== 0){
       //   console.log("DidMount Props Users:",this.props.users)
       //   // firebase.auth.onAuthStateChanged(authUser => {

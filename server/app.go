@@ -39,6 +39,8 @@ func main() {
 	// signup and subscribe customer
 	http.HandleFunc("/api/user/new", subscribeuser)
 
+	http.HandleFunc("/api/current/user", getuser)
+
 	// listen on socket
 	port := os.Getenv("PORT")
 	if port == "" {

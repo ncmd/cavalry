@@ -47,7 +47,7 @@ class header extends Component {
 
     // Gets Max Height of Window on Load
     componentDidMount() {
-      // this.props.getUser()
+      this.props.getUser()
       // console.log("Header this.props.users.logged:",this.props.users.logged)
 
       // firebase.auth.onAuthStateChanged((response) => {

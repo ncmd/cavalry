@@ -13,7 +13,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 const persistConfig = {
   key: 'root',
-  storage
+  storage,
 }
 const persistedReducer = persistReducer(persistConfig, reducers)
 

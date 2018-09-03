@@ -1,18 +1,20 @@
 import { combineReducers } from 'redux';
-import posts from './postsReducer';
+import postsReducer from './postsReducer';
 import status from './statusReducer';
-import users from './usersReducer';
-import email from './emailReducer';
+import usersReducer from './usersReducer';
+import emailReducer from './emailReducer';
 import search from './searchReducer';
 import submit from './submitReducer';
 import path from './pathReducer';
 
-export default combineReducers({
-  users: users,
-  posts: posts,
-  status: status,
-  emails: email,
-  search: search,
-  submit:submit,
-  path:path,
+const rootReducer = combineReducers({
+  users:usersReducer,
+  posts:postsReducer,
+  status,
+  email:emailReducer,
+  search,
+  submit,
+  path
 })
+
+export default rootReducer;

@@ -1,4 +1,4 @@
-export const GET_POSTS = 'get_items';
+export const GET_POSTS = 'GET_POSTS';
 export const ADD_POST = 'add_item';
 export const REMOVE_POST = 'remove_item';
 export const UPDATE_POST = 'update_item';
