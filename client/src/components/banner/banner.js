@@ -23,7 +23,7 @@ class banner extends Component {
                     <Grid container style={{ flexGrow:1, margin:"0 auto", maxWidth:"63em", }} >
                         <Grid item xs={12} style={{ borderColor:'#474f97', textTransform: 'none'}}>
                             <Typography style={{color:'white', textAlign:'center', padding:10, margin:'auto'}} variant={"headline"} >
-                                Find your runbook to <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🔍</span>️ detect, <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🚨</span> respond, and <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>📕</span> report
+                                Find your runbook to <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🔍</span>️ Detect, <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🚨</span> Respond, & <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>📕</span> Report
                             </Typography>
                         </Grid>
                         <Grid item xs={12} style={{ borderColor:'#474f97', textTransform: 'none'}}>

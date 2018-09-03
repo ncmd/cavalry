@@ -90,14 +90,13 @@ class Landing extends Component {
                           flexGrow: 1,
                           justify: 'center',
                           background: bodyBlue,
-                          height:this.state.height+(100*8)
                       }}
                   >
                   {this.renderBannerIfLoggedIn(this.props.users.logged)}
                       <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
                           {/* Hide if below at tablet size or lower*/}
                           <Hidden smDown>
-                          <Grid item style={{width:220,height:800, borderColor:'#474f97', textTransform: 'none', marginRight:20}}>
+                          <Grid item style={{width:220, borderColor:'#474f97', textTransform: 'none', marginRight:20}}>
                               <Grid container style={{flexGrow:1, margin:"0 auto"}} >
                                 <CurrentRefinements />
                                 <ClearRefinements />
@@ -105,7 +104,7 @@ class Landing extends Component {
                               </Grid>
                           </Grid>
                           </Hidden>
-                          <Grid item xs style={{height:800, borderColor:'#474f97', textTransform: 'none', width:'100%'}}>
+                          <Grid item xs style={{borderColor:'#474f97', textTransform: 'none', width:'100%'}}>
                               <Grid container style={{flexGrow:1, margin:"0 auto", width:'100%'}} >
                                   <AlgoliaHits style={{ width:'100%'}}/>
                               </Grid>

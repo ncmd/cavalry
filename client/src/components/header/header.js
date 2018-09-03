@@ -137,8 +137,7 @@ class header extends Component {
             </Link>
 
         </NavItem>
-          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
-              <Link to={{pathname:'/'}}>
+          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>              
                 <Button raised="true" variant="raised" style={{height:30, background:'#474f97', color:'white',textTransform: 'none'}} onClick={this.handleClick}>
                   <b>Account</b>
                 </Button>
@@ -150,10 +149,7 @@ class header extends Component {
                    onClose={this.handleClose}
                 >
                     <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.firebaseSignout()}>Signout</MenuItem>
-
                 </Menu>
-
-              </Link>
           </NavItem>
         </Nav>
       )

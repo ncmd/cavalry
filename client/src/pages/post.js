@@ -133,7 +133,7 @@ class Post extends Component {
                     </Grid>
 
                     {/* Bottom Section */}
-                    <Grid container style={{ height:1400,background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
+                    <Grid container style={{background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
                       {this.renderObjectives()}
                     </Grid>
                 </div>
