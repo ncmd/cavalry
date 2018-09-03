@@ -92,14 +92,16 @@ class Post extends Component {
 
     }
 
+     findAndReplace(string, target, replacement) {
+     var i = 0, length = string.length;
+     for (i; i < length; i++) {
+      string = string.replace(target, replacement);
+     }
+     return string;
+    }
+
     render() {
-      function findAndReplace(string, target, replacement) {
-       var i = 0, length = string.length;
-       for (i; i < length; i++) {
-        string = string.replace(target, replacement);
-       }
-       return string;
-      }
+
 
         return (
             <div>
@@ -124,7 +126,7 @@ class Post extends Component {
                     </Grid>
                     <Grid container style={{ background:'#283593',borderColor:'#474f97',  margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
                       <Grid item xs style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em', marginBottom:10}}>
-                        <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+findAndReplace(findAndReplace(this.props.posts.title,' ','-'),'\'','')+'/edit'}}>
+                        <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+this.findAndReplace(this.findAndReplace(this.state.postTitle,' ','-'),'\'','')+'/edit'}}>
                          <Button style={{background:"linear-gradient(to right, #ff1744, #F44336 "}}>
                            <Typography style={{color:'white'}}>Edit</Typography>
                          </Button>

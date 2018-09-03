@@ -8,7 +8,7 @@ import Dashboard from './pages/dashboard';
 import Post from './pages/post';
 import Edit from './pages/edit';
 import Submit from './pages/submit';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 
 class App extends Component {
 

@@ -15,7 +15,7 @@ import {
 } from 'react-instantsearch-dom';
 // import Grid from '@material-ui/core/Grid';
 // import Hidden from '@material-ui/core/Hidden';
-import { Input,InputGroup, InputGroupText, InputGroupAddon,FormFeedback } from 'reactstrap';
+import { Input,InputGroup, InputGroupText, InputGroupAddon } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import Truncate from 'react-truncate';
@@ -97,7 +97,7 @@ function Post({ hit }) {
                             {hit.tags.map((value) => {
                               return(
                                 <Grid key={value+Math.random()+(Math.random())} item >
-                                <h5><Badge color="primary" style={{textTransform: 'none', marginRight:5,}}>{value}</Badge></h5>
+                                <h6><Badge color="primary" style={{textTransform: 'none', marginRight:5,}}>{value}</Badge></h6>
                               </Grid>)
                             }
                             )}

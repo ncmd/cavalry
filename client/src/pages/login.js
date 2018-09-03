@@ -123,9 +123,19 @@ class Login extends Component {
             if (this.state.validPassword === true){
                 // // console.log(event.target.value);
                 this.validatePassword(this.state.password);
+                // if (event.key === 'Enter') {
+                //   this.handleLogin(this.state.email,this.state.password)
+                // }
             }
         });
     };
+
+    _handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      console.log('do validate');
+    }
+  }
+
 
     validatePassword(password){
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
@@ -138,29 +148,6 @@ class Login extends Component {
             this.setState({validPassword:false})
         }
     }
-
-
-    handlePassword = password => event => {
-
-        this.setState({
-            [password]: event.target.value,
-        }, () => {
-            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-            if (passwordRegex.test(password)) {
-                this.setState({validPassword:true})
-            } else {
-                this.setState({validPassword:false})
-            }
-            if (this.state.validPassword === false){
-                // // console.log(event.target.value);
-                this.validatePassword(this.state.password);
-            }
-            if (this.state.validPassword === true){
-                // // console.log(event.target.value);
-                this.validatePassword(this.state.password);
-            }
-        });
-    };
 
     renderButton(){
         if (this.state.validEmail === true && this.state.emailExists === true && this.state.password !== ''){

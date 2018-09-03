@@ -18,15 +18,16 @@ import {
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
 import {AlgoliaSearch} from '../../components/algolia/config';
-import InputLabel from '@material-ui/core/InputLabel';
+// import InputLabel from '@material-ui/core/InputLabel';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
+// import FormControl from '@material-ui/core/FormControl';
+// import Select from '@material-ui/core/Select';
 
 const headerSignupButton = "linear-gradient(to right, #ff1744, #F44336 ";
 const headerBlue = "#1a237e";
-
+const accountButton = "linear-gradient(to right, #304ffe, #2962ff)";
+const manageButton = "linear-gradient(to right, #9c27b0, #673ab7)";
 class header extends Component {
 
     constructor(props) {
@@ -90,7 +91,7 @@ class header extends Component {
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
               <Link to={{pathname:'/login'}}>
                   <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}>
-                      <Typography style={{color:'white',textTransform: 'none'}} variant={"button"} >
+                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                           <b>Login</b>
                       </Typography>
                   </Button>
@@ -99,7 +100,7 @@ class header extends Component {
           <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
             <Link to={{pathname:'/signup'}}>
                   <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
-                      <Typography style={{color:'white',textTransform: 'none'}} variant={"button"} >
+                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                           <b>Signup</b>
                       </Typography>
                   </Button>
@@ -130,25 +131,40 @@ class header extends Component {
         <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
             <Link to={{pathname:'/submit'}}>
                 <Button style={{ height:30, background:headerSignupButton, marginRight:10, textTransform: 'none'}}  >
-                    <Typography style={{color:'white',textTransform: 'none'}} variant={"button"} >
-                      <b>Post</b>
+                    <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                      <b>Post <span aria-label="emoji" role="img">📓</span></b>
                     </Typography>
                 </Button>
             </Link>
 
         </NavItem>
-          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>              
-                <Button raised="true" variant="raised" style={{height:30, background:'#474f97', color:'white',textTransform: 'none'}} onClick={this.handleClick}>
-                  <b>Account</b>
+        <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
+            <Link to={{pathname:'/management'}}>
+                <Button style={{ height:30, background:manageButton, marginRight:10, textTransform: 'none'}}  >
+                    <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                      <b>Manage <span aria-label="emoji" role="img">👮</span></b>
+                    </Typography>
+                </Button>
+            </Link>
+        </NavItem>
+          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
+                <Button raised="true" variant="raised" style={{height:30, background:accountButton, color:'white',textTransform: 'none'}} onClick={this.handleClick}>
+                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                  <b>Account <span aria-label="emoji" role="img">😊</span></b>
+                  </Typography>
                 </Button>
                 <Menu
                   id="simple-menu"
-                  open={this.state.open}
+
                   anchorEl={anchorEl}
                    open={Boolean(anchorEl)}
                    onClose={this.handleClose}
                 >
-                    <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.firebaseSignout()}>Signout</MenuItem>
+                    <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.firebaseSignout()}>
+                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                      <b>Signout <span aria-label="emoji" role="img">😭</span></b>
+                      </Typography>
+                    </MenuItem>
                 </Menu>
           </NavItem>
         </Nav>
@@ -187,17 +203,17 @@ class header extends Component {
                         <Grid item xs>
                           <Link to={{pathname:'/'}} style={{marginLeft:5}}>
                               <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
-                                  <Typography style={{color:'white',textTransform: 'none'}} variant={"button"} >
+                                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                                     <b>Cavalry</b>
                                   </Typography>
                               </Button>
                           </Link>
                         </Grid>
-                        <Grid item xs style={{width:'100%'}}>
+                        <Grid item xs={6}>
                           {this.renderSearch()}
                         </Grid>
                         <Grid item xs>
-                          <NavbarToggler onClick={this.toggle} style={{marginRight:5}}/>
+                          <NavbarToggler onClick={this.toggle} style={{marginLeft:10,marginTop:0}}/>
                           <Collapse isOpen={this.state.isOpen} navbar>
                             {this.props.users.logged
                                 ?

@@ -521,6 +521,14 @@ class Submit extends Component {
       }
     }
 
+    imageHandler(image, callback){
+    var range = this.quillRef.getEditor().getSelection();
+    var value = prompt('What is the image URL');
+    if(value) {
+        this.quillRef.getEditor().insertEmbed(range.index, 'image', value, "user");
+        }
+    }
+
     render() {
         return (
             <div>
@@ -587,7 +595,8 @@ class Submit extends Component {
                                         [{'list': 'ordered'}, {'list': 'bullet'}],
                                         ['link', 'image','video'],
                                         ['clean']
-                                      ],}} style={{background:'white', height:600-72}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
+                                      ],
+                                    }} style={{background:'white', height:600-72}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
                                   </FormGroup>
                                 <Grid container style={{marginTop:92}} alignItems="center" direction="row" justify="flex-end" >
                                     <Grid item >
