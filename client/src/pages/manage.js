@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import {
   addGroupContactname,
   addGroupEmailaddress,
-  addGroupInstantmessager,
+  addGroupInstantmessenger,
   addGroupDepartment,
   addGroupLocation,
   addGroups
@@ -36,7 +36,7 @@ class Manage extends Component {
             selectedOption:'setupgroups',
             inputContactname:'',
             inputEmailaddress:'',
-            inputInstantmessager:'',
+            inputInstantmessenger:'',
             inputDepartment:'',
             inputLocation:'',
             groups:[],
@@ -76,7 +76,7 @@ class Manage extends Component {
 
 
     // Adding Objective to New Runbook
-    addGroup(contactname, emailaddress, instantmessager, department,location, groupIndex) {
+    addGroup(contactname, emailaddress, instantmessenger, department,location, groupIndex) {
       // Get Previous Objective State which should start as an empty array '[]'
       const prevGroups = this.state.groups;
 
@@ -86,7 +86,7 @@ class Manage extends Component {
       prevGroups.push({
         contactname: contactname,
         emailaddress:  emailaddress,
-        instantmessager: instantmessager,
+        instantmessenger: instantmessenger,
         department: department,
         location: location,
         index: groupIndex,
@@ -101,7 +101,7 @@ class Manage extends Component {
         this.setState({
           inputContactname:'',
           inputEmailaddress:'',
-          inputInstantmessager:'',
+          inputInstantmessenger:'',
           inputDepartment:'',
           inputLocation:'',
         })
@@ -122,11 +122,11 @@ class Manage extends Component {
           this.props.addGroupEmailaddress(this.state.inputEmailaddress)
         });
     };
-    handleInputInstantMessager = inputInstantmessager => event => {
+    handleInputInstantMessenger = inputInstantmessenger => event => {
         this.setState({
-            inputInstantmessager: event.target.value,
+            inputInstantmessenger: event.target.value,
         }, () => {
-          this.props.addGroupInstantmessager(this.state.inputInstantmessager)
+          this.props.addGroupInstantmessenger(this.state.inputInstantmessenger)
         });
     };
     handleInputDepartment = inputDepartment => event => {
@@ -158,14 +158,14 @@ class Manage extends Component {
               <Input value={this.state.inputEmailaddress} onChange={this.handleInputEmailaddress()} placeholder="name@company.com"/>
             </FormGroup>
             <FormGroup>
-              <Input  value={this.state.inputInstantmessager} onChange={this.handleInputInstantMessager()} placeholder="slack"/>
+              <Input  value={this.state.inputInstantmessenger} onChange={this.handleInputInstantMessenger()} placeholder="slack"/>
             </FormGroup>
             <FormGroup>
               <Input value={this.state.inputDepartment} onChange={this.handleInputDepartment()} placeholder="security operations"/>
             </FormGroup>
             <FormGroup>
               <Input value={this.state.inputLocation} onChange={this.handleInputLocation()} style={{width:'50%',display:'inline'}} placeholder="san francisco"/>
-              <Button style={{background:actionButton}} onClick={() => this.addGroup(this.state.inputContactname, this.state.inputEmailaddress,this.state.inputInstantmessager,this.state.inputDepartment,this.state.inputLocation,this.state.groupIndex)}><Typography variant={"caption"} style={{color:'white', textTransform: 'none'}}><b>Submit</b></Typography></Button>
+              <Button style={{background:actionButton}} onClick={() => this.addGroup(this.state.inputContactname, this.state.inputEmailaddress,this.state.inputInstantmessenger,this.state.inputDepartment,this.state.inputLocation,this.state.groupIndex)}><Typography variant={"caption"} style={{color:'white', textTransform: 'none'}}><b>Submit</b></Typography></Button>
             </FormGroup>
           </Form>
           <Paper>
@@ -174,7 +174,7 @@ class Manage extends Component {
                 <TableRow>
                   <TableCell>Contact Name</TableCell>
                   <TableCell>Email Address</TableCell>
-                  <TableCell>Instant Messager</TableCell>
+                  <TableCell>Instant Messenger</TableCell>
                   <TableCell>Department</TableCell>
                   <TableCell>Location</TableCell>
                 </TableRow>
@@ -187,7 +187,7 @@ class Manage extends Component {
                         {g.contactname}
                       </TableCell>
                       <TableCell>{g.emailaddress}</TableCell>
-                      <TableCell>{g.instantmessager}</TableCell>
+                      <TableCell>{g.instantmessenger}</TableCell>
                       <TableCell>{g.department}</TableCell>
                       <TableCell>{g.location}</TableCell>
                     </TableRow>
@@ -256,7 +256,7 @@ function mapStateToProps({ groups }) {
 export default connect(mapStateToProps, {
   addGroupContactname,
   addGroupEmailaddress,
-  addGroupInstantmessager,
+  addGroupInstantmessenger,
   addGroupDepartment,
   addGroupLocation,
   addGroups

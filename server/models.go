@@ -11,6 +11,14 @@ type Data struct {
 	Recaptcha string `json:"recaptcha"`
 }
 
+type Account struct {
+	Name       string `json:"contactname"`
+	Email      string `json:"emailaddress"`
+	Messenger  string `json:"instantmessenger"`
+	Department string `json:"department"`
+	Location   string `json:"location"`
+}
+
 type Response struct {
 	Success     bool   `json:"success"`
 	ChallengeTS string `json:"challenge_ts"`

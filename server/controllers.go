@@ -42,9 +42,56 @@ func pingpong(w http.ResponseWriter, r *http.Request) {
 }
 
 // get current users
-
 func getuser(w http.ResponseWriter, r *http.Request) {
 
+}
+
+func accountgroupuseradd(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET,OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	sa := option.WithCredentialsFile("./firestore.json")
+
+	app, err := firebase.NewApp(context.Background(), nil, sa)
+
+	if err != nil {
+		log.Fatalln(err)
+	}
+	client, err := app.Firestore(context.Background())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer client.Close()
+
+	if r.Method != "OPTIONS" {
+		var account Account
+
+		log.Println("Response Body:", r.Method)
+		decoder := json.NewDecoder(r.Body)
+		decoder.Decode(&account)
+
+		var accountID = strings.Split(r.URL.Path, "/")
+		fmt.Println("Account ID:", accountID)
+		// client.Collection("accounts").Doc(accountID[3]).Add(context.Background(), map[string]interface{}{
+		// 	"emailaddress": subscribe.Email,
+		// })
+
+		// dsnap, err := client.Collection("accounts").Doc(accountID[3]).Get(context.Background())
+		// if err != nil {
+		// 	fmt.Printf("Error: %#v\n", err)
+		// }
+		// m := dsnap.Data()
+		// fmt.Println(m)
+		//
+		// // last10 := m["last10"]
+		// //
+		// js, err := json.MarshalIndent(m, "", "    ")
+		// if err != nil {
+		// 	http.Error(w, err.Error(), http.StatusInternalServerError)
+		// 	return
+		// }
+		// w.Write(js)
+	}
 }
 
 // get last 10 posts

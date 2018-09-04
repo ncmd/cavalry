@@ -48,14 +48,16 @@ class Landing extends Component {
 
     componentWillMount(){
       this.props.getPosts()
-      // if(this.props.users.length !== 0){
-      //   console.log("DidMount Props Users:",this.props.users)
-      //   // firebase.auth.onAuthStateChanged(authUser => {
-      //   //   authUser
-      //   //   ? this.setState({ isLoggedIn:true })
-      //   //   : this.setState({ isLoggedIn:false });
-      //   // })
-      // }
+      if(this.props.users.logged === true){
+        console.log("DidMount Props Users:",this.props.users)
+        this.setState({
+          isLoggedIn:true
+        })
+      } else {
+        this.setState({
+          isLoggedIn:false
+        })
+      }
     }
 
     componentWillUnmount() {
@@ -92,7 +94,7 @@ class Landing extends Component {
                           background: bodyBlue,
                       }}
                   >
-                  {this.renderBannerIfLoggedIn(this.props.users.logged)}
+                  {this.renderBannerIfLoggedIn(this.state.isLoggedIn)}
                       <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
                           {/* Hide if below at tablet size or lower*/}
                           <Hidden smDown>

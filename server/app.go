@@ -24,7 +24,7 @@ func main() {
 	// add post
 	http.HandleFunc("/api/post/new", addpost)
 
-	// add post
+	// edit post
 	http.HandleFunc("/api/post/edit", updatepost)
 
 	// add subscriber
@@ -40,6 +40,8 @@ func main() {
 	http.HandleFunc("/api/user/new", subscribeuser)
 
 	http.HandleFunc("/api/current/user", getuser)
+
+	http.HandleFunc("api/account", accountgroupuseradd)
 
 	// listen on socket
 	port := os.Getenv("PORT")

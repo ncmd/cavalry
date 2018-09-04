@@ -23,7 +23,7 @@ import {
     SET_PATH,
     ADD_GROUP_CONTACTNAME,
     ADD_GROUP_EMAILADDRESS,
-    ADD_GROUP_INSTANTMESSAGER,
+    ADD_GROUP_INSTANTMESSENGER,
     ADD_GROUP_DEPARTMENT,
     ADD_GROUP_LOCATION,
     ADD_GROUPS,
@@ -79,9 +79,9 @@ export const addGroupEmailaddress = (emailaddress) => dispatch => {
     const data = {emailaddress}
     dispatch({ type: ADD_GROUP_EMAILADDRESS, payload: data });
 };
-export const addGroupInstantmessager = (instantmessager) => dispatch => {
-    const data = {instantmessager}
-    dispatch({ type: ADD_GROUP_INSTANTMESSAGER, payload: data });
+export const addGroupInstantmessenger = (instantmessenger) => dispatch => {
+    const data = {instantmessenger}
+    dispatch({ type: ADD_GROUP_INSTANTMESSENGER, payload: data });
 };
 export const addGroupDepartment = (department) => dispatch => {
     const data = {department}
@@ -91,10 +91,17 @@ export const addGroupLocation = (location) => dispatch => {
     const data = {location}
     dispatch({ type: ADD_GROUP_LOCATION, payload: data });
 };
-export const addGroups = (groups) => dispatch => {
+export const addGroups = (groups) => async dispatch => {
     const data = {groups}
     dispatch({ type: ADD_GROUPS, payload: data });
 };
+
+export const addGroupUser = (accountid, contactname,emailaddress,instantmessenger,department,location) => async dispatch => {
+    const data = {accountid:accountid, contactname:contactname,emailaddress:emailaddress,instantmessenger:instantmessenger,department:department,location:location}
+    await axios.post(backend+'/api/account/'+accountid+'/group/user/add',data);
+    dispatch({ type: ADD_GROUPS, payload: data });
+};
+
 
 
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store

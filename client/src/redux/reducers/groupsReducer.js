@@ -1,7 +1,7 @@
 import {
     ADD_GROUP_CONTACTNAME,
     ADD_GROUP_EMAILADDRESS,
-    ADD_GROUP_INSTANTMESSAGER,
+    ADD_GROUP_INSTANTMESSENGER,
     ADD_GROUP_DEPARTMENT,
     ADD_GROUP_LOCATION,
     ADD_GROUP_CLEAR,
@@ -14,8 +14,8 @@ export default function(state = [], action) {
           return [{ ...state[0], contactname:action.payload}];
         case ADD_GROUP_EMAILADDRESS:
           return [{ ...state[0], emailaddress:action.payload}];
-        case ADD_GROUP_INSTANTMESSAGER:
-          return [{ ...state[0], instantmessager:action.payload}];
+        case ADD_GROUP_INSTANTMESSENGER:
+          return [{ ...state[0], instantmessenger:action.payload}];
         case ADD_GROUP_DEPARTMENT:
           return [{ ...state[0], department:action.payload}];
         case ADD_GROUP_LOCATION:
