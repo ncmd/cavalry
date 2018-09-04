@@ -266,7 +266,7 @@ class Submit extends Component {
     let prevObjectives = this.state.objectives;
 
     // Counter is used to start the positioning
-    let thisCounter = 0;
+    // let thisCounter = 0;
 
     // Use map to go through all existing objectives matching the given 'objectiveIndex'
     // If there is a match, use 'splice' to remove element in prevObjectives array
@@ -442,7 +442,7 @@ class Submit extends Component {
     }
 
     editObjective(index){
-      console.log("INDEX:",index)
+      // console.log("INDEX:",index)
       this.state.objectives.map((o,i) => {
         if (index === i){
           this.setState({
@@ -454,6 +454,7 @@ class Submit extends Component {
             this.removeObjective(index)
           })
         }
+        return null
       })
     }
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-    GET_POSTS,
+    // GET_POSTS,
     GET_POST,
     ADD_POST,
     REMOVE_POST,
@@ -11,7 +11,7 @@ import {
     EMAIL_JIDOKA,
     APPLY_SECURITY,
     ADD_SUBSCRIBER,
-    LOGIN_USER,
+    // LOGIN_USER,
     FETCH_USER,
     SEARCH_BOX,
     SIGNOUT_USER,
@@ -21,7 +21,12 @@ import {
     EDIT_SUBMIT_OBJECTIVES,
     EDIT_CLEAR,
     SET_PATH,
-
+    ADD_GROUP_CONTACTNAME,
+    ADD_GROUP_EMAILADDRESS,
+    ADD_GROUP_INSTANTMESSAGER,
+    ADD_GROUP_DEPARTMENT,
+    ADD_GROUP_LOCATION,
+    ADD_GROUPS,
 } from './types';
 
 let backend = ''
@@ -44,6 +49,7 @@ export const searchBox = (data) => dispatch => {
   dispatch({type: SEARCH_BOX, payload: data})
 }
 
+// Edit Objectives
 export const editSubmitTitle = (title) => dispatch => {
     const data = {title}
     dispatch({ type: EDIT_SUBMIT_TITLE, payload: data });
@@ -60,35 +66,61 @@ export const editSubmitObjectives = (objectives) => dispatch => {
     const data = {objectives}
     dispatch({ type: EDIT_SUBMIT_OBJECTIVES, payload: data });
 };
-
 export const editClear = () => dispatch => {
     dispatch({ type: EDIT_CLEAR });
 };
 
+// Edit Groups
+export const addGroupContactname = (contactname) => dispatch => {
+    const data = {contactname}
+    dispatch({ type: ADD_GROUP_CONTACTNAME, payload: data });
+};
+export const addGroupEmailaddress = (emailaddress) => dispatch => {
+    const data = {emailaddress}
+    dispatch({ type: ADD_GROUP_EMAILADDRESS, payload: data });
+};
+export const addGroupInstantmessager = (instantmessager) => dispatch => {
+    const data = {instantmessager}
+    dispatch({ type: ADD_GROUP_INSTANTMESSAGER, payload: data });
+};
+export const addGroupDepartment = (department) => dispatch => {
+    const data = {department}
+    dispatch({ type: ADD_GROUP_DEPARTMENT, payload: data });
+};
+export const addGroupLocation = (location) => dispatch => {
+    const data = {location}
+    dispatch({ type: ADD_GROUP_LOCATION, payload: data });
+};
+export const addGroups = (groups) => dispatch => {
+    const data = {groups}
+    dispatch({ type: ADD_GROUPS, payload: data });
+};
+
+
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
 export const getPosts = () => async dispatch => {
     const res = await axios.get(backend+'/api/posts');
-    console.log("RES getPosts",res.data)
+    // console.log("RES getPosts",res.data)
     dispatch({ type: 'GET_POSTS', payload: res.data });
 };
 
 export const addPost = (title,description,tags,objectives) => async dispatch =>{
     const data = {title:title,description:description,tags:tags,objectives:objectives};
-    const res = await axios.post(backend+'/api/post/new',data);
+    await axios.post(backend+'/api/post/new',data);
     dispatch({ type: ADD_POST });
 };
 
-function findAndReplace(string, target, replacement) {
- var i = 0, length = string.length;
- for (i; i < length; i++) {
-  string = string.replace(target, replacement);
- }
- return string;
-}
+// function findAndReplace(string, target, replacement) {
+//  var i = 0, length = string.length;
+//  for (i; i < length; i++) {
+//   string = string.replace(target, replacement);
+//  }
+//  return string;
+// }
 
 export const updatePost = (id,title,description,tags,objectives) => async dispatch =>{
     const data = {id:id,title:title,description:description,tags:tags,objectives:objectives};
-    const res = await axios.post(backend+'/api/post/edit',data);
+    await axios.post(backend+'/api/post/edit',data);
     dispatch({ type: UPDATE_POST });
 };
 

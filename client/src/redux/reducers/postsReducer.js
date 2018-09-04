@@ -1,5 +1,5 @@
 import {
-    GET_POSTS,
+    // GET_POSTS,
     ADD_POST,
     UPDATE_POST,
     REMOVE_POST,
@@ -9,8 +9,8 @@ import {
 export default function(state = [], action) {
     switch (action.type) {
         case 'GET_POSTS':
-        console.log("Previous State:",...state)
-        console.log("Payload:",action.payload)
+        // console.log("Previous State:",...state)
+        // console.log("Payload:",action.payload)
             return action.payload;
         case GET_POST:
             return action.payload;

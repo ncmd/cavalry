@@ -8,6 +8,7 @@ import Dashboard from './pages/dashboard';
 import Post from './pages/post';
 import Edit from './pages/edit';
 import Submit from './pages/submit';
+import Manage from './pages/manage';
 // import { connect } from 'react-redux';
 
 class App extends Component {
@@ -20,6 +21,7 @@ class App extends Component {
                         <Route exact path="/" component={Landing} />
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/signup" component={Signup} />
+                        <Route exact path="/manage" component={Manage} />
                         <Route
                           exact
                           path="/post/:postId/:postTitle"

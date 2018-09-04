@@ -1,6 +1,6 @@
 import {
     SET_EMAIL,
-    LOGIN_USER,
+    // LOGIN_USER,
     FETCH_USER,
     SIGNOUT_USER,
 } from '../actions/types';

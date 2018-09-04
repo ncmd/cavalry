@@ -6,10 +6,12 @@ import emailReducer from './emailReducer';
 import search from './searchReducer';
 import submit from './submitReducer';
 import path from './pathReducer';
+import groupsReducer from './groupsReducer';
 
 const rootReducer = combineReducers({
   users:usersReducer,
   posts:postsReducer,
+  groups:groupsReducer,
   status,
   email:emailReducer,
   search,

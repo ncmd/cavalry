@@ -28,7 +28,7 @@ class banner extends Component {
                         </Grid>
                         <Grid item xs={12} style={{ borderColor:'#474f97', textTransform: 'none'}}>
                             <Typography style={{color:'#b2b9e1', textAlign:'center'}} variant={"subheading"} >
-                                Cavalry is a crowdsourced database of runbooks help you make the best decisions during an incident or repetitive event<br/>— when you execute, it delegates all tasks to your team and connects you with 100+ <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🐎</span> Cavalry professionals!
+                                <b style={{color:'white'}}>Cavalry</b> is a crowdsourced database of runbooks help you make the best decisions during an incident or repetitive event<br/>— when you execute, it helps you coordinate all tasks with your team and connects you with <b style={{color:'white'}}>Cavalry</b><span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🐎</span> professionals!
                             </Typography>
                         </Grid>
                     </Grid>

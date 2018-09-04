@@ -11,7 +11,6 @@ import {
     addSubscriber
 } from '../../redux/actions';
 import { InputGroup, InputGroupText, InputGroupAddon,FormFeedback } from 'reactstrap';
-import withWidth from "@material-ui/core/withWidth";
 
 const subscribeButton = "linear-gradient(to right, #ff1744, #F44336 ";
 
@@ -80,16 +79,16 @@ class subscribe extends Component {
     renderSubscribeButton(){
         if (this.state.validEmail === true && this.state.subButtonClicked === false){
           return (
-              <Button onClick={() => this.addSub()} raised="true" variant="raised" style={{color:'white', textAlign:'center', border:'white',height:38, background:subscribeButton, textTransform: 'none', marginLeft:5}} >Subscribe</Button>
+              <Button onClick={() => this.addSub()} raised="true" variant="raised" style={{color:'white', textAlign:'center', border:'white',height:42.5, background:subscribeButton, textTransform: 'none', marginLeft:5}} >Subscribe</Button>
           )
         } else if (this.state.validEmail === false && this.state.subButtonClicked === false){
           return (
-            <Button  raised="true" disabled style={{color:'white', textAlign:'center', border:'white',height:38, background:'#121858', textTransform: 'none', marginLeft:5}} >Subscribe</Button>
+            <Button  raised="true" disabled style={{color:'white', textAlign:'center', border:'white',height:42.5, background:'#121858', textTransform: 'none', marginLeft:5}} >Subscribe</Button>
           )
         }
         if (this.state.subButtonClicked === true ){
           return (
-              <Button raised="true" disabled style={{color:'white', textAlign:'center', border:'white',height:38, background:'#121858', textTransform: 'none', marginLeft:5}} >Thank you!</Button>
+              <Button raised="true" disabled style={{color:'white', textAlign:'center', border:'white',height:42.5, background:'#121858', textTransform: 'none', marginLeft:5}} >Thank you!</Button>
           )
         }
     }
@@ -119,7 +118,9 @@ class subscribe extends Component {
                         <Form>
                             <FormGroup>
                                 <Grid container style={{ flexGrow:1 }} spacing={0} direction={'row'} justify={'center'} alignItems={'center'} >
-                                    <Grid style={{flexGrow:1, maxWidth:380}} item >
+                                  <Grid item xs>{}</Grid>
+
+                                    <Grid style={{flexGrow:1}} item xs={6}>
                                       <InputGroup >
                                           <InputGroupAddon addonType="prepend">
                                               <InputGroupText style={{background:'#283593', border:'0'}}><span aria-label="emoji" role="img">📧</span></InputGroupText>
@@ -131,10 +132,11 @@ class subscribe extends Component {
                                               <Input style={{background:'#283593', color:'white', border:0}} invalid placeholder="Email Address" onChange={this.handleEmail('email')}/>
                                           }
                                           {this.renderErrorEmail()}
+                                          {this.renderSubscribeButton()}
                                       </InputGroup>
                                     </Grid>
-                                    <Grid item>
-                                      {this.renderSubscribeButton()}
+                                    <Grid item xs>
+                                    {}
                                     </Grid>
                                 </Grid>
                             </FormGroup>
@@ -154,4 +156,4 @@ function mapStateToProps({ email }) {
     return { email };
 }
 
-export default connect(mapStateToProps,{addSubscriber})(withRouter(withWidth()(subscribe)));
+export default connect(mapStateToProps,{addSubscriber})(withRouter((subscribe)));

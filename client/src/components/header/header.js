@@ -92,7 +92,7 @@ class header extends Component {
               <Link to={{pathname:'/login'}}>
                   <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}>
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                          <b>Login</b>
+                          <b>Log in</b>
                       </Typography>
                   </Button>
               </Link>
@@ -101,7 +101,7 @@ class header extends Component {
             <Link to={{pathname:'/signup'}}>
                   <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                          <b>Signup</b>
+                          <b>Sign up</b>
                       </Typography>
                   </Button>
               </Link>
@@ -139,7 +139,7 @@ class header extends Component {
 
         </NavItem>
         <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
-            <Link to={{pathname:'/management'}}>
+            <Link to={{pathname:'/manage'}}>
                 <Button style={{ height:30, background:manageButton, marginRight:10, textTransform: 'none'}}  >
                     <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                       <b>Manage <span aria-label="emoji" role="img">👮</span></b>

@@ -43,32 +43,7 @@ class Base extends Component {
     render() {
         return (
             <div>
-                <Header/>
-                  <script type="text/javascript">
 
-                </script>
-                <div
-                    style={{
-                        flexGrow: 1,
-                        justify: 'center',
-                        background: bodyBlue,
-                        height:this.state.height+(this.state.resultItems.length*100)
-                    }}
-                >
-                    {/* Top Section */}
-                    <Grid container style={{ height:300,background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'column'} >
-                      <Grid container alignItems={'flex-start'} justify={'flex-end'} direction={'row'} >
-
-                      </Grid>
-
-
-                    </Grid>
-
-                    {/* Bottom Section */}
-                    <Grid container style={{ height:1400,background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
-                      
-                    </Grid>
-                </div>
             </div>
         );
     }
