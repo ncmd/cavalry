@@ -1,5 +1,5 @@
 {
-  "name": "calvary",
+  "name": "calvary-app",
   "homepage": "calvarytactics.com",
   "version": "1.0.0",
   "private": true,
@@ -18,9 +18,10 @@
   },
   "scripts": {
     "commit": "git add . && git commit -m \"Deploy\" && git push",
-    "local": "concurrently \"npm run dev-frontend \" \"npm run dev-backend\"",
+    "local": "concurrently \"npm run local-frontend \" \"npm run local-backend\"",
     "local-frontend": "npm run start --prefix client",
     "local-backend": "cd server && go build -o server.exe && server.exe",
+    "deploy-all-x":"concurrently \"npm run deploy-dev\" \"npm run deploy-prod\"",
     "deploy-dev": "concurrently \"npm run commit\" \"npm run deploy-frontend-dev\" \"npm run deploy-backend\" \"npm run heroku-logs\" \"npm run deploy-serverless\"",
     "deploy-prod": "concurrently \"npm run commit\" \"npm run deploy-frontend-prod\" \"npm run deploy-backend\" \"npm run heroku-logs\" \"npm run deploy-serverless\"",
     "deploy-backend": "cd server && godep save ./... & git add . & git commit -m \"Deploy\" && git push heroku master & cd .. & npm run heroku-logs",
