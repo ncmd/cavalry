@@ -231,9 +231,6 @@ class Manage extends Component {
                 >
                     {/* Top Section */}
                     <Grid container style={{ height:300,background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'row'} spacing={40}>
-                      {/*<Grid item>
-                        <Button style={{background:actionButton}} onClick={() => this.handleClickMyPosts()}><Typography variant={"caption"} style={{color:'white', textTransform: 'none'}}><b>My Posts</b></Typography></Button>
-                      </Grid>*/}
                       <Grid item>
                         <Button style={{background:actionButton}} onClick={() => this.handleClickSetupGroups()}><Typography variant={"caption"} style={{color:'white', textTransform: 'none'}}><b>Setup Groups</b></Typography></Button>
                       </Grid>

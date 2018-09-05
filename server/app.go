@@ -30,18 +30,13 @@ func main() {
 	// add subscriber
 	http.HandleFunc("/api/subscribe/new", addSubscriber)
 
-	// handle image uploads
-	http.HandleFunc("/api/multiple", handleUpload)
-
 	// recaptcha confirmation
 	http.HandleFunc("/api/apply", recaptchaconfirmation)
 
 	// signup and subscribe customer
 	http.HandleFunc("/api/user/new", subscribeuser)
 
-	http.HandleFunc("/api/current/user", getuser)
-
-	http.HandleFunc("api/account", accountgroupuseradd)
+	http.HandleFunc("/api/accounts/create", accountcreate)
 
 	// listen on socket
 	port := os.Getenv("PORT")

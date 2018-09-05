@@ -7,9 +7,11 @@ import search from './searchReducer';
 import submit from './submitReducer';
 import path from './pathReducer';
 import groupsReducer from './groupsReducer';
+import accountReducer from './accountReducer';
 
 const rootReducer = combineReducers({
   users:usersReducer,
+  account:accountReducer,
   posts:postsReducer,
   groups:groupsReducer,
   status,

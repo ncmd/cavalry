@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    getPosts,getUser
+    getPosts,getUser,setAccount
 } from '../redux/actions';
 import Hidden from '@material-ui/core/Hidden';
 import { AlgoliaHits,AlgoliaConnectedCheckBoxRefinementList } from '../components/algolia/config';
@@ -49,9 +49,13 @@ class Landing extends Component {
     componentWillMount(){
       this.props.getPosts()
       if(this.props.users.logged === true){
-        console.log("DidMount Props Users:",this.props.users)
+        // console.log("DidMount Props Users:",this.props.users)
         this.setState({
           isLoggedIn:true
+        },() => {
+          //create account in firebase
+          console.log("Account:",this.props.users.login)
+          this.props.setAccount(this.props.users.login)
         })
       } else {
         this.setState({
@@ -120,8 +124,8 @@ class Landing extends Component {
 }
 
 
-function mapStateToProps({ posts,users }) {
-    return { posts,users };
+function mapStateToProps({ posts,users,account }) {
+    return { posts,users,account };
 }
 
-export default connect(mapStateToProps,{getPosts,getUser})(withRouter(Landing));
+export default connect(mapStateToProps,{getPosts,getUser,setAccount})(withRouter(Landing));

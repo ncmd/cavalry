@@ -27,6 +27,7 @@ import {
     ADD_GROUP_DEPARTMENT,
     ADD_GROUP_LOCATION,
     ADD_GROUPS,
+    ADD_ACCOUNT
 } from './types';
 
 let backend = ''
@@ -96,10 +97,16 @@ export const addGroups = (groups) => async dispatch => {
     dispatch({ type: ADD_GROUPS, payload: data });
 };
 
-export const addGroupUser = (accountid, contactname,emailaddress,instantmessenger,department,location) => async dispatch => {
+export const addGroupUser = (uri, accountid, contactname,emailaddress,instantmessenger,department,location) => async dispatch => {
     const data = {accountid:accountid, contactname:contactname,emailaddress:emailaddress,instantmessenger:instantmessenger,department:department,location:location}
-    await axios.post(backend+'/api/account/'+accountid+'/group/user/add',data);
+    await axios.post(backend+`${uri}`,data);
     dispatch({ type: ADD_GROUPS, payload: data });
+};
+
+export const setAccount = (accountid) => async dispatch => {
+    const data = {accountid:accountid}
+    await axios.post(backend+'/api/accounts/create',data);
+    dispatch({ type: ADD_ACCOUNT, payload: data });
 };
 
 

@@ -12,11 +12,7 @@ type Data struct {
 }
 
 type Account struct {
-	Name       string `json:"contactname"`
-	Email      string `json:"emailaddress"`
-	Messenger  string `json:"instantmessenger"`
-	Department string `json:"department"`
-	Location   string `json:"location"`
+	ID string `json:"accountid"`
 }
 
 type Response struct {
