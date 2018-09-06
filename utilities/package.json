@@ -1,0 +1,25 @@
+{
+  "name": "utilities",
+  "version": "1.0.0",
+  "description": "Does several stuff",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "backup-orig": "cross-env \"NODE_ENV=orig\" \"NODE_ACTION=backup\" node index.js",
+    "backup-dev": "cross-env \"NODE_ENV=dev\" \"NODE_ACTION=backup\" node index.js",
+    "backup-prod": "cross-env \"NODE_ENV=prod\" \"NODE_ACTION=backup\" node index.js",
+    "restore-orig": "cross-env \"NODE_ENV=orig\" \"NODE_ACTION=restore\" node index.js",
+    "restore-dev": "cross-env \"NODE_ENV=dev\" \"NODE_ACTION=restore\" node index.js",
+    "restore-prod": "cross-env \"NODE_ENV=prod\" \"NODE_ACTION=restore\" node index.js",
+    "migrate-orig-to-prod": "cross-env \"NODE_ENV=prod\" \"NODE_ACTION=migrate\" \"NODE_SOURCE=orig\" node index.js",
+    "migrate-orig-to-dev": "cross-env \"NODE_ENV=dev\" \"NODE_ACTION=migrate\" \"NODE_SOURCE=orig\" node index.js",
+    "migrate-dev-to-prod": "cross-env \"NODE_ENV=prod\" \"NODE_ACTION=migrate\" \"NODE_SOURCE=dev\" node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "^5.2.0",
+    "firestore-export-import": "^0.1.6",
+    "jsonfile": "^4.0.0"
+  }
+}

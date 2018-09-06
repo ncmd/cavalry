@@ -1,5 +1,5 @@
 {
-  "name": "calvary-app",
+  "name": "calvary",
   "homepage": "calvarytactics.com",
   "version": "1.0.0",
   "private": true,
@@ -9,27 +9,38 @@
   },
   "license": "UNLICENSED",
   "config": {
-    "servername": "cavalry-app",
+    "servernamedev": "cavalry-app-dev",
+    "servernameprod": "cavalry-app-prod",
     "serverport": "8000",
-    "hosted": "https://cavalry-app.firebaseapp.com",
-    "herokusite": "calvary-app.herokuapp.com",
+    "hosteddev": "https://cavalry-app-dev.firebaseapp.com",
+    "hostedprod": "https://cavalry-app-prod.firebaseapp.com",
+    "herokusitedev": "calvary-app-dev.herokuapp.com",
+    "herokusiteprod": "calvary-app-prod.herokuapp.com",
     "gitusername": "ncmd",
     "githubprojectname": "https://github.com/ncmd/calvary.git"
   },
   "scripts": {
     "commit": "git add . && git commit -m \"Deploy\" && git push",
-    "local": "concurrently \"npm run local-frontend \" \"npm run local-backend\"",
+    "local": "npm-run-all --parallel local-frontend local-backend",
     "local-frontend": "npm run start --prefix client",
     "local-backend": "cd server && go build -o server.exe && server.exe",
-    "deploy-all-x":"concurrently \"npm run deploy-dev\" \"npm run deploy-prod\"",
-    "deploy-dev": "concurrently \"npm run commit\" \"npm run deploy-frontend-dev\"",
-    "deploy-prod": "concurrently \"npm run commit\" \"npm run deploy-frontend-prod\" \"npm run deploy-backend\" \"npm run heroku-logs\" \"npm run deploy-serverless\"",
-    "deploy-backend": "cd server && godep save ./... & git add . & git commit -m \"Deploy\" && git push heroku master & cd .. & npm run heroku-logs",
-    "deploy-frontend-dev": "cd client && yarn build && firebase use cavalry-app-dev && firebase deploy",
-    "deploy-frontend-prod": "cd client && yarn build && firebase use cavalry-app-prod && firebase deploy",
+    "backup-firestore-prod" :"cd utilities && npm run backup-prod",
+    "backup-firestore-dev" :"cd utilities && npm run backup-dev",
+    "restore-firestore-prod" :"cd utilities && npm run restore-prod",
+    "deploy-all-x": "npm-run-all commit deploy-dev deploy-prod backup-firestore-prod",
+    "deploy-dev": "concurrently \"npm run deploy-frontend-dev\"",
+    "deploy-prod": "concurrently \"npm run deploy-frontend-prod\" \"npm run deploy-backend\" \"npm run heroku-logs\" \"npm run deploy-serverless\"",
+    "deploy-backend-dev": "cd server && heroku config:set APPENV=dev && godep save ./... & git add . & git commit -m \"Deploy\" && git push heroku master & cd .. & npm run heroku-logs",
+    "deploy-backend-prod": "cd server && heroku config:set APPENV=prod && godep save ./... & git add . & git commit -m \"Deploy\" && git push heroku master & cd .. & npm run heroku-logs",
+    "deploy-frontend-dev": "cross-var \"cd client && yarn build && firebase use $npm_package_config_servernamedev && firebase deploy\"",
+    "deploy-frontend-prod": "cross-var \"cd client && yarn build && firebase use $npm_package_config_servernameprod && firebase deploy\"",
     "deploy-serverless": "cd serverless/functions/ && firebase deploy --only functions --debug && cd ..",
-    "heroku-backend-refresh": "cross-var \"cd server & heroku git:remote -a cavalry-app & heroku apps:destroy --app $npm_package_config_servername --confirm $npm_package_config_servername & git init & git add . & heroku create $npm_package_config_servername & cd ..\"",
+    "heroku-backend-refresh-dev": "cross-var \"cd server & heroku git:remote -a cavalry-app-dev & heroku apps:destroy --app $npm_package_config_servernamedev --confirm $npm_package_config_servernamedev & git init & git add . & heroku create $npm_package_config_servernamedev & cd ..\"",
+    "heroku-backend-refresh-prod": "cross-var \"cd server & heroku git:remote -a cavalry-app-prod & heroku apps:destroy --app $npm_package_config_servernameprod --confirm $npm_package_config_servernameprod & git init & git add . & heroku create $npm_package_config_servernameprod & cd ..\"",
     "heroku-logs": "cd server && heroku logs -a cavalry-app --tail && cd .."
   },
-  "dependencies": {}
+  "dependencies": {},
+  "devDependencies": {
+    "npm-run-all": "^4.1.3"
+  }
 }

@@ -7,3 +7,10 @@ config.toml
 firestore.json
 .tmp.drivedownload/*
 algolia.txt
+firestore_orig.json
+firestore_dev.json
+firestore_prod.json
+firestore.json
+firestore_dev_data.json
+firestore_orig_data.json
+firestore_prod_data.json

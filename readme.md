@@ -12,6 +12,7 @@
 - npm install -g concurrently
 - npm install -g cross-var
 - npm install -g firebase-tools
+- npm install -g npm-run-all
 
 # Atom Packages:
 - go-plus
@@ -36,7 +37,7 @@ PROJECT PATH
 - cd client/
 - npm install eslint@^4.1.1 && npm install --no-optional --no-shrinkwrap --no-package-lock
 - firebase login
-- firebase init; public, yes, no
+- firebase init; build, yes, no
 - heroku login
 
 # Server Setup:
@@ -75,7 +76,4 @@ PROJECT PATH
 - Stripe (limit $10, payment processing)
 
 # To Do
---server
---serverless
---client
-- filter by tag
+- 
