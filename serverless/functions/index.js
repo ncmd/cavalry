@@ -1,14 +1,10 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+
 admin.initializeApp();
 const db = admin.firestore();
 
-// // Algolia
 const algoliasearch = require('algoliasearch');
-// const algoliaFunctions = require('algolia-firebase-functions');
-// const algolia = algoliasearch(functions.config().algolia.app,functions.config().algolia.key);
-// const index = algolia.initIndex(functions.config().algolia.index);
-
 const ALGOLIA_ID = functions.config().algolia.app_id;
 const ALGOLIA_ADMIN_KEY = functions.config().algolia.api_key;
 const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key;

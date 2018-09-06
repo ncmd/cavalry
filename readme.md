@@ -1,3 +1,11 @@
+## Day 2 Day
+# Running app locally
+- npm run locally
+# Deployment
+- npm run deploy-all-x
+# Backup
+- npm run backup-all-x
+
 ## Dev Environment
 
 # Install:
@@ -61,10 +69,10 @@ PROJECT PATH
 - cd serverless/
 - firebase login
 - firebase init functions
-== DO NOT OVERWRITE ANYTHING
+- DO NOT OVERWRITE ANYTHING
 - cd serverless/functions
 - npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
-== Confirm Algolia Keys (algolia.txt)
+- Confirm Algolia Keys (algolia.txt)
 
 # Project Cost
 - Firebase Hosting (app size and data transferred)
@@ -75,5 +83,10 @@ PROJECT PATH
 - Authentication
 - Stripe (limit $10, payment processing)
 
+# Backup Setup
+- backup & Restore: utilities/index.js
+- files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
+
+
 # To Do
-- 
+-
