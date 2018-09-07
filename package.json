@@ -27,7 +27,7 @@
     "backup-firestore-prod": "cd utilities && npm run backup-prod",
     "backup-firestore-dev": "cd utilities && npm run backup-dev",
     "restore-firestore-prod": "cd utilities && npm run restore-prod",
-    "backup-all-x": "npm-run-al --parallel backup-firestore-prod backup-firestore-dev",
+    "backup-all-x": "npm-run-all --parallel backup-firestore-prod backup-firestore-dev",
     "deploy-all-x": "npm-run-all commit deploy-dev deploy-prod backup-firestore-dev backup-firestore-prod",
     "deploy-dev": "concurrently \"npm run deploy-frontend-dev\"",
     "deploy-prod": "concurrently \"npm run deploy-frontend-prod\" \"npm run deploy-backend\" \"npm run heroku-logs\" \"npm run deploy-serverless\"",

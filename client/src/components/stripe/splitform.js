@@ -151,7 +151,7 @@ class SplitForm extends Component {
                           {...this.createOptions(this.props.fontSize)}
                       />
                   </label><br/>
-                  <label style={{color:'white' , width:100}}>
+                <label style={{color:'white' , width:200}}>
                       Postal Code
                       <PostalCodeElement
                           onBlur={this.handleBlur}
@@ -162,12 +162,6 @@ class SplitForm extends Component {
                       />
                   </label><br/>
                   <button style={{width:'100%'}}>Pay</button>
-                    {this.state.error
-                    ?
-                    this.renderConfirmedPayment()
-                    :
-                    this.renderPaymentError()
-                    }
                   <br/>
                   <img src="./images/powered_by_stripe.png" alt="Powered By Strip" style={{width:250, marginBottom:20}}/>
                   <Typography variant="caption" style={{color:'white'}}>Stripe is a secure PCI compliant Credit Card Processing Service and your credit card information is sent directly to them. <br/>For more information:  <a href={'https://stripe.com/docs/security'} target="_blank">https://stripe.com/docs/security</a></Typography>

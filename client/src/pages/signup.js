@@ -350,8 +350,8 @@ class Signup extends Component {
     renderSignup() {
         return (
             <Grid style={{background:'transparent'}} container direction={'column'} justify={'center'} alignItems={'center'}>
-                <Paper square={false} style={{background:'#283593', height:580,width:428,maxWidth:"100%", marginTop:20}}>
-                    <Grid item style={{margin:20, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
+                <Paper square={false} style={{background:'#283593', width:428,maxWidth:"100%", marginTop:10}}>
+                    <Grid item style={{margin:50, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
                         <Typography variant="headline" style={{color:'white', marginTop:40}}>
                             Create your account
                         </Typography>
@@ -410,9 +410,10 @@ class Signup extends Component {
         const {elementFontSize} = this.state;
 
         return (
-            <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"30em"}} alignItems="center" direction="column" justify="center" >
+            <Grid container style={{ background:'transparent'}} alignItems="center" direction="column" justify="center" >
+              <Paper square={false} style={{background:'#283593',width:628,maxWidth:"100%", marginTop:10}}>
                 <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}>Cavalry Subscription</Typography><br/>
-                <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:40}} >
+                <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:50, marginTop:50}} >
                     <StripeProvider stripe={this.state.stripe}>
                         <div className="Checkout" >
                           <Typography variant="caption" style={{color:'#b2b9e1'}}>
@@ -435,6 +436,7 @@ class Signup extends Component {
                         </Typography>
                     </Button>
                 </Grid>
+              </Paper>
             </Grid>
         )
     }
@@ -474,7 +476,7 @@ class Signup extends Component {
                         flexGrow: 1,
                         justify: 'center',
                         background: bodyBlue,
-                        height:this.state.height
+                        height: this.state.height+200
                     }}
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >

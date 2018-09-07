@@ -27,8 +27,11 @@ class banner extends Component {
                             </Typography>
                         </Grid>
                         <Grid item xs={12} style={{ borderColor:'#474f97', textTransform: 'none'}}>
+                            <Typography style={{color:'white', textAlign:'center'}} variant={"subheading"} >
+                                "Everybody has a plan until they get <b>punched</b> in the mouth" - Mike Tyson.<br/>
+                            </Typography>
                             <Typography style={{color:'#b2b9e1', textAlign:'center'}} variant={"subheading"} >
-                                <b style={{color:'white'}}>Cavalry</b> is a crowdsourced database of runbooks help you make the best decisions during an incident or repetitive event<br/>— when you execute, it helps you coordinate all tasks with your team and connects you with <b style={{color:'white'}}>Cavalry</b><span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🐎</span> professionals!
+                                <b style={{color:'white'}}>Cavalry</b> is a crowdsourced database of runbooks to help you make the best decisions during an incident.
                             </Typography>
                         </Grid>
                     </Grid>
