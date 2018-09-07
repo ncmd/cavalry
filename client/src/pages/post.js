@@ -112,7 +112,7 @@ class Post extends Component {
                         flexGrow: 1,
                         justify: 'center',
                         background: bodyBlue,
-                        height:this.state.height+1000
+                        minHeight:this.state.height
                     }}
                 >
                     {/* Top Section */}

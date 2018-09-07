@@ -141,7 +141,7 @@ class SplitForm extends Component {
                           {...this.createOptions(this.props.fontSize)}
                       />
                   </label>{' '}
-                  <label  style={{color:'white' ,width:100}}>
+                  <label  style={{color:'white' ,width:100, marginLeft:10}}>
                       CVC
                       <CardCVCElement
                           onBlur={this.handleBlur}

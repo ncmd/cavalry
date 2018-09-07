@@ -96,6 +96,7 @@ class Landing extends Component {
                           flexGrow: 1,
                           justify: 'center',
                           background: bodyBlue,
+                          minHeight:this.state.height
                       }}
                   >
                   {this.renderBannerIfLoggedIn(this.state.isLoggedIn)}

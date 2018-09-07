@@ -118,25 +118,20 @@ class subscribe extends Component {
                         <Form>
                             <FormGroup>
                                 <Grid container style={{ flexGrow:1 }} spacing={0} direction={'row'} justify={'center'} alignItems={'center'} >
-                                  <Grid item xs>{}</Grid>
-
-                                    <Grid style={{flexGrow:1}} item xs={6}>
+                                    <Grid item >
                                       <InputGroup >
                                           <InputGroupAddon addonType="prepend">
                                               <InputGroupText style={{background:'#283593', border:'0'}}><span aria-label="emoji" role="img">📧</span></InputGroupText>
                                           </InputGroupAddon>
                                           {this.state.validEmail
                                               ?
-                                              <Input style={{background:'#283593', color:'white'}} valid placeholder="Email Address" onChange={this.handleEmail('email')}/>
+                                              <Input style={{background:'#283593', color:'white'}} valid placeholder="Enter email address" onChange={this.handleEmail('email')}/>
                                               :
-                                              <Input style={{background:'#283593', color:'white', border:0}} invalid placeholder="Email Address" onChange={this.handleEmail('email')}/>
+                                              <Input style={{background:'#283593', color:'white', border:0}} invalid placeholder="Enter email address" onChange={this.handleEmail('email')}/>
                                           }
                                           {this.renderErrorEmail()}
                                           {this.renderSubscribeButton()}
                                       </InputGroup>
-                                    </Grid>
-                                    <Grid item xs>
-                                    {}
                                     </Grid>
                                 </Grid>
                             </FormGroup>

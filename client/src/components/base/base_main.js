@@ -52,7 +52,7 @@ class Base extends Component {
                         flexGrow: 1,
                         justify: 'center',
                         background: bodyBlue,
-                        height:this.state.height
+                        minHeight:this.state.height
                     }}
                 >
                     {/* Top Section */}

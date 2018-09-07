@@ -29,6 +29,7 @@ class Signup extends Component {
             stripe:null,
             showAccountCreation: true,
             showPaymentOption: false,
+            showSelectPlan:false,
             email:'',
             password:'',
             confirmpassword:'',
@@ -210,18 +211,26 @@ class Signup extends Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
-    handleContinue(){
+    handleAccountCreation(){
 
         if (this.state.emailError === null ){
             this.setState({
                 showAccountCreation: !this.state.showAccountCreation,
-                showPaymentOption: !this.state.showPaymentOption,
+                showSelectPlan: !this.state.showSelectPlan,
                 sContact: false,
                 recaptcha: ''
             });
             this.props.setUserEmail(this.state.email,this.state.password);
         }
     };
+
+    handleSelectPlan(){
+      if (this.state.emailError === null ){
+          this.setState({
+              showPaymentOption: !this.state.showPaymentOption,
+          });
+      }
+    }
 
     handleCancel(){
         this.setState({
@@ -231,7 +240,16 @@ class Signup extends Component {
             recaptcha: '',
             emailError: null
         });
+    };
 
+    handleSelectPlanCancel(){
+        this.setState({
+            showAccountCreation: !this.state.showAccountCreation,
+            showPaymentOption: !this.state.showPaymentOption,
+            sContact: false,
+            recaptcha: '',
+            emailError: null
+        });
     };
 
     handleChangeRecaptcha(event) {
@@ -298,7 +316,7 @@ class Signup extends Component {
         if (this.state.validEmail === true && this.state.recaptcha !== ''){
             if(this.state.validEmail === true && this.state.validPassword === true && this.state.validConfirmPassword === true && this.state.recaptcha !== '' && this.state.emailExists === false){
                 return(
-                    <Button raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:20}}  onClick={() =>this.handleContinue()}>Continue</Button>
+                    <Button raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:20}}  onClick={() =>this.handleAccountCreation()}>Continue</Button>
                 )
             } if(this.state.validEmail === true && this.state.validPassword === true && this.state.validConfirmPassword === true && this.state.recaptcha !== '' && this.state.emailExists === true){
                 return(
@@ -353,8 +371,9 @@ class Signup extends Component {
                 <Paper square={false} style={{background:'#283593', width:428,maxWidth:"100%", marginTop:10}}>
                     <Grid item style={{margin:50, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
                         <Typography variant="headline" style={{color:'white', marginTop:40}}>
-                            Create your account
+                            <b>Create your account</b>
                         </Typography>
+
                         <InputGroup style={{marginTop:40}}>
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">📮</span></InputGroupText>
@@ -404,6 +423,28 @@ class Signup extends Component {
             </Grid>
         )
     }
+    renderSelectPlan(){
+      return (
+          <Grid container style={{ background:'transparent'}} alignItems="center" direction="column" justify="center" >
+            <Paper square={false} style={{background:'#283593',width:628,maxWidth:"100%", marginTop:10}}>
+              <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}><b>Select Plan</b></Typography><br/>
+              <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:50, marginTop:0}} >
+                  <Grid container style={{ background:'transparent'}} alignItems="center" direction="column" justify="center" spacing={8}>
+                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>1 Year Starter</Typography></Button></Grid>
+                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>1 Year Starter</Typography></Button></Grid>
+                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>1 Year Starter</Typography></Button></Grid>
+                    <Grid item ><Button raised="true" variant="raised" style={{marginLeft:'auto',marginRight:'auto',height:40, background:'#F44336', marginTop: 20,width:290}} onClick={() =>this.handleSelectPlanCancel()}>
+                        <Typography style={{color:'white'}} variant={"body2"} >
+                            cancel
+                        </Typography>
+                    </Button></Grid>
+                  </Grid>
+
+              </Grid>
+            </Paper>
+          </Grid>
+        )
+    }
 
     renderSubscription(){
 
@@ -412,8 +453,8 @@ class Signup extends Component {
         return (
             <Grid container style={{ background:'transparent'}} alignItems="center" direction="column" justify="center" >
               <Paper square={false} style={{background:'#283593',width:628,maxWidth:"100%", marginTop:10}}>
-                <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}>Cavalry Subscription</Typography><br/>
-                <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:50, marginTop:50}} >
+                <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}><b>Cavalry subscription</b></Typography><br/>
+                <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:50, marginTop:0}} >
                     <StripeProvider stripe={this.state.stripe}>
                         <div className="Checkout" >
                           <Typography variant="caption" style={{color:'#b2b9e1'}}>
@@ -459,6 +500,11 @@ class Signup extends Component {
         if (this.state.showAccountCreation === true){
             content = this.renderSignup()
         }
+
+        if (this.state.showSelectPlan === true){
+            content = this.renderSelectPlan()
+        }
+
 
         if (this.state.showPaymentOption === true){
             content = this.renderSubscription()
