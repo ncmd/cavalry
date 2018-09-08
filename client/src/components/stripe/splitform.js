@@ -161,10 +161,9 @@ class SplitForm extends Component {
                           {...this.createOptions(this.props.fontSize)}
                       />
                   </label><br/>
-                  <button style={{width:'100%'}}>Pay</button>
+                <button style={{width:'50%'}}>Pay</button>
                   <br/>
                   <img src="./images/powered_by_stripe.png" alt="Powered By Strip" style={{width:250, marginBottom:20}}/>
-                  <Typography variant="caption" style={{color:'white'}}>Stripe is a secure PCI compliant Credit Card Processing Service and your credit card information is sent directly to them. <br/>For more information:  <a href={'https://stripe.com/docs/security'} target="_blank">https://stripe.com/docs/security</a></Typography>
               </form>
           );
         }

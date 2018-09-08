@@ -23,15 +23,15 @@ class banner extends Component {
                     <Grid container style={{ flexGrow:1, margin:"0 auto", maxWidth:"63em", }} >
                         <Grid item xs={12} style={{ borderColor:'#474f97', textTransform: 'none'}}>
                             <Typography style={{color:'white', textAlign:'center', padding:10, margin:'auto'}} variant={"headline"} >
-                                Find your Runbook to <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🚨</span>️ Detect, <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🚀</span> Respond, & <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>📊</span> Report
+                                Find your Runbook to<span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>👁️</span>️<b>Detect</b>,<span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🚀</span><b>Respond</b>,<span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>📊</span><b>Report</b>
                             </Typography>
                         </Grid>
                         <Grid item xs={12} style={{ borderColor:'#474f97', textTransform: 'none'}}>
                             <Typography style={{color:'white', textAlign:'center'}} variant={"subheading"} >
-                                "Everybody has a plan until they get <b>punched</b> in the mouth" - Mike Tyson.<br/>
+                                "Everybody has a plan until they get <b>punched</b> in the mouth." - Mike Tyson<br/>
                             </Typography>
                             <Typography style={{color:'#b2b9e1', textAlign:'center'}} variant={"subheading"} >
-                                <b style={{color:'white'}}>Cavalry</b> is a crowdsourced database of runbooks to help you make the best decisions during an incident.
+                                <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🐎️</span><b style={{color:'white'}}>Cavalry</b> is a crowdsourced database of runbooks to help you make the best decisions during an incident.
                             </Typography>
                         </Grid>
                     </Grid>

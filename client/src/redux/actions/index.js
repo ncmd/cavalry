@@ -27,7 +27,8 @@ import {
     ADD_GROUP_DEPARTMENT,
     ADD_GROUP_LOCATION,
     ADD_GROUPS,
-    ADD_ACCOUNT
+    ADD_ACCOUNT,
+    SET_THEME,
 } from './types';
 
 let backend = ''

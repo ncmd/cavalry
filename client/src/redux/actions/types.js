@@ -31,3 +31,4 @@ export const ADD_GROUP_LOCATION = 'add_group_location';
 export const ADD_GROUP_CLEAR = 'add_group_clear';
 export const ADD_GROUPS = 'add_groups';
 export const ADD_ACCOUNT = 'add_account';
+export const SET_THEME = 'set_theme';

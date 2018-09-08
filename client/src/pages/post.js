@@ -78,11 +78,11 @@ class Post extends Component {
         this.state.objectives.map( (obj,index) => {
           // console.log("OOOO:",obj)
           return(
-            <Grid key={obj.title} style={{background:'white', maxWidth:'50em', margin:20}} container spacing={8} alignItems={'center'} justify={'flex-start'} direction={'column'}  >
-                <Grid style={{marginTop:30, marginLeft:50, marginRight:'auto',maxWidth:'50em'}} item>
+            <Grid key={obj.title} style={{background:'white',margin:0, padding:0}} container alignItems={'center'} justify={'flex-start'} direction={'column'}  >
+                <Grid style={{marginTop:30}} item>
                   <Typography variant={'headline'} style={{color:'black'}}>{obj.title}</Typography>
                 </Grid>
-                <Grid style={{marginTop:20, marginLeft:50, marginRight:'auto', maxWidth:'50em', marginBottom:50}} item>
+                <Grid style={{margin:0, padding:0}} item>
                   <div dangerouslySetInnerHTML={{__html: obj.description}} />
                 </Grid>
               </Grid>
@@ -116,21 +116,26 @@ class Post extends Component {
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{height:200,background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'column'}>
-                      <Grid style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em',  marginTop:10, }} item xs>
+
+                    <Grid container style={{ background:'#283593',borderColor:'#474f97',  margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'column'}>
+                      <Grid item xs>
                         <Typography variant={'display1'} style={{color:'white'}}>{this.state.postTitle}</Typography><br/>
                       </Grid>
-                      <Grid style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em'}} item xs>
+                      <Grid item xs>
                         <Typography variant={'subheading'} style={{color:'white'}}>{this.state.postDescription}</Typography>
                       </Grid>
-                    </Grid>
-                    <Grid container style={{ background:'#283593',borderColor:'#474f97',  margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
                       <Grid item xs style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em', marginBottom:10}}>
-                        <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+this.findAndReplace(this.findAndReplace(this.state.postTitle,' ','-'),'\'','')+'/edit'}}>
-                         <Button style={{background:"linear-gradient(to right, #ff1744, #F44336 "}}>
-                           <Typography style={{color:'white'}}>Edit</Typography>
-                         </Button>
-                       </Link>
+                        {this.props.users.logged
+                          ?
+                          <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+this.findAndReplace(this.findAndReplace(this.state.postTitle,' ','-'),'\'','')+'/edit'}}>
+                           <Button style={{background:"linear-gradient(to right, #ff1744, #F44336 "}}>
+                             <Typography style={{color:'white'}}>Edit</Typography>
+                           </Button>
+                         </Link>
+                          :
+                          <div></div>
+                        }
+
                       </Grid>
                     </Grid>
 

@@ -31,9 +31,9 @@ const MySearchBox = ({currentRefinement, refine}) =>
 <form>
   <InputGroup>
       <InputGroupAddon addonType="prepend">
-          <InputGroupText style={{background:'#283593', border:'0'}}><span aria-label="emoji" role="img">🔍</span></InputGroupText>
+          <InputGroupText style={{background:'#283593', border:'0',paddingLeft:6,paddingRight:6, height:36}}><span aria-label="emoji" role="img">🔍</span></InputGroupText>
       </InputGroupAddon>
-      <Input style={{background:'#283593', border:'0', color:'white'}} type="text" name="search" id="runbookSearch" placeholder="Search..." value={currentRefinement} onChange={e => refine(e.target.value)}/>
+      <Input style={{background:'#283593', border:'0', color:'white',padding:0, height:36}} type="text" name="search" id="runbookSearch" placeholder="Search..." value={currentRefinement} onChange={e => refine(e.target.value)}/>
   </InputGroup>
 </form>
 

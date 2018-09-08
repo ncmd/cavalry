@@ -230,7 +230,7 @@ class Login extends Component {
                             <Paper square={false} style={{background:'#283593', height:425,width:428,maxWidth:"95%", marginTop:20}}>
                                 <Grid item style={{margin:20, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
                                     <Typography variant="headline" style={{color:'white', marginTop:40}}>
-                                        Log in to your account
+                                        <b>Log in to your account</b>
                                     </Typography>
                                     <InputGroup style={{marginTop:40}}>
                                         <InputGroupAddon addonType="prepend">
@@ -238,9 +238,9 @@ class Login extends Component {
                                         </InputGroupAddon>
                                         {this.state.validEmail
                                             ?
-                                            <Input valid placeholder="Email Address" onChange={this.handleEmail('email')}/>
+                                            <Input valid  style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
                                             :
-                                            <Input invalid placeholder="Email Address" onChange={this.handleEmail('email')}/>
+                                            <Input invalid  style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
                                         }
                                     </InputGroup>
                                     <InputGroup style={{marginTop:40}}>
@@ -249,9 +249,9 @@ class Login extends Component {
                                         </InputGroupAddon>
                                         {this.state.validPassword
                                             ?
-                                            <Input valid type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
+                                            <Input valid  style={{border:0}} type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
                                             :
-                                            <Input invalid type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
+                                            <Input invalid  style={{border:0}} type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
                                         }
                                     </InputGroup>
                                     {this.renderButton()}

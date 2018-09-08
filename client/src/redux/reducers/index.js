@@ -8,6 +8,7 @@ import submit from './submitReducer';
 import path from './pathReducer';
 import groupsReducer from './groupsReducer';
 import accountReducer from './accountReducer';
+import themeReducer from './themeReducer';
 
 const rootReducer = combineReducers({
   users:usersReducer,
@@ -18,7 +19,8 @@ const rootReducer = combineReducers({
   email:emailReducer,
   search,
   submit,
-  path
+  path,
+  theme:themeReducer,
 })
 
 export default rootReducer;

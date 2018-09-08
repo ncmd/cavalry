@@ -43,6 +43,9 @@ class Signup extends Component {
             recaptcha:'',
             userSuccessfullySubscribed:false,
             tooltipEmailError:'',
+            selectItem1:true,
+            selectItem2:false,
+            selectItem3:false,
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         window.addEventListener('resize', () => {
@@ -368,7 +371,7 @@ class Signup extends Component {
     renderSignup() {
         return (
             <Grid style={{background:'transparent'}} container direction={'column'} justify={'center'} alignItems={'center'}>
-                <Paper square={false} style={{background:'#283593', width:428,maxWidth:"100%", marginTop:10}}>
+                <Paper square={false} style={{background:'#283593', width:428,maxWidth:"100%", marginTop:20}}>
                     <Grid item style={{margin:50, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
                         <Typography variant="headline" style={{color:'white', marginTop:40}}>
                             <b>Create your account</b>
@@ -426,16 +429,16 @@ class Signup extends Component {
     renderSelectPlan(){
       return (
           <Grid container style={{ background:'transparent'}} alignItems="center" direction="column" justify="center" >
-            <Paper square={false} style={{background:'#283593',width:628,maxWidth:"100%", marginTop:10}}>
+            <Paper square={false} style={{background:'#283593',width:628,maxWidth:"100%", marginTop:20}}>
               <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}><b>Select Plan</b></Typography><br/>
               <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:50, marginTop:0}} >
                   <Grid container style={{ background:'transparent'}} alignItems="center" direction="column" justify="center" spacing={8}>
-                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>1 Year Starter</Typography></Button></Grid>
-                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>1 Year Starter</Typography></Button></Grid>
-                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>1 Year Starter</Typography></Button></Grid>
-                    <Grid item ><Button raised="true" variant="raised" style={{marginLeft:'auto',marginRight:'auto',height:40, background:'#F44336', marginTop: 20,width:290}} onClick={() =>this.handleSelectPlanCancel()}>
+                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>Free</Typography></Button></Grid>
+                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>1 Month Pro</Typography></Button></Grid>
+                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>12 Months Business</Typography></Button></Grid>
+                    <Grid item ><Button raised="true" variant="raised" style={{marginLeft:'auto',marginRight:'auto',height:40, background:'#F44336', marginTop: 20,width:290}} onClick={() =>this.handleSelectPlan()}>
                         <Typography style={{color:'white'}} variant={"body2"} >
-                            cancel
+                            Next
                         </Typography>
                     </Button></Grid>
                   </Grid>
@@ -452,7 +455,7 @@ class Signup extends Component {
 
         return (
             <Grid container style={{ background:'transparent'}} alignItems="center" direction="column" justify="center" >
-              <Paper square={false} style={{background:'#283593',width:628,maxWidth:"100%", marginTop:10}}>
+              <Paper square={false} style={{background:'#283593',width:628,maxWidth:"100%", marginTop:20}}>
                 <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}><b>Cavalry subscription</b></Typography><br/>
                 <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:50, marginTop:0}} >
                     <StripeProvider stripe={this.state.stripe}>
@@ -493,6 +496,28 @@ class Signup extends Component {
       )
     }
 
+    handleClickItem1(){
+      this.setState({
+        selectItem1:true,
+        selectItem2:false,
+        selectItem3:false,
+      })
+    }
+    handleClickItem2(){
+      this.setState({
+        selectItem1:false,
+        selectItem2:true,
+        selectItem3:false,
+      })
+    }
+    handleClickItem3(){
+      this.setState({
+        selectItem1:false,
+        selectItem2:false,
+        selectItem3:true,
+      })
+    }
+
     render() {
 
         let content = {};
@@ -514,6 +539,8 @@ class Signup extends Component {
           content = this.renderThankYou()
         }
 
+        const {elementFontSize} = this.state;
+
         return (
             <div>
                 <Header/>
@@ -522,16 +549,90 @@ class Signup extends Component {
                         flexGrow: 1,
                         justify: 'center',
                         background: bodyBlue,
-                        height: this.state.height+200
+                        paddingLeft:10,
+                        paddingRight:10,
+
                     }}
                 >
-                    <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
-                        <Grid style={{background:'transparent', width:'100%',height:105, marginTop:20}} container direction={'row'} justify={'center'} alignItems={'center'}>
-                            <Paper style={{height:105, paddingLeft:20,paddingRight:20, background: "linear-gradient(to right, #ff1744, #F44336 "}}>
-                                <Typography variant="display3"  style={{color:'white',textAlign:"center", marginTop:'auto',marginBottom:'auto', padding:'10px 0'}}>CAVALRY</Typography>
-                            </Paper>
+                    <Grid container style={{flexGrow:1, margin:"0 auto", paddingTop:10, paddingBottom:20, maxWidth:"50em", background:"#1a237e"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
+                      <Grid item style={{marginLeft:'auto',marginRight:'auto'}}>
+                        <Typography variant={'headline'} style={{color:'white'}}><b>Cheaper than your <span aria-label="emoji" role="img">☕</span> coffee habit <span aria-label="emoji" role="img">😎</span></b></Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
+                      <Grid item>
+                        <Typography variant={'subheading'} style={{color:'white'}}>
+                          <Typography style={{background:'red', width:25,height:25, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography> <b>Select</b> a plan that works for you:
+                        </Typography>
+                      </Grid>
+                      </Grid>
+                        <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
+                          <Grid item>
+                            {this.state.selectItem1
+                              ?
+                              <Button style={{background:'white', height:250, width:285, border:'5px solid #ff1744'}} onClick={()=> {this.handleClickItem1()}}>1</Button>
+                              :
+                              <Button style={{background:'white', height:250, width:285}} onClick={()=> {this.handleClickItem1()}}>1</Button>
+                            }
+                          </Grid>
+                          <Grid item>
+                            {this.state.selectItem2
+                              ?
+                              <Button style={{background:'white', height:250, width:285, border:'5px solid #ff1744'}} onClick={()=> {this.handleClickItem2()}}>1</Button>
+                              :
+                              <Button style={{background:'white', height:250, width:285}} onClick={()=> {this.handleClickItem2()}}>1</Button>
+                            }
+                          </Grid>
+                          <Grid item>
+                            {this.state.selectItem3
+                              ?
+                              <Button style={{background:'white', height:250, width:285, border:'5px solid #ff1744'}} onClick={()=> {this.handleClickItem3()}}>1</Button>
+                              :
+                              <Button style={{background:'white', height:250, width:285}} onClick={()=> {this.handleClickItem3()}}>1</Button>
+                            }
+                          </Grid>
                         </Grid>
-                        {content}
+                    <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
+                      <Grid item>
+                        <Typography variant={'caption'} style={{color:'white'}}>All amounts are shown in USD</Typography>
+                      </Grid>
+                    </Grid>
+                    <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
+                      <Grid item>
+                        <Typography variant={'subheading'} style={{color:'white'}}>
+                          <Typography style={{background:'red', width:25,height:25, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography> Enter your email address
+                            <Typography variant={'caption'} style={{color:'white', marginTop:10}}> Privacy guarantee: We do not share your information and will contact you only as needed to provide our service.</Typography>
+                            <InputGroup style={{marginTop:20}}>
+                                <InputGroupAddon addonType="prepend">
+                                    <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">📧</span></InputGroupText>
+                                </InputGroupAddon>
+                                {this.state.validEmail
+                                ?
+                                <Input valid style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
+                                :
+                                <Input invalid  style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
+                            }
+                                {this.renderErrorEmail()}
+                            </InputGroup>
+                        </Typography>
+
+                      </Grid>
+                    </Grid>
+                    <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
+                      <Grid item>
+                        <Typography variant={'subheading'} style={{color:'white'}}>
+                          <Typography style={{background:'red', width:25,height:25, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>3</Typography> Enter payment information
+                        </Typography>
+                      </Grid>
+                      <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%', marginTop:0}} >
+                          <StripeProvider stripe={this.state.stripe}>
+                              <div className="Checkout" >
+                                  <Elements >
+                                      <SplitForm fontSize={elementFontSize} />
+                                  </Elements>
+                              </div>
+                          </StripeProvider>
+                      </Grid>
                     </Grid>
                 </div>
             </div>

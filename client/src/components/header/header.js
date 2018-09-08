@@ -21,6 +21,7 @@ import {AlgoliaSearch} from '../../components/algolia/config';
 // import InputLabel from '@material-ui/core/InputLabel';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import ArrowRight from '@material-ui/icons/ArrowRightAlt';
 // import FormControl from '@material-ui/core/FormControl';
 // import Select from '@material-ui/core/Select';
 
@@ -42,6 +43,7 @@ class header extends Component {
             path:'',
             open: false,
             anchorEl: null,
+            backgroundTheme:true
         };
         this.toggle = this.toggle.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -56,19 +58,6 @@ class header extends Component {
     // Gets Max Height of Window on Load
     componentDidMount() {
       this.props.getUser()
-      // console.log("Header this.props.users.logged:",this.props.users.logged)
-
-      // firebase.auth.onAuthStateChanged((response) => {
-      //     console.log("Response:",response)
-      //     if (response !== null){
-      //         this.setState({ isLoggedIn: true })
-      //     } else {
-      //         this.props.signoutUser()
-      //         this.setState({ isLoggedIn: false })
-      //     }
-      // })
-
-
 
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
@@ -87,17 +76,34 @@ class header extends Component {
 
       return (
         <Nav className="ml-auto" navbar>
+          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
+            {this.state.backgroundTheme
+              ?
+              <Button raised="true" variant="raised" style={{border:'white', height:30, backgroundImage:'radial-gradient(#F44336 0%, #1a237e 0%, #474f97 60%)', textTransform: 'none'}} onClick={() => this.setState({backgroundTheme:!this.state.backgroundTheme})} >
+                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                      <span aria-label="emoji" role="img">🌙<ArrowRight/>☀️</span>
+                  </Typography>
+              </Button>
+              :
+              <Button raised="true" variant="raised" style={{border:'white', height:30, background:'radial-gradient(#F44336 0%, #ff1744 0%, #F44336 60%)', textTransform: 'none'}} onClick={() => this.setState({backgroundTheme:!this.state.backgroundTheme})}  >
+                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                      <span aria-label="emoji" role="img">☀️<ArrowRight/>🌙</span>
+                  </Typography>
+              </Button>
+            }
 
-          <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
+          </NavItem>
+
+          <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
               <Link to={{pathname:'/login'}}>
-                  <Button raised="true" variant="raised" style={{height:30, background:'#474f97', marginRight:10, textTransform: 'none'}}>
+                  <Button raised="true" variant="raised" style={{height:30, background:'#474f97', textTransform: 'none'}}>
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                           <b>Log in</b>
                       </Typography>
                   </Button>
               </Link>
           </NavItem>
-          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
+          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             <Link to={{pathname:'/signup'}}>
                   <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
@@ -106,6 +112,7 @@ class header extends Component {
                   </Button>
               </Link>
           </NavItem>
+
           </Nav>
       )
     }
@@ -128,7 +135,7 @@ class header extends Component {
       const { anchorEl } = this.state;
       return (
         <Nav className="ml-auto" navbar>
-        <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
+        <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             <Link to={{pathname:'/submit'}}>
                 <Button style={{ height:30, background:headerSignupButton, marginRight:10, textTransform: 'none'}}  >
                     <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
@@ -138,7 +145,7 @@ class header extends Component {
             </Link>
 
         </NavItem>
-        <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
+        <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             <Link to={{pathname:'/manage'}}>
                 <Button style={{ height:30, background:manageButton, marginRight:10, textTransform: 'none'}}  >
                     <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
@@ -147,7 +154,7 @@ class header extends Component {
                 </Button>
             </Link>
         </NavItem>
-          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2, maxWidth:'60%'}}>
+          <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
                 <Button raised="true" variant="raised" style={{height:30, background:accountButton, color:'white',textTransform: 'none'}} onClick={this.handleClick}>
                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                   <b>Account <span aria-label="emoji" role="img">😊</span></b>
