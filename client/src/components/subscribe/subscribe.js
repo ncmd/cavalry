@@ -121,13 +121,13 @@ class subscribe extends Component {
                                     <Grid item >
                                       <InputGroup >
                                           <InputGroupAddon addonType="prepend">
-                                              <InputGroupText style={{background:'#283593', border:'0'}}><span aria-label="emoji" role="img">📧</span></InputGroupText>
+                                              <InputGroupText style={{background:'#283593', border:'0', borderRadius:'5px 0 0 5px'}}><span aria-label="emoji" role="img">📧</span></InputGroupText>
                                           </InputGroupAddon>
                                           {this.state.validEmail
                                               ?
-                                              <Input style={{background:'#283593', color:'white', borderRadius:'.25rem'}} valid placeholder="Enter email address" onChange={this.handleEmail('email')}/>
+                                              <Input style={{background:'#283593', color:'white', borderRadius:'0 5px 5px 0'}} valid placeholder="Enter email address" onChange={this.handleEmail('email')}/>
                                               :
-                                              <Input style={{background:'#283593', color:'white', border:0, borderRadius:'.25rem'}} invalid placeholder="Enter email address" onChange={this.handleEmail('email')}/>
+                                              <Input style={{background:'#283593', color:'white', border:0, borderRadius:'0 5px 5px 0'}} invalid placeholder="Enter email address" onChange={this.handleEmail('email')}/>
                                           }
                                           {this.renderErrorEmail()}
                                           {this.renderSubscribeButton()}

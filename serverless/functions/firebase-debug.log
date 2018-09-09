@@ -1,21 +1,21 @@
-[debug] [2018-09-07T06:28:35.060Z] ----------------------------------------------------------------------
-[debug] [2018-09-07T06:28:35.066Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\f\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy --only functions --debug
-[debug] [2018-09-07T06:28:35.067Z] CLI Version:   4.2.1
-[debug] [2018-09-07T06:28:35.068Z] Platform:      win32
-[debug] [2018-09-07T06:28:35.068Z] Node Version:  v8.11.4
-[debug] [2018-09-07T06:28:35.068Z] Time:          Thu Sep 06 2018 23:28:35 GMT-0700 (Pacific Daylight Time)
-[debug] [2018-09-07T06:28:35.068Z] ----------------------------------------------------------------------
+[debug] [2018-09-08T21:25:35.598Z] ----------------------------------------------------------------------
+[debug] [2018-09-08T21:25:35.602Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\f\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy --only functions --debug
+[debug] [2018-09-08T21:25:35.602Z] CLI Version:   4.2.1
+[debug] [2018-09-08T21:25:35.602Z] Platform:      win32
+[debug] [2018-09-08T21:25:35.602Z] Node Version:  v8.11.4
+[debug] [2018-09-08T21:25:35.602Z] Time:          Sat Sep 08 2018 14:25:35 GMT-0700 (Pacific Daylight Time)
+[debug] [2018-09-08T21:25:35.602Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-09-07T06:28:35.093Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-09-07T06:28:35.094Z] > authorizing via signed-in user
-[debug] [2018-09-07T06:28:35.101Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/cavalry-app-prod  
+[debug] [2018-09-08T21:25:35.611Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-09-08T21:25:35.612Z] > authorizing via signed-in user
+[debug] [2018-09-08T21:25:35.614Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/cavalry-app-prod  
  
-[debug] [2018-09-07T06:28:35.482Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:35.937Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Deploying to 'cavalry-app-prod'...
 [info] 
 [info] i  deploying functions
-[debug] [2018-09-07T06:28:40.007Z] > [functions] package.json contents: {
+[debug] [2018-09-08T21:25:38.827Z] > [functions] package.json contents: {
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "engines": {
@@ -45,34 +45,123 @@
   "private": true
 }
 [info] i  functions: ensuring necessary APIs are enabled...
-[debug] [2018-09-07T06:28:40.010Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/cavalry-app-prod?view=CONSUMER_VIEW  
+[debug] [2018-09-08T21:25:38.828Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/cavalry-app-prod?view=CONSUMER_VIEW  
  
-[debug] [2018-09-07T06:28:40.011Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/cavalry-app-prod?view=CONSUMER_VIEW  
+[debug] [2018-09-08T21:25:38.829Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/cavalry-app-prod?view=CONSUMER_VIEW  
  
-[debug] [2018-09-07T06:28:40.691Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:39.630Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:39.657Z] <<< HTTP RESPONSE 200
 [info] +  functions: all necessary APIs are enabled
-[debug] [2018-09-07T06:28:40.759Z] <<< HTTP RESPONSE 200
-[debug] [2018-09-07T06:28:40.759Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/cavalry-app-prod  
+[debug] [2018-09-08T21:25:39.658Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/cavalry-app-prod  
  
-[debug] [2018-09-07T06:28:41.414Z] <<< HTTP RESPONSE 200
-[debug] [2018-09-07T06:28:41.415Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/1063733856130:getServerAppConfig  
+[debug] [2018-09-08T21:25:39.971Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:39.972Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/1063733856130:getServerAppConfig  
  
-[debug] [2018-09-07T06:28:41.581Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:40.135Z] <<< HTTP RESPONSE 200
 [info] i  functions: preparing functions directory for uploading...
-[debug] [2018-09-07T06:28:41.588Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/cavalry-app-prod/configs  
+[debug] [2018-09-08T21:25:40.140Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/cavalry-app-prod/configs  
  
-[debug] [2018-09-07T06:29:02.603Z] FirebaseError: Server Error. connect ETIMEDOUT 216.58.195.234:443
-[error] 
-[error] Error: Error occurred while parsing your function triggers.
+[debug] [2018-09-08T21:25:40.323Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:40.323Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/cavalry-app-prod/configs/algolia/variables  
+ 
+[debug] [2018-09-08T21:25:40.549Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:40.550Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/cavalry-app-prod/configs/algolia/variables/api_key  
+ 
+[debug] [2018-09-08T21:25:40.550Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/cavalry-app-prod/configs/algolia/variables/app_id  
+ 
+[debug] [2018-09-08T21:25:40.551Z] >>> HTTP REQUEST GET https://runtimeconfig.googleapis.com/v1beta1/projects/cavalry-app-prod/configs/algolia/variables/search_key  
+ 
+[debug] [2018-09-08T21:25:40.677Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:40.684Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:40.704Z] <<< HTTP RESPONSE 200
+[info] i  functions: packaged functions (57.72 KB) for uploading
+[debug] [2018-09-08T21:25:41.403Z] >>> HTTP REQUEST POST https://cloudfunctions.googleapis.com/v1/projects/cavalry-app-prod/locations/us-central1/functions:generateUploadUrl  
+ 
+[debug] [2018-09-08T21:25:42.050Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:42.051Z] >>> HTTP REQUEST PUT https://storage.googleapis.com/gcf-upload-us-central1-db7a355a-5f52-4481-8bb0-fa0ef065c6eb/3f01cae1-62bd-4ea5-a329-865296f78a68.zip?GoogleAccessId=service-1063733856130@gcf-admin-robot.iam.gserviceaccount.com&Expires=1536443739&Signature=UJZj1n5liQefbeQZ7%2BcP1XerB9Ih1AqeutAX5H3I%2BrfErTTBMXIOfiurUn7G4bbzLhUBCpTFvg8TuASBa8zmdv2zt44c5DRohbLPt8yz%2B1H73Lps7EwWFKoBoCy%2FFj1Rh7BWHGXjhxVHuIQqwPAs3%2FDzB7NzJZj%2FINv2fFnMbjmRT6VssdFD%2Bx6Z5VqJc%2FLU7koTSqVQ%2FUg35ZrYsjlCvs3eJtp2SflNWtmDjejMSLNvx%2FU5AKMf1xUNCmyjhHypSEWco1QiqvKkCbcsBC7mfDp53USfb7TpLiN0wRM9g0XNG8EYWoOGn9kr0J5R3SkU3Yhe3k6CN3MKv8HqzSNILQ%3D%3D  
 
-TypeError: Cannot read property 'app_id' of undefined
-    at Object.<anonymous> (C:\Users\f\go\src\cavalry\serverless\functions\index.js:8:46)
-    at Module._compile (module.js:652:30)
-    at Object.Module._extensions..js (module.js:663:10)
-    at Module.load (module.js:565:32)
-    at tryModuleLoad (module.js:505:12)
-    at Function.Module._load (module.js:497:3)
-    at Module.require (module.js:596:17)
-    at require (internal/module.js:11:18)
-    at C:\Users\f\AppData\Roaming\npm\node_modules\firebase-tools\lib\triggerParser.js:21:11
-    at Object.<anonymous> (C:\Users\f\AppData\Roaming\npm\node_modules\firebase-tools\lib\triggerParser.js:75:3)
+[debug] [2018-09-08T21:25:42.542Z] <<< HTTP RESPONSE 200
+[info] +  functions: functions folder uploaded successfully
+[debug] [2018-09-08T21:25:42.544Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/projects/cavalry-app-prod/locations/-/functions  
+ 
+[debug] [2018-09-08T21:25:43.302Z] <<< HTTP RESPONSE 200
+[info] i  functions: updating Node.js 8 function onPostWrite(us-central1)...
+[debug] [2018-09-08T21:25:43.304Z] Trigger is:  {"eventTrigger":{"resource":"projects/cavalry-app-prod/databases/(default)/documents/posts/{postId}","eventType":"providers/cloud.firestore/eventTypes/document.write","service":"firestore.googleapis.com"}}
+[debug] [2018-09-08T21:25:43.306Z] >>> HTTP REQUEST PATCH https://cloudfunctions.googleapis.com/v1/projects/cavalry-app-prod/locations/us-central1/functions/onPostWrite 
+query params: {"updateMask":"sourceUploadUrl,name,labels,runtime,eventTrigger.resource,eventTrigger.eventType,eventTrigger.service"} 
+
+[debug] [2018-09-08T21:25:43.930Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:43.932Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:25:44.419Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:46.421Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:25:46.594Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:48.593Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:25:49.056Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:51.057Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:25:51.481Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:53.482Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:25:53.894Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:55.895Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:25:56.073Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:25:58.074Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:25:58.246Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:00.246Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:00.650Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:02.651Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:02.831Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:04.832Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:05.226Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:07.227Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:07.627Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:09.628Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:09.990Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:11.991Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:12.213Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:14.214Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:14.581Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:16.581Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:16.934Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:18.933Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:19.340Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:21.341Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:21.780Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:23.781Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:23.948Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:25.950Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:26.469Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:28.471Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:28.881Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:30.883Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:31.271Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:33.272Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:33.674Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-08T21:26:35.675Z] >>> HTTP REQUEST GET https://cloudfunctions.googleapis.com/v1/operations/Y2F2YWxyeS1hcHAtcHJvZC91cy1jZW50cmFsMS9vblBvc3RXcml0ZS80dGFiMjlHVU1lVQ  
+ 
+[debug] [2018-09-08T21:26:36.084Z] <<< HTTP RESPONSE 200
+[info] +  functions[onPostWrite(us-central1)]: Successful update operation. 
+[info] 
+[info] +  Deploy complete!
+[info] 
+[info] Project Console: https://console.firebase.google.com/project/cavalry-app-prod/overview
