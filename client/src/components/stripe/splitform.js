@@ -163,7 +163,7 @@ class SplitForm extends Component {
                   </label><br/>
                 <button style={{width:'50%'}}>Pay</button>
                   <br/>
-                  <img src="./images/powered_by_stripe.png" alt="Powered By Strip" style={{width:170, height:36, marginBottom:20}}/>
+                  <a href="http://stripe.com" ><img src="./images/powered_by_stripe.png" alt="Powered By Strip" style={{width:170, height:36, marginBottom:20}}/></a>
               </form>
           );
         }
