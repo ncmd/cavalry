@@ -15,7 +15,7 @@ import {Elements, StripeProvider} from "react-stripe-elements";
 import SplitForm from "../components/stripe/splitform";
 import { auth } from '../components/firebase';
 import Check from '@material-ui/icons/Check';
-
+import '../components/ribbon/ribbon.css';
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 
 class Signup extends Component {
@@ -557,7 +557,7 @@ class Signup extends Component {
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", paddingTop:10, paddingBottom:20, maxWidth:"50em", background:"#1a237e"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item style={{marginLeft:'auto',marginRight:'auto'}}>
-                        <Typography variant={'headline'} style={{color:'white'}}><b>Cheaper</b> than your monthly <span aria-label="emoji" role="img">☕</span> coffee habit <span aria-label="emoji" role="img">😎</span></Typography>
+                        <Typography variant={'headline'} style={{color:'white'}}><b>Cheaper</b> than your monthly <span aria-label="emoji" role="img">☕</span> coffee habit.</Typography>
                       </Grid>
                     </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
@@ -567,25 +567,27 @@ class Signup extends Component {
                         </Typography>
                       </Grid>
                       </Grid>
-                        <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
+                        <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", marginTop:20, maxWidth:"50em", padding:40}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
                           <Grid item style={{marginTop:10}}>
                             {this.state.selectItem1
                               ?
-                              <Button style={{background:'white', height:250, width:285, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem1()}}>
+                              <Button className="box" style={{background:'white', height:250, width:285, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem1()}}>
+                                <div className="ribbonblue"><span aria-label="emoji" role="img">❄️Cool❄️</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$7.99</b></Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$10.99</b></Typography>
                                   <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                                  <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$7.99</b> billed every 1 month</Typography>
+                                  <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$10.99</b> billed every 1 month</Typography>
                                 </div>
                               </Button>
                               :
-                              <Button style={{background:'white', height:230, width:265}} onClick={()=> {this.handleClickItem1()}}>
+                              <Button className="box" style={{background:'white', height:230, width:265}} onClick={()=> {this.handleClickItem1()}}>
+                                <div className="ribbonblue"><span aria-label="emoji" role="img">❄️Cool❄️</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$7.99</b></Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$10.99</b></Typography>
                                   <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$7.99</b> billed every 1 month</Typography>
+                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$10.99</b> billed every 1 month</Typography>
                                 </div>
                               </Button>
                             }
@@ -593,7 +595,8 @@ class Signup extends Component {
                           <Grid item style={{marginTop:10}}>
                             {this.state.selectItem2
                               ?
-                              <Button style={{background:'white', height:250, width:285, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem2()}}>
+                              <Button className="box" style={{background:'white', height:250, width:285, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem2()}}>
+                                <div className="ribbonred"><span aria-label="emoji" role="img">🔥Popular🔥</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
                                   <Typography style={{color:'black'}} variant={'display1'}><b>$8.33</b></Typography>
@@ -602,7 +605,8 @@ class Signup extends Component {
                                 </div>
                               </Button>
                               :
-                              <Button style={{background:'white', height:230, width:265}} onClick={()=> {this.handleClickItem2()}}>
+                              <Button className="box" style={{background:'white', height:230, width:265}} onClick={()=> {this.handleClickItem2()}}>
+                                <div className="ribbonred"><span aria-label="emoji" role="img">🔥Popular🔥</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
                                   <Typography style={{color:'black'}} variant={'display1'}><b>$8.33</b></Typography>
@@ -615,20 +619,22 @@ class Signup extends Component {
                           <Grid item style={{marginTop:10}}>
                             {this.state.selectItem3
                               ?
-                              <Button style={{background:'white', height:250, width:285, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem3()}}>
+                              <Button className="box" style={{background:'white', height:250, width:285, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem3()}}>
+                                   <div className="ribbonpurple"><span aria-label="emoji" role="img">💎Epic💎</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Lifetime</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$199.99</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>once</Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$299.99</b></Typography>
+                                  <Typography style={{textTransform:'none'}} variant={'caption'}>once only</Typography>
                                     <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$299.99</b> billed once </Typography>
                                 </div>
                               </Button>
                               :
-                              <Button style={{background:'white', height:230, width:265}} onClick={()=> {this.handleClickItem3()}}>
+                              <Button className="box" style={{background:'white', height:230, width:265}} onClick={()=> {this.handleClickItem3()}}>
+                                <div className="ribbonpurple"><span aria-label="emoji" role="img">💎Epic💎</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Lifetime</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$199.99</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>once</Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$299.99</b></Typography>
+                                  <Typography style={{textTransform:'none'}} variant={'caption'}>once only</Typography>
                                     <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$299.99</b> billed once only</Typography>
                                 </div>
                               </Button>
@@ -641,22 +647,22 @@ class Signup extends Component {
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item>
                         <Typography variant={'subheading'} style={{color:'white'}}>
-                          <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography> <b>Enter your email address</b>
+                          <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography> <b>Enter your email address:</b>
                         </Typography>
                       </Grid>
                     </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-                      <Grid item xs style={{ border:'1px solid #474f97', padding:40, margin:5}}>
-                        <Typography variant={'caption'} style={{color:'white'}}> <b>Privacy guarantee:</b> We do not share your information and will contact you only as needed to provide our service.</Typography>
+                      <Grid item xs style={{ border:'1px solid #474f97', padding:40, width:'100%'}}>
+                        <Typography variant={'body2'} style={{color:'white'}}> <b>Privacy guarantee:</b> We do not share your information and will contact you only as needed to provide our service.</Typography>
                         <InputGroup style={{marginTop:20}}>
                             <InputGroupAddon addonType="prepend">
                                 <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">📧</span></InputGroupText>
                             </InputGroupAddon>
                             {this.state.validEmail
                             ?
-                            <Input valid style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
+                            <Input valid style={{border:0}} placeholder="😎hacker@gmail.com" onChange={this.handleEmail('email')}/>
                             :
-                            <Input invalid  style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
+                            <Input invalid  style={{border:0}} placeholder="😎hacker@gmail.com" onChange={this.handleEmail('email')}/>
                         }
                             {this.renderErrorEmail()}
                         </InputGroup>
@@ -670,7 +676,7 @@ class Signup extends Component {
                       </Grid>
                     </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'row'} justify={'flex-start'} alignItems={'flex-start'}>
-                      <Grid item xs style={{ border:'1px solid #474f97', padding:40, margin:5}}>
+                      <Grid item xs style={{ padding:40, paddingTop:0,paddingBottom:0}}>
                           <StripeProvider stripe={this.state.stripe}>
                               <div className="Checkout" >
                                   <Elements >
@@ -679,10 +685,10 @@ class Signup extends Component {
                               </div>
                           </StripeProvider>
                       </Grid>
-                      <Grid item style={{ border:'1px solid #474f97', padding:40, margin:5}} xs>
+                      <Grid item style={{ border:'1px solid #474f97', padding:40}} xs>
                         <Typography style={{color:'white'}} variant={'title'}><b>This Plan includes:</b></Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 24/7 customer support by email</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 99.95% uptime</Typography>
+                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 95.9% SLA uptime</Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Security & encryption</Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Never selling your user data</Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 30 days risk-free</Typography>

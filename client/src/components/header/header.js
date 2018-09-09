@@ -208,7 +208,7 @@ class header extends Component {
                     <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',paddingTop:10,paddingLeft:1,paddingRight:1}} color={headerBlue} dark expand="sm">
                       <Grid container style={{flexGrow:1, margin:"0 auto"}} direction="row" justify="space-between" alignItems="flex-start" >
                         <Grid item xs>
-                          <Link to={{pathname:'/'}} style={{marginLeft:5}}>
+                          <Link to={{pathname:'/'}} style={{marginLeft:10}}>
                               <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
                                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                                     <b>Cavalry</b>
