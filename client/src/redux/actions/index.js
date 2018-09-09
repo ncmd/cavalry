@@ -28,7 +28,7 @@ import {
     ADD_GROUP_LOCATION,
     ADD_GROUPS,
     ADD_ACCOUNT,
-    SET_THEME,
+    // SET_THEME,
 } from './types';
 
 let backend = ''
@@ -217,8 +217,8 @@ export const emailJidoka = (email,recaptcha) => async dispatch => {
 };
 
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
-export const applySecurity = (email,recaptcha, date) => async dispatch => {
-    let data = {  email:"test@gmail.com", recaptcha:recaptcha, date:date};
+export const applySecurity = (email,recaptcha) => async dispatch => {
+    let data = {  email:email, recaptcha:recaptcha};
     const res = await axios.post(backend+'/api/apply', data );
     dispatch({ type: APPLY_SECURITY, payload: res.data });
 };

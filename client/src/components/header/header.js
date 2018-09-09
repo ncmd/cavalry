@@ -21,7 +21,7 @@ import {AlgoliaSearch} from '../../components/algolia/config';
 // import InputLabel from '@material-ui/core/InputLabel';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-import ArrowRight from '@material-ui/icons/ArrowRightAlt';
+// import ArrowRight from '@material-ui/icons/ArrowRightAlt';
 // import FormControl from '@material-ui/core/FormControl';
 // import Select from '@material-ui/core/Select';
 
@@ -76,7 +76,7 @@ class header extends Component {
 
       return (
         <Nav className="ml-auto" navbar>
-          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
+          {/*<NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             {this.state.backgroundTheme
               ?
               <Button raised="true" variant="raised" style={{border:'white', height:30, backgroundImage:'radial-gradient(#F44336 0%, #1a237e 0%, #474f97 60%)', textTransform: 'none'}} onClick={() => this.setState({backgroundTheme:!this.state.backgroundTheme})} >
@@ -91,8 +91,7 @@ class header extends Component {
                   </Typography>
               </Button>
             }
-
-          </NavItem>
+          </NavItem> */}
 
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
               <Link to={{pathname:'/login'}}>

@@ -1,6 +1,6 @@
 {
-  "name": "calvary",
-  "homepage": "calvarytactics.com",
+  "name": "cavalry",
+  "homepage": "cavalrytactics.com",
   "version": "1.0.0",
   "private": true,
   "engines": {
@@ -14,10 +14,10 @@
     "serverport": "8000",
     "hosteddev": "https://cavalry-app-dev.firebaseapp.com",
     "hostedprod": "https://cavalry-app-prod.firebaseapp.com",
-    "herokusitedev": "calvary-app-dev.herokuapp.com",
-    "herokusiteprod": "calvary-app-prod.herokuapp.com",
+    "herokusitedev": "cavalry-app.herokuapp.com",
+    "herokusiteprod": "cavalry-app.herokuapp.com",
     "gitusername": "ncmd",
-    "githubprojectname": "https://github.com/ncmd/calvary.git"
+    "githubprojectname": "https://github.com/ncmd/cavalry.git"
   },
   "scripts": {
     "commit": "git add . && git commit -m \"Deploy\" && git push",

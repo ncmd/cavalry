@@ -13,21 +13,21 @@ import (
 	"github.com/stripe/stripe-go/sub"
 )
 
-//func main() {
-//	// Only create 1 place with 1 service
-//	attachPlan(createService())
-
-// Product: prod_DNsVWKlAzjtCEu
-// Plan: plan_DNsV7QMhFmBH10
-//var monthlyService = "plan_DNrnS35z2a1m2z"
-//var emailAddress = "test1@gmail.com"
+// //Experiment with Main
+// func main() {
+// 	// Only create 1 place with 1 service
+// 	attachPlan(createService("1_month_service"), "1_month_plan", 3500)
 //
-//	// You can have many customers
-//	var newCustomer = createCustomer(createSource(emailAddress))
-//
-//	// Subscribe Customer
-//	newSubscriber(newCustomer, monthlyService)
-//}
+// 	// // Product: prod_DNsVWKlAzjtCEu
+// 	// // Plan: plan_DNsV7QMhFmBH10
+// 	// var monthlyService = "plan_DNrnS35z2a1m2z"
+// 	// var emailAddress = "test1@gmail.com"
+// 	//
+// 	// 	// You can have many customers
+// 	// 	var newCustomer = createCustomer(createSource(emailAddress))
+// 	// 	// Subscribe Customer
+// 	// 	newSubscriber(newCustomer, monthlyService)
+// }
 
 func newSubscriber(customer string) {
 	// Here we `make` a channel of strings buffering up to
@@ -41,32 +41,36 @@ func newSubscriber(customer string) {
 	time.Sleep(time.Second * 5)
 
 	// Later we can receive these two values as usual.
+	// plan_DNsV7QMhFmBH10 = Cavalry Subscription Plan
 	subscribeCustomer(<-messages, "plan_DNsV7QMhFmBH10")
 }
 
-func createService() string {
+// Creates a Service;
+// This should only be created for the first 3 plans (1m, 12m, lifetime)
+func createService(serviceName string) string {
 	stripe.Key = config.StripeTestSecretKey
 
 	params := &stripe.ProductParams{
-		Name: stripe.String("Cavalry Subscription"),
+		Name: stripe.String(serviceName),
 		Type: stripe.String(string(stripe.ProductTypeService)),
 	}
 	prod, _ := product.New(params)
 	fmt.Println("Product:", prod.ID)
-
 	return prod.ID
 }
 
-func attachPlan(prod string) string {
+// Creates a Attach Payment plan for service
+func attachPlan(productID string, planNickname string, planAmount int64) string {
 	stripe.Key = config.StripeTestSecretKey
 
 	params := &stripe.PlanParams{
-		ProductID: stripe.String(prod),
-		Nickname:  stripe.String("Cavalry Subscription Plan"),
+		ProductID: stripe.String(productID),
+		Nickname:  stripe.String(planNickname),
 		Interval:  stripe.String(string(stripe.PlanIntervalMonth)),
 		Currency:  stripe.String("usd"),
-		Amount:    stripe.Int64(1000),
+		Amount:    stripe.Int64(planAmount),
 	}
+	// Amount 1000 = $10.00
 	p, err := plan.New(params)
 	if err != nil {
 		log.Fatalln(err)
@@ -95,7 +99,6 @@ func createSource(emailaddress string) string {
 	return s.ID
 }
 
-//cus_DNU7cdW15Eu6jc
 func createCustomer(customerName string, token string) string {
 	stripe.Key = config.StripeTestSecretKey
 
@@ -107,8 +110,6 @@ func createCustomer(customerName string, token string) string {
 	params.SetSource(token)
 	cus, _ := customer.New(params)
 	fmt.Println("Customer:", cus.ID)
-
-	//subscribeCustomer(cus.ID,plan)
 	return cus.ID
 
 }

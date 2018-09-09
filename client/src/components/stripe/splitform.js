@@ -8,6 +8,9 @@ import {
     addUser
 } from '../../redux/actions';
 import * as auth from "../firebase/auth";
+import Button from '@material-ui/core/Button';
+
+const payButtonColor = "linear-gradient(to right, #ff1744, #F44336 ";
 
 class SplitForm extends Component {
 
@@ -16,15 +19,16 @@ class SplitForm extends Component {
         this.state = {
           complete: false,
           error:true,
-          paymentError: false,
+          paymentError: '',
+          cardnumber:false,
+          expirationdate:false,
+          cvc:false,
+          postalcode:false,
         };
     }
 
-    handleSubmit = (ev) => {
-        ev.preventDefault();
-
-        // This generate the token used to be send to Backend Source
-        if (this.props.stripe) {
+    handleSubmit = () => {
+      console.log("Clicked")
             this.props.stripe
                 .createToken()
                 .then((payload) => {
@@ -36,7 +40,7 @@ class SplitForm extends Component {
                   if (response === null){
                     this.setState({
                       complete: true,
-                      paymentError: null,
+                      paymentError: '',
                       error:false,
                     });
                   } else {
@@ -46,25 +50,48 @@ class SplitForm extends Component {
                     });
                   }
                 });
-        } else {
-            console.log("Stripe.js hasn't loaded yet.");
-        }
+
     };
 
     handleBlur = () => {
-        console.log('[blur]');
+        // console.log('[blur]');
     };
-    handleChange = (change) => {
-        console.log('[change]', change);
+    handleChangeCardNumber = cardnumber => event => {
+      console.log("cardnumber",event)
+        this.setState({
+          cardnumber: event.complete
+        })
     };
+
+    handleChangeExpirationDate = expirationdate => event => {
+      console.log("expirationdate",event)
+        this.setState({
+          expirationdate: event.complete
+        })
+    };
+
+    handleChangeCVC = cvc => event => {
+      console.log("cvc",event)
+        this.setState({
+          cvc: event.complete
+        })
+    };
+
+    handleChangePostalCode = postalcode => event => {
+      console.log("postalcode",event)
+        this.setState({
+          postalcode: event.complete
+        })
+    };
+
     handleClick = () => {
-        console.log('[click]');
+        // console.log('[click]');
     };
     handleFocus = () => {
-        console.log('[focus]');
+        // console.log('[focus]');
     };
     handleReady = () => {
-        console.log('[ready]');
+        // console.log('[ready]');
     };
 
     handleChangeRecaptcha(event) {
@@ -110,60 +137,70 @@ class SplitForm extends Component {
       )
     }
 
+    renderPayButton(){
+      if (this.state.cardnumber === true && this.state.expirationdate === true && this.state.cvc === true && this.state.postalcode === true){
+        return (
+          <Button style={{width:'50%', background:payButtonColor, color:'white', marginTop: 20, marginBottom: 20, textTransform:'none'}} onClick={() => {this.handleSubmit()}}><b>Pay</b></Button>
+        )
+      } else {
+        console.log(this.state.cardnumber,this.state.expirationdate,this.state.cvc,this.state.postalcode)
+        return (
+          <Button disabled style={{width:'50%', background:'grey', color:'white', marginTop: 20, marginBottom: 20, textTransform:'none'}}><b>Pay</b></Button>
+        )
+      }
+    }
+
 
 
     render() {
-        console.log(this.props.users.email);
         if (this.state.complete === true) {
-            return <h1>Purchase Complete</h1>;
-        }
-
-        if (this.state.complete === false) {
+            return <h1 style={{color:'white'}}>Purchase Complete!</h1>;
+        } else if (this.state.complete === false) {
           return (
               <form onSubmit={this.handleSubmit}>
                   <label style={{width:250, color:'white'}}>
-                      Card Number
+                    <Typography variant={'body2'} style={{color:'white'}}>Card Number</Typography>
                       <CardNumberElement
                           onBlur={this.handleBlur}
-                          onChange={this.handleChange}
+                          onChange={this.handleChangeCardNumber()}
                           onFocus={this.handleFocus}
                           onReady={this.handleReady}
                           {...this.createOptions(this.props.fontSize)}
                       />
                   </label><br/>
                   <label style={{color:'white'}}>
-                      Expiration Date
+                      <Typography variant={'body2'} style={{color:'white'}}>Expiration Date</Typography>
                       <CardExpiryElement
                           onBlur={this.handleBlur}
-                          onChange={this.handleChange}
+                          onChange={this.handleChangeExpirationDate()}
                           onFocus={this.handleFocus}
                           onReady={this.handleReady}
                           {...this.createOptions(this.props.fontSize)}
                       />
                   </label>{' '}
                   <label  style={{color:'white' ,width:100, marginLeft:10}}>
-                      CVC
+                      <Typography variant={'body2'} style={{color:'white'}}>CVC</Typography>
                       <CardCVCElement
                           onBlur={this.handleBlur}
-                          onChange={this.handleChange}
+                          onChange={this.handleChangeCVC()}
                           onFocus={this.handleFocus}
                           onReady={this.handleReady}
                           {...this.createOptions(this.props.fontSize)}
                       />
                   </label><br/>
                 <label style={{color:'white' , width:200}}>
-                      Postal Code
+                      <Typography variant={'body2'} style={{color:'white'}}>Postal Code</Typography>
                       <PostalCodeElement
                           onBlur={this.handleBlur}
-                          onChange={this.handleChange}
+                          onChange={this.handleChangePostalCode()}
                           onFocus={this.handleFocus}
                           onReady={this.handleReady}
                           {...this.createOptions(this.props.fontSize)}
                       />
                   </label><br/>
-                <button style={{width:'50%'}}>Pay</button>
+                {this.renderPayButton()}
                   <br/>
-                  <a href="http://stripe.com" ><img src="./images/powered_by_stripe.png" alt="Powered By Strip" style={{width:170, height:36, marginBottom:20}}/></a>
+                  <a href="http://stripe.com" target="_blank" rel="noopener noreferrer"><img src="./images/powered_by_stripe.png" alt="Powered By Strip" style={{width:170, height:36, marginBottom:20}}/></a>
               </form>
           );
         }

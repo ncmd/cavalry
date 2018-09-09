@@ -48,6 +48,10 @@ PROJECT PATH
 - firebase init; build, yes, no
 - heroku login
 
+# Firebase Authentication Setup
+- Enable email sign-in method
+- Add authorized domain: cavalry-app.herokuapp.com
+
 # Server Setup:
 - cd server/
 - go get -v golang.org/x/tools/cmd/goimports
@@ -89,4 +93,35 @@ PROJECT PATH
 
 
 # To Do
--
+- cancel subscription
+- reset user password with email
+- survive reddit hug of death
+- survive producthunt
+- time estimation per runbook
+- runbook: preparation phase
+- runbook: post mortem lessons learned
+- runbook: detection
+- runbook: mitigation
+- runbook: prevention
+- runbook: contacts
+- add day theme
+- request a runbook
+- Auto-populate objectives using google/wikihow results
+- Too much manual content creation
+- Fix Search, perhaps only show results instead of editing the entire landing page
+- Need to send out email to user when they paid for product and receipt
+- Need to send out an email to users when they subscribe
+- The edit form seems to always be different from when the view it later. Is it possible to be consistent
+- When viewing on mobile, it looks soooo bad
+- There are sometimes delays when rendering the landing page runbooks and viewing the runbook
+(Narrowed down issue because heroku shutdown after 30min of inactivity)
+- Need to see all their posts they created
+- Add comments on runbooks
+- Add comments on objectives
+- Add ratings on runbooks
+- Add ratings on objectives
+- Need private only runbooks
+- Need offline version because they do not want to share information to public
+- Slack integration
+- Phone text integration
+- Mobile App React Native

@@ -5,10 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    pingBackend,setUserEmail,emailJidoka,applySecurity
+    pingBackend,setUserEmail,applySecurity
 } from '../redux/actions';
 import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { InputGroup, InputGroupText, InputGroupAddon, Input ,FormFeedback } from 'reactstrap';
 import {Elements, StripeProvider} from "react-stripe-elements";
@@ -28,15 +27,13 @@ class Signup extends Component {
             status: null,
             elementFontSize: window.innerWidth < 450 ? '14px' : '18px',
             stripe:null,
-            showAccountCreation: true,
-            showPaymentOption: false,
-            showSelectPlan:false,
             email:'',
-            password:'',
+            password:'ChangePass@123',
             confirmpassword:'',
             error:null,
             emailExists:false,
             emailError:null,
+            emailChanged:true,
             scontact:false,
             validEmail: false,
             validPassword: false,
@@ -45,7 +42,7 @@ class Signup extends Component {
             userSuccessfullySubscribed:false,
             tooltipEmailError:'',
             selectItem1:false,
-            selectItem2:true,
+            selectItem2:false,
             selectItem3:false,
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -61,11 +58,10 @@ class Signup extends Component {
         });
 
         this.handleEmail = this.handleEmail.bind(this);
-        this.handlePassword = this.handlePassword.bind(this);
-        this.handleConfirmPassword = this.handleConfirmPassword.bind(this);
         this.handleChangeRecaptcha = this.handleChangeRecaptcha.bind(this);
         this.validateCaptchaClick = this.validateCaptchaClick.bind(this);
     }
+
 
     componentDidMount() {
         // Window Dimensions
@@ -85,8 +81,15 @@ class Signup extends Component {
 
         this.setState({
             [email]: event.target.value,
+            emailChanged: true
         }, () => {
             const emailRegex = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            setTimeout(() => {
+                this.setState({
+                  emailChanged:false
+                })
+            }, 900);
+
             if (emailRegex.test(email)) {
                 // // console.log("Valid Email Address:",email);
             } else {
@@ -101,7 +104,15 @@ class Signup extends Component {
             if (this.state.validEmail === true){
                 // // console.log(event.target.value);
                 this.validateEmail(this.state.email);
-                this.checkEmailExists(this.state.email);
+                setTimeout(() => {
+                  if(this.state.emailChanged === false){
+                    this.checkEmailExists(this.state.email);
+                    this.setState({
+                      sContact: false,
+                      recaptcha: ''
+                    })
+                  }
+                }, 1300);
             }
         });
 
@@ -111,96 +122,31 @@ class Signup extends Component {
         const emailRegex = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         if (emailRegex.test(email)) {
             // // console.log("Valid Email Address:",email);
-            this.setState({validEmail:true});
+            this.setState({
+              validEmail:true,
+              recaptcha:''
+            });
+            // this.checkEmailExists(email)
 
         } else {
             // Invalid phone number
             // // console.log("Invalid Email Address:",email);
-            this.setState({validEmail:false})
-        }
-    }
-
-
-    handlePassword = password => event => {
-
-        this.setState({
-            [password]: event.target.value,
-        }, () => {
-            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9!@#$%^&*)(+=._-]{8,}$/
-            if (passwordRegex.test(password)) {
-                this.setState({validPassword:true})
-            } else {
-                this.setState({validPassword:false})
-            }
-            if (this.state.validPassword === false){
-                // // console.log(event.target.value);
-                this.validatePassword(this.state.password);
-            }
-            if (this.state.validPassword === true){
-                // // console.log(event.target.value);
-                this.validatePassword(this.state.password);
-            }
-        });
-    };
-
-    validatePassword(password){
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[a-zA-Z0-9!@#[$%^&*)(+=._-]{8,}$/
-        if (passwordRegex.test(password)) {
-            // // console.log("Valid Email Address:",email);
-            this.setState({validPassword:true})
-        } else {
-            // Invalid phone number
-            // // console.log("Invalid Email Address:",email);
-            this.setState({validPassword:false})
-        }
-    }
-
-
-    handleConfirmPassword = confirmpassword => event => {
-
-        this.setState({
-            [confirmpassword]: event.target.value,
-        },() => {
-            const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/
-            if (passwordRegex.test(confirmpassword)) {
-                this.setState({validConfirmPassword:true})
-            } else {
-                this.setState({validConfirmPassword:false})
-            }
-            if (this.state.validConfirmPassword === false){
-                // // console.log(event.target.value);
-                this.validateConfirmPassword(this.state.confirmpassword);
-            }
-            if (this.state.validConfirmPassword === true){
-                // // console.log(event.target.value);
-                this.validateConfirmPassword(this.state.confirmpassword);
-            }
-            console.log(this.state.validPassword,this.state.validConfirmPassword)
-        })
-
-    };
-
-    validateConfirmPassword(confirmpassword){
-        if (this.state.password === confirmpassword) {
-            // // console.log("Valid Email Address:",email);
-            this.setState({validConfirmPassword:true})
-        } else {
-            // Invalid phone number
-            // // console.log("Invalid Email Address:",email);
-            this.setState({validConfirmPassword:false})
+            this.setState({
+              validEmail:false,
+              recaptcha:''
+            })
         }
     }
 
     checkEmailExists(email){
         auth.checkEmailExists(email).then((response) => {
-            console.log("Response:",response)
             if (response[0]=== "password"){
                 this.setState({
-                   emailExists:true,
-                    emailError:"Email Exists!",
-                    tooltipEmailError:'Email Exists!'
+                  validEmail:false,
+                  emailExists:true,
+                  emailError:"This email address exists. Login or reset password.",
+                  tooltipEmailError:'This email address exists. Login or reset password.'
                 });
-                console.log(email, this.state.emailError)
             }
         })
 
@@ -216,30 +162,13 @@ class Signup extends Component {
     }
 
     handleAccountCreation(){
-
         if (this.state.emailError === null ){
-            this.setState({
-                showAccountCreation: !this.state.showAccountCreation,
-                showSelectPlan: !this.state.showSelectPlan,
-                sContact: false,
-                recaptcha: ''
-            });
             this.props.setUserEmail(this.state.email,this.state.password);
         }
     };
 
-    handleSelectPlan(){
-      if (this.state.emailError === null ){
-          this.setState({
-              showPaymentOption: !this.state.showPaymentOption,
-          });
-      }
-    }
-
     handleCancel(){
         this.setState({
-            showAccountCreation: !this.state.showAccountCreation,
-            showPaymentOption: !this.state.showPaymentOption,
             sContact: false,
             recaptcha: '',
             emailError: null
@@ -248,8 +177,6 @@ class Signup extends Component {
 
     handleSelectPlanCancel(){
         this.setState({
-            showAccountCreation: !this.state.showAccountCreation,
-            showPaymentOption: !this.state.showPaymentOption,
             sContact: false,
             recaptcha: '',
             emailError: null
@@ -258,7 +185,6 @@ class Signup extends Component {
 
     handleChangeRecaptcha(event) {
         this.setState({ recaptcha:event});
-        // console.log("RECAPTCHA: ",event);
         this.validateCaptchaClick()
     }
 
@@ -266,10 +192,13 @@ class Signup extends Component {
 
         // console.log("Button Clicked!");
         if (this.state.validEmail === true){
-            this.props.applySecurity(this.state.email, this.state.recaptcha);
+          console.log("props.applySecurity:",this.state.email, this.state.recaptcha)
+            this.props.applySecurity(this.state.email, this.state.recaptcha)
             // console.log("ALL VALID");
             this.setState({
                 sContact: true
+            }, () => {
+              this.handleAccountCreation()
             })
         } else {
             // console.log("SOMETHING IS NOT VALID!",this.state.validEmail)
@@ -277,42 +206,16 @@ class Signup extends Component {
     }
 
     renderErrorEmail(){
-
         if (this.state.email !== '' && this.state.validEmail === false && this.state.emailError === null){
             return(
                 <FormFeedback tooltip style={{marginLeft:51}}>Enter a valid Email Address</FormFeedback>
             )
         }
-        if (this.state.email !== '' && this.state.validEmail === true && this.state.emailError !== null){
+        if (this.state.email !== '' && (this.state.validEmail === true|| this.state.validEmail === false) && this.state.emailError !== null){
             return(
                 <FormFeedback tooltip style={{marginLeft:51}}>{this.state.emailError}</FormFeedback>
             )
         }
-        if (this.state.email !== '' && this.state.validEmail === true && this.state.emailExists === true){
-            return(
-                <FormFeedback tooltip style={{marginLeft:51}}>Thie Email Exists</FormFeedback>
-            )
-        }
-    }
-
-    renderErrorPassword(){
-
-        if (this.state.password !== '' && this.state.validPassword === false){
-            return(
-                <FormFeedback tooltip style={{marginLeft:51}}>8 characters, 1 letter, 1 number </FormFeedback>
-            )
-        }
-
-    }
-
-    renderErrorConfirmPassword(){
-
-        if (this.state.confirmpassword !== '' && this.state.password !== this.state.confirmpassword){
-            return(
-                <FormFeedback tooltip style={{marginLeft:51}}>Passwords do not match</FormFeedback>
-            )
-        }
-
     }
 
     renderButton(){
@@ -369,76 +272,6 @@ class Signup extends Component {
         }
     }
 
-    renderSignup() {
-        return (
-            <Grid style={{background:'transparent'}} container direction={'column'} justify={'center'} alignItems={'center'}>
-                <Paper square={false} style={{background:'#283593', width:428,maxWidth:"100%", marginTop:20}}>
-                    <Grid item style={{margin:50, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
-                        <Typography variant="headline" style={{color:'white', marginTop:40}}>
-                            <b>Create your account</b>
-                        </Typography>
-
-                        <InputGroup style={{marginTop:40}}>
-                            <InputGroupAddon addonType="prepend">
-                                <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">📮</span></InputGroupText>
-                            </InputGroupAddon>
-                            {this.state.validEmail
-                            ?
-                            <Input valid placeholder="Email Address" onChange={this.handleEmail('email')}/>
-                            :
-                            <Input invalid placeholder="Email Address" onChange={this.handleEmail('email')}/>
-                        }
-                            {this.renderErrorEmail()}
-                        </InputGroup>
-                        <InputGroup style={{marginTop:40}}>
-                            <InputGroupAddon addonType="prepend">
-                                <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">🔑</span></InputGroupText>
-                            </InputGroupAddon>
-                            {this.state.validPassword
-                                ?
-                                <Input valid type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
-                                :
-                                <Input invalid type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
-                            }
-                            {this.renderErrorPassword()}
-                        </InputGroup>
-                        <InputGroup style={{marginTop:40}}>
-                            <InputGroupAddon addonType="prepend">
-                                <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">🔐</span></InputGroupText>
-                            </InputGroupAddon>
-                            {this.state.validConfirmPassword
-                                ?
-                                <Input valid type="password" placeholder="Confirm Password" onChange={this.handleConfirmPassword('confirmpassword')}/>
-                                :
-                                <Input invalid type="password" placeholder="Confirm Password" onChange={this.handleConfirmPassword('confirmpassword')}/>
-                            }
-                            {this.renderErrorConfirmPassword()}
-                        </InputGroup>
-                    <Grid item>
-                        <ReCAPTCHA
-                            style={{marginTop:40}}
-                            ref="recaptcha"
-                            sitekey="6LdOm2kUAAAAAADB0AG5kbLKCVWk7wNYqBoznwz3"
-                            onChange={this.handleChangeRecaptcha.bind(this)}/>
-                        {this.renderButton()}
-                    </Grid>
-                    </Grid>
-                </Paper>
-            </Grid>
-        )
-    }
-
-    renderThankYou(){
-      return (
-        <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"30em"}} alignItems="center" direction="column" justify="center" >
-            <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}>Thank you for your Subscription!</Typography>
-            <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:40}} >
-                <Typography variant="body2" style={{textAlign:'center',color:'white',marginTop:40}}>We will send you an Invoice to your email address: {this.state.email}</Typography>
-            </Grid>
-        </Grid>
-      )
-    }
-
     handleClickItem1(){
       this.setState({
         selectItem1:true,
@@ -461,28 +294,74 @@ class Signup extends Component {
       })
     }
 
+    renderEmailAddress(){
+      if (this.state.selectItem1 === true || this.state.selectItem2 === true || this.state.selectItem3 === true ){
+        return (
+
+          <InputGroup>
+              <InputGroupAddon addonType="prepend">
+                  <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">📧</span></InputGroupText>
+              </InputGroupAddon>
+              {this.state.validEmail
+              ?
+              <Input valid style={{border:0, borderRadius:'0 5px 5px 0'}} placeholder="email@gmail.com" onChange={this.handleEmail('email')}/>
+              :
+              <Input invalid  style={{border:0, borderRadius:'0 5px 5px 0'}} placeholder="email@gmail.com" onChange={this.handleEmail('email')}/>
+          }
+              {this.renderErrorEmail()}
+          </InputGroup>
+
+        )
+      }  else {
+        return (
+          <div style={{width:273,height:36, background:'#474f97',borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
+            <Typography style={{color:'white', display: 'inline-block', padding:'5px 0'}} variant={'body2'}>Please finish section <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography></Typography>
+          </div>
+        )
+      }
+    }
+
+    renderRecaptcha(){
+      if (this.state.validEmail === true && this.state.emailChanged === false ){
+        return (
+          <ReCAPTCHA
+              ref="recaptcha"
+              sitekey="6LdOm2kUAAAAAADB0AG5kbLKCVWk7wNYqBoznwz3"
+              onChange={this.handleChangeRecaptcha.bind(this)}/>
+        )
+      }  else {
+        return (
+          <div style={{width:273,height:78, background:'#474f97',borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
+            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'body2'}>Please finish section <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography></Typography>
+          </div>
+        )
+      }
+    }
+
+    renderStripe(){
+      const {elementFontSize} = this.state;
+
+      if(this.state.recaptcha !== ''){
+        return (
+          <StripeProvider stripe={this.state.stripe}>
+              <div className="Checkout" style={{padding:0}} >
+                  <Elements >
+                      <SplitForm fontSize={elementFontSize} />
+                  </Elements>
+              </div>
+          </StripeProvider>
+        )
+
+      } else {
+        return (
+          <div style={{width:273,height:360, marginBottom:20, background:'#474f97',borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
+            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'body2'}>Please finish section <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>3</Typography></Typography>
+          </div>
+        )
+      }
+    }
+
     render() {
-
-        let content = {};
-
-        if (this.state.showAccountCreation === true){
-            content = this.renderSignup()
-        }
-
-        if (this.state.showSelectPlan === true){
-            content = this.renderSelectPlan()
-        }
-
-
-        if (this.state.showPaymentOption === true){
-            content = this.renderSubscription()
-        }
-
-        if (this.state.userSuccessfullySubscribed === true){
-          content = this.renderThankYou()
-        }
-
-        const {elementFontSize} = this.state;
 
         return (
             <div>
@@ -499,7 +378,7 @@ class Signup extends Component {
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", paddingTop:10, paddingBottom:20, maxWidth:"50em", background:"#1a237e"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item style={{marginLeft:'auto',marginRight:'auto'}}>
-                        <Typography variant={'headline'} style={{color:'white'}}><b>Cheaper</b> than your monthly <span aria-label="emoji" role="img">☕</span> coffee habit.</Typography>
+                        <Typography variant={'headline'} style={{color:'white'}}><span aria-label="emoji" role="img">☕</span> <b>Cheaper</b> than your coffee habit</Typography>
                       </Grid>
                     </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
@@ -517,9 +396,10 @@ class Signup extends Component {
                                 <div className="ribbonblue"><span aria-label="emoji" role="img">❄️Cool❄️</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$10.00</b></Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$35.00</b></Typography>
                                   <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                                  <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$10.00</b> billed every 1 month</Typography>
+                                  <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$35.00</b> billed every month</Typography>
+                                  <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$420.00</b> per year)</Typography>
                                 </div>
                               </Button>
                               :
@@ -527,9 +407,10 @@ class Signup extends Component {
                                 <div className="ribbonblue"><span aria-label="emoji" role="img">❄️Cool❄️</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$10.00</b></Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$35.00</b></Typography>
                                   <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$10.00</b> billed every 1 month</Typography>
+                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$35.00</b> billed every month</Typography>
+                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$420.00</b> per year)</Typography>
                                 </div>
                               </Button>
                             }
@@ -541,9 +422,10 @@ class Signup extends Component {
                                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Popular🔥</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$8.33</b></Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$25.00</b></Typography>
                                   <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$99.96</b> billed every 12 months</Typography>
+                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$300.00</b> billed every 12 months</Typography>
+                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$300.00</b> per year)</Typography>
                                 </div>
                               </Button>
                               :
@@ -551,9 +433,10 @@ class Signup extends Component {
                                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Popular🔥</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$8.33</b></Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$25.00</b></Typography>
                                   <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$99.96</b> billed every 12 months</Typography>
+                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$300.00</b> billed every 12 months</Typography>
+                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$300.00</b> per year)</Typography>
                                 </div>
                               </Button>
                             }
@@ -565,9 +448,10 @@ class Signup extends Component {
                                    <div className="ribbonpurple"><span aria-label="emoji" role="img">💎Epic💎</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Lifetime</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$300.00</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>once only</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$300.00</b> billed once </Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$900.00</b></Typography>
+                                  <Typography style={{textTransform:'none'}} variant={'caption'}>once</Typography>
+                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$900.00</b> billed once </Typography>
+                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">😎</span></b>)</Typography>
                                 </div>
                               </Button>
                               :
@@ -575,9 +459,10 @@ class Signup extends Component {
                                 <div className="ribbonpurple"><span aria-label="emoji" role="img">💎Epic💎</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Lifetime</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$300.00</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>once only</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$300.00</b> billed once only</Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$900.00</b></Typography>
+                                  <Typography style={{textTransform:'none'}} variant={'caption'}>once</Typography>
+                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$900.00</b> billed once</Typography>
+                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">😎</span></b>)</Typography>
                                 </div>
                               </Button>
                             }
@@ -596,35 +481,20 @@ class Signup extends Component {
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item xs style={{ border:'1px solid #474f97', padding:40, width:'100%'}}>
                         <Typography variant={'body2'} style={{color:'white'}}> <b>Privacy guarantee:</b> We do not share your information and will contact you only as needed to provide our service.</Typography>
-                        <InputGroup style={{marginTop:20}}>
-                            <InputGroupAddon addonType="prepend">
-                                <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">📧</span></InputGroupText>
-                            </InputGroupAddon>
-                            {this.state.validEmail
-                            ?
-                            <Input valid style={{border:0, borderRadius:'0 5px 5px 0'}} placeholder="email👩‍💻@gmail.com" onChange={this.handleEmail('email')}/>
-                            :
-                            <Input invalid  style={{border:0, borderRadius:'0 5px 5px 0'}} placeholder="email👩‍💻@gmail.com" onChange={this.handleEmail('email')}/>
-                        }
-                            {this.renderErrorEmail()}
-                        </InputGroup>
+                        {this.renderEmailAddress()}
                       </Grid>
                     </Grid>
-                    <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
+                    <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item>
                         <Typography variant={'subheading'} style={{color:'white'}}>
-                          <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>3</Typography> <b>Verify ReCAPTCHA:</b>
+                          <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>3</Typography> <b>Verify reCAPTCHA:</b>
                         </Typography>
                       </Grid>
                     </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item style={{ border:'1px solid #474f97', padding:40, width:'100%'}} xs>
-                        <Typography variant={'body2'} style={{color:'white'}}> <b>Fraud Detection:</b> We keep the <span aria-label="emoji" role="img">🤖</span> bots away and do our best to provide you get great content with no interruption.</Typography>
-                        <ReCAPTCHA
-                            style={{marginTop:20}}
-                            ref="recaptcha"
-                            sitekey="6LdOm2kUAAAAAADB0AG5kbLKCVWk7wNYqBoznwz3"
-                            onChange={this.handleChangeRecaptcha.bind(this)}/>
+                        <Typography variant={'body2'} style={{color:'white'}}> <b>Fraud Detection:</b> We keep the <span aria-label="emoji" role="img">🤖</span> bots away and do our best to provide you great content with no interruption.</Typography>
+                        {this.renderRecaptcha()}
                     </Grid>
                   </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
@@ -636,32 +506,29 @@ class Signup extends Component {
                     </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'row'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item xs style={{ padding:40, paddingTop:0,paddingBottom:0}}>
-                          <StripeProvider stripe={this.state.stripe}>
-                              <div className="Checkout" >
-                                  <Elements >
-                                      <SplitForm fontSize={elementFontSize} />
-                                  </Elements>
-                              </div>
-                          </StripeProvider>
+                          {this.renderStripe()}
                       </Grid>
                       <Grid item style={{ border:'1px solid #474f97', padding:40}} xs>
                         <Typography style={{color:'white'}} variant={'title'}><b>This Plan includes:</b></Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> No Advertisements</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 24/7 customer support by email</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 95.9% SLA uptime</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Access to recruiting network</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Never selling your data</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 30 days risk-free</Typography>
+                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">🚫</span> No Advertisements</Typography>
+                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 24/7 support by <span aria-label="emoji" role="img">📧</span> email</Typography>
+                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">📚</span> Unlimited runbook access</Typography>
+                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request for <span aria-label="emoji" role="img">📕</span> runbooks</Typography>
+                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request new <span aria-label="emoji" role="img">😍</span> features</Typography>
+                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Create & edit your <span aria-label="emoji" role="img">📖</span> runbooks</Typography>
+                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Access to consulting <span aria-label="emoji" role="img">🌎</span> network</Typography>
+                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Access to recruiting <span aria-label="emoji" role="img">👩‍💻</span> network</Typography>
+                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 95.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</Typography>
+                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 30 <span aria-label="emoji" role="img">📅</span> days risk-free</Typography>
                       </Grid>
                     </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:100}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-                      <Grid item >
+                      {/*<Grid item >
                         <Typography variant={'caption'} style={{color:'white'}}>
                           <span aria-label="emoji" role="img">🔒</span> Secure Server Secure checkout. You are 100% backed by our 30-Day Money-Back Guarantee.<br/>
                           By submitting this form you agree to our Terms of service
                         </Typography>
-
-                      </Grid>
+                      </Grid> */}
                     </Grid>
                 </div>
             </div>
@@ -673,4 +540,4 @@ function mapStateToProps({ status, users }) {
     return { status,users };
 }
 
-export default connect(mapStateToProps,{pingBackend,setUserEmail,emailJidoka,applySecurity})(withRouter(Signup));
+export default connect(mapStateToProps,{pingBackend,setUserEmail,applySecurity})(withRouter(Signup));

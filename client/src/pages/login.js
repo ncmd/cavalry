@@ -221,11 +221,6 @@ class Login extends Component {
                     }}
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
-                        <Grid style={{background:'transparent', width:'100%',height:105, marginTop:20}} container direction={'row'} justify={'center'} alignItems={'center'}>
-                          <Paper style={{height:105, paddingLeft:20,paddingRight:20, background: "linear-gradient(to right, #ff1744, #F44336 "}}>
-                              <Typography variant="display3"  style={{color:'white',textAlign:"center", marginTop:'auto',marginBottom:'auto', padding:'10px 0'}}>CAVALRY</Typography>
-                          </Paper>
-                        </Grid>
                         <Grid style={{background:'transparent'}} container direction={'row'} justify={'center'} alignItems={'center'}>
                             <Paper square={false} style={{background:'#283593', height:425,width:428,maxWidth:"95%", marginTop:20}}>
                                 <Grid item style={{margin:20, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
