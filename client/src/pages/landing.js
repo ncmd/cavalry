@@ -10,12 +10,9 @@ import {
 } from '../redux/actions';
 import Hidden from '@material-ui/core/Hidden';
 import { AlgoliaHits,AlgoliaConnectedCheckBoxRefinementList } from '../components/algolia/config';
-import { CurrentRefinements, ClearRefinements } from 'react-instantsearch-dom';
+import { CurrentRefinements, ClearRefinements,InstantSearch } from 'react-instantsearch-dom';
 
-import {
-  InstantSearch
-} from 'react-instantsearch-dom';
-
+const keys = require('../secrets/keys');
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 
 class Landing extends Component {
@@ -42,11 +39,13 @@ class Landing extends Component {
     }
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
+    
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
     }
 
     componentWillMount(){
+
       this.props.getPosts()
       if(this.props.users.logged === true){
         // console.log("DidMount Props Users:",this.props.users)
@@ -87,7 +86,7 @@ class Landing extends Component {
         return (
             <InstantSearch
               appId="43JRRJRQRC"
-              apiKey="f30aafcad64f2d5e2df7e302733b428f"
+              apiKey={keys.algolia_api_key}
               indexName="posts"
           >
                 <Header/>

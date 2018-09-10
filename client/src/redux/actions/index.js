@@ -32,15 +32,9 @@ import {
     // SET_THEME,
 } from './types';
 
-let backend = ''
+const keys = require('../../secrets/keys');
 
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-  //Dev
-  backend = 'http://localhost:8000'
-} else {
-  //Prod
-  backend = 'https://cavalry-app.herokuapp.com'
-}
+let backend = keys.heroku_backend_uri
 
 export const setPath = (path) => dispatch => {
   console.log("This Path:",path)
@@ -125,14 +119,6 @@ export const addPost = (title,description,tags,objectives) => async dispatch =>{
     await axios.post(backend+'/api/post/new',data);
     dispatch({ type: ADD_POST });
 };
-
-// function findAndReplace(string, target, replacement) {
-//  var i = 0, length = string.length;
-//  for (i; i < length; i++) {
-//   string = string.replace(target, replacement);
-//  }
-//  return string;
-// }
 
 export const updatePost = (id,title,description,tags,objectives) => async dispatch =>{
     const data = {id:id,title:title,description:description,tags:tags,objectives:objectives};

@@ -15,7 +15,9 @@ import SplitForm from "../components/stripe/splitform";
 import { auth } from '../components/firebase';
 import Check from '@material-ui/icons/Check';
 import '../components/ribbon/ribbon.css';
+
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
+const keys = require('../secrets/keys');
 
 class Signup extends Component {
 
@@ -67,12 +69,13 @@ class Signup extends Component {
         // Window Dimensions
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+        console.log("Process.env.NODE_ENV:ke",process.env.NODE_ENV)
         if (window.Stripe) {
-            this.setState({stripe: window.Stripe('pk_test_A2LpNEMEMfYY7n9e5JBmhPlH')});
+            this.setState({stripe: window.Stripe(keys.stripe_publishable_key)});
         } else {
             document.querySelector('#stripe-js').addEventListener('load', () => {
                 // Create Stripe instance once Stripe.js loads
-                this.setState({stripe: window.Stripe('pk_test_A2LpNEMEMfYY7n9e5JBmhPlH')});
+                this.setState({stripe: window.Stripe(keys.stripe_publishable_key)});
             });
         }
     }
@@ -279,7 +282,6 @@ class Signup extends Component {
         selectItem2:false,
         selectItem3:false,
       })
-      console.log('this.props.users.plan',this.props.users.plan)
     }
     handleClickItem2(){
       this.props.setPlan("12months")
@@ -288,7 +290,6 @@ class Signup extends Component {
         selectItem2:true,
         selectItem3:false,
       })
-      console.log('this.props.users.plan',this.props.users.plan)
     }
     handleClickItem3(){
       this.props.setPlan("lifetime")
@@ -297,7 +298,6 @@ class Signup extends Component {
         selectItem2:false,
         selectItem3:true,
       })
-      console.log('this.props.users.plan',this.props.users.plan)
     }
 
     renderEmailAddress(){
@@ -332,7 +332,7 @@ class Signup extends Component {
         return (
           <ReCAPTCHA
               ref="recaptcha"
-              sitekey="6LdOm2kUAAAAAADB0AG5kbLKCVWk7wNYqBoznwz3"
+              sitekey={keys.google_recaptcha_site_key}
               onChange={this.handleChangeRecaptcha.bind(this)}/>
         )
       }  else {
@@ -447,34 +447,34 @@ class Signup extends Component {
                               </Button>
                             }
                           </Grid>
-                          <Grid item style={{marginTop:10}}>
+                          {/*<Grid item style={{marginTop:10}}>
                             {this.state.selectItem3
                               ?
-                              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem3()}}>
-                                   <div className="ribbonpurple"><span aria-label="emoji" role="img">💎Epic💎</span></div>
+                              <Button disabled className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem3()}}>
+                                   <div className="ribbonpurple"><span aria-label="emoji" role="img">💎???💎</span></div>
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Lifetime</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$900.00</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>once</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$900.00</b> billed once </Typography>
+                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Coming Soon</Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>???</b></Typography>
+                                  <Typography style={{textTransform:'none'}} variant={'caption'}>-</Typography>
+                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>???</b></Typography>
                                     <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">😎</span></b>)</Typography>
                                 </div>
                               </Button>
                               :
-                              <Button className="box" style={{background:'white', height:230, width:230}} onClick={()=> {this.handleClickItem3()}}>
-                                <div className="ribbonpurple"><span aria-label="emoji" role="img">💎Epic💎</span></div>
+                              <Button disabled className="box" style={{background:'white', height:230, width:230}} onClick={()=> {this.handleClickItem3()}}>
+                                <div className="ribbonpurple"><span aria-label="emoji" role="img">💎???💎</span></div>
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Lifetime</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$900.00</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>once</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$900.00</b> billed once</Typography>
+                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Coming Soon</Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>???</b></Typography>
+                                  <Typography style={{textTransform:'none'}} variant={'caption'}>-</Typography>
+                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>???</b></Typography>
                                     <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">😎</span></b>)</Typography>
                                 </div>
                               </Button>
                             }
-                          </Grid>
-                          <Grid item>
-                            <Typography variant={'caption'} style={{color:'white'}}>All amounts are shown in <b>USD</b></Typography>
+                          </Grid>*/}
+                          <Grid item xs={12}>
+                            <Typography variant={'caption'} style={{color:'white', textAlign:'center'}}>All amounts are shown in <b>USD</b></Typography>
                           </Grid>
                         </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>

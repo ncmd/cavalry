@@ -68,11 +68,11 @@ class Signup extends Component {
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
         if (window.Stripe) {
-            this.setState({stripe: window.Stripe('pk_test_A2LpNEMEMfYY7n9e5JBmhPlH')});
+            this.setState({stripe: window.Stripe('<<<<<<<<<<pk>>>>>>>>>>>>')});
         } else {
             document.querySelector('#stripe-js').addEventListener('load', () => {
                 // Create Stripe instance once Stripe.js loads
-                this.setState({stripe: window.Stripe('pk_test_A2LpNEMEMfYY7n9e5JBmhPlH')});
+                this.setState({stripe: window.Stripe('<<<<<<<<<<pk>>>>>>>>>>>>')});
             });
         }
     }

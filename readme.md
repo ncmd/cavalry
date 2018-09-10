@@ -46,7 +46,7 @@ PROJECT PATH
 - npm install eslint@^4.1.1 && npm install --no-optional --no-shrinkwrap --no-package-lock
 - firebase login
 - firebase init; build, yes, no
-- heroku login
+- setup all the keys client/secrets/keys_dev.js
 
 # Firebase Authentication Setup
 - Enable email sign-in method
@@ -61,6 +61,7 @@ PROJECT PATH
 - go get google.golang.org/api/option
 - go get github.com/stripe/stripe-go
 - go get github.com/BurntSushi/toml
+- heroku login
 - heroku git:remote -a cavalry-app
 - cd server/functions npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
 
