@@ -94,6 +94,7 @@ PROJECT PATH
 
 # To Do
 - cancel subscription
+- upgrade subscription
 - reset user password with email
 - survive reddit hug of death
 - survive producthunt

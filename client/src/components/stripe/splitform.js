@@ -11,6 +11,18 @@ import * as auth from "../firebase/auth";
 import Button from '@material-ui/core/Button';
 
 const payButtonColor = "linear-gradient(to right, #ff1744, #F44336 ";
+const ownerInfo = {
+  owner: {
+    name: 'Jenny Rosen',
+    address: {
+      line1: 'Nollendorfstraße 27',
+      city: 'Berlin',
+      postal_code: '10777',
+      country: 'DE',
+    },
+    email: 'jenny.rosen@example.com'
+  },
+};
 
 class SplitForm extends Component {
 
@@ -27,16 +39,30 @@ class SplitForm extends Component {
         };
     }
 
+    stripeSourceHandler(source) {
+      // Insert the source ID into the form so it gets submitted to the server
+      var form = document.getElementById('payment-form');
+      var hiddenInput = document.createElement('input');
+      hiddenInput.setAttribute('type', 'hidden');
+      hiddenInput.setAttribute('name', 'stripeSource');
+      hiddenInput.setAttribute('value', source.id);
+      form.appendChild(hiddenInput);
+
+      // Submit the form
+      form.submit();
+    }
+
     handleSubmit = () => {
       console.log("Clicked")
             this.props.stripe
-                .createToken()
+                .createSource({type:'card'},ownerInfo)
                 .then((payload) => {
-                  console.log(this.props.users,payload.token.id)
-                    this.props.addUser(this.props.users.email,payload.token.id)
+                  console.log("Stripe Payload:",payload)
+                  console.log(this.props.users)
+                    this.props.addUser(this.props.users.email,payload.source.id,this.props.users.plan)
                     auth.doCreateUserWithEmailAndPassword(this.props.users.email,this.props.users.password)
                 }, (response) => {
-                  console.log("RESPONSE PURCHASE:",response)
+                  console.log("Stripe Response:",response)
                   if (response === null){
                     this.setState({
                       complete: true,
@@ -200,7 +226,7 @@ class SplitForm extends Component {
                   </label><br/>
                 {this.renderPayButton()}
                   <br/>
-                  <a href="http://stripe.com" target="_blank" rel="noopener noreferrer"><img src="./images/powered_by_stripe.png" alt="Powered By Strip" style={{width:170, height:36, marginBottom:20}}/></a>
+                  <a href="http://stripe.com" target="_blank" rel="noopener noreferrer"><img src="./images/powered_by_stripe.png" alt="Powered By Stripe" style={{width:170, height:36, marginBottom:20}}/></a>
               </form>
           );
         }

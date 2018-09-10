@@ -27,13 +27,14 @@ func main() {
 	// edit post
 	http.HandleFunc("/api/post/edit", updatepost)
 
-	// add subscriber
+	// add email address to firestore for an email list
 	http.HandleFunc("/api/subscribe/new", addSubscriber)
 
 	// recaptcha confirmation
 	http.HandleFunc("/api/apply", recaptchaconfirmation)
 
-	// signup and subscribe customer
+	// This creates user in Stripe, Creates their Payment Method
+	// Adds user to Plan
 	http.HandleFunc("/api/user/new", subscribeuser)
 
 	http.HandleFunc("/api/accounts/create", accountcreate)

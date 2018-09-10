@@ -41,21 +41,3 @@ func addSubscriber(w http.ResponseWriter, r *http.Request) {
 		log.Println("Subscribed Email:", subscribe.Email)
 	}
 }
-
-// subscribe user
-func subscribeuser(w http.ResponseWriter, r *http.Request) {
-	w.Header().Add("Access-Control-Allow-Origin", "*")
-	w.Header().Add("Access-Control-Allow-Methods", "POST, OPTIONS")
-	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
-
-	if r.Method != "OPTIONS" {
-		var user User
-
-		log.Println("Response Body:", r.Method)
-		decoder := json.NewDecoder(r.Body)
-		decoder.Decode(&user)
-		log.Println("User:", user)
-		log.Println("User Email:", user.Email)
-		newSubscriber(createCustomer(user.Email, createSource(user.Email)))
-	}
-}

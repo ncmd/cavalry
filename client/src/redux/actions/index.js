@@ -8,6 +8,7 @@ import {
     PING_BACKEND,
     ADD_USER,
     SET_EMAIL,
+    SET_PLAN,
     EMAIL_JIDOKA,
     APPLY_SECURITY,
     ADD_SUBSCRIBER,
@@ -185,12 +186,18 @@ export const getUser = () => dispatch => {
 
 
 // Need to add user email to the state because need to keep track of email address
-export const addUser = (email,token) => async dispatch =>{
-    const data = {email:email, token:token};
+// This Subscribes User to Stripe Plan
+export const addUser = (email,source,plan) => async dispatch =>{
+    const data = {email:email, source:source, plan:plan};
     console.log("DATA:",data)
     const res =  await axios.post(backend+'/api/user/new',data);
     console.log(res);
     dispatch({ type: ADD_USER, payload: res.data });
+};
+
+export const setPlan = (plan) => async dispatch =>{
+    const data = {plan:plan};
+    dispatch({ type: SET_PLAN, payload: data });
 };
 
 export const removePost = () => async dispatch => {

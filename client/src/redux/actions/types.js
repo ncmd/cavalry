@@ -5,6 +5,7 @@ export const UPDATE_POST = 'update_item';
 export const PING_BACKEND = 'ping_backend';
 export const ADD_USER = 'add_user';
 export const SET_EMAIL = 'set_email';
+export const SET_PLAN = 'set_plan';
 export const EMAIL_JIDOKA = 'email_jidoka';
 export const APPLY_SECURITY = 'apply_security';
 export const ADD_SUBSCRIBER = 'add_subscriber';

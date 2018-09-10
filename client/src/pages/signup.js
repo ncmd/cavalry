@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    pingBackend,setUserEmail,applySecurity
+    pingBackend,setUserEmail,applySecurity,setPlan
 } from '../redux/actions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -273,25 +273,31 @@ class Signup extends Component {
     }
 
     handleClickItem1(){
+      this.props.setPlan("1month")
       this.setState({
         selectItem1:true,
         selectItem2:false,
         selectItem3:false,
       })
+      console.log('this.props.users.plan',this.props.users.plan)
     }
     handleClickItem2(){
+      this.props.setPlan("12months")
       this.setState({
         selectItem1:false,
         selectItem2:true,
         selectItem3:false,
       })
+      console.log('this.props.users.plan',this.props.users.plan)
     }
     handleClickItem3(){
+      this.props.setPlan("lifetime")
       this.setState({
         selectItem1:false,
         selectItem2:false,
         selectItem3:true,
       })
+      console.log('this.props.users.plan',this.props.users.plan)
     }
 
     renderEmailAddress(){
@@ -523,6 +529,9 @@ class Signup extends Component {
                       </Grid>
                     </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:100}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
+                      // <Grid item>
+                      // </Grid>
+
                       {/*<Grid item >
                         <Typography variant={'caption'} style={{color:'white'}}>
                           <span aria-label="emoji" role="img">🔒</span> Secure Server Secure checkout. You are 100% backed by our 30-Day Money-Back Guarantee.<br/>
@@ -540,4 +549,4 @@ function mapStateToProps({ status, users }) {
     return { status,users };
 }
 
-export default connect(mapStateToProps,{pingBackend,setUserEmail,applySecurity})(withRouter(Signup));
+export default connect(mapStateToProps,{pingBackend,setUserEmail,applySecurity,setPlan})(withRouter(Signup));

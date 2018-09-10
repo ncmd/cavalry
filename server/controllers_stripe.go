@@ -1,15 +1,16 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
+	"net/http"
 	"time"
 
 	"github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/plan"
 	"github.com/stripe/stripe-go/product"
-	"github.com/stripe/stripe-go/source"
 	"github.com/stripe/stripe-go/sub"
 )
 
@@ -29,20 +30,47 @@ import (
 // 	// 	newSubscriber(newCustomer, monthlyService)
 // }
 
-func newSubscriber(customer string) {
-	// Here we `make` a channel of strings buffering up to
-	// 2 values.
-	messages := make(chan string, 2)
+// subscribe user
+func subscribeuser(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Methods", "POST, OPTIONS")
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
 
-	// Because this channel is buffered, we can send these
-	// values into the channel without a corresponding
-	// concurrent receive.
+	if r.Method != "OPTIONS" {
+		var user User
+
+		log.Println("Response Body:", r.Method)
+		decoder := json.NewDecoder(r.Body)
+		decoder.Decode(&user)
+		log.Println("User:", user)
+		log.Println("User Email:", user.Email)
+		log.Println("User Source:", user.Source)
+		log.Println("User Plan:", user.Plan)
+		if user.Plan == "1month" {
+			log.Println("Selected 1 Month!")
+			newSubscriber1Month(createCustomer(user.Email, user.Source))
+		} else if user.Plan == "12months" {
+			log.Println("Selected 12 Months!")
+			newSubscriber12Months(createCustomer(user.Email, user.Source))
+		} else {
+			log.Println("No Plan Selected...")
+		}
+
+	}
+}
+
+func newSubscriber1Month(customer string) {
+	messages := make(chan string, 2)
 	messages <- customer
 	time.Sleep(time.Second * 5)
+	subscribeCustomer(<-messages, "plan_DZlhSuoCUAGlEL")
+}
 
-	// Later we can receive these two values as usual.
-	// plan_DNsV7QMhFmBH10 = Cavalry Subscription Plan
-	subscribeCustomer(<-messages, "plan_DNsV7QMhFmBH10")
+func newSubscriber12Months(customer string) {
+	messages := make(chan string, 2)
+	messages <- customer
+	time.Sleep(time.Second * 5)
+	subscribeCustomer(<-messages, "plan_DZljpBH03blVLR")
 }
 
 // Creates a Service;
@@ -79,38 +107,28 @@ func attachPlan(productID string, planNickname string, planAmount int64) string 
 	return p.ID
 }
 
-//src_1Cwj8KDycnK884dHBLz2dUO0
-func createSource(emailaddress string) string {
+// func chargeCustomer(customer string, source string) {
+// 	stripe.Key = config.StripeTestSecretKey
+//
+// 	chargeParams := &stripe.ChargeParams{
+// 		Amount:   stripe.Int64(3500),
+// 		Currency: stripe.String(string(stripe.CurrencyUSD)),
+// 		Customer: stripe.String(customer),
+// 	}
+// 	chargeParams.SetSource(source)
+// 	ch, err := charge.New(chargeParams)
+// 	return ch.ID
+// }
+
+func createCustomer(emailaddress string, source string) string {
 	stripe.Key = config.StripeTestSecretKey
-
-	params := &stripe.SourceObjectParams{
-		Type:     stripe.String("ach_credit_transfer"),
-		Currency: stripe.String(string(stripe.CurrencyUSD)),
-		Owner: &stripe.SourceOwnerParams{
-			Email: stripe.String(emailaddress),
-		},
+	fmt.Println("Customer email", emailaddress, source)
+	customerParams := &stripe.CustomerParams{
+		Email: stripe.String(emailaddress),
 	}
-	s, err := source.New(params)
-	if err != nil {
-		log.Fatalln(err)
-	}
-	fmt.Println("Source:", s.ID)
-
-	return s.ID
-}
-
-func createCustomer(customerName string, token string) string {
-	stripe.Key = config.StripeTestSecretKey
-
-	params := &stripe.CustomerParams{
-		Email:          stripe.String(customerName),
-		AccountBalance: stripe.Int64(-10),
-		Description:    stripe.String("Customer Subscription"),
-	}
-	params.SetSource(token)
-	cus, _ := customer.New(params)
-	fmt.Println("Customer:", cus.ID)
-	return cus.ID
+	customerParams.SetSource(source)
+	c, _ := customer.New(customerParams)
+	return c.ID
 
 }
 
@@ -128,7 +146,7 @@ func subscribeCustomer(customer string, plan string) {
 	}
 	subscription, _ := sub.New(params)
 	fmt.Println("Subscription:", subscription)
-	sendInvoice(customer, plan)
+	// sendInvoice(customer, plan)
 
 }
 
