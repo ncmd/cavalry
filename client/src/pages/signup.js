@@ -292,7 +292,7 @@ class Signup extends Component {
       })
     }
     handleClickItem3(){
-      this.props.setPlan("lifetime")
+      this.props.setPlan("beta")
       this.setState({
         selectItem1:false,
         selectItem2:false,
@@ -384,7 +384,7 @@ class Signup extends Component {
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", paddingTop:10, paddingBottom:20, maxWidth:"50em", background:"#1a237e"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item style={{marginLeft:'auto',marginRight:'auto'}}>
-                        <Typography variant={'headline'} style={{color:'white'}}><span aria-label="emoji" role="img">☕</span> <b>Cheaper</b> than your coffee habit</Typography>
+                        <span aria-label="emoji" role="img" style={{fontSize:'2.8rem'}}>🐎</span>️
                       </Grid>
                     </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
@@ -425,7 +425,7 @@ class Signup extends Component {
                             {this.state.selectItem2
                               ?
                               <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem2()}}>
-                                <div className="ribbonred"><span aria-label="emoji" role="img">🔥Popular🔥</span></div>
+                                <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
                                   <Typography style={{color:'black'}} variant={'display1'}><b>$25.00</b></Typography>
@@ -436,7 +436,7 @@ class Signup extends Component {
                               </Button>
                               :
                               <Button className="box" style={{background:'white', height:230, width:230}} onClick={()=> {this.handleClickItem2()}}>
-                                <div className="ribbonred"><span aria-label="emoji" role="img">🔥Popular🔥</span></div>
+                                <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
                                   <Typography style={{color:'black'}} variant={'display1'}><b>$25.00</b></Typography>
@@ -447,32 +447,32 @@ class Signup extends Component {
                               </Button>
                             }
                           </Grid>
-                          {/*<Grid item style={{marginTop:10}}>
+                          <Grid item style={{marginTop:10}}>
                             {this.state.selectItem3
                               ?
-                              <Button disabled className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem3()}}>
-                                   <div className="ribbonpurple"><span aria-label="emoji" role="img">💎???💎</span></div>
+                              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem3()}}>
+                                   <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Coming Soon</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>???</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>-</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>???</b></Typography>
-                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">😎</span></b>)</Typography>
+                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta Test</Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$1.00</b></Typography>
+                                  <Typography style={{textTransform:'none'}} variant={'caption'}>for now...</Typography>
+                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$1.00</b> billed every month</Typography>
+                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</Typography>
                                 </div>
                               </Button>
                               :
-                              <Button disabled className="box" style={{background:'white', height:230, width:230}} onClick={()=> {this.handleClickItem3()}}>
-                                <div className="ribbonpurple"><span aria-label="emoji" role="img">💎???💎</span></div>
+                              <Button className="box" style={{background:'white', height:230, width:230}} onClick={()=> {this.handleClickItem3()}}>
+                                <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Coming Soon</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>???</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>-</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>???</b></Typography>
-                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">😎</span></b>)</Typography>
+                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta Test</Typography>
+                                  <Typography style={{color:'black'}} variant={'display1'}><b>$1.00</b></Typography>
+                                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
+                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$1.00</b> billed every month</Typography>
+                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</Typography>
                                 </div>
                               </Button>
                             }
-                          </Grid>*/}
+                          </Grid>
                           <Grid item xs={12}>
                             <Typography variant={'caption'} style={{color:'white', textAlign:'center'}}>All amounts are shown in <b>USD</b></Typography>
                           </Grid>
@@ -515,17 +515,16 @@ class Signup extends Component {
                           {this.renderStripe()}
                       </Grid>
                       <Grid item style={{ border:'1px solid #474f97', padding:40}} xs>
-                        <Typography style={{color:'white'}} variant={'title'}><b>This Plan includes:</b></Typography>
+                        <Typography style={{color:'white'}} variant={'title'}><b>This plan includes:</b></Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">🚫</span> No Advertisements</Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 24/7 support by <span aria-label="emoji" role="img">📧</span> email</Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">📚</span> Unlimited runbook access</Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request for <span aria-label="emoji" role="img">📕</span> runbooks</Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request new <span aria-label="emoji" role="img">😍</span> features</Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Create & edit your <span aria-label="emoji" role="img">📖</span> runbooks</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Access to consulting <span aria-label="emoji" role="img">🌎</span> network</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Access to recruiting <span aria-label="emoji" role="img">👩‍💻</span> network</Typography>
+                        {/*<Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Access to consulting <span aria-label="emoji" role="img">🌎</span> network</Typography>*/}
+                        {/*<Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Access to recruiting <span aria-label="emoji" role="img">👩‍💻</span> network</Typography>*/}
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 95.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 30 <span aria-label="emoji" role="img">📅</span> days risk-free</Typography>
                       </Grid>
                     </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:100}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>

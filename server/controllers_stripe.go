@@ -52,11 +52,21 @@ func subscribeuser(w http.ResponseWriter, r *http.Request) {
 		} else if user.Plan == "12months" {
 			log.Println("Selected 12 Months!")
 			newSubscriber12Months(createCustomer(user.Email, user.Source))
+		} else if user.Plan == "beta" {
+			log.Println("Selected Beta!")
+			newSubscriberBeta(createCustomer(user.Email, user.Source))
 		} else {
 			log.Println("No Plan Selected...")
 		}
 
 	}
+}
+
+func newSubscriberBeta(customer string) {
+	messages := make(chan string, 2)
+	messages <- customer
+	time.Sleep(time.Second * 5)
+	subscribeCustomer(<-messages, "plan_DZt53EC6P7W3aH")
 }
 
 func newSubscriber1Month(customer string) {

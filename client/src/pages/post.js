@@ -78,13 +78,12 @@ class Post extends Component {
         this.state.objectives.map( (obj,index) => {
           // console.log("OOOO:",obj)
           return(
-            <Grid key={obj.title} style={{background:'white',margin:0, padding:0}} container alignItems={'center'} justify={'flex-start'} direction={'column'}  >
-                <Grid style={{marginTop:30}} item>
+            <Grid key={obj.title} style={{background:'white',margin:0, padding:40}} item  >
+
                   <Typography variant={'headline'} style={{color:'black'}}>{obj.title}</Typography>
-                </Grid>
-                <Grid style={{margin:0, padding:0}} item>
+
                   <div dangerouslySetInnerHTML={{__html: obj.description}} />
-                </Grid>
+
               </Grid>
               )
         })
@@ -117,9 +116,9 @@ class Post extends Component {
                 >
                     {/* Top Section */}
 
-                    <Grid container style={{ background:'#283593',borderColor:'#474f97',  margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'column'}>
-                      <Grid item xs>
-                        <Typography variant={'display1'} style={{color:'white'}}>{this.state.postTitle}</Typography><br/>
+                    <Grid container style={{ background:'#283593',borderColor:'#474f97',  margin:"0 auto", maxWidth:"63em", padding:25, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'flex-start'} direction={'column'}>
+                      <Grid item xs style={{}}>
+                        <Typography variant={'display1'} style={{color:'white'}}><b>{this.state.postTitle}</b></Typography><br/>
                       </Grid>
                       <Grid item xs>
                         <Typography variant={'subheading'} style={{color:'white'}}>{this.state.postDescription}</Typography>
@@ -140,7 +139,7 @@ class Post extends Component {
                     </Grid>
 
                     {/* Bottom Section */}
-                    <Grid container style={{background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
+                    <Grid container style={{background:'white', flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em", paddingBottom:100, }}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
                       {this.renderObjectives()}
                     </Grid>
                 </div>
