@@ -53,6 +53,7 @@ class SplitForm extends Component {
     }
 
     handleSubmit = () => {
+
       console.log("Clicked")
             this.props.stripe
                 .createSource({type:'card'},ownerInfo)
@@ -61,6 +62,7 @@ class SplitForm extends Component {
                   console.log(this.props.users)
                     this.props.addUser(this.props.users.email,payload.source.id,this.props.users.plan)
                     auth.doCreateUserWithEmailAndPassword(this.props.users.email,this.props.users.password)
+                    auth.doSendSignInLinkToEmail(this.props.users.email,auth.actionCodeSettings)
                 }, (response) => {
                   console.log("Stripe Response:",response)
                   if (response === null){

@@ -10,7 +10,7 @@ import {
     SET_EMAIL,
     SET_PLAN,
     EMAIL_JIDOKA,
-    APPLY_SECURITY,
+    SET_RECAPTCHA,
     ADD_SUBSCRIBER,
     // LOGIN_USER,
     FETCH_USER,
@@ -212,6 +212,6 @@ export const emailJidoka = (email,recaptcha) => async dispatch => {
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
 export const applySecurity = (email,recaptcha) => async dispatch => {
     let data = {  email:email, recaptcha:recaptcha};
-    const res = await axios.post(backend+'/api/apply', data );
-    dispatch({ type: APPLY_SECURITY, payload: res.data });
+    const res = await axios.post(backend+'/api/recaptcha', data );
+    dispatch({ type: SET_RECAPTCHA, payload: res.data });
 };

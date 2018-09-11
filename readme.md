@@ -127,3 +127,13 @@ PROJECT PATH
 - Slack integration
 - Phone text integration
 - Mobile App React Native
+
+
+# Metrics
+- recaptcha: https://www.google.com/recaptcha/admin#site/342465358
+- google analytics: https://analytics.google.com/analytics/web/
+- mixpanel: https://mixpanel.com/report/1717377/segmentation#learn
+- stripe: https://dashboard.stripe.com/test/billing
+- firebase:
+- firestore:
+- algolia: https://www.algolia.com/apps/43JRRJRQRC/explorer/stats/posts

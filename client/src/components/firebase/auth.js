@@ -1,5 +1,7 @@
 import { auth } from './firebase';
 
+const keys = require('../../secrets/keys');
+
 // Check if email exists
 export const checkEmailExists = (email) =>
     auth.fetchSignInMethodsForEmail(email).then((response) => {
@@ -16,6 +18,23 @@ export const doCreateUserWithEmailAndPassword = (email, password) =>
         var errorMessage = error.message;
         console.log("Error Message:",errorCode,errorMessage);
         return errorMessage
+    });
+
+// Signin with Link
+export const actionCodeSettings = {
+  url: keys.firebase_heroku_backend
+};
+
+export const doSendSignInLinkToEmail = (email, actionCodeSettings) =>
+    auth.sendSignInLinkToEmail(email, actionCodeSettings)
+        .then(function() {
+        // The link was successfully sent. Inform the user.
+        // Save the email locally so you don't need to ask the user for it again
+        // if they open the link on the same device.
+        window.localStorage.setItem('emailForSignIn', email);
+      })
+      .catch(function(error) {
+        // Some error occurred, you can inspect the code: error.code
     });
 
 // Sign In

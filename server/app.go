@@ -31,7 +31,7 @@ func main() {
 	http.HandleFunc("/api/subscribe/new", addSubscriber)
 
 	// recaptcha confirmation
-	http.HandleFunc("/api/apply", recaptchaconfirmation)
+	http.HandleFunc("/api/recaptcha", recaptchaconfirmation)
 
 	// This creates user in Stripe, Creates their Payment Method
 	// Adds user to Plan

@@ -5,8 +5,20 @@ import (
 	"net/smtp"
 )
 
+var phoneProviders [8]string
+
 // <<<<<<<<<<<< Phone >>>>>>>>>>>>>
 func sendNotification(phone string) {
+
+	phoneProviders[0] = "@message.alltel.com"
+	phoneProviders[1] = "@txt.att.net"
+	phoneProviders[2] = "@myboostmobile.com"
+	phoneProviders[3] = "@tmomail.net"
+	phoneProviders[4] = "@mms.cricketwireless.net"
+	phoneProviders[5] = "@vtext.com"
+	phoneProviders[6] = "@vmobl.com"
+	phoneProviders[7] = "@msg.fi.google.com"
+
 	from := config.Email
 	pass := config.Password
 	to := phone

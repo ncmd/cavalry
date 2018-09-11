@@ -49,12 +49,15 @@ func subscribeuser(w http.ResponseWriter, r *http.Request) {
 		if user.Plan == "1month" {
 			log.Println("Selected 1 Month!")
 			newSubscriber1Month(createCustomer(user.Email, user.Source))
+			sendEmail(user.Email)
 		} else if user.Plan == "12months" {
 			log.Println("Selected 12 Months!")
 			newSubscriber12Months(createCustomer(user.Email, user.Source))
+			sendEmail(user.Email)
 		} else if user.Plan == "beta" {
 			log.Println("Selected Beta!")
 			newSubscriberBeta(createCustomer(user.Email, user.Source))
+			sendEmail(user.Email)
 		} else {
 			log.Println("No Plan Selected...")
 		}
