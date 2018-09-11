@@ -42,6 +42,8 @@
             <Item>*\contrib.go.opencensus.io\</Item>
             <Item>*\cloud.google.com\</Item>
             <Item>*\.git\</Item>
+            <Item>.driveupload</Item>
+            <Item>.temp.drivedownload</Item>
         </Exclude>
         <TimeSpan Type="None">0</TimeSpan>
         <SizeMin Unit="None">0</SizeMin>

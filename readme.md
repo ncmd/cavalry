@@ -64,6 +64,7 @@ PROJECT PATH
 - heroku login
 - heroku git:remote -a cavalry-app
 - cd server/functions npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
+- Email: remember to enable 'imap' on gmail account and less secure app access https://support.google.com/mail/answer/78754
 
 # Recover from Heroku Server
 - server/config/config.toml
