@@ -27,7 +27,7 @@ class banner extends Component {
                                 "Everybody has a plan until they get <b>punched</b> in the mouth." - Mike Tyson <span aria-label="emoji" role="img">🥊</span>
                             </Typography>
                             <Typography style={{color:'#b2b9e1', textAlign:'center', marginTop:20}} variant={"subheading"} >
-                                <b style={{color:'white'}}>Cavalry</b> is a collection of runbooks to help you coordinate security incidents.
+                                <b style={{color:'white'}}>Cavalry</b> is a collection of runbooks to coordinate security incidents.
                             </Typography>
                         </Grid>
                     </Grid>

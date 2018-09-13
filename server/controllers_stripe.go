@@ -46,18 +46,22 @@ func subscribeuser(w http.ResponseWriter, r *http.Request) {
 		log.Println("User Email:", user.Email)
 		log.Println("User Source:", user.Source)
 		log.Println("User Plan:", user.Plan)
+		var password = generatepassword()
 		if user.Plan == "1month" {
 			log.Println("Selected 1 Month!")
+			w.Write([]byte(password))
 			newSubscriber1Month(createCustomer(user.Email, user.Source))
-			sendEmail(user.Email)
+			sendEmail(user.Email, password)
 		} else if user.Plan == "12months" {
 			log.Println("Selected 12 Months!")
-			newSubscriber12Months(createCustomer(user.Email, user.Source))
-			sendEmail(user.Email)
+			w.Write([]byte(password))
+			newSubscriber1Month(createCustomer(user.Email, user.Source))
+			sendEmail(user.Email, password)
 		} else if user.Plan == "beta" {
 			log.Println("Selected Beta!")
-			newSubscriberBeta(createCustomer(user.Email, user.Source))
-			sendEmail(user.Email)
+			w.Write([]byte(password))
+			newSubscriber1Month(createCustomer(user.Email, user.Source))
+			sendEmail(user.Email, password)
 		} else {
 			log.Println("No Plan Selected...")
 		}
@@ -68,21 +72,21 @@ func subscribeuser(w http.ResponseWriter, r *http.Request) {
 func newSubscriberBeta(customer string) {
 	messages := make(chan string, 2)
 	messages <- customer
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * 3)
 	subscribeCustomer(<-messages, "plan_DZt53EC6P7W3aH")
 }
 
 func newSubscriber1Month(customer string) {
 	messages := make(chan string, 2)
 	messages <- customer
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * 3)
 	subscribeCustomer(<-messages, "plan_DZlhSuoCUAGlEL")
 }
 
 func newSubscriber12Months(customer string) {
 	messages := make(chan string, 2)
 	messages <- customer
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * 3)
 	subscribeCustomer(<-messages, "plan_DZljpBH03blVLR")
 }
 

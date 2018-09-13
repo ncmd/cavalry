@@ -51,6 +51,8 @@ PROJECT PATH
 # Firebase Authentication Setup
 - Enable email sign-in method
 - Add authorized domain: cavalry-app.herokuapp.com
+- Remember to limit the signup quota
+- https://console.firebase.google.com/u/1/project/cavalry-app-prod/authentication/providers
 
 # Server Setup:
 - cd server/
@@ -64,7 +66,8 @@ PROJECT PATH
 - heroku login
 - heroku git:remote -a cavalry-app
 - cd server/functions npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
-- Email: remember to enable 'imap' on gmail account and less secure app access https://support.google.com/mail/answer/78754
+- Email: enable less secure app access https://myaccount.google.com/lesssecureapps
+- and display unlock captcha http://www.google.com/accounts/DisplayUnlockCaptcha
 
 # Recover from Heroku Server
 - server/config/config.toml
@@ -92,7 +95,6 @@ PROJECT PATH
 # Backup Setup
 - backup & Restore: utilities/index.js
 - files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
-
 
 # To Do
 - cancel subscription
@@ -128,7 +130,6 @@ PROJECT PATH
 - Slack integration
 - Phone text integration
 - Mobile App React Native
-
 
 # Metrics
 - recaptcha: https://www.google.com/recaptcha/admin#site/342465358

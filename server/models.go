@@ -34,9 +34,10 @@ type Subscriber struct {
 }
 
 type User struct {
-	Email  string `json:"email"`
-	Plan   string `json:"plan"`
-	Source string `json:"source"`
+	Email    string `json:"email"`
+	Plan     string `json:"plan"`
+	Source   string `json:"source"`
+	Password string `json:"password"`
 }
 
 // Configuration file

@@ -44,6 +44,7 @@ export const doSignInWithEmailAndPassword = (email, password) =>
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log("Error Message:",errorCode,errorMessage);
+        return errorMessage
     }, ()=> {
       //set session
       auth.setPersistence(auth.Auth.Persistence.LOCAL).then(function() {
@@ -61,6 +62,15 @@ export const doSignInWithEmailAndPassword = (email, password) =>
         });
 
       });
+
+export const doGetCurrentUser = () => {
+    var user = auth.currentUser
+    if (user) {
+      return user
+    } else {
+      return null
+    }
+}
 
 
 // Sign out

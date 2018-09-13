@@ -33,3 +33,5 @@ export const ADD_GROUP_CLEAR = 'add_group_clear';
 export const ADD_GROUPS = 'add_groups';
 export const ADD_ACCOUNT = 'add_account';
 export const SET_THEME = 'set_theme';
+export const SET_STRIPE_MODAL = 'set_stripe_modal';
+export const SET_STRIPE_PROGRESS = 'set_stripe_progress';

@@ -9,6 +9,7 @@ import path from './pathReducer';
 import groupsReducer from './groupsReducer';
 import accountReducer from './accountReducer';
 import themeReducer from './themeReducer';
+import stripeReducer from './stripeReducer';
 
 const rootReducer = combineReducers({
   users:usersReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   submit,
   path,
   theme:themeReducer,
+  stripe:stripeReducer,
 })
 
 export default rootReducer;

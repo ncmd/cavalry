@@ -4,9 +4,9 @@ import {
     FETCH_USER,
     SIGNOUT_USER,
     SET_PLAN,
+    ADD_USER
 } from '../actions/types';
-//
-// const initialLoginState = { logged: false };
+
 
 export default function(state = [], action) {
 
@@ -23,6 +23,11 @@ export default function(state = [], action) {
             return {
               ...state,
               plan: action.payload.plan
+            }
+        case ADD_USER:
+            return {
+             ...state,
+             password: action.payload
             }
         case 'LOGIN_USER':
             return action.payload;

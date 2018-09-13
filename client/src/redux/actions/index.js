@@ -29,6 +29,7 @@ import {
     ADD_GROUP_LOCATION,
     ADD_GROUPS,
     ADD_ACCOUNT,
+    SET_STRIPE_MODAL,
     // SET_THEME,
 } from './types';
 
@@ -174,11 +175,11 @@ export const getUser = () => dispatch => {
 // Need to add user email to the state because need to keep track of email address
 // This Subscribes User to Stripe Plan
 export const addUser = (email,source,plan) => async dispatch =>{
-    const data = {email:email, source:source, plan:plan};
+    let data = {email:email, source:source, plan:plan};
     console.log("DATA:",data)
     const res =  await axios.post(backend+'/api/user/new',data);
-    console.log(res);
     dispatch({ type: ADD_USER, payload: res.data });
+    return res.data
 };
 
 export const setPlan = (plan) => async dispatch =>{
@@ -202,6 +203,10 @@ export const pingBackend = () => async dispatch => {
     });
 };
 
+export const setStripeProgress = (value) => dispatch => {
+  dispatch({ type: SET_STRIPE_PROGRESS, payload: value})
+}
+
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
 export const emailJidoka = (email,recaptcha) => async dispatch => {
     let data = { email:"test@gmail.com", recaptcha:recaptcha};
@@ -212,6 +217,10 @@ export const emailJidoka = (email,recaptcha) => async dispatch => {
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
 export const applySecurity = (email,recaptcha) => async dispatch => {
     let data = {  email:email, recaptcha:recaptcha};
-    const res = await axios.post(backend+'/api/recaptcha', data );
+    const res = await axios.post(backend+'/api/apply', data );
     dispatch({ type: SET_RECAPTCHA, payload: res.data });
 };
+
+export const setStripeModal = () => dispatch => {
+    dispatch({ type: SET_STRIPE_MODAL})
+}

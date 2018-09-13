@@ -5,16 +5,21 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    pingBackend,setUserEmail,applySecurity,setPlan
+    pingBackend,setUserEmail,applySecurity,setPlan,setStripeModal
 } from '../redux/actions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { InputGroup, InputGroupText, InputGroupAddon, Input ,FormFeedback } from 'reactstrap';
+import { Progress ,InputGroup, InputGroupText, InputGroupAddon, Input , FormFeedback } from 'reactstrap';
 import {Elements, StripeProvider} from "react-stripe-elements";
 import SplitForm from "../components/stripe/splitform";
 import { auth } from '../components/firebase';
 import Check from '@material-ui/icons/Check';
 import '../components/ribbon/ribbon.css';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const keys = require('../secrets/keys');
@@ -46,6 +51,8 @@ class Signup extends Component {
             selectItem1:false,
             selectItem2:false,
             selectItem3:false,
+            dialog: false,
+            completed: 0,
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         window.addEventListener('resize', () => {
@@ -62,8 +69,16 @@ class Signup extends Component {
         this.handleEmail = this.handleEmail.bind(this);
         this.handleChangeRecaptcha = this.handleChangeRecaptcha.bind(this);
         this.validateCaptchaClick = this.validateCaptchaClick.bind(this);
+
     }
 
+    handleClickOpenDialog = () => {
+      this.props.setStripeModal()
+    };
+
+    handleCloseDialog = () => {
+      this.props.setStripeModal()
+    };
 
     componentDidMount() {
         // Window Dimensions
@@ -369,6 +384,7 @@ class Signup extends Component {
 
     render() {
 
+
         return (
             <div>
                 <Header/>
@@ -382,13 +398,9 @@ class Signup extends Component {
 
                     }}
                 >
-                    <Grid container style={{flexGrow:1, margin:"0 auto", paddingTop:10, paddingBottom:20, maxWidth:"50em", background:"#1a237e"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-                      <Grid item style={{marginLeft:'auto',marginRight:'auto'}}>
-                        <span aria-label="emoji" role="img" style={{fontSize:'2.8rem'}}>🐎</span>️
-                      </Grid>
-                    </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item>
+                        <Button onClick={()=> {this.props.setStripeModal()}}>Hello</Button>
                         <Typography variant={'subheading'} style={{color:'white'}}>
                           <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography> <b>Select a plan that works for you:</b>
                         </Typography>
@@ -527,25 +539,44 @@ class Signup extends Component {
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 95.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</Typography>
                       </Grid>
                     </Grid>
-                    <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:100}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-                      // <Grid item>
-                      // </Grid>
-
-                      {/*<Grid item >
-                        <Typography variant={'caption'} style={{color:'white'}}>
-                          <span aria-label="emoji" role="img">🔒</span> Secure Server Secure checkout. You are 100% backed by our 30-Day Money-Back Guarantee.<br/>
-                          By submitting this form you agree to our Terms of service
-                        </Typography>
-                      </Grid> */}
-                    </Grid>
                 </div>
+                <Dialog
+                  disableBackdropClick
+                  disableEscapeKeyDown
+                  open={this.props.stripe.modal}
+                  onClose={this.handleCloseDialog}
+                  aria-labelledby="alert-dialog-title"
+                  aria-describedby="alert-dialog-description"
+                >
+                  <DialogTitle id="alert-dialog-title">{"Setting up your account..."}</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-description-1">
+                      Connecting to Stripe
+                    </DialogContentText>
+                    <Progress animated value={this.state.completed} />
+                    <DialogContentText id="alert-dialog-description-2">
+                      Subscribing Account
+                    </DialogContentText>
+                    <DialogContentText id="alert-dialog-description-3">
+                      Generating Password
+                    </DialogContentText>
+                    <DialogContentText id="alert-dialog-description-3">
+                      Emailing Account Credentials
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={this.handleCloseDialog} color="primary" autoFocus>
+                      Agree
+                    </Button>
+                  </DialogActions>
+                </Dialog>
             </div>
         );
     }
 }
 
-function mapStateToProps({ status, users }) {
-    return { status,users };
+function mapStateToProps({ status, users, stripe }) {
+    return { status,users, stripe };
 }
 
-export default connect(mapStateToProps,{pingBackend,setUserEmail,applySecurity,setPlan})(withRouter(Signup));
+export default connect(mapStateToProps,{pingBackend,setUserEmail,applySecurity,setPlan,setStripeModal})(withRouter(Signup));

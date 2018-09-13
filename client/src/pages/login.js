@@ -13,6 +13,7 @@ import { InputGroup, InputGroupText, InputGroupAddon, Input, FormFeedback } from
 import * as auth from "../components/firebase/auth";
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
+const resetPasswordButton = "linear-gradient(to right, #ff1744, #F44336 ";
 
 class Login extends Component {
 
@@ -24,7 +25,8 @@ class Login extends Component {
             email:'',
             password:'',
             status: null,
-            emailExists:false
+            emailExists:false,
+            loginError: '',
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.handleEmail = this.handleEmail.bind(this);
@@ -176,21 +178,17 @@ class Login extends Component {
     }
 
     handleLogin(email,password){
-      console.log(email,password)
-
       auth.doSignInWithEmailAndPassword(email,password).then((response) => {
-          console.log("Response:",response)
-          if (response.operationType === "signIn"){
-              console.log("Login Success!")
+          if (response === 'The password is invalid or the user does not have a password.'){
+            this.setState({
+              loginError: response
+            })
+          } else if (response.operationType === "signIn"){
               this.props.loginUser(response.user.uid)
               this.props.history.push('/')
-              console.log("RESPONSE:",response.user.uid)
           }
-            if (response.operationType !== "signIn"){
-              console.log("Login Failed!")
-          }
-      })
-
+      }
+    )
     }
 
     renderErrorEmail(){
@@ -199,12 +197,26 @@ class Login extends Component {
             return(
                 <FormFeedback tooltip style={{marginLeft:51}}>Enter a valid Email Address</FormFeedback>
             )
-        }
-        if (this.state.email !== '' && this.state.validEmail === true && this.state.emailError !== null){
+        } else if (this.state.email !== '' && this.state.validEmail === true && this.state.emailError !== null){
             return(
                 <FormFeedback tooltip style={{marginLeft:51}}>{this.state.emailError}</FormFeedback>
             )
         }
+    }
+
+    renderLoginError(){
+      if (this.state.loginError === ''){
+        return (
+          <div></div>
+        )
+      } else {
+        return (
+          <div>
+            <Typography style={{color:'white'}} variant={'caption'}>{this.state.loginError}</Typography>
+            <Button style={{background:resetPasswordButton}} onClick={() => auth.doPasswordReset(this.state.email)}><Typography style={{color:'white'}} variant={'caption'}><b>Reset password</b></Typography></Button>
+          </div>
+        )
+      }
     }
 
 
@@ -246,9 +258,10 @@ class Login extends Component {
                                             ?
                                             <Input valid  style={{border:0}} type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
                                             :
-                                            <Input invalid  style={{border:0}} type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
+                                            <Input invalid style={{border:0}} type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
                                         }
                                     </InputGroup>
+                                    {this.renderLoginError()}
                                     {this.renderButton()}
                                 </Grid>
                             </Paper>
