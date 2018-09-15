@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/header/header';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Prompt } from 'react-router'
 import {
     updatePost,
     editSubmitTitle,
@@ -17,10 +18,13 @@ import Button from '@material-ui/core/Button';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
+import './edit.css';
+
+
 Quill.register('modules/ImageResize', ImageResize);
 
-const objectiveButton = "linear-gradient(to right, #304ffe, #2962ff)";
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
+const objectiveButton = "linear-gradient(to right, #304ffe, #2962ff)";
 const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
 
 // a little function to help us with reordering the result
@@ -70,6 +74,7 @@ class Edit extends Component {
             objectives: [],
             tasks: [],
             tags:'',
+            postPublished: false,
             tagsValid:false,
             titleValid:false,
             descriptionValid:false,
@@ -108,6 +113,7 @@ class Edit extends Component {
     this.setState({
       objectives,
     });
+
     this.props.editSubmitObjectives(this.state.objectives)
   }
   handleChangeEditor(value) {
@@ -134,6 +140,14 @@ class Edit extends Component {
 
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentDidUpdate(){
+      if (this.state.postPublished === false) {
+        window.onbeforeunload = () => true
+      } else {
+        window.onbeforeunload = undefined
+      }
     }
 
     clickEvent(){
@@ -164,7 +178,6 @@ class Edit extends Component {
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.updateWindowDimensions);
-
         clearInterval(this.interval);
     }
 
@@ -248,6 +261,9 @@ class Edit extends Component {
         [objectiveTitle]: event.target.value,
     },() => {
       this.validateObjectiveTitle(this.state.objectiveTitle);
+
+
+
     });
   };
 
@@ -265,25 +281,11 @@ class Edit extends Component {
     this.setState({ taskTitle: event.target.value });
   }
 
-  // Function renders fields of form taken from 'formFields' file
-  // Uses 'lodash' to create an empty array to map using the 'formFields' lines in file; takes the 'label' and 'name' values
-  // 'key' is required to make all <div>'s unique
-  // 'Grid' is used for layout
-  // 'Field' is from 'redux-form' to help with managing Forms, uses component RunbookField to input validation
-
-
-  // Function to remove an Objective in 'objective' state at a specific Index in state
-  // Arguments is 'objectiveIndex' which is the position of where in the array user would like to remove
   removeObjective(objectiveIndex) {
     console.log("this state objectives:",this.state.objectives)
     // Get static state of 'objectives'
     let prevObjectives = this.state.objectives;
 
-    // Counter is used to start the positioning
-    // let thisCounter = 0;
-
-    // Use map to go through all existing objectives matching the given 'objectiveIndex'
-    // If there is a match, use 'splice' to remove element in prevObjectives array
     prevObjectives.map((obj,i) => {
       if (i === objectiveIndex) {
         prevObjectives.splice(objectiveIndex, 1);
@@ -433,8 +435,6 @@ class Edit extends Component {
       }
   }
 
-
-
   renderReviewButton(){
     if(this.state.tagsValid === true && this.state.postTitle !== '' && this.state.postDescription !== '' && this.state.objectives.length > 0){
       return (
@@ -454,10 +454,15 @@ class Edit extends Component {
     updatePost(id,title,description,tags,objectives){
         console.log("Clicked Once")
         this.props.updatePost(id,title,description,tags,objectives);
+        this.setState({
+          postPublished: true
+        }, () => {
+        this.props.history.push('/')
+        })
     }
 
     editObjective(index){
-      console.log("INDEX:",index)
+      // console.log("INDEX:",index)
       this.state.objectives.map((o,i) => {
         if (index === i){
           this.setState({
@@ -483,7 +488,6 @@ class Edit extends Component {
               style={getListStyle(snapshot.isDraggingOver)}
             >
               {this.state.objectives.map((obj, index) => (
-
                 <Draggable key={obj.title} draggableId={obj.title+1} index={index}>
                   {(provided, snapshot) => (
                     <div
@@ -543,9 +547,22 @@ class Edit extends Component {
       }
     }
 
+    imageHandler(image, callback){
+    var range = this.quillRef.getEditor().getSelection();
+    var value = prompt('What is the image URL');
+    if(value) {
+        this.quillRef.getEditor().insertEmbed(range.index, 'image', value, "user");
+        }
+    }
+
     render() {
         return (
             <div>
+              <Prompt
+                key='block-nav'
+                when={this.state.postPublished === false}
+                message='You have unsaved changes, are you sure you want to leave?'
+              />
                 <Header/>
                 <div
                     style={{
@@ -556,11 +573,11 @@ class Edit extends Component {
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{background:'#283593', flexGrow:1, margin:"0 auto"}} alignItems="center" direction="column" justify="center" >
-                        <Grid item>
-                            <Form style={{ marginTop:20, marginBottom:20,flexGrow:1, width:800}}>
+                    <Grid container style={{background:'#283593', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="row" justify="center" >
+                        <Grid item style={{width:'100%'}} xs>
+                            <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white'}}>Runbook Title</Typography>
+                                    <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Runbook Title</b></Typography>
                                       {this.state.titleValid
                                       ?
                                       <Input valid placeholder="Subject of a problem or process" value={this.state.postTitle} onChange={this.handlePostTitle('postTitle')}/>
@@ -569,7 +586,7 @@ class Edit extends Component {
                                       }
                                 </FormGroup>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white'}}>Runbook Description</Typography>
+                                    <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Runbook Description</b></Typography>
 
                                       {this.state.descriptionValid
                                       ?
@@ -579,7 +596,7 @@ class Edit extends Component {
                                       }
                                 </FormGroup>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white'}}>Runbook Tags</Typography>
+                                    <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Runbook Tags</b></Typography>
                                       {this.state.tagsValid
                                       ?
                                       <Input valid placeholder={"Separate each tag with ',' (comma"} value={this.state.tags} onChange={this.handlePostTags('tags')}/>
@@ -589,7 +606,7 @@ class Edit extends Component {
                                 </FormGroup>
 
                                   <FormGroup>
-                                      <Typography variant="button" style={{color:'white'}}>Objective</Typography>
+                                      <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Objective Title</b></Typography>
                                         {this.state.objectiveTitleValid
                                         ?
                                         <Input valid placeholder="Step 1 on how to solve the problem or process" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
@@ -598,39 +615,32 @@ class Edit extends Component {
                                         }
                                   </FormGroup>
                                   <FormGroup>
-                                      <Typography variant="button" style={{color:'white'}}>Objective Description </Typography>
+                                      <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Objective Description</b> </Typography>
                                       <ReactQuill modules={{
                                         ImageResize: {
                                               parchment: Quill.import('parchment')
                                           },
                                             toolbar: [
-                                        [{ 'color': [] }, { 'background': [] }],
                                         ['bold', 'italic', 'underline','strike'],
                                         [{'list': 'ordered'}, {'list': 'bullet'}],
                                         ['link', 'image','video'],
                                         ['clean']
-                                      ],}} style={{background:'white', height:600-72}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
+                                      ],
+                                    }} style={{background:'white', height:500}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
                                   </FormGroup>
-                                <Grid container style={{marginTop:92}} alignItems="center" direction="row" justify="flex-end" >
-                                    <Grid item >
+                                  <FormGroup>
                                         {this.renderAddObjectiveButton()}
-                                    </Grid>
-                                </Grid>
-                                <Grid container alignItems="center" direction="row" justify="space-between" >
-                                    <Grid item >
-                                        <Button style={{border:'2px solid black', borderColor:'#474f97', textTransform: 'none', color:'white', marginRight:40}}>DISCARD</Button>
-                                    </Grid>
-                                    <Grid item >
+                                  </FormGroup>
+                                  <FormGroup>
                                         {this.renderReviewButton()}
+                                  </FormGroup>
+                            </Form>
                                     </Grid>
                                 </Grid>
-                                <Grid container alignItems="center" direction="row" justify="space-between" style={{marginTop:20}}>
-                                  <Typography variant={'button'} style={{color:'white'}}>You can sort the objectives by dragging and dropping the objects</Typography>
+                    <Grid container alignItems="center" direction="row" justify="space-between" style={{ flexGrow:1, margin:"0 auto", maxWidth:"63em", paddingTop:20}}>
+                      <Typography variant={'button'} style={{color:'white', textTransform:'none'}}>You can sort the objectives by dragging and dropping the objects</Typography>
                                 {this.renderObjectives()}
                                 </Grid>
-                            </Form>
-                        </Grid>
-                    </Grid>
                 </div>
             </div>
         );

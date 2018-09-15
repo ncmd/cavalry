@@ -1,0 +1,10 @@
+button.navbar-toggler {
+  position: absolute;
+  right: 10px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+div.collapse.show.navbar-collapse {
+  padding-right: 80px;
+}

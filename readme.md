@@ -48,6 +48,9 @@ PROJECT PATH
 - firebase init; build, yes, no
 - setup all the keys client/secrets/keys_dev.js
 
+# Redux Setup
+-
+
 # Firebase Authentication Setup
 - Enable email sign-in method
 - Add authorized domain: cavalry-app.herokuapp.com
@@ -66,8 +69,21 @@ PROJECT PATH
 - heroku login
 - heroku git:remote -a cavalry-app
 - cd server/functions npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
+
+# Server Email Setup:
 - Email: enable less secure app access https://myaccount.google.com/lesssecureapps
 - and display unlock captcha http://www.google.com/accounts/DisplayUnlockCaptcha
+
+# Server Heroku Config:
+- Gopkg.toml = root-package = "cavalry/server-prod"
+- Procfile = web: server-prod
+
+
+# Recaptcha Configuration
+- https://www.google.com/recaptcha/admin#site/342465358
+- Source backend server changes, be sure to update to the list of allowed domains
+- Also add owners
+- Adjust to easiest for users
 
 # Recover from Heroku Server
 - server/config/config.toml

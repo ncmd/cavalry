@@ -16,3 +16,4 @@ firestore_orig_data.json
 firestore_prod_data.json
 keys_dev.js
 keys_prod.js
+keys_local.js

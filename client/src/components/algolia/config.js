@@ -50,6 +50,15 @@ function findAndReplace(string, target, replacement) {
 export const AlgoliaSearch = () =>
   <CustomSearch />
 
+function Request({ request }){
+  return (
+      <Grid item xs={12} key={request.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
+        <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
+          {request.title}
+        </Button>
+      </Grid>
+  )
+}
 
 function Post({ hit }) {
   return (
@@ -60,7 +69,7 @@ function Post({ hit }) {
                 <Grid item xs={9} style={{textAlign:'left'}}>
                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                         <Grid item zeroMinWidth>
-                            <Typography variant="title" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                            <Typography variant="title" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden', fontWeight:'bold'}}>
                               <Hidden mdDown>
                               <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
                                  <Highlight attribute="title" hit={hit} />

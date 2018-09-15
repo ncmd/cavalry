@@ -30,6 +30,7 @@ import {
     ADD_GROUPS,
     ADD_ACCOUNT,
     SET_STRIPE_MODAL,
+    SET_STRIPE_PROGRESS
     // SET_THEME,
 } from './types';
 

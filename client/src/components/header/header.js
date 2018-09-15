@@ -18,14 +18,14 @@ import {
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
 import {AlgoliaSearch} from '../../components/algolia/config';
-// import InputLabel from '@material-ui/core/InputLabel';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
-// import ArrowRight from '@material-ui/icons/ArrowRightAlt';
-// import FormControl from '@material-ui/core/FormControl';
-// import Select from '@material-ui/core/Select';
+import Hidden from '@material-ui/core/Hidden';
+import './header.css';
 
 const headerSignupButton = "linear-gradient(to right, #ff1744, #F44336 ";
+const headerPostButton = "linear-gradient(to right, #f44336, #e91e63 ";
+const headerRequestButton = "linear-gradient(to right, #2979ff, #03a9f4 ";
 const headerBlue = "#1a237e";
 const accountButton = "linear-gradient(to right, #304ffe, #2962ff)";
 const manageButton = "linear-gradient(to right, #9c27b0, #673ab7)";
@@ -134,21 +134,30 @@ class header extends Component {
       const { anchorEl } = this.state;
       return (
         <Nav className="ml-auto" navbar>
+          <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
+              <Link to={{pathname:'/request'}}>
+                  <Button style={{ height:30, background:headerRequestButton, marginRight:10, textTransform: 'none'}}  >
+                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                        <b>Request</b>
+                      </Typography>
+                  </Button>
+              </Link>
+          </NavItem>
         <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             <Link to={{pathname:'/submit'}}>
-                <Button style={{ height:30, background:headerSignupButton, marginRight:10, textTransform: 'none'}}  >
+                <Button style={{ height:30, background:headerPostButton, marginRight:10, textTransform: 'none'}}  >
                     <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                      <b>Post <span aria-label="emoji" role="img">📓</span></b>
+                      <b>Post</b>
                     </Typography>
                 </Button>
             </Link>
-
         </NavItem>
+
         <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             <Link to={{pathname:'/manage'}}>
                 <Button style={{ height:30, background:manageButton, marginRight:10, textTransform: 'none'}}  >
                     <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                      <b>Manage <span aria-label="emoji" role="img">👮</span></b>
+                      <b>Manage</b>
                     </Typography>
                 </Button>
             </Link>
@@ -205,9 +214,9 @@ class header extends Component {
                     }}
                 >
                     <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',paddingTop:10,paddingLeft:1,paddingRight:1}} color={headerBlue} dark expand="sm">
-                      <Grid container style={{flexGrow:1, margin:"0 auto"}} direction="row" justify="space-between" alignItems="flex-start" >
+                      <Grid container style={{flexGrow:1, margin:"0 auto"}} direction="row" justify="space-between" alignItems="flex-start" spacing={24} >
                         <Grid item xs>
-                          <Link to={{pathname:'/'}} style={{marginLeft:10}}>
+                          <Link to={{pathname:'/'}}>
                               <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
                                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                                     <b>Cavalry</b>
@@ -215,11 +224,13 @@ class header extends Component {
                               </Button>
                           </Link>
                         </Grid>
+                        <Hidden smDown>
                         <Grid item xs={6}>
                           {this.renderSearch()}
                         </Grid>
+                      </Hidden>
                         <Grid item xs>
-                          <NavbarToggler onClick={this.toggle} style={{marginLeft:10,marginTop:0}}/>
+                          <NavbarToggler onClick={this.toggle} style={{}}/>
                           <Collapse isOpen={this.state.isOpen} navbar>
                             {this.props.users.logged
                                 ?

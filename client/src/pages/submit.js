@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../components/header/header';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Prompt } from 'react-router'
 import {
     addPost,
     editSubmitTitle,
@@ -17,6 +18,9 @@ import Button from '@material-ui/core/Button';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
+import './submit.css';
+
+
 Quill.register('modules/ImageResize', ImageResize);
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
@@ -62,12 +66,15 @@ class Submit extends Component {
            html: null,
             width: window.innerWidth,
             height: window.innerHeight,
+            path:'',
             text: '',
+            postId:'',
             postTitle:'',
             postDescription:'',
             objectives: [],
             tasks: [],
             tags:'',
+            postPublished: false,
             tagsValid:false,
             titleValid:false,
             descriptionValid:false,
@@ -118,6 +125,14 @@ class Submit extends Component {
 
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+    }
+
+    componentDidUpdate(){
+      if (this.state.postPublished === false) {
+        window.onbeforeunload = () => true
+      } else {
+        window.onbeforeunload = undefined
+      }
     }
 
     clickEvent(){
@@ -251,25 +266,11 @@ class Submit extends Component {
     this.setState({ taskTitle: event.target.value });
   }
 
-  // Function renders fields of form taken from 'formFields' file
-  // Uses 'lodash' to create an empty array to map using the 'formFields' lines in file; takes the 'label' and 'name' values
-  // 'key' is required to make all <div>'s unique
-  // 'Grid' is used for layout
-  // 'Field' is from 'redux-form' to help with managing Forms, uses component RunbookField to input validation
-
-
-  // Function to remove an Objective in 'objective' state at a specific Index in state
-  // Arguments is 'objectiveIndex' which is the position of where in the array user would like to remove
   removeObjective(objectiveIndex) {
     console.log("this state objectives:",this.state.objectives)
     // Get static state of 'objectives'
     let prevObjectives = this.state.objectives;
 
-    // Counter is used to start the positioning
-    // let thisCounter = 0;
-
-    // Use map to go through all existing objectives matching the given 'objectiveIndex'
-    // If there is a match, use 'splice' to remove element in prevObjectives array
     prevObjectives.map((obj,i) => {
       if (i === objectiveIndex) {
         prevObjectives.splice(objectiveIndex, 1);
@@ -401,9 +402,9 @@ class Submit extends Component {
       if (this.state.objectiveDescription !=='') {
           // // console.log("Valid Email Address:",email);
           this.setState({objectiveDescriptionValid:true});
-          console.log("Objective Title is valid!")
+          console.log("Objective Description is valid!")
       } else {
-          console.log("Objective Title Still invalid...")
+          console.log("Objective Description Still invalid...")
           this.setState({objectiveDescriptionValid:false})
       }
   }
@@ -438,7 +439,11 @@ class Submit extends Component {
     submitPost(title,description,tags,objectives){
         console.log("Clicked Once")
         this.props.addPost(title,description,tags,objectives);
-        // this.props.editClear();
+        this.setState({
+          postPublished: true
+        }, () => {
+          this.props.history.push('/')
+        })
     }
 
     editObjective(index){
@@ -519,6 +524,11 @@ class Submit extends Component {
         return (
           <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Description</Button>
         )
+      } else {
+        return (
+          <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Title & Description</Button>
+        )
+
       }
     }
 
@@ -533,6 +543,11 @@ class Submit extends Component {
     render() {
         return (
             <div>
+              <Prompt
+                key='block-nav'
+                when={this.state.postPublished === false}
+                message='You have unsaved changes, are you sure you want to leave?'
+              />
                 <Header/>
                 <div
                     style={{
@@ -543,40 +558,40 @@ class Submit extends Component {
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{background:'#283593', flexGrow:1, margin:"0 auto"}} alignItems="center" direction="column" justify="center" >
-                        <Grid item>
-                            <Form style={{ marginTop:20, marginBottom:20,flexGrow:1, width:800}}>
+                    <Grid container style={{background:'#283593', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="row" justify="center" >
+                        <Grid item style={{width:'100%'}} xs>
+                            <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white'}}>Runbook Title</Typography>
+                                    <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Runbook Title</b></Typography>
                                       {this.state.titleValid
                                       ?
-                                      <Input valid placeholder="Subject of a problem or process"  onChange={this.handlePostTitle('postTitle')}/>
+                                      <Input valid placeholder="Subject of a problem or process" value={this.state.postTitle} onChange={this.handlePostTitle('postTitle')}/>
                                       :
-                                      <Input invalid placeholder="Subject of a problem or process"  onChange={this.handlePostTitle('postTitle')}/>
+                                      <Input invalid placeholder="Subject of a problem or process" value={this.state.postTitle}  onChange={this.handlePostTitle('postTitle')}/>
                                       }
                                 </FormGroup>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white'}}>Runbook Description</Typography>
+                                    <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Runbook Description</b></Typography>
 
                                       {this.state.descriptionValid
                                       ?
-                                      <Input valid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know" onChange={this.handlePostDescription('postDescription')}/>
+                                      <Input valid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know"  value={this.state.postDescription}  onChange={this.handlePostDescription('postDescription')}/>
                                       :
-                                      <Input invalid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know" onChange={this.handlePostDescription('postDescription')}/>
+                                      <Input invalid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know" value={this.props.postDescription} onChange={this.handlePostDescription('postDescription')}/>
                                       }
                                 </FormGroup>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white'}}>Runbook Tags</Typography>
+                                    <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Runbook Tags</b></Typography>
                                       {this.state.tagsValid
                                       ?
-                                      <Input valid placeholder={"Separate each tag with ',' (comma"} onChange={this.handlePostTags('tags')}/>
+                                      <Input valid placeholder={"Separate each tag with ',' (comma"} value={this.state.tags} onChange={this.handlePostTags('tags')}/>
                                       :
-                                      <Input invalid placeholder={"Separate each tag with ',' (comma)"} onChange={this.handlePostTags('tags')}/>
+                                      <Input invalid placeholder={"Separate each tag with ',' (comma)"} value={this.state.tags} onChange={this.handlePostTags('tags')}/>
                                       }
                                 </FormGroup>
 
                                   <FormGroup>
-                                      <Typography variant="button" style={{color:'white'}}>Objective</Typography>
+                                      <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Objective Title</b></Typography>
                                         {this.state.objectiveTitleValid
                                         ?
                                         <Input valid placeholder="Step 1 on how to solve the problem or process" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
@@ -585,46 +600,38 @@ class Submit extends Component {
                                         }
                                   </FormGroup>
                                   <FormGroup>
-                                      <Typography variant="button" style={{color:'white'}}>Objective Description </Typography>
+                                      <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Objective Description</b> </Typography>
                                       <ReactQuill modules={{
                                         ImageResize: {
                                               parchment: Quill.import('parchment')
                                           },
                                             toolbar: [
-                                        [{ 'color': [] }, { 'background': [] }],
                                         ['bold', 'italic', 'underline','strike'],
                                         [{'list': 'ordered'}, {'list': 'bullet'}],
                                         ['link', 'image','video'],
                                         ['clean']
                                       ],
-                                    }} style={{background:'white', height:600-72}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
+                                    }} style={{background:'white', height:500}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
                                   </FormGroup>
-                                <Grid container style={{marginTop:92}} alignItems="center" direction="row" justify="flex-end" >
-                                    <Grid item >
-                                        {this.renderAddObjectiveButton()}
-                                    </Grid>
-                                </Grid>
-                                <Grid container alignItems="center" direction="row" justify="space-between" >
-                                    <Grid item >
-                                        <Button style={{border:'2px solid black', borderColor:'#474f97', textTransform: 'none', color:'white', marginRight:40}}>DISCARD</Button>
-                                    </Grid>
-                                    <Grid item >
-                                        {this.renderReviewButton()}
-                                    </Grid>
-                                </Grid>
-                                <Grid container alignItems="center" direction="row" justify="space-between" style={{marginTop:20}}>
-                                  <Typography variant={'button'} style={{color:'white'}}>You can sort the objectives by dragging and dropping the objects</Typography>
-                                {this.renderObjectives()}
-                                </Grid>
+                                  <FormGroup>
+                                    {this.renderAddObjectiveButton()}
+                                  </FormGroup>
+                                  <FormGroup>
+                                    {this.renderReviewButton()}
+                                  </FormGroup>
                             </Form>
                         </Grid>
+                    </Grid>
+                    <Grid container alignItems="center" direction="row" justify="space-between" style={{ flexGrow:1, margin:"0 auto", maxWidth:"63em", paddingTop:20}}>
+                      <Typography variant={'button'} style={{color:'white', textTransform:'none'}}>You can sort the objectives by dragging and dropping the objects</Typography>
+                      {this.renderObjectives()}
                     </Grid>
                 </div>
             </div>
         );
     }
 }
-function mapStateToProps({ posts,submit }) {
-    return { posts,submit };
+function mapStateToProps({ posts, path,submit}) {
+    return { posts, path, submit };
 }
 export default connect(mapStateToProps,{addPost,editSubmitTitle,editSubmitDescription,editSubmitTags,editSubmitObjectives,editClear})(withRouter(Submit));

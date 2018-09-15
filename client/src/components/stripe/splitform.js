@@ -3,9 +3,9 @@ import {CardNumberElement, CardExpiryElement, CardCVCElement, PostalCodeElement,
 import './stripe.css'
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter,Redirect  } from 'react-router-dom';
 import {
-    addUser,setStripeModal,setStripeProgress
+    addUser,setStripeModal,setStripeProgress,loginUser
 } from '../../redux/actions';
 import * as auth from "../firebase/auth";
 import Button from '@material-ui/core/Button';
@@ -23,6 +23,7 @@ const ownerInfo = {
     email: 'jenny.rosen@example.com'
   },
 };
+const timer = null;
 
 class SplitForm extends Component {
 
@@ -53,21 +54,17 @@ class SplitForm extends Component {
       form.submit();
     }
 
-    renderProgress = () => {
-    if (this.state.progresscompleted > 100) {
-      this.setState({ progresscompleted: 0});
-      this.props.setStripeProgress(tis.state.progresscompleted)
+  componentDidMount() {
 
-    } else {
-      const diff = Math.random() * 10;
-      this.setState({ progresscompleted: this.state.progresscompleted + diff });
-      this.props.setStripeProgress(tis.state.progresscompleted)
-    }
   }
+
+  componentWillUnmount() {
+
+  }
+
 
     handleSubmit = () => {
             this.props.setStripeModal()
-            this.renderProgress()
             this.props.stripe
                 .createSource({type:'card'},ownerInfo)
                 .then((payload) => {
@@ -75,7 +72,23 @@ class SplitForm extends Component {
                   // Once add user, generate password (in backend), use password to create user, send password to user via email
                     this.props.addUser(this.props.users.email,payload.source.id,this.props.users.plan).then((password) =>{
                       console.log("PASSWORRRRRRD:",password)
-                      auth.doCreateUserWithEmailAndPassword(this.props.users.email,password)
+                      auth.doCreateUserWithEmailAndPassword(this.props.users.email,password).then( () => {
+
+                            auth.doSignInWithEmailAndPassword(this.props.users.email,this.props.users.password).then((response) => {
+                              console.log("SignInResponse:",response)
+                                if (response === 'The password is invalid or the user does not have a password.'){
+                                  this.setState({
+                                    loginError: response
+                                  })
+                                } else if (response.operationType === "signIn"){
+                                    this.props.loginUser(response.user.uid)
+                                    this.props.history.push('/')
+                                }
+                            }
+                          )
+
+                        }
+                      )
                     })
 
                 }, (response) => {
@@ -253,4 +266,4 @@ function mapStateToProps({ users, stripe}) {
     return { users, stripe };
 }
 
-export default connect(mapStateToProps,{addUser,setStripeModal})(withRouter(injectStripe(SplitForm)));
+export default connect(mapStateToProps,{addUser,setStripeModal,loginUser})(withRouter(injectStripe(SplitForm)));

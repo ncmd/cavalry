@@ -38,10 +38,6 @@ class Post extends Component {
         // console.log(this.props.location);
         this.props.getPost('/api'+this.props.location.pathname).then(() => {
 
-          // console.log("props.title:",this.props.posts.title)
-          // console.log("props.description:",this.props.posts.description)
-          // console.log("props.id:",this.props.posts.id)
-
               this.setState({
                 postTitle:this.props.posts.title,
                 postDescription:this.props.posts.description,
@@ -78,9 +74,11 @@ class Post extends Component {
         this.state.objectives.map( (obj,index) => {
           // console.log("OOOO:",obj)
           return(
-            <Grid key={obj.title} style={{background:'white',margin:0, padding:40}} item  >
+            <Grid key={obj.title} style={{background:'white',margin:0, padding:20}} item xs={12} >
 
-                  <Typography variant={'headline'} style={{color:'black'}}>{obj.title}</Typography>
+                  <Typography variant={'body2'} style={{color:'black'}}>
+                    <Typography variant={'body2'} style={{background:'red', width:26,height:26, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>{index+1}</Typography> <b>{obj.title}</b>
+                  </Typography>
 
                   <div dangerouslySetInnerHTML={{__html: obj.description}} />
 
@@ -114,16 +112,14 @@ class Post extends Component {
                         minHeight:this.state.height
                     }}
                 >
-                    {/* Top Section */}
-
                     <Grid container style={{ background:'#283593',borderColor:'#474f97',  margin:"0 auto", maxWidth:"63em", padding:25, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'flex-start'} direction={'column'}>
-                      <Grid item xs style={{}}>
+                      <Grid item xs>
                         <Typography variant={'display1'} style={{color:'white'}}><b>{this.state.postTitle}</b></Typography><br/>
                       </Grid>
                       <Grid item xs>
                         <Typography variant={'subheading'} style={{color:'white'}}>{this.state.postDescription}</Typography>
                       </Grid>
-                      <Grid item xs style={{marginLeft:'auto', marginRight:'auto', maxWidth:'50em', marginBottom:10}}>
+                      <Grid item xs style={{paddingTop:20}}>
                         {this.props.users.logged
                           ?
                           <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+this.findAndReplace(this.findAndReplace(this.state.postTitle,' ','-'),'\'','')+'/edit'}}>
@@ -139,7 +135,7 @@ class Post extends Component {
                     </Grid>
 
                     {/* Bottom Section */}
-                    <Grid container style={{background:'white', flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em", paddingBottom:100, }}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
+                    <Grid container style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em", paddingBottom:100, }}  alignItems={'flex-start'} justify={'flex-start'} direction={'row'}  >
                       {this.renderObjectives()}
                     </Grid>
                 </div>

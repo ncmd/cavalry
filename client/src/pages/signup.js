@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    pingBackend,setUserEmail,applySecurity,setPlan,setStripeModal
+    pingBackend,setUserEmail,applySecurity,setPlan,setStripeModal,loginUser
 } from '../redux/actions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -53,6 +53,7 @@ class Signup extends Component {
             selectItem3:false,
             dialog: false,
             completed: 0,
+            progresscompleted:0,
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         window.addEventListener('resize', () => {
@@ -74,17 +75,18 @@ class Signup extends Component {
 
     handleClickOpenDialog = () => {
       this.props.setStripeModal()
+      console.log("open")
     };
 
-    handleCloseDialog = () => {
-      this.props.setStripeModal()
+    handleCloseDialog(){
+      console.log("close")
     };
 
     componentDidMount() {
         // Window Dimensions
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
-        console.log("Process.env.NODE_ENV:ke",process.env.NODE_ENV)
+        console.log("Process.env.NODE_ENV:",process.env.NODE_ENV)
         if (window.Stripe) {
             this.setState({stripe: window.Stripe(keys.stripe_publishable_key)});
         } else {
@@ -335,7 +337,7 @@ class Signup extends Component {
         )
       }  else {
         return (
-          <div style={{width:273,height:36, background:'#474f97',borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
+          <div style={{width:273,height:42, background:'#474f97',borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
             <Typography style={{color:'white', display: 'inline-block', padding:'5px 0'}} variant={'body2'}>Please finish section <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography></Typography>
           </div>
         )
@@ -353,9 +355,20 @@ class Signup extends Component {
       }  else {
         return (
           <div style={{width:273,height:78, background:'#474f97',borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
-            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'body2'}>Please finish section <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography></Typography>
+            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'body2'}>Please finish section <Typography style={{background:'#ff5722', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography></Typography>
           </div>
         )
+      }
+    }
+
+    renderProgress = () => {
+      console.log("100")
+      if (this.state.progresscompleted > 100) {
+        this.setState({ progresscompleted: 0, buffer: 5 });
+      } else {
+        const diff = Math.random() * 5;
+        this.setState({ progresscompleted: this.state.progresscompleted + 10, });
+        console.log(this.state.progresscompleted)
       }
     }
 
@@ -376,10 +389,16 @@ class Signup extends Component {
       } else {
         return (
           <div style={{width:273,height:360, marginBottom:20, background:'#474f97',borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
-            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'body2'}>Please finish section <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>3</Typography></Typography>
+            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'body2'}>Please finish section <Typography style={{background:'#43a047', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>3</Typography></Typography>
           </div>
         )
       }
+    }
+
+    renderModal(){
+      this.props.setStripeModal()
+      setInterval(this.renderProgress(), 100);
+      setInterval(this.props.setStripeProgress(this.state.progresscompleted), 100);
     }
 
     render() {
@@ -398,15 +417,14 @@ class Signup extends Component {
 
                     }}
                 >
-                    <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-                      <Grid item>
-                        <Button onClick={()=> {this.props.setStripeModal()}}>Hello</Button>
-                        <Typography variant={'subheading'} style={{color:'white'}}>
-                          <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography> <b>Select a plan that works for you:</b>
-                        </Typography>
-                      </Grid>
-                      </Grid>
-                        <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", marginTop:20, maxWidth:"50em", padding:40}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
+                        <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
+                          <Grid item>
+                            <Typography variant={'subheading'} style={{color:'white'}}>
+                              <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography> <b>Select a plan that works for you:</b>
+                            </Typography>
+                          </Grid>
+                        </Grid>
+                        <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
                           <Grid item style={{marginTop:10}}>
                             {this.state.selectItem1
                               ?
@@ -492,7 +510,7 @@ class Signup extends Component {
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item>
                         <Typography variant={'subheading'} style={{color:'white'}}>
-                          <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography> <b>Enter your email address:</b>
+                          <Typography style={{background:'#ff5722', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography> <b>Enter your email address:</b>
                         </Typography>
                       </Grid>
                     </Grid>
@@ -505,7 +523,7 @@ class Signup extends Component {
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item>
                         <Typography variant={'subheading'} style={{color:'white'}}>
-                          <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>3</Typography> <b>Verify reCAPTCHA:</b>
+                          <Typography style={{background:'#43a047', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>3</Typography> <b>Verify reCAPTCHA:</b>
                         </Typography>
                       </Grid>
                     </Grid>
@@ -518,7 +536,7 @@ class Signup extends Component {
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item>
                         <Typography variant={'subheading'} style={{color:'white'}}>
-                          <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>4</Typography> <b>Enter payment information:</b>
+                          <Typography style={{background:'#039be5', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>4</Typography> <b>Enter payment information:</b>
                         </Typography>
                       </Grid>
                     </Grid>
@@ -534,8 +552,6 @@ class Signup extends Component {
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request for <span aria-label="emoji" role="img">📕</span> runbooks</Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request new <span aria-label="emoji" role="img">😍</span> features</Typography>
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Create & edit your <span aria-label="emoji" role="img">📖</span> runbooks</Typography>
-                        {/*<Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Access to consulting <span aria-label="emoji" role="img">🌎</span> network</Typography>*/}
-                        {/*<Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Access to recruiting <span aria-label="emoji" role="img">👩‍💻</span> network</Typography>*/}
                         <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 95.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</Typography>
                       </Grid>
                     </Grid>
@@ -551,24 +567,10 @@ class Signup extends Component {
                   <DialogTitle id="alert-dialog-title">{"Setting up your account..."}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-description-1">
-                      Connecting to Stripe
+                      We're sending you an email with your credentials!
                     </DialogContentText>
-                    <Progress animated value={this.state.completed} />
-                    <DialogContentText id="alert-dialog-description-2">
-                      Subscribing Account
-                    </DialogContentText>
-                    <DialogContentText id="alert-dialog-description-3">
-                      Generating Password
-                    </DialogContentText>
-                    <DialogContentText id="alert-dialog-description-3">
-                      Emailing Account Credentials
-                    </DialogContentText>
+                    <Progress animated value={100} />
                   </DialogContent>
-                  <DialogActions>
-                    <Button onClick={this.handleCloseDialog} color="primary" autoFocus>
-                      Agree
-                    </Button>
-                  </DialogActions>
                 </Dialog>
             </div>
         );
@@ -579,4 +581,4 @@ function mapStateToProps({ status, users, stripe }) {
     return { status,users, stripe };
 }
 
-export default connect(mapStateToProps,{pingBackend,setUserEmail,applySecurity,setPlan,setStripeModal})(withRouter(Signup));
+export default connect(mapStateToProps,{pingBackend,setUserEmail,applySecurity,setPlan,setStripeModal,loginUser})(withRouter(Signup));

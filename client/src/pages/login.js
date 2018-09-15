@@ -68,7 +68,7 @@ class Login extends Component {
             if (this.state.validEmail === true){
                 // // console.log(event.target.value);
                 this.validateEmail(this.state.email);
-                this.checkEmailExists(this.state.email);
+                // this.checkEmailExists(this.state.email);
             }
         });
 
@@ -152,29 +152,32 @@ class Login extends Component {
     }
 
     renderButton(){
-        if (this.state.validEmail === true && this.state.emailExists === true && this.state.password !== ''){
-            return(
-                <Button raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}  onClick={() =>this.handleLogin(this.state.email,this.state.password)}>Login</Button>
-            )
-        } else if (this.state.validEmail === true && this.state.emailExists === false){
-            return(
-                <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> This account does not exist</Button>
-            )
-        }else if (this.state.validEmail === true && this.state.emailExists === true && this.state.password === ''){
-            return(
-                <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> Enter your password</Button>
-            )
-        }
-
-        else if (this.state.validEmail !== true && this.state.emailExists === false){
-            return(
-                <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> Enter a valid email address</Button>
-            )
-        } else {
-            return(
-                <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> Enter a valid email address</Button>
-            )
-        }
+      return (
+        <Button raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}  onClick={() =>this.handleLogin(this.state.email,this.state.password)}>Login</Button>
+      )
+        // if (this.state.validEmail === true && this.state.emailExists === true && this.state.password !== ''){
+        //     return(
+        //
+        //     )
+        // } else if (this.state.validEmail === true && this.state.emailExists === false){
+        //     return(
+        //         <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> This account does not exist</Button>
+        //     )
+        // }else if (this.state.validEmail === true && this.state.emailExists === true && this.state.password === ''){
+        //     return(
+        //         <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> Enter your password</Button>
+        //     )
+        // }
+        //
+        // else if (this.state.validEmail !== true && this.state.emailExists === false){
+        //     return(
+        //         <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> Enter a valid email address</Button>
+        //     )
+        // } else {
+        //     return(
+        //         <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> Enter a valid email address</Button>
+        //     )
+        // }
     }
 
     handleLogin(email,password){
@@ -243,12 +246,7 @@ class Login extends Component {
                                         <InputGroupAddon addonType="prepend">
                                             <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">📮</span></InputGroupText>
                                         </InputGroupAddon>
-                                        {this.state.validEmail
-                                            ?
-                                            <Input valid  style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
-                                            :
-                                            <Input invalid  style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
-                                        }
+                                        <Input style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
                                     </InputGroup>
                                     <InputGroup style={{marginTop:40}}>
                                         <InputGroupAddon addonType="prepend">
