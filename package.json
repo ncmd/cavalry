@@ -59,7 +59,7 @@
     "deploy-backend-test":"cd server-prod & godep save ./... & heroku git:remote -a cavalry-app-prod",
     "deploy-backend-prod-1": "cd server-prod & echo \"godep save ./...\" & godep save ./...",
     "deploy-backend-prod-2": "cross-var \"echo 'heroku git:remote -a $npm_package_config_servernameprod' & heroku git:remote -a $npm_package_config_servernameprod\"",
-    "deploy-backend-prod-3": "echo 'heroku config:set APP_ENV=prod & git add . & git commit -m Deploy' & heroku config:set APP_ENV=prod & git add . & git commit -m \"Deploy\"",
+    "deploy-backend-prod-3": "echo 'heroku config:set APP_ENV=prod git add . git commit -m Deploy' & heroku config:set APP_ENV=prod & git add . & git commit -m \"Deploy\"",
     "deploy-backend-prod-4": "echo 'git push heroku master' & git push heroku master",
     "deploy-backend-prod-5": "cross-var \"echo 'heroku logs -a $npm_package_config_servernameprod' & heroku logs -a $npm_package_config_servernameprod --tail\"",
     "heroku-backend-refresh-prod": "cross-var \"cd server-prod & heroku git:remote -a cavalry-app-prod & heroku apps:destroy --app $npm_package_config_servernameprod --confirm $npm_package_config_servernameprod & git init & git add . & heroku create $npm_package_config_servernameprod & cd ..\"",
