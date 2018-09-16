@@ -1,15 +1,71 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/BurntSushi/toml"
 )
 
+var stripesecretkey = ""
+var sendgridkey = ""
+
 func main() {
-	// hello world
+
+	for _, element := range os.Environ() {
+		variable := strings.Split(element, "=")
+		if variable[0] == "APP_ENV" {
+			fmt.Println(len(variable[1]))
+			if variable[1] == "local " {
+				stripesecretkey = config.StripeLocalSecretKey
+				sendgridkey = config.SendgridLocalKey
+			} else if variable[1] == "local" {
+				stripesecretkey = config.StripeLocalSecretKey
+				sendgridkey = config.SendgridLocalKey
+			} else if variable[1] == "dev " {
+				stripesecretkey = config.StripeDevSecretKey
+				sendgridkey = config.SendgridDevKey
+			} else if variable[1] == "dev" {
+				stripesecretkey = config.StripeDevSecretKey
+				sendgridkey = config.SendgridDevKey
+			} else if variable[1] == "prod " {
+				stripesecretkey = config.StripeProdSecretKey
+				sendgridkey = config.SendgridProdKey
+			} else if variable[1] == "prod" {
+				stripesecretkey = config.StripeProdSecretKey
+				sendgridkey = config.SendgridProdKey
+			} else {
+				fmt.Println("NO APP_ENV found!")
+			}
+		}
+	}
+	fmt.Println("stripesecretkey:", stripesecretkey)
+	fmt.Println("sendgridkey:", sendgridkey)
+	// for _, element := range os.Environ() {
+	// 	variable := strings.Split(element, "=")
+	// 	if variable[0] == "APP_ENV" {
+	// 		fmt.Println(len(variable[1]))
+	// 		if variable[1] == "local " {
+	// 			fmt.Println("Local Environment")
+	// 		} else if variable[1] == "local" {
+	// 			fmt.Println("Dev Environment")
+	// 		} else if variable[1] == "dev " {
+	// 			fmt.Println("Dev Environment")
+	// 		} else if variable[1] == "dev" {
+	// 			fmt.Println("Dev Environment")
+	// 		} else if variable[1] == "prod " {
+	// 			fmt.Println("Prod Environment")
+	// 		} else if variable[1] == "prod" {
+	// 			fmt.Println("Prod Environment")
+	// 		} else {
+	// 			fmt.Println("NO APP_ENV found!")
+	// 		}
+	// 	}
+	// }
+
 	http.HandleFunc("/", helloworld)
 
 	// pong

@@ -162,6 +162,21 @@
 			"Rev": "1ef592c90f479e3ab30c6c2312e20e13881b7ea6"
 		},
 		{
+			"ImportPath": "github.com/sendgrid/rest",
+			"Comment": "v2.4.1-2-g875828e",
+			"Rev": "875828e14d98f3d9178936029d41bd0b832e9c49"
+		},
+		{
+			"ImportPath": "github.com/sendgrid/sendgrid-go",
+			"Comment": "v3.4.1-162-g8cb43f4",
+			"Rev": "8cb43f4ca4f5a26bb75861eaf5ee58c3302eacb1"
+		},
+		{
+			"ImportPath": "github.com/sendgrid/sendgrid-go/helpers/mail",
+			"Comment": "v3.4.1-162-g8cb43f4",
+			"Rev": "8cb43f4ca4f5a26bb75861eaf5ee58c3302eacb1"
+		},
+		{
 			"ImportPath": "github.com/stripe/stripe-go",
 			"Comment": "v43.0.0",
 			"Rev": "f679e53dfd390ef0cc4230baf7ea39e73cf6813a"

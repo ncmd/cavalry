@@ -51,17 +51,20 @@ func subscribeuser(w http.ResponseWriter, r *http.Request) {
 			log.Println("Selected 1 Month!")
 			w.Write([]byte(password))
 			newSubscriber1Month(createCustomer(user.Email, user.Source))
-			sendEmail(user.Email, password)
+			// sendEmail(user.Email, password)
+			sendgridEmail("user", user.Email, password)
 		} else if user.Plan == "12months" {
 			log.Println("Selected 12 Months!")
 			w.Write([]byte(password))
 			newSubscriber1Month(createCustomer(user.Email, user.Source))
-			sendEmail(user.Email, password)
+			// sendEmail(user.Email, password)
+			sendgridEmail("user", user.Email, password)
 		} else if user.Plan == "beta" {
 			log.Println("Selected Beta!")
 			w.Write([]byte(password))
 			newSubscriber1Month(createCustomer(user.Email, user.Source))
-			sendEmail(user.Email, password)
+			// sendEmail(user.Email, password)
+			sendgridEmail("user", user.Email, password)
 		} else {
 			log.Println("No Plan Selected...")
 		}
@@ -73,7 +76,8 @@ func newSubscriberBeta(customer string) {
 	messages := make(chan string, 2)
 	messages <- customer
 	time.Sleep(time.Second * 3)
-	subscribeCustomer(<-messages, "plan_DZt53EC6P7W3aH")
+	var testing = (<-messages)
+	fmt.Println(testing)
 }
 
 func newSubscriber1Month(customer string) {
@@ -93,7 +97,7 @@ func newSubscriber12Months(customer string) {
 // Creates a Service;
 // This should only be created for the first 3 plans (1m, 12m, lifetime)
 func createService(serviceName string) string {
-	stripe.Key = config.StripeTestSecretKey
+	stripe.Key = stripesecretkey
 
 	params := &stripe.ProductParams{
 		Name: stripe.String(serviceName),
@@ -106,7 +110,7 @@ func createService(serviceName string) string {
 
 // Creates a Attach Payment plan for service
 func attachPlan(productID string, planNickname string, planAmount int64) string {
-	stripe.Key = config.StripeTestSecretKey
+	stripe.Key = stripesecretkey
 
 	params := &stripe.PlanParams{
 		ProductID: stripe.String(productID),
@@ -125,7 +129,7 @@ func attachPlan(productID string, planNickname string, planAmount int64) string 
 }
 
 // func chargeCustomer(customer string, source string) {
-// 	stripe.Key = config.StripeTestSecretKey
+// 	stripe.Key = stripesecretkey
 //
 // 	chargeParams := &stripe.ChargeParams{
 // 		Amount:   stripe.Int64(3500),
@@ -138,7 +142,7 @@ func attachPlan(productID string, planNickname string, planAmount int64) string 
 // }
 
 func createCustomer(emailaddress string, source string) string {
-	stripe.Key = config.StripeTestSecretKey
+	stripe.Key = stripesecretkey
 	fmt.Println("Customer email", emailaddress, source)
 	customerParams := &stripe.CustomerParams{
 		Email: stripe.String(emailaddress),
@@ -150,7 +154,7 @@ func createCustomer(emailaddress string, source string) string {
 }
 
 func subscribeCustomer(customer string, plan string) {
-	stripe.Key = config.StripeTestSecretKey
+	stripe.Key = stripesecretkey
 
 	items := []*stripe.SubscriptionItemsParams{
 		{
@@ -168,7 +172,7 @@ func subscribeCustomer(customer string, plan string) {
 }
 
 func sendInvoice(customer string, plan string) {
-	stripe.Key = config.StripeTestSecretKey
+	stripe.Key = stripesecretkey
 
 	items := []*stripe.SubscriptionItemsParams{
 		{Plan: stripe.String(plan)},

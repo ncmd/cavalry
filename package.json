@@ -19,7 +19,8 @@
     "herokusitedev": "cavalry-app-dev.herokuapp.com",
     "herokusiteprod": "cavalry-app-prod.herokuapp.com",
     "gitusername": "ncmd",
-    "githubprojectname": "https://github.com/ncmd/cavalry.git"
+    "githubprojectname": "https://github.com/ncmd/cavalry.git",
+    "gocommand":"go get -v github.com/sendgrid/sendgrid-go"
   },
   "scripts": {
 
@@ -30,6 +31,7 @@
     "restore-firestore-prod": "cd utilities && npm run restore-prod",
     "backup-all-x": "npm-run-all --parallel backup-firestore-prod backup-firestore-dev",
     "heroku-logs": "cross-var \"cd server-prod && heroku logs -a $npm_package_config_servernameprod --tail && cd ..\"",
+    "go-get-all-x":"npm-run-all -s go-get-local go-get-dev go-get-prod",
 
     "DEPLOY-ALL------------------------------------------------------------":"",
     "deploy-all-x": "npm-run-all commit deploy-frontend-all-x deploy-backend-all-x deploy-serverless",
@@ -40,21 +42,25 @@
     "deploy-prod-all-x": "concurrently \"npm run deploy-frontend-prod\" \"npm run deploy-backend-prod\"",
 
     "LOCAL-----------------------------------------------------------------":"",
+    "go-get-local":"cross-var \"cd server & $npm_package_config_gocommand & cd ..\"",
     "local": "npm-run-all --parallel local-frontend local-backend",
     "local-frontend": "npm run start-local --prefix client",
-    "local-backend": "cd server && go build -o server.exe && server.exe",
+    "local-backend": "cd server & set APP_ENV=local & go run .",
+    "local-backend-exe": "cd server & go build -o server.exe & server.exe",
     "deploy-frontend-local": "cross-var \"cd client && yarn build && firebase use $npm_package_config_servernamelocal && firebase deploy\"",
-    "deploy-backend-local": "cross-var \"cd server & godep save ./... & heroku git:remote -a $npm_package_config_servernamelocal & git add . & git commit -m \"Deploy\" & git push heroku master\"",
+    "deploy-backend-local": "cross-var \"cd server & godep save ./... & heroku git:remote -a $npm_package_config_servernamelocal & heroku config:set APP_ENV=local & git add . & git commit -m \"Deploy\" & git push heroku master & heroku logs -a $npm_package_config_servernamelocal --tail\"",
     "heroku-backend-refresh-local": "cross-var \"cd server & heroku git:remote -a cavalry-app & heroku apps:destroy --app $npm_package_config_servernamelocal --confirm $npm_package_config_servernamelocal & git init & git add . & heroku create $npm_package_config_servernamelocal & cd ..\"",
 
     "DEVELOPMENT-----------------------------------------------------------":"",
+    "go-get-dev":"cross-var \"cd server-dev & $npm_package_config_gocommand & cd ..\"",
     "deploy-frontend-dev": "cross-var \"cd client && yarn build && firebase use $npm_package_config_servernamedev && firebase deploy\"",
-    "deploy-backend-dev": "cross-var \"cd server-dev && godep save ./... & heroku git:remote -a $npm_package_config_servernamedev & git add . & git commit -m \"Deploy\" & git push heroku master\"",
+    "deploy-backend-dev": "cross-var \"cd server-dev && godep save ./... & heroku git:remote -a $npm_package_config_servernamedev & heroku config:set APP_ENV=dev & git add . & git add . & git commit -m \"Deploy\" & git push heroku master & heroku logs -a $npm_package_config_servernamedev --tail\"",
     "heroku-backend-refresh-dev": "cross-var \"cd server-dev & heroku git:remote -a cavalry-app-dev & heroku apps:destroy --app $npm_package_config_servernamedev --confirm $npm_package_config_servernamedev & git init & git add . & heroku create $npm_package_config_servernamedev & cd ..\"",
 
     "PRODUCTION------------------------------------------------------------":"",
+    "go-get-prod":"cross-var \"cd server-prod & $npm_package_config_gocommand & cd ..\"",
     "deploy-frontend-prod": "cross-var \"cd client && yarn build && firebase use $npm_package_config_servernameprod && firebase deploy\"",
-    "deploy-backend-prod": "cross-var \"cd server-prod && godep save ./... & heroku git:remote -a $npm_package_config_servernameprod & git add . & git commit -m \"Deploy\" & git push heroku master\"",
+    "deploy-backend-prod": "cross-var \"cd server-prod && godep save ./... & heroku git:remote -a $npm_package_config_servernameprod & heroku config:set APP_ENV=prod & git add . & git add . & git commit -m \"Deploy\" & git push heroku master & heroku logs -a $npm_package_config_servernameprod --tail\"",
     "heroku-backend-refresh-prod": "cross-var \"cd server-prod & heroku git:remote -a cavalry-app-prod & heroku apps:destroy --app $npm_package_config_servernameprod --confirm $npm_package_config_servernameprod & git init & git add . & heroku create $npm_package_config_servernameprod & cd ..\"",
 
     "SERVERLESS------------------------------------------------------------":"",

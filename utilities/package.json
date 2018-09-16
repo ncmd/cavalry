@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "go-env":"set SENDGRID_API_KEY=local & go run .",
     "backup-orig": "cross-env \"NODE_ENV=orig\" \"NODE_ACTION=backup\" node index.js",
     "backup-dev": "cross-env \"NODE_ENV=dev\" \"NODE_ACTION=backup\" node index.js",
     "backup-prod": "cross-env \"NODE_ENV=prod\" \"NODE_ACTION=backup\" node index.js",

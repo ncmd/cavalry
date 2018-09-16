@@ -42,15 +42,20 @@ type User struct {
 
 // Configuration file
 type Config struct {
-	Server                   string
-	Port                     int
-	Email                    string
-	Password                 string
-	Captchasecret            string
-	StripeTestPublishableKey string
-	StripeTestSecretKey      string
-	StripeLivePublishableKey string
-	StripeLiveSecretKey      string
+	Server                    string
+	Port                      int
+	Email                     string
+	Password                  string
+	Captchasecret             string
+	StripeLocalPublishableKey string
+	StripeLocalSecretKey      string
+	StripeDevPublishableKey   string
+	StripeDevSecretKey        string
+	StripeProdPublishableKey  string
+	StripeProdSecretKey       string
+	SendgridLocalKey          string
+	SendgridDevKey            string
+	SendgridProdKey           string
 }
 
 type Runbook struct {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FreeFileSync XmlType="BATCH" XmlFormat="13">
+<FreeFileSync XmlType="BATCH" XmlFormat="14">
     <Compare>
         <Variant>Size</Variant>
         <Symlinks>Exclude</Symlinks>
@@ -43,7 +43,9 @@
             <Item>*\cloud.google.com\</Item>
             <Item>*\.git\</Item>
             <Item>.driveupload</Item>
-            <Item>.temp.drivedownload</Item>
+            <Item>*\.temp.drivedownload</Item>
+            <Item>*\.tmp.drivedownload</Item>
+            <Item>*\*.driveupload</Item>
         </Exclude>
         <TimeSpan Type="None">0</TimeSpan>
         <SizeMin Unit="None">0</SizeMin>
@@ -56,11 +58,11 @@
         </Pair>
     </FolderPairs>
     <Errors Ignore="true" Retry="0" Delay="5"/>
+    <LogFolder/>
     <PostSyncCommand Condition="Completion"/>
     <Batch>
         <ProgressDialog Minimized="true" AutoClose="true"/>
         <ErrorDialog>Show</ErrorDialog>
         <PostSyncAction>None</PostSyncAction>
-        <LogfileFolder MaxCount="0"/>
     </Batch>
 </FreeFileSync>

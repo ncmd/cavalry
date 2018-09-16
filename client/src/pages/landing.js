@@ -102,7 +102,7 @@ class Landing extends Component {
                       <Grid container style={{flexGrow:1, paddingTop:20, margin:"0 auto", maxWidth:"63em"}} >
                           {/* Hide if below at tablet size or lower*/}
                           <Hidden smDown>
-                          <Grid item style={{width:220, borderColor:'#474f97', textTransform: 'none', marginRight:20}}>
+                          <Grid item style={{width:220, borderColor:'#474f97', textTransform: 'none', marginRight:20 }}>
                               <Grid container style={{flexGrow:1, margin:"0 auto"}} >
                                 <CurrentRefinements />
                                 <ClearRefinements />
