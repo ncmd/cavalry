@@ -56,7 +56,7 @@
     "go-get-prod": "cross-var \"cd server-prod & $npm_package_config_gocommand & cd ..\"",
     "deploy-frontend-prod": "cross-var \"cd client && yarn build && firebase use $npm_package_config_servernameprod && firebase deploy\"",
     "echo-this":"cross-var \"echo \"GODEP SAVE\" \"",
-    "deploy-backend-test":"cd server-prod & godep save ./... & heroku git:remote -a cavalry-app-prod",
+    "deploy-backend-test":"npm-run-all -s deploy-backend-prod-1 deploy-backend-prod-2 deploy-backend-prod-3 deploy-backend-prod-4 deploy-backend-prod-5",
     "deploy-backend-prod-1": "cd server-prod & echo \"godep save ./...\" & godep save ./...",
     "deploy-backend-prod-2": "cross-var \"echo 'heroku git:remote -a $npm_package_config_servernameprod' & heroku git:remote -a $npm_package_config_servernameprod\"",
     "deploy-backend-prod-3": "echo 'heroku config:set APP_ENV=prod git add . git commit -m Deploy' & heroku config:set APP_ENV=prod & git add . & git commit -m \"Deploy\"",
