@@ -33,7 +33,7 @@ func sendNotification(phone string) {
 		from, []string{to}, []byte(msg))
 
 	if err != nil {
-		log.Println("smtp error: %s", err)
+		log.Println("smtp error:", err)
 		return
 	}
 
@@ -55,7 +55,7 @@ func send(phone string) {
 		from, []string{to}, []byte(msg))
 
 	if err != nil {
-		log.Println("smtp error: %s", err)
+		log.Println("smtp error:", err)
 		return
 	}
 

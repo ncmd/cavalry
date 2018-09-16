@@ -22,12 +22,20 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Hidden from '@material-ui/core/Hidden';
 import './header.css';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('UA-123951173-1',{
+debug: true,
+});
 
 const headerSignupButton = "linear-gradient(to right, #ff1744, #F44336 ";
 const headerPostButton = "linear-gradient(to right, #f44336, #e91e63 ";
 const headerRequestButton = "linear-gradient(to right, #2979ff, #03a9f4 ";
 const headerBlue = "#1a237e";
 const accountButton = "linear-gradient(to right, #304ffe, #2962ff)";
+
+
+
 const manageButton = "linear-gradient(to right, #9c27b0, #673ab7)";
 class header extends Component {
 
@@ -57,6 +65,9 @@ class header extends Component {
 
     // Gets Max Height of Window on Load
     componentDidMount() {
+
+      ReactGA.pageview(window.location.pathname + window.location.search);
+
       this.props.getUser()
 
         this.updateWindowDimensions();
@@ -200,6 +211,9 @@ class header extends Component {
         )
       }
     }
+    CavalryHomeClickEvent = () => {
+      ReactGA.event({label:'Clicked on Cavalry Home', action:'Button Click', category:'User Clicks'});
+    };
 
     render() {
 
@@ -216,7 +230,7 @@ class header extends Component {
                     <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',paddingTop:10,paddingLeft:1,paddingRight:1}} color={headerBlue} dark expand="sm">
                       <Grid container style={{flexGrow:1, margin:"0 auto"}} direction="row" justify="space-between" alignItems="flex-start" spacing={24} >
                         <Grid item xs>
-                          <Link to={{pathname:'/'}}>
+                          <Link to={{pathname:'/'}} onClick={() => this.CavalryHomeClickEvent()}>
                               <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
                                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                                     <b>Cavalry</b>

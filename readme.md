@@ -49,7 +49,12 @@ PROJECT PATH
 - setup all the keys client/secrets/keys_dev.js
 
 # Redux Setup
--
+- Todo
+
+# Google Analytics Proxy
+- Edit node_modules source:
+- 'react-ga' src/utils/loadGA.js
+- 'react-ga' dist/react-ga.js
 
 # Firebase Authentication Setup
 - Enable email sign-in method

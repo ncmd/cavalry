@@ -42,31 +42,10 @@ func main() {
 			}
 		}
 	}
-	fmt.Println("stripesecretkey:", stripesecretkey)
-	fmt.Println("sendgridkey:", sendgridkey)
-	// for _, element := range os.Environ() {
-	// 	variable := strings.Split(element, "=")
-	// 	if variable[0] == "APP_ENV" {
-	// 		fmt.Println(len(variable[1]))
-	// 		if variable[1] == "local " {
-	// 			fmt.Println("Local Environment")
-	// 		} else if variable[1] == "local" {
-	// 			fmt.Println("Dev Environment")
-	// 		} else if variable[1] == "dev " {
-	// 			fmt.Println("Dev Environment")
-	// 		} else if variable[1] == "dev" {
-	// 			fmt.Println("Dev Environment")
-	// 		} else if variable[1] == "prod " {
-	// 			fmt.Println("Prod Environment")
-	// 		} else if variable[1] == "prod" {
-	// 			fmt.Println("Prod Environment")
-	// 		} else {
-	// 			fmt.Println("NO APP_ENV found!")
-	// 		}
-	// 	}
-	// }
 
 	http.HandleFunc("/", helloworld)
+
+	http.HandleFunc("/api/analytics", googleanalyticsproxy)
 
 	// pong
 	http.HandleFunc("/api/ping", pingpong)
@@ -100,7 +79,6 @@ func main() {
 	if port == "" {
 		port = "8000" // Setting a Default port to 8000 to be used locally
 	}
-
 	http.ListenAndServe(":"+port, nil)
 
 }

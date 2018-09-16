@@ -1,5 +1,7 @@
 export const GET_POSTS = 'GET_POSTS';
 export const ADD_POST = 'add_item';
+export const ADD_REQUEST = 'add_request';
+export const EDIT_REQUEST_TAGS = 'edit_request_tags';
 export const REMOVE_POST = 'remove_item';
 export const UPDATE_POST = 'update_item';
 export const PING_BACKEND = 'ping_backend';

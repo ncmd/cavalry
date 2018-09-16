@@ -3,6 +3,8 @@ import {
     // GET_POSTS,
     GET_POST,
     ADD_POST,
+    ADD_REQUEST,
+    EDIT_REQUEST_TAGS,
     REMOVE_POST,
     UPDATE_POST,
     PING_BACKEND,
@@ -108,6 +110,11 @@ export const setAccount = (accountid) => async dispatch => {
 };
 
 
+export const editRequestTags = (tags) => dispatch => {
+    const data = {tags}
+    dispatch({ type: EDIT_REQUEST_TAGS, payload: data });
+};
+
 
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
 export const getPosts = () => async dispatch => {
@@ -119,6 +126,12 @@ export const getPosts = () => async dispatch => {
 export const addPost = (title,description,tags,objectives) => async dispatch =>{
     const data = {title:title,description:description,tags:tags,objectives:objectives};
     await axios.post(backend+'/api/post/new',data);
+    dispatch({ type: ADD_POST });
+};
+
+export const addRequest = (description,tags) => async dispatch =>{
+    const data = {description:description,tags:tags};
+    await axios.post(backend+'/api/request/new',data);
     dispatch({ type: ADD_POST });
 };
 
