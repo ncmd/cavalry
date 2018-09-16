@@ -45,7 +45,7 @@ func main() {
 
 	http.HandleFunc("/", helloworld)
 
-	http.HandleFunc("/api/analytics", googleanalyticsproxy)
+	http.HandleFunc("/api/analytics/", googleanalyticsproxy)
 
 	// pong
 	http.HandleFunc("/api/ping", pingpong)

@@ -53,6 +53,7 @@ PROJECT PATH
 
 # Google Analytics Proxy
 - Edit node_modules source:
+- cd client & npm install ncmd/react-ga
 - 'react-ga' src/utils/loadGA.js
 - 'react-ga' dist/react-ga.js
 

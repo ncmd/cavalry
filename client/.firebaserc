@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "cavalry-app"
+    "default": "cavalry-app",
+    "local": "cavalry-app"
+    "staging": "cavalry-app-dev",
+    "production": "cavalry-app-prod",
   }
 }
