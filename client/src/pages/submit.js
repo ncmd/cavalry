@@ -19,7 +19,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
 import './submit.css';
-
+import { googleanalytics } from '../components/analytics';
 
 Quill.register('modules/ImageResize', ImageResize);
 
@@ -306,6 +306,7 @@ class Submit extends Component {
   // Adding Objective to New Runbook
   addObjective(objectiveTitle, objectiveDescription, objectiveIndex) {
     // Get Previous Objective State which should start as an empty array '[]'
+    googleanalytics.Cavalry_Webapp_Submit_Runbook_Runbookobjectivecreated(objectiveTitle)
     const prevObjectives = this.state.objectives;
 
     // Function tasks in arguments to be pushed to array
@@ -442,6 +443,7 @@ class Submit extends Component {
         this.setState({
           postPublished: true
         }, () => {
+          googleanalytics.Cavalry_Webapp_Submit_Runbook_Userpublishedrunbook(title)
           this.props.history.push('/')
         })
     }

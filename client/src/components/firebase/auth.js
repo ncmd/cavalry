@@ -64,12 +64,15 @@ export const doSignInWithEmailAndPassword = (email, password) =>
       });
 
 export const doGetCurrentUser = () => {
-    var user = auth.currentUser
+  auth.onAuthStateChanged(function(user) {
     if (user) {
       return user
+      // User is signed in.
     } else {
       return null
     }
+  });
+
 }
 
 

@@ -11,6 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { InputGroup, InputGroupText, InputGroupAddon, Input, FormFeedback } from 'reactstrap';
 import * as auth from "../components/firebase/auth";
+import { googleanalytics } from '../components/analytics';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const resetPasswordButton = "linear-gradient(to right, #ff1744, #F44336 ";
@@ -155,29 +156,7 @@ class Login extends Component {
       return (
         <Button raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}  onClick={() =>this.handleLogin(this.state.email,this.state.password)}>Login</Button>
       )
-        // if (this.state.validEmail === true && this.state.emailExists === true && this.state.password !== ''){
-        //     return(
-        //
-        //     )
-        // } else if (this.state.validEmail === true && this.state.emailExists === false){
-        //     return(
-        //         <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> This account does not exist</Button>
-        //     )
-        // }else if (this.state.validEmail === true && this.state.emailExists === true && this.state.password === ''){
-        //     return(
-        //         <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> Enter your password</Button>
-        //     )
-        // }
-        //
-        // else if (this.state.validEmail !== true && this.state.emailExists === false){
-        //     return(
-        //         <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> Enter a valid email address</Button>
-        //     )
-        // } else {
-        //     return(
-        //         <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}> Enter a valid email address</Button>
-        //     )
-        // }
+
     }
 
     handleLogin(email,password){
@@ -187,7 +166,8 @@ class Login extends Component {
               loginError: response
             })
           } else if (response.operationType === "signIn"){
-              this.props.loginUser(response.user.uid)
+            googleanalytics.Cavalry_Webapp_Login_Account_Usersignedin(email)
+              this.props.loginUser(response.user.uid,email)
               this.props.history.push('/')
           }
       }

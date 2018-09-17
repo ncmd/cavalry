@@ -8,8 +8,11 @@
     ],
     "rewrites": [
       {
-        "source": "**",
+        "source": "!/api/**",
         "destination": "/index.html"
+      },{
+        "source": "/api/analytics/**",
+        "function": "redirectHeroku"
       }
     ]
   }

@@ -22,7 +22,7 @@ class Request extends Component {
             anchorEl: null,
             width: window.innerWidth,
             height: window.innerHeight,
-            requestTitle:'',
+            requestDescription:'',
             tagsValid:false,
             tags:'',
             runbookRequested:false,
@@ -45,28 +45,12 @@ class Request extends Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
-    handleRequestTitle = requestTitle => event => {
+    handleRequestDescription = requestDescription => event => {
         this.setState({
-            [requestTitle]: event.target.value,
+            [requestDescription]: event.target.value,
         });
     };
 
-    // renderTags(){
-    //   return this.state.tags.map((t,index) => {
-    //     return (
-    //       <Grid key={(Math.random()+Math.random())+index} style={{minWidth:'100%'}}>
-    //         <FormGroup>
-    //             <Typography variant="button" style={{color:'white'}}>Objective {index+1}</Typography>
-    //             <Input placeholder={t.title}  onChange={this.handlePostTitle('postTitle')}/>
-    //         </FormGroup>
-    //         <FormGroup>
-    //             <Typography variant="button" style={{color:'white'}}>Objective {index+1} Description</Typography>
-    //             <Input type="textarea" style={{height:200}} placeholder={t.description} onChange={this.handlePostDescription('postDescription')}/>
-    //         </FormGroup>
-    //       </Grid>
-    //     );
-    //   });
-    // }
     handleRequestTags = tags => event => {
         this.setState({
             [tags]: event.target.value,
@@ -98,12 +82,26 @@ class Request extends Component {
     }
 
     submitRequest(description,tags){
+      if(this.state.tagsValid === true){
         this.props.addRequest(description,tags);
         this.setState({
           runbookRequested: true
         }, () => {
           this.props.history.push('/request')
         })
+      }
+    }
+
+    renderRequestButton(){
+      if (this.state.tagsValid === true && this.state.requestDescription !== ''){
+        return (
+          <Button style={{color:'white', background:actionButton, textTransform:'none'}} onClick={() => this.submitRequest(this.state.requestDescription,this.state.tags)}><Typography variant={'caption'} style={{color:'white'}}><b>Request</b></Typography></Button>
+        )
+      } else if (this.state.tagsValid === false ||  this.state.requestDescription === ''){
+        return(
+          <Button disabled style={{ background:'grey', textTransform:'none'}} ><Typography variant={'caption'} style={{color:'white'}}><b>Request</b></Typography></Button>
+        )
+      }
     }
 
     render() {
@@ -122,7 +120,7 @@ class Request extends Component {
                       <Grid item style={{padding:10, width:'100%'}} xs={12}>
                         <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                         <Typography style={{color:'white'}} variant={'body2'}><b>Request a Runbook</b></Typography>
-                        <Input style={{width:'100%', height:200}} type="textarea" placeholder={'Describe your current problem.'}  onChange={this.handleRequestTitle('requestTitle')}/>
+                        <Input style={{width:'100%', height:200}} type="textarea" placeholder={'Describe your current problem.'}  onChange={this.handleRequestDescription('requestDescription')}/>
                           <FormGroup>
                               <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Runbook Tags</b></Typography>
                                 {this.state.tagsValid
@@ -132,7 +130,7 @@ class Request extends Component {
                                 <Input invalid placeholder={"Separate each tag with ',' (comma)"} value={this.state.tags} onChange={this.handleRequestTags('tags')}/>
                                 }
                           </FormGroup>
-                        <Button style={{color:'white', background:actionButton, textTransform:'none'}} variant={'caption'}><b>Request</b></Button>
+                        {this.renderRequestButton()}
                         </Form>
                       </Grid>
                     </Grid>

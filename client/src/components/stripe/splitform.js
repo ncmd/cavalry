@@ -3,27 +3,15 @@ import {CardNumberElement, CardExpiryElement, CardCVCElement, PostalCodeElement,
 import './stripe.css'
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
-import { withRouter,Redirect  } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import {
-    addUser,setStripeModal,setStripeProgress,loginUser
+    addUser,setStripeModal,loginUser,setAccount
 } from '../../redux/actions';
 import * as auth from "../firebase/auth";
 import Button from '@material-ui/core/Button';
+import { googleanalytics } from '../analytics';
 
 const payButtonColor = "linear-gradient(to right, #ff1744, #F44336 ";
-const ownerInfo = {
-  owner: {
-    name: 'Jenny Rosen',
-    address: {
-      line1: 'Nollendorfstraße 27',
-      city: 'Berlin',
-      postal_code: '10777',
-      country: 'DE',
-    },
-    email: 'jenny.rosen@example.com'
-  },
-};
-const timer = null;
 
 class SplitForm extends Component {
 
@@ -64,24 +52,23 @@ class SplitForm extends Component {
 
 
     handleSubmit = () => {
+      googleanalytics.Cavalry_Webapp_Signup_Signup_Userclickedpaybutton(this.props.users.email)
             this.props.setStripeModal()
             this.props.stripe
-                .createSource({type:'card'},ownerInfo)
+                .createSource({type:'card'},{owner:{email:this.props.users.email}})
                 .then((payload) => {
-                  console.log(this.props.users)
                   // Once add user, generate password (in backend), use password to create user, send password to user via email
                     this.props.addUser(this.props.users.email,payload.source.id,this.props.users.plan).then((password) =>{
-                      console.log("PASSWORRRRRRD:",password)
                       auth.doCreateUserWithEmailAndPassword(this.props.users.email,password).then( () => {
-
+                          this.props.setAccount(this.props.users.email,this.props.users.login,this.props.users.plan)
                             auth.doSignInWithEmailAndPassword(this.props.users.email,this.props.users.password).then((response) => {
-                              console.log("SignInResponse:",response)
                                 if (response === 'The password is invalid or the user does not have a password.'){
                                   this.setState({
                                     loginError: response
                                   })
                                 } else if (response.operationType === "signIn"){
-                                    this.props.loginUser(response.user.uid)
+                                  googleanalytics.Cavalry_Webapp_Signup_Account_Useraccountcreated(this.props.users.email)
+                                    this.props.loginUser(response.user.uid,this.props.users.email)
                                     this.props.history.push('/')
                                 }
                             }
@@ -266,4 +253,4 @@ function mapStateToProps({ users, stripe}) {
     return { users, stripe };
 }
 
-export default connect(mapStateToProps,{addUser,setStripeModal,loginUser})(withRouter(injectStripe(SplitForm)));
+export default connect(mapStateToProps,{addUser,setStripeModal,loginUser,setAccount})(withRouter(injectStripe(SplitForm)));

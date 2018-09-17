@@ -26,6 +26,7 @@ import Button from '@material-ui/core/Button';
 import {Link} from "react-router-dom";
 import { Badge } from 'reactstrap';
 import './algolia.css';
+import { googleanalytics } from '../analytics';
 
 const MySearchBox = ({currentRefinement, refine}) =>
 <form>
@@ -50,20 +51,10 @@ function findAndReplace(string, target, replacement) {
 export const AlgoliaSearch = () =>
   <CustomSearch />
 
-function Request({ request }){
-  return (
-      <Grid item xs={12} key={request.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
-        <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
-          {request.title}
-        </Button>
-      </Grid>
-  )
-}
-
 function Post({ hit }) {
   return (
     <Grid item xs={12} key={hit.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
-      <Link to={{ pathname: '/post/' + hit.id + '/'+findAndReplace(findAndReplace(findAndReplace(findAndReplace(hit.title,' ','-'),'\'',''),'/','-'),'\\','-')}}>
+      <Link to={{ pathname: '/post/' + hit.id + '/'+findAndReplace(findAndReplace(findAndReplace(findAndReplace(hit.title,' ','-'),'\'',''),'/','-'),'\\','-')}} onClick={() => googleanalytics.Cavalry_Webapp_Landing_Runbook_Userclickedonrunbook(hit.title)}>
         <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
             <Grid container style={{flexGrow:1, marginLeft:10}}>
                 <Grid item xs={9} style={{textAlign:'left'}}>

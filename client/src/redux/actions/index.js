@@ -11,7 +11,7 @@ import {
     ADD_USER,
     SET_EMAIL,
     SET_PLAN,
-    EMAIL_JIDOKA,
+    // EMAIL_JIDOKA,
     SET_RECAPTCHA,
     ADD_SUBSCRIBER,
     // LOGIN_USER,
@@ -103,8 +103,8 @@ export const addGroupUser = (uri, accountid, contactname,emailaddress,instantmes
     dispatch({ type: ADD_GROUPS, payload: data });
 };
 
-export const setAccount = (accountid) => async dispatch => {
-    const data = {accountid:accountid}
+export const setAccount = (email,accountid,plan) => async dispatch => {
+    const data = {email:email,accountid:accountid, plan:plan}
     await axios.post(backend+'/api/accounts/create',data);
     dispatch({ type: ADD_ACCOUNT, payload: data });
 };
@@ -132,7 +132,7 @@ export const addPost = (title,description,tags,objectives) => async dispatch =>{
 export const addRequest = (description,tags) => async dispatch =>{
     const data = {description:description,tags:tags};
     await axios.post(backend+'/api/request/new',data);
-    dispatch({ type: ADD_POST });
+    dispatch({ type: ADD_REQUEST });
 };
 
 export const updatePost = (id,title,description,tags,objectives) => async dispatch =>{
@@ -170,8 +170,8 @@ export const setUserEmail = (email,password) => dispatch => {
     console.log("setUserEmail:",data);
 };
 
-export const loginUser = (auth) => dispatch => {
-  const data = {logged: true,login:auth};
+export const loginUser = (auth,email) => dispatch => {
+  const data = {logged: true,login:auth,email:email};
   console.log("DATA LOGINUSER:",data)
   dispatch({ type: 'LOGIN_USER', payload: data });
 };
@@ -220,13 +220,6 @@ export const pingBackend = () => async dispatch => {
 export const setStripeProgress = (value) => dispatch => {
   dispatch({ type: SET_STRIPE_PROGRESS, payload: value})
 }
-
-// Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
-export const emailJidoka = (email,recaptcha) => async dispatch => {
-    let data = { email:"test@gmail.com", recaptcha:recaptcha};
-    const res = await axios.post(backend+'/api/email', data );
-    dispatch({ type: EMAIL_JIDOKA, payload: res.data });
-};
 
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
 export const applySecurity = (email,recaptcha) => async dispatch => {

@@ -16,10 +16,10 @@ import { auth } from '../components/firebase';
 import Check from '@material-ui/icons/Check';
 import '../components/ribbon/ribbon.css';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { googleanalytics } from '../components/analytics';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const keys = require('../secrets/keys');
@@ -212,8 +212,9 @@ class Signup extends Component {
 
         // console.log("Button Clicked!");
         if (this.state.validEmail === true){
-          console.log("props.applySecurity:",this.state.email, this.state.recaptcha)
+          // console.log("props.applySecurity:",this.state.email, this.state.recaptcha)
             this.props.applySecurity(this.state.email, this.state.recaptcha)
+            googleanalytics.Cavalry_Webapp_Signup_Signup_Userclickedrecaptcha(this.state.email)
             // console.log("ALL VALID");
             this.setState({
                 sContact: true
@@ -238,62 +239,9 @@ class Signup extends Component {
         }
     }
 
-    renderButton(){
-        // If Valid Email and Recaptcha not empty
-        if (this.state.validEmail === true && this.state.recaptcha !== ''){
-            if(this.state.validEmail === true && this.state.validPassword === true && this.state.validConfirmPassword === true && this.state.recaptcha !== '' && this.state.emailExists === false){
-                return(
-                    <Button raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:20}}  onClick={() =>this.handleAccountCreation()}>Continue</Button>
-                )
-            } if(this.state.validEmail === true && this.state.validPassword === true && this.state.validConfirmPassword === true && this.state.recaptcha !== '' && this.state.emailExists === true){
-                return(
-                    <Button disabled raised="true" variant="raised" style={{height:40, width:'100%', background:'gray', color:'white', marginTop:20}} >Email Exists!</Button>
-                )
-            } else {
-                return(
-                    <Button disabled  raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:20, color:'white'}} >Hmmm... Something is not right...</Button>
-                )
-            }
-        } else if (this.state.validEmail === false && (this.state.validPassword === false || this.state.validConfirmPassword === false) && this.state.recaptcha === ''){
-            return(
-                <Button disabled style={{background:'grey',color:'white', marginTop:20}}>Email | Password | Recaptcha</Button>
-            )
-        } else if (this.state.validEmail === false && (this.state.validPassword === true || this.state.validConfirmPassword === true) && this.state.recaptcha === ''){
-            return(
-                <Button disabled style={{background:'grey',color:'white', marginTop:20}}>Email | Recaptcha</Button>
-            )
-        } else if (this.state.validEmail === true && (this.state.validPassword === false || this.state.validConfirmPassword === false) && this.state.recaptcha === ''){
-            return(
-                <Button disabled style={{background:'grey',color:'white', marginTop:20}}> Password | Recaptcha</Button>
-            )
-        } else if (this.state.validEmail === true && this.state.validPassword === true && this.state.validConfirmPassword === true && this.state.recaptcha === ''){
-            return(
-                <Button disabled  raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:20, color:'white'}} >Are you a Robot? <span role="img" aria-label="emoji" style={{marginLeft:5}}>🤖</span></Button>
-            )
-        } else if (this.state.validEmail === false && (this.state.validPassword === true || this.state.validConfirmPassword === true) &&  this.state.recaptcha !== ''){
-            return(
-                <Button disabled style={{background:'grey',color:'white', marginTop:20}}>Confirm Email <span role="img" aria-label="emoji" style={{marginLeft:5}}>📮</span></Button>
-            )
-        } else if (this.state.validEmail === true && (this.state.validPassword === true || this.state.validConfirmPassword === true) && this.state.recaptcha !== '' && this.state.emailExists === true){
-            return(
-                <Button disabled style={{background:'grey',color:'white', marginTop:20}}>Email Exists!</Button>
-            )
-        }
-        else if (this.state.validEmail === true && (this.state.validPassword === false || this.state.validConfirmPassword === false) &&  this.state.recaptcha !== ''){
-            return(
-                <Button disabled style={{background:'grey',color:'white', marginTop:20}}>Confirm Password <span role="img" aria-label="emoji" style={{marginLeft:5}}>🔐</span></Button>
-            )
-        }
-        else
-        {
-            return(
-                <Button  raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:20}} >Confirmed</Button>
-            )
-        }
-    }
-
     handleClickItem1(){
       this.props.setPlan("1month")
+      googleanalytics.Cavalry_Webapp_Signup_Signup_Userselectedplan("1month")
       this.setState({
         selectItem1:true,
         selectItem2:false,
@@ -302,6 +250,7 @@ class Signup extends Component {
     }
     handleClickItem2(){
       this.props.setPlan("12months")
+      googleanalytics.Cavalry_Webapp_Signup_Signup_Userselectedplan("12month")
       this.setState({
         selectItem1:false,
         selectItem2:true,
@@ -310,6 +259,7 @@ class Signup extends Component {
     }
     handleClickItem3(){
       this.props.setPlan("beta")
+      googleanalytics.Cavalry_Webapp_Signup_Signup_Userselectedplan("beta")
       this.setState({
         selectItem1:false,
         selectItem2:false,
@@ -362,13 +312,10 @@ class Signup extends Component {
     }
 
     renderProgress = () => {
-      console.log("100")
       if (this.state.progresscompleted > 100) {
         this.setState({ progresscompleted: 0, buffer: 5 });
       } else {
-        const diff = Math.random() * 5;
         this.setState({ progresscompleted: this.state.progresscompleted + 10, });
-        console.log(this.state.progresscompleted)
       }
     }
 

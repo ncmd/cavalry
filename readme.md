@@ -51,11 +51,30 @@ PROJECT PATH
 # Redux Setup
 - Todo
 
+# Algolia setup
+- Relies on serverless/
+- https://firebase.google.com/docs/firestore/solutions/search
+- when a record is written in firestore, create it in algolia database
+- when creating functions, be sure to reduce the memory allocated and timeout
+
 # Google Analytics Proxy
+- https://medium.freecodecamp.org/save-your-analytics-from-content-blockers-7ee08c6ec7ee
 - Edit node_modules source:
 - cd client & npm install ncmd/react-ga
-- 'react-ga' src/utils/loadGA.js
-- 'react-ga' dist/react-ga.js
+- edited 'react-ga' src/utils/loadGA.js
+- edited 'react-ga' dist/react-ga.js
+- create analytics.js, replace all www.google-analytics.com with "+location.host+"/analytics
+- put analytics.js in public/ directory
+- setup firebase client to rewrite to a function: redirectHeroku for production
+- "rewrites": [
+-  {
+-    "source": "!/api/\**",
+-    "destination": "/index.html"
+-  },{
+-    "source": "/api/analytics/\**",
+-    "function": "redirectHeroku"
+-  }
+- ]
 
 # Firebase Authentication Setup
 - Enable email sign-in method
@@ -104,6 +123,10 @@ PROJECT PATH
 - cd serverless/functions
 - npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
 - Confirm Algolia Keys (algolia.txt)
+- when creating functions, be sure to reduce the memory allocated and timeout
+
+# Edit function Timeout
+- https://console.cloud.google.com/functions/list
 
 # Project Cost
 - Firebase Hosting (app size and data transferred)
@@ -114,11 +137,20 @@ PROJECT PATH
 - Authentication
 - Stripe (limit $10, payment processing)
 
+
 # Backup Setup
 - backup & Restore: utilities/index.js
 - files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
 
 # To Do
+- Roadmap https://cavalrytactics.rikko.io/
+- Digitalocean credits: https://www.digitalocean.com/hatch/
+- Make Account Management Look like Algolia's
+- Support
+- Invoices
+- Account Details
+- Email Notifications
+- Current plan
 - cancel subscription
 - upgrade subscription
 - reset user password with email
@@ -152,8 +184,17 @@ PROJECT PATH
 - Slack integration
 - Phone text integration
 - Mobile App React Native
+- Signup with linkedin
+- Signup with google
+- Signup with facebook
+- Signup with twitter
+- "Make the mobile app to get the alerts!"
+- Consider making training material for people to learn security tasks
+- Add area to get customer's support
+- Create a Slack/Discord Chat community
 
 # Metrics
+- https://analytics.google.com/analytics/web/#/savedreport/fuVSPoQYQJG5vOkiQ_KSOw/a123951173w182313602p180023379/_.advseg=&_.useg=&_.sectionId=&_r.dsa=1&metric.type=5/
 - recaptcha: https://www.google.com/recaptcha/admin#site/342465358
 - google analytics: https://analytics.google.com/analytics/web/
 - mixpanel: https://mixpanel.com/report/1717377/segmentation#learn

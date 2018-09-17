@@ -10,7 +10,8 @@ import {
 } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { auth} from '../firebase';
+import { auth } from '../firebase';
+import { googleanalytics } from '../analytics';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
@@ -23,6 +24,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Hidden from '@material-ui/core/Hidden';
 import './header.css';
 import ReactGA from 'react-ga';
+
 
 ReactGA.initialize('UA-123951173-1',{
 debug: true,
@@ -65,11 +67,8 @@ class header extends Component {
 
     // Gets Max Height of Window on Load
     componentDidMount() {
-
-      ReactGA.pageview(window.location.pathname + window.location.search);
-
-      this.props.getUser()
-
+        ReactGA.pageview(window.location.pathname + window.location.search);
+        this.props.getUser()
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
 
@@ -105,7 +104,7 @@ class header extends Component {
           </NavItem> */}
 
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
-              <Link to={{pathname:'/login'}}>
+              <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
                   <Button raised="true" variant="raised" style={{height:30, background:'#474f97', textTransform: 'none'}}>
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                           <b>Log in</b>
@@ -114,7 +113,7 @@ class header extends Component {
               </Link>
           </NavItem>
           <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
-            <Link to={{pathname:'/signup'}}>
+            <Link to={{pathname:'/signup'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignupbutton()}>
                   <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                           <b>Sign up</b>
@@ -129,11 +128,14 @@ class header extends Component {
 
     firebaseSignout(){
         auth.doSignOut()
+        googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignoutbutton(this.props.users.login)
         // console.log("State isLoggedIn:",this.state.isLoggedIn)
         this.props.signoutUser()
+        this.props.history.push('/')
     }
 
     handleClick = event => {
+      googleanalytics.Cavalry_Webapp_Header_Header_Userclickedaccountbutton(this.props.users.login)
     this.setState({ anchorEl: event.currentTarget });
   };
 
@@ -146,7 +148,7 @@ class header extends Component {
       return (
         <Nav className="ml-auto" navbar>
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
-              <Link to={{pathname:'/request'}}>
+              <Link to={{pathname:'/request'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedrequestbutton()}>
                   <Button style={{ height:30, background:headerRequestButton, marginRight:10, textTransform: 'none'}}  >
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                         <b>Request</b>
@@ -155,7 +157,7 @@ class header extends Component {
               </Link>
           </NavItem>
         <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
-            <Link to={{pathname:'/submit'}}>
+            <Link to={{pathname:'/submit'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedpostbutton()}>
                 <Button style={{ height:30, background:headerPostButton, marginRight:10, textTransform: 'none'}}  >
                     <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                       <b>Post</b>
@@ -165,7 +167,7 @@ class header extends Component {
         </NavItem>
 
         <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
-            <Link to={{pathname:'/manage'}}>
+            <Link to={{pathname:'/manage'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedmanagebutton()}>
                 <Button style={{ height:30, background:manageButton, marginRight:10, textTransform: 'none'}}  >
                     <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                       <b>Manage</b>
@@ -214,6 +216,12 @@ class header extends Component {
     CavalryHomeClickEvent = () => {
       ReactGA.event({label:'Clicked on Cavalry Home', action:'Button Click', category:'User Clicks'});
     };
+    CavalrySignupClickEvent = () => {
+      ReactGA.event({label:'Clicked on Cavalry Signup', action:'Button Click', category:'User Clicks'});
+    };
+    CavalryLoginClickEvent = () => {
+      ReactGA.event({label:'Clicked on Cavalry Signup', action:'Button Click', category:'User Clicks'});
+    };
 
     render() {
 
@@ -230,7 +238,7 @@ class header extends Component {
                     <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',paddingTop:10,paddingLeft:1,paddingRight:1}} color={headerBlue} dark expand="sm">
                       <Grid container style={{flexGrow:1, margin:"0 auto"}} direction="row" justify="space-between" alignItems="flex-start" spacing={24} >
                         <Grid item xs>
-                          <Link to={{pathname:'/'}} onClick={() => this.CavalryHomeClickEvent()}>
+                          <Link to={{pathname:'/'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedhomebutton()}>
                               <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
                                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                                     <b>Cavalry</b>

@@ -12,7 +12,9 @@ type Data struct {
 }
 
 type Account struct {
-	ID string `json:"accountid"`
+	ID    string `json:"accountid"`
+	Plan  string `json:"plan"`
+	Email string `json:"email"`
 }
 
 type Response struct {
@@ -27,6 +29,12 @@ type Post struct {
 	Description string        `json:"description"`
 	Tags        []interface{} `json:"tags"`
 	Objectives  []interface{} `json:"objectives"`
+}
+
+type RequestRunbook struct {
+	Id          string        `json:"id"`
+	Description string        `json:"description"`
+	Tags        []interface{} `json:"tags"`
 }
 
 type Subscriber struct {

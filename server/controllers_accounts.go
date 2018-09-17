@@ -33,12 +33,13 @@ func accountcreate(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	log.Println("Received Request!")
 	if r.Method != "OPTIONS" {
 		client.Collection("accounts").Doc(account.ID).Set(context.Background(), map[string]interface{}{
-			"id": account.ID,
+			"accountid":    account.ID,
+			"emailaddress": account.Email,
+			"plan":         account.Plan,
 		})
-		log.Println("account.ID", account.ID)
+
 	}
 }
 

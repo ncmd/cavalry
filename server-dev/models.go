@@ -29,6 +29,12 @@ type Post struct {
 	Objectives  []interface{} `json:"objectives"`
 }
 
+type RequestRunbook struct {
+	Id          string        `json:"id"`
+	Description string        `json:"description"`
+	Tags        []interface{} `json:"tags"`
+}
+
 type Subscriber struct {
 	Email string `json:"email"`
 }

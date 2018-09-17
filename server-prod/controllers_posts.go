@@ -115,7 +115,7 @@ func addpost(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	log.Println("Received Request!")
+
 	if r.Method != "OPTIONS" {
 		ref := client.Collection("posts").NewDoc()
 		_, err := ref.Set(context.Background(), map[string]interface{}{
@@ -154,7 +154,7 @@ func updatepost(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
-	log.Println("Received Request!")
+
 	if r.Method != "OPTIONS" {
 		// Get a new write batch.
 		batch := client.Batch()

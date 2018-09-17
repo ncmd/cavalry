@@ -46,6 +46,9 @@ func main() {
 	http.HandleFunc("/", helloworld)
 
 	http.HandleFunc("/api/analytics/", googleanalyticsproxy)
+	http.HandleFunc("/api/analytics/r/", googleanalyticsproxy)
+	http.HandleFunc("/api/analytics/r/collect", googleanalyticsproxy)
+	http.HandleFunc("/api/analytics/collect", googleanalyticsproxy)
 
 	// pong
 	http.HandleFunc("/api/ping", pingpong)
@@ -58,6 +61,8 @@ func main() {
 
 	// add post
 	http.HandleFunc("/api/post/new", addpost)
+	// add request
+	http.HandleFunc("/api/request/new", addrequest)
 
 	// edit post
 	http.HandleFunc("/api/post/edit", updatepost)

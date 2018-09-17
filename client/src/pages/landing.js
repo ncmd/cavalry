@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/header/header';
 import Banner from '../components/banner/banner';
-import Subscribe from '../components/subscribe/subscribe';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -53,8 +52,7 @@ class Landing extends Component {
           isLoggedIn:true
         },() => {
           //create account in firebase
-          console.log("Account:",this.props.users.login)
-          this.props.setAccount(this.props.users.login)
+        
         })
       } else {
         this.setState({

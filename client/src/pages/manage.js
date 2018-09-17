@@ -11,6 +11,8 @@ import {
 } from '../redux/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 // import {Link} from "react-router-dom";
@@ -20,10 +22,58 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 import { Form, FormGroup, Input } from 'reactstrap';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const actionButton = "linear-gradient(to right, #ff1744, #F44336 ";
+const styles = theme => ({
+  root: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.paper,
+  },
+  tabsRoot: {
+    borderBottom: '1px solid #e8e8e8',
+  },
+  tabsIndicator: {
+    backgroundColor: '#1890ff',
+  },
+  tabRoot: {
+    textTransform: 'initial',
+    minWidth: 72,
+    color:'black',
+    fontWeight: theme.typography.fontWeightRegular,
+    marginRight: theme.spacing.unit * 4,
+    fontFamily: [
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    '&:hover': {
+      color: '#40a9ff',
+      opacity: 1,
+    },
+    '&$tabSelected': {
+      color: '#1890ff',
+      fontWeight: theme.typography.fontWeightMedium,
+    },
+    '&:focus': {
+      color: '#40a9ff',
+    },
+  },
+  tabSelected: {},
+  typography: {
+    padding: theme.spacing.unit * 3,
+  },
+});
 
 class Manage extends Component {
 
@@ -41,7 +91,11 @@ class Manage extends Component {
             inputLocation:'',
             groups:[],
             groupItemCounter:0,
-            groupIndex:0
+            groupIndex:0,
+            tabValue:0,
+            selectItem1:false,
+            selectItem2:false,
+            selectItem3:false,
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
@@ -200,55 +254,233 @@ class Manage extends Component {
       )
     }
 
-    renderSelectedOption(option){
-      if(option === 'myposts'){
+    renderSelectedOption(){
+      if( this.state.tabValue === 0){
+        return(
+          this.renderAccountDetails()
+        )
+      } else if ( this.state.tabValue === 1){
+        return(
+          this.renderCurrentPlan()
+        )
+      } else if ( this.state.tabValue === 2){
         return (
-          <div>Sorry this feature is in construction. Target Date 9/10/18</div>
+          this.renderSupport()
         )
       }
-      if(option === 'setupgroups'){
-        return (
-          this.renderSetupGroups()
-        )
-      }
-
     }
 
+    renderAccountDetails(){
+      return (
+        <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
+          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
+            <div>
+              <Typography variant={'display1'} style={{color:'black'}}>Your information</Typography>
+            </div>
+          </Grid>
+          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
+            <div>
+              <Typography variant={'body2'} style={{color:'black'}}>Email Address: {this.props.users.email}</Typography>
+            </div>
+          </Grid>
+        </Grid>
+      )
+    }
+
+    renderCurrentPlan(){
+      return(
+        <div style={{background:'white', marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:40}}>
+        <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
+          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
+            <div>
+              <Typography variant={'display1'} style={{color:'black'}}>Your current plan</Typography>
+            </div>
+          </Grid>
+        </Grid>
+        <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
+          <Grid item style={{marginTop:10}}>
+            {this.state.selectItem1
+              ?
+              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem1()}}>
+                <div className="ribbonblue"><span aria-label="emoji" role="img">❄️Cool❄️</span></div>
+                <div>
+                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
+                  <Typography style={{color:'black'}} variant={'display1'}><b>$35.00</b></Typography>
+                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
+                  <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$35.00</b> billed every month</Typography>
+                  <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$420.00</b> per year)</Typography>
+                </div>
+              </Button>
+              :
+              <Button disabled className="box" style={{background:'white', height:230, width:230}}>
+                <div className="ribbonblue"><span aria-label="emoji" role="img">❄️Cool❄️</span></div>
+                <div>
+                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
+                  <Typography style={{color:'black'}} variant={'display1'}><b>$35.00</b></Typography>
+                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
+                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$35.00</b> billed every month</Typography>
+                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$420.00</b> per year)</Typography>
+                </div>
+              </Button>
+            }
+          </Grid>
+          <Grid item style={{marginTop:10}}>
+            {this.state.selectItem2
+              ?
+              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem2()}}>
+                <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
+                <div>
+                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
+                  <Typography style={{color:'black'}} variant={'display1'}><b>$25.00</b></Typography>
+                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
+                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$300.00</b> billed every 12 months</Typography>
+                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$300.00</b> per year)</Typography>
+                </div>
+              </Button>
+              :
+              <Button disabled className="box" style={{background:'white', height:230, width:230}}>
+                <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
+                <div>
+                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
+                  <Typography style={{color:'black'}} variant={'display1'}><b>$25.00</b></Typography>
+                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
+                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$300.00</b> billed every 12 months</Typography>
+                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$300.00</b> per year)</Typography>
+                </div>
+              </Button>
+            }
+          </Grid>
+          <Grid item style={{marginTop:10}}>
+            {this.state.selectItem3
+              ?
+              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem3()}}>
+                   <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
+                <div>
+                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta Test</Typography>
+                  <Typography style={{color:'black'}} variant={'display1'}><b>$1.00</b></Typography>
+                  <Typography style={{textTransform:'none'}} variant={'caption'}>for now...</Typography>
+                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$1.00</b> billed every month</Typography>
+                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</Typography>
+                </div>
+              </Button>
+              :
+              <Button disabled className="box" style={{background:'white', height:230, width:230}}>
+                <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
+                <div>
+                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta Test</Typography>
+                  <Typography style={{color:'black'}} variant={'display1'}><b>$1.00</b></Typography>
+                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
+                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$1.00</b> billed every month</Typography>
+                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</Typography>
+                </div>
+              </Button>
+            }
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant={'caption'} style={{color:'white', textAlign:'center'}}>All amounts are shown in <b>USD</b></Typography>
+          </Grid>
+        </Grid>
+      </div>
+      )
+    }
+
+    handleClickItem1(){
+      this.setState({
+        selectItem1:true,
+        selectItem2:false,
+        selectItem3:false,
+      })
+    }
+    handleClickItem2(){
+      this.setState({
+        selectItem1:false,
+        selectItem2:true,
+        selectItem3:false,
+      })
+    }
+    handleClickItem3(){
+      this.setState({
+        selectItem1:false,
+        selectItem2:false,
+        selectItem3:true,
+      })
+    }
+
+    renderSupport(){
+      return(
+        <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
+          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
+            <div>
+              <Typography variant={'display1'} style={{color:'black'}}>Contact support</Typography>
+            </div>
+          </Grid>
+          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
+            <div>
+              <Typography variant={'body2'} style={{color:'black'}}>Support Email: cavalrytacticsinc@gmail.com</Typography>
+            </div>
+          </Grid>
+        </Grid>
+      )
+    }
+
+    handleChangeTab = (event, tabValue) => {
+      this.setState({ tabValue });
+    };
+
     render() {
+
+      const { classes } = this.props;
+
         return (
             <div>
                 <Header/>
-                  <script type="text/javascript">
-
-                </script>
                 <div
                     style={{
                         flexGrow: 1,
                         justify: 'center',
                         background: bodyBlue,
-
+                        height:this.state.height,
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{ height:300,background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'row'} spacing={40}>
+                    <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'row'}>
+                      <Grid item >
+                        <Tabs
+                          classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
+                          value={this.state.tabValue}
+                          onChange={this.handleChangeTab}
+                          fullWidth
+                        >
+                          <Tab label="ACCOUNT DETAILS" classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
+                          <Tab label="CURRENT PLAN" classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
+                          <Tab label="SUPPORT" classes={{ root: classes.tabRoot, selected: classes.tabSelected }}/>
+                        </Tabs>
+                      </Grid>
+                    </Grid>
+                    {this.renderSelectedOption()}
+                    {/* Bottom Section
+                    <Grid container style={{background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'row'}>
                       <Grid item>
                         <Button style={{background:actionButton}} onClick={() => this.handleClickSetupGroups()}><Typography variant={"caption"} style={{color:'white', textTransform: 'none'}}><b>Setup Groups</b></Typography></Button>
                       </Grid>
                     </Grid>
 
-                    {/* Bottom Section */}
+
                     <Grid container style={{ height:1400,background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
                       <Grid item>{this.renderSelectedOption(this.state.selectedOption)}</Grid>
-                    </Grid>
+                    </Grid>*/}
                 </div>
             </div>
         );
     }
 }
 
+Manage.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-function mapStateToProps({ groups }) {
-    return { groups };
+function mapStateToProps({ groups,users }) {
+    return { groups,users };
 }
 export default connect(mapStateToProps, {
   addGroupContactname,
@@ -257,4 +489,4 @@ export default connect(mapStateToProps, {
   addGroupDepartment,
   addGroupLocation,
   addGroups
-})(withRouter(Manage));
+})(withRouter(withStyles(styles)(Manage)));
