@@ -12,9 +12,15 @@
     "restore-orig": "cross-env \"NODE_ENV=orig\" \"NODE_ACTION=restore\" node index.js",
     "restore-dev": "cross-env \"NODE_ENV=dev\" \"NODE_ACTION=restore\" node index.js",
     "restore-prod": "cross-env \"NODE_ENV=prod\" \"NODE_ACTION=restore\" node index.js",
+    "restore-dev-x": "run-s backup-prod delete-dev-collection migrate-prod-to-dev",
+    "restore-orig-x": "run-s backup-prod delete-orig-collection migrate-prod-to-orig",
+    "migrate-prod-to-orig": "cross-env \"NODE_ENV=orig\" \"NODE_ACTION=migrate\" \"NODE_SOURCE=prod\" node index.js",
+    "migrate-prod-to-dev": "cross-env \"NODE_ENV=dev\" \"NODE_ACTION=migrate\" \"NODE_SOURCE=prod\" node index.js",
     "migrate-orig-to-prod": "cross-env \"NODE_ENV=prod\" \"NODE_ACTION=migrate\" \"NODE_SOURCE=orig\" node index.js",
     "migrate-orig-to-dev": "cross-env \"NODE_ENV=dev\" \"NODE_ACTION=migrate\" \"NODE_SOURCE=orig\" node index.js",
-    "migrate-dev-to-prod": "cross-env \"NODE_ENV=prod\" \"NODE_ACTION=migrate\" \"NODE_SOURCE=dev\" node index.js"
+    "migrate-dev-to-prod": "cross-env \"NODE_ENV=prod\" \"NODE_ACTION=migrate\" \"NODE_SOURCE=dev\" node index.js",
+    "delete-orig-collection": "firebase use cavalry-app & firebase firestore:delete --all-collections -y",
+    "delete-dev-collection": "firebase use cavalry-app-dev & firebase firestore:delete --all-collections -y"
   },
   "author": "",
   "license": "ISC",

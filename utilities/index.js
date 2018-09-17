@@ -26,6 +26,13 @@ if  ( process.env.NODE_ENV === 'orig'){
     // The array of date fields is optional
     firestoreService.restore('./firestore_orig_data.json');
   }
+  if (process.env.NODE_ACTION === 'migrate' && process.env.NODE_SOURCE === 'prod'){
+    // Initiate Firebase App
+    firestoreService.initializeApp(serviceAccount, 'https://cavalry-app.firebaseio.com');
+    // Start importing your data
+    // The array of date fields is optional
+    firestoreService.restore('./firestore_prod_data.json');
+  }
 }
 
 if  ( process.env.NODE_ENV === 'dev'){
@@ -59,6 +66,13 @@ if  ( process.env.NODE_ENV === 'dev'){
     // Start importing your data
     // The array of date fields is optional
     firestoreService.restore('./firestore_orig_data.json');
+  }
+  if (process.env.NODE_ACTION === 'migrate' && process.env.NODE_SOURCE === 'prod'){
+    // Initiate Firebase App
+    firestoreService.initializeApp(serviceAccount, 'https://cavalry-app-dev.firebaseio.com');
+    // Start importing your data
+    // The array of date fields is optional
+    firestoreService.restore('./firestore_prod_data.json');
   }
 }
 
@@ -100,5 +114,12 @@ if  ( process.env.NODE_ENV === 'prod'){
     // Start importing your data
     // The array of date fields is optional
     firestoreService.restore('./firestore_dev_data.json');
+  }
+}
+
+if  ( process.env.NODE_ENV === 'orig'){
+  const serviceAccount = require('./firestore_orig.json');
+  if (process.env.NODE_ACTION === 'delete'){
+
   }
 }

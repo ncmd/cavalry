@@ -143,8 +143,10 @@ PROJECT PATH
 - files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
 
 # To Do
+- replicate prod database to dev and local
 - Roadmap https://cavalrytactics.rikko.io/
 - Digitalocean credits: https://www.digitalocean.com/hatch/
+- Success Critera
 - Make Account Management Look like Algolia's
 - Support
 - Invoices
