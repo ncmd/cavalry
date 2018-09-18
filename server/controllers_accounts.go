@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -32,6 +33,8 @@ func accountcreate(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+
+	fmt.Println("Received Account Post", account)
 
 	if r.Method != "OPTIONS" {
 		client.Collection("accounts").Doc(account.ID).Set(context.Background(), map[string]interface{}{

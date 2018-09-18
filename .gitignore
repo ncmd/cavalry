@@ -4,6 +4,7 @@
 /client/node_modules
 node_modules/
 config.toml
+config_orig.toml
 firestore.json
 .tmp.drivedownload/*
 algolia.txt

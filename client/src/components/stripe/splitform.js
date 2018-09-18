@@ -60,7 +60,6 @@ class SplitForm extends Component {
                   // Once add user, generate password (in backend), use password to create user, send password to user via email
                     this.props.addUser(this.props.users.email,payload.source.id,this.props.users.plan).then((password) =>{
                       auth.doCreateUserWithEmailAndPassword(this.props.users.email,password).then( () => {
-                          this.props.setAccount(this.props.users.email,this.props.users.login,this.props.users.plan)
                             auth.doSignInWithEmailAndPassword(this.props.users.email,this.props.users.password).then((response) => {
                                 if (response === 'The password is invalid or the user does not have a password.'){
                                   this.setState({
@@ -68,6 +67,7 @@ class SplitForm extends Component {
                                   })
                                 } else if (response.operationType === "signIn"){
                                   googleanalytics.Cavalry_Webapp_Signup_Account_Useraccountcreated(this.props.users.email)
+                                    this.props.setAccount(this.props.users.email,response.user.uid,this.props.users.plan)
                                     this.props.loginUser(response.user.uid,this.props.users.email)
                                     this.props.history.push('/')
                                 }

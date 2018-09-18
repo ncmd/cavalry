@@ -86,7 +86,7 @@ class Signup extends Component {
         // Window Dimensions
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
-        console.log("Process.env.NODE_ENV:",process.env.NODE_ENV)
+        // console.log("Process.env.NODE_ENV:",process.env.NODE_ENV)
         if (window.Stripe) {
             this.setState({stripe: window.Stripe(keys.stripe_publishable_key)});
         } else {
@@ -430,7 +430,7 @@ class Signup extends Component {
                               <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem3()}}>
                                    <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta Test</Typography>
+                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta</Typography>
                                   <Typography style={{color:'black'}} variant={'display1'}><b>$1.00</b></Typography>
                                   <Typography style={{textTransform:'none'}} variant={'caption'}>for now...</Typography>
                                     <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$1.00</b> billed every month</Typography>
@@ -441,7 +441,7 @@ class Signup extends Component {
                               <Button className="box" style={{background:'white', height:230, width:230}} onClick={()=> {this.handleClickItem3()}}>
                                 <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta Test</Typography>
+                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta</Typography>
                                   <Typography style={{color:'black'}} variant={'display1'}><b>$1.00</b></Typography>
                                   <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
                                     <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$1.00</b> billed every month</Typography>

@@ -139,6 +139,11 @@ class header extends Component {
     this.setState({ anchorEl: event.currentTarget });
   };
 
+  handleClickManage = () => {
+     googleanalytics.Cavalry_Webapp_Header_Header_Userclickedmanagebutton()
+     this.props.history.push('/manage')
+  }
+
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
@@ -165,20 +170,10 @@ class header extends Component {
                 </Button>
             </Link>
         </NavItem>
-
-        <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
-            <Link to={{pathname:'/manage'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedmanagebutton()}>
-                <Button style={{ height:30, background:manageButton, marginRight:10, textTransform: 'none'}}  >
-                    <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                      <b>Manage</b>
-                    </Typography>
-                </Button>
-            </Link>
-        </NavItem>
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
                 <Button raised="true" variant="raised" style={{height:30, background:accountButton, color:'white',textTransform: 'none'}} onClick={this.handleClick}>
                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                  <b>Account <span aria-label="emoji" role="img">😊</span></b>
+                  <b>Account</b>
                   </Typography>
                 </Button>
                 <Menu
@@ -188,9 +183,14 @@ class header extends Component {
                    open={Boolean(anchorEl)}
                    onClose={this.handleClose}
                 >
+                    <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.handleClickManage()}>
+                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                      <b>Manage</b>
+                      </Typography>
+                    </MenuItem>
                     <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.firebaseSignout()}>
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                      <b>Signout <span aria-label="emoji" role="img">😭</span></b>
+                      <b>Signout</b>
                       </Typography>
                     </MenuItem>
                 </Menu>

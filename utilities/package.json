@@ -1,7 +1,7 @@
 {
   "name": "utilities",
   "version": "1.0.0",
-  "description": "Does several stuff",
+  "description": "Backup and Restore Firestore Database",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",

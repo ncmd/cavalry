@@ -29,10 +29,10 @@
 --Default Shell: C:\Windows\System32\cmd.exe
 
 # Setup Paths:
-GIT PATH
-NODE PATH
-YARN PATH
-HEROKU PATH
+- GIT PATH
+- NODE PATH
+- YARN PATH
+- HEROKU PATH
 - C:\Program Files\Heroku\bin
 GO PATH
 - C:\Users\username\go
@@ -52,6 +52,7 @@ PROJECT PATH
 - Todo
 
 # Algolia setup
+- You need to create an Indicies first before being able to add data to it
 - Relies on serverless/
 - https://firebase.google.com/docs/firestore/solutions/search
 - when a record is written in firestore, create it in algolia database
@@ -175,7 +176,7 @@ PROJECT PATH
 - The edit form seems to always be different from when the view it later. Is it possible to be consistent
 - When viewing on mobile, it looks soooo bad
 - There are sometimes delays when rendering the landing page runbooks and viewing the runbook
-(Narrowed down issue because heroku shutdown after 30min of inactivity)
+- (Narrowed down issue because heroku shutdown after 30min of inactivity)
 - Need to see all their posts they created
 - Add comments on runbooks
 - Add comments on objectives

@@ -102,6 +102,22 @@ class Manage extends Component {
 
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
+      // Current User Plan
+      if (this.props.account.plan === '12months'){
+        this.setState({
+          selectItem2:true
+        })
+      } else if (this.props.account.plan === '1month'){
+        this.setState({
+          selectItem1:true
+        })
+      } else if (this.props.account.plan === 'beta'){
+        this.setState({
+          selectItem3:true
+        })
+      }
+
+
 
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
@@ -272,18 +288,44 @@ class Manage extends Component {
 
     renderAccountDetails(){
       return (
+        <div style={{background:'white', marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:40}}>
         <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
           <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
             <div>
               <Typography variant={'display1'} style={{color:'black'}}>Your information</Typography>
             </div>
           </Grid>
+        </Grid>
+        <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
           <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
             <div>
-              <Typography variant={'body2'} style={{color:'black'}}>Email Address: {this.props.users.email}</Typography>
+              <Typography variant={'body2'} style={{color:'black'}}><b>Email Address: </b>{this.props.users.email}</Typography>
             </div>
           </Grid>
         </Grid>
+        </div>
+      )
+    }
+
+    renderSupport(){
+      return(
+        <div style={{background:'white', marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:40}}>
+          <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
+            <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
+              <div>
+                <Typography variant={'display1'} style={{color:'black'}}>Contact support</Typography>
+              </div>
+            </Grid>
+          </Grid>
+          <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
+            <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
+              <div>
+                <Typography variant={'body2'} style={{color:'black'}}><b>Support Email: </b>cavalrytacticsinc@gmail.com</Typography>
+              </div>
+            </Grid>
+          </Grid>
+        </div>
+
       )
     }
 
@@ -406,22 +448,7 @@ class Manage extends Component {
       })
     }
 
-    renderSupport(){
-      return(
-        <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
-          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
-            <div>
-              <Typography variant={'display1'} style={{color:'black'}}>Contact support</Typography>
-            </div>
-          </Grid>
-          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
-            <div>
-              <Typography variant={'body2'} style={{color:'black'}}>Support Email: cavalrytacticsinc@gmail.com</Typography>
-            </div>
-          </Grid>
-        </Grid>
-      )
-    }
+
 
     handleChangeTab = (event, tabValue) => {
       this.setState({ tabValue });
@@ -479,8 +506,8 @@ Manage.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-function mapStateToProps({ groups,users }) {
-    return { groups,users };
+function mapStateToProps({ groups,users,account }) {
+    return { groups,users,account };
 }
 export default connect(mapStateToProps, {
   addGroupContactname,

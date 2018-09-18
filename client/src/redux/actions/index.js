@@ -172,13 +172,13 @@ export const setUserEmail = (email,password) => dispatch => {
 
 export const loginUser = (auth,email) => dispatch => {
   const data = {logged: true,login:auth,email:email};
-  console.log("DATA LOGINUSER:",data)
+  // console.log("DATA LOGINUSER:",data)
   dispatch({ type: 'LOGIN_USER', payload: data });
 };
 
 export const signoutUser = () => dispatch => {
   dispatch({ type: SIGNOUT_USER, payload:{}})
-  console.log("Signout Redux")
+  // console.log("Signout Redux")
 }
 
 export const getUser = () => dispatch => {

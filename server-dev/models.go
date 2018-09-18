@@ -12,7 +12,9 @@ type Data struct {
 }
 
 type Account struct {
-	ID string `json:"accountid"`
+	ID    string `json:"accountid"`
+	Plan  string `json:"plan"`
+	Email string `json:"email"`
 }
 
 type Response struct {
