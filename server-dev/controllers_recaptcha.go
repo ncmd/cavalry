@@ -10,7 +10,7 @@ import (
 )
 
 // recaptcha confirmation
-func recaptchaconfirmation(w http.ResponseWriter, r *http.Request) {
+func controllers_recaptcha_verify_recaptcha_requests_from_signup_page(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
 	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")

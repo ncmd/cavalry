@@ -21,5 +21,3 @@ if  ( process.env.NODE_SETUP === 'algolia'){
   });
   });
 }
-
-;

@@ -11,7 +11,7 @@ import (
 )
 
 // recaptcha confirmation
-func googleanalyticsproxy(w http.ResponseWriter, r *http.Request) {
+func controllers_googleanalyticsproxy_handle_google_analytics_requests(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.Header().Add("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
 	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")

@@ -10,7 +10,10 @@ import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Form, FormGroup, Input } from 'reactstrap';
+import { AlgoliaRequestsHits,AlgoliaConnectedCheckBoxRefinementList } from '../components/algolia/config';
+import { InstantSearch } from 'react-instantsearch-dom';
 
+const keys = require('../secrets/keys');
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const actionButton = "linear-gradient(to right, #ff1744, #F44336 ";
 
@@ -106,6 +109,11 @@ class Request extends Component {
 
     render() {
         return (
+          <InstantSearch
+            appId="43JRRJRQRC"
+            apiKey={keys.algolia_api_key}
+            indexName="requests"
+        >
             <div>
                 <Header/>
                 <div
@@ -136,13 +144,14 @@ class Request extends Component {
                     </Grid>
 
                     {/* Bottom Section */}
-                    <Grid container style={{ height:1400,background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
-                      <Grid item>
-                        Existing Requests
+                    <Grid container style={{borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
+                      <Grid container style={{flexGrow:1, margin:"0 auto", width:'100%'}} >
+                          <AlgoliaRequestsHits style={{ width:'100%'}}/>
                       </Grid>
                     </Grid>
                 </div>
             </div>
+          </InstantSearch>
         );
     }
 }

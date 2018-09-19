@@ -13,8 +13,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-// get last 10 posts
-func getlast10posts(w http.ResponseWriter, r *http.Request) {
+func controllers_posts_fetch_last_10_posts_from_firestore(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET,OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -49,7 +48,7 @@ func getlast10posts(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func getpost(w http.ResponseWriter, r *http.Request) {
+func controllers_posts_fetch_selected_post_from_firestore(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "GET,OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -82,8 +81,6 @@ func getpost(w http.ResponseWriter, r *http.Request) {
 		m := dsnap.Data()
 		fmt.Println(m)
 
-		// last10 := m["last10"]
-		//
 		js, err := json.MarshalIndent(m, "", "    ")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -93,8 +90,7 @@ func getpost(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// get last 10 posts
-func addpost(w http.ResponseWriter, r *http.Request) {
+func controllers_posts_create_post_in_firestore(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
@@ -133,7 +129,7 @@ func addpost(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func updatepost(w http.ResponseWriter, r *http.Request) {
+func controllers_posts_edit_post_in_firestore(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")

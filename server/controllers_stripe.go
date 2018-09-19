@@ -31,7 +31,7 @@ import (
 // }
 
 // subscribe user
-func subscribeuser(w http.ResponseWriter, r *http.Request) {
+func controllers_stripe_generate_password_subscribe_user_to_plan_sendgrid_email_password(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("Access-Control-Allow-Origin", "*")
 	w.Header().Add("Access-Control-Allow-Methods", "POST, OPTIONS")
 	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
@@ -127,19 +127,6 @@ func attachPlan(productID string, planNickname string, planAmount int64) string 
 	fmt.Println("Plan:", p.ID)
 	return p.ID
 }
-
-// func chargeCustomer(customer string, source string) {
-// 	stripe.Key = stripesecretkey
-//
-// 	chargeParams := &stripe.ChargeParams{
-// 		Amount:   stripe.Int64(3500),
-// 		Currency: stripe.String(string(stripe.CurrencyUSD)),
-// 		Customer: stripe.String(customer),
-// 	}
-// 	chargeParams.SetSource(source)
-// 	ch, err := charge.New(chargeParams)
-// 	return ch.ID
-// }
 
 func createCustomer(emailaddress string, source string) string {
 	stripe.Key = stripesecretkey

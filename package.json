@@ -35,7 +35,7 @@
     "heroku-logs": "cd server-prod && heroku logs -a cavalry-app-prod --tail",
     "go-get-all-x": "run-s go-get-local go-get-dev go-get-prod",
     "DEPLOY-ALL------------------------------------------------------------": "",
-    "deploy-all-x": "run-s -c commit deploy-frontend-all-x deploy-backend-all-x deploy-serverless-all-x",
+    "deploy-all-x": "run-s -c commit restore-all-x deploy-frontend-all-x deploy-backend-all-x deploy-serverless-all-x",
     "deploy-frontend-all-x": "run-s -c deploy-frontend-local deploy-frontend-dev deploy-frontend-prod",
     "deploy-backend-all-x": "run-s -c deploy-backend-local deploy-backend-dev deploy-backend-prod",
     "deploy-local-all-x": "concurrently \"npm run deploy-frontend-local\" \"npm run deploy-backend-local\"",
@@ -84,10 +84,10 @@
     "deploy-backend-prod-5": "cd server-prod & echo 'heroku logs -a cavalry-app-prod' & heroku logs -a cavalry-app-prod --tail",
     "heroku-backend-refresh-prod": "cross-var \"cd server-prod & heroku git:remote -a cavalry-app-prod & heroku apps:destroy --app $npm_package_config_servernameprod --confirm $npm_package_config_servernameprod & git init & git add . & heroku create $npm_package_config_servernameprod & cd ..\"",
     "SERVERLESS------------------------------------------------------------": "",
-    "deploy-serverless-all-x":"run-s deploy-serverless-local deploy-serverless-dev deploy-serverless-prod",
-    "deploy-serverless-local": "cd serverless/functions/ && npm run setup && firebase use local && firebase deploy --only functions --debug && cd ..",
-    "deploy-serverless-dev": "cd serverless/functions/ && npm run setup && firebase use dev && firebase deploy --only functions --debug && cd ..",
-    "deploy-serverless-prod": "cd serverless/functions/ && npm run setup && firebase use prod && firebase deploy --only functions --debug && cd .."
+    "deploy-serverless-all-x":"run-s -c deploy-serverless-local deploy-serverless-dev deploy-serverless-prod",
+    "deploy-serverless-local": "cd serverless/functions/ && npm run setup && firebase use local && firebase deploy --only functions --debug",
+    "deploy-serverless-dev": "cd serverless/functions/ && npm run setup && firebase use dev && firebase deploy --only functions --debug",
+    "deploy-serverless-prod": "cd serverless/functions/ && npm run setup && firebase use prod && firebase deploy --only functions --debug"
   },
   "dependencies": {},
   "devDependencies": {

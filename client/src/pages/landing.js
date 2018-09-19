@@ -8,7 +8,7 @@ import {
     getPosts,getUser,setAccount
 } from '../redux/actions';
 import Hidden from '@material-ui/core/Hidden';
-import { AlgoliaHits,AlgoliaConnectedCheckBoxRefinementList } from '../components/algolia/config';
+import { AlgoliaPostsHits,AlgoliaConnectedCheckBoxRefinementList } from '../components/algolia/config';
 import { CurrentRefinements, ClearRefinements,InstantSearch } from 'react-instantsearch-dom';
 
 const keys = require('../secrets/keys');
@@ -52,7 +52,7 @@ class Landing extends Component {
           isLoggedIn:true
         },() => {
           //create account in firebase
-        
+
         })
       } else {
         this.setState({
@@ -110,7 +110,7 @@ class Landing extends Component {
                           </Hidden>
                           <Grid item xs style={{borderColor:'#474f97', textTransform: 'none', width:'100%'}}>
                               <Grid container style={{flexGrow:1, margin:"0 auto", width:'100%'}} >
-                                  <AlgoliaHits style={{ width:'100%'}}/>
+                                  <AlgoliaPostsHits style={{ width:'100%'}}/>
                               </Grid>
                           </Grid>
 

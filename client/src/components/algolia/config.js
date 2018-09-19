@@ -51,6 +51,45 @@ function findAndReplace(string, target, replacement) {
 export const AlgoliaSearch = () =>
   <CustomSearch />
 
+
+function Request({ hit }){
+  return (
+    <Grid item xs={12} key={hit.description+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
+
+        <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
+            <Grid container style={{flexGrow:1, marginLeft:10}}>
+                <Grid item xs={9} style={{textAlign:'left'}}>
+                    <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
+                        <Grid item zeroMinWidth>
+                         <Typography variant="caption" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+
+                           <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
+                              {hit.description}
+                          </Truncate>
+
+
+                            </Typography>
+                        </Grid>
+                        <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
+                          <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
+                            {hit.tags.map((value) => {
+                              return(
+                                <Grid key={value+Math.random()+(Math.random())} item >
+                                <h6><Badge color="primary" style={{textTransform: 'none', marginRight:5,}}>{value}</Badge></h6>
+                              </Grid>)
+                            }
+                            )}
+                          </Grid>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </Grid>
+        </Button>
+
+    </Grid>
+  )
+}
+
 function Post({ hit }) {
   return (
     <Grid item xs={12} key={hit.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
@@ -123,9 +162,14 @@ function Post({ hit }) {
   );
 }
 
-const CustomHits = connectHits(({ hits }) => (
+const CustomPostsHits = connectHits(({ hits }) => (
   <Hits style={{width:'100%'}} hitComponent={Post} />
 ))
+
+const CustomRequestsHits = connectHits(({ hits }) => (
+  <Hits style={{width:'100%'}} hitComponent={Request} />
+))
+
 
 const MaterialUiCheckBoxRefinementList = ({
   items,
@@ -154,8 +198,11 @@ export const AlgoliaConnectedCheckBoxRefinementList = connectRefinementList(
   MaterialUiCheckBoxRefinementList
 );
 
-export const AlgoliaHits = () =>
-<CustomHits style={{width:'100%'}} />
+export const AlgoliaPostsHits = () =>
+<CustomPostsHits style={{width:'100%'}} />
+
+export const AlgoliaRequestsHits = () =>
+<CustomRequestsHits style={{width:'100%'}} />
 
 export const AlgoliaRefinementList = () =>
   <RefinementList attribute="title" />

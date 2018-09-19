@@ -14,6 +14,7 @@
 - github desktop
 - golang 1.11.windows (windows)
 - nodejs 8.11.4 LTS (windows)
+- nodejs v10.10.0 (windows) 9/18/18
 - yarn 1.9.4 (windows)
 
 # Node -g packages
@@ -144,6 +145,13 @@ PROJECT PATH
 - files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
 
 # To Do
+- upvote downvote
+- talk
+- preview
+- experience
+- categories
+- design simple
+- failure to signin
 - replicate prod database to dev and local
 - Roadmap https://cavalrytactics.rikko.io/
 - Digitalocean credits: https://www.digitalocean.com/hatch/

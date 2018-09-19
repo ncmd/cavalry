@@ -11,7 +11,7 @@ import (
 )
 
 // add email subscribers
-func addSubscriber(w http.ResponseWriter, r *http.Request) {
+func controllers_subscriptions_create_document_to_subscribers_collection_in_firestore(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")

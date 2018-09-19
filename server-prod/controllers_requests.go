@@ -93,8 +93,7 @@ func getrequest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// get last 10 requests
-func addrequest(w http.ResponseWriter, r *http.Request) {
+func controllers_requests_create_request_in_firestore(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
