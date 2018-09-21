@@ -4,6 +4,7 @@ import {
     ADD_GROUP_INSTANTMESSENGER,
     ADD_GROUP_DEPARTMENT,
     ADD_GROUP_LOCATION,
+    ADD_GROUP_SKILLSEXPERIENCE,
     ADD_GROUP_CLEAR,
     ADD_GROUPS
 } from '../actions/types';
@@ -20,6 +21,8 @@ export default function(state = [], action) {
           return [{ ...state[0], department:action.payload}];
         case ADD_GROUP_LOCATION:
           return [{ ...state[0], location:action.payload}];
+        case ADD_GROUP_SKILLSEXPERIENCE:
+          return [{ ...state[0], skillsexperience:action.payload}];
         case ADD_GROUPS:
             return [{ ...state[0], groups:action.payload}];
         case ADD_GROUP_CLEAR:

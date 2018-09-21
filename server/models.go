@@ -4,11 +4,19 @@ type PingPong struct {
 	Message string
 }
 
+type FailedToken struct {
+	Message string
+}
+
 type Data struct {
 	Name      string `json:"name"`
 	Phone     string `json:"phone"`
 	Email     string `json:"email"`
 	Recaptcha string `json:"recaptcha"`
+}
+
+type VerifyToken struct {
+	Token string `json:"token"`
 }
 
 type Account struct {

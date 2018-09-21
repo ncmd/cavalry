@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/header/header';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect  } from 'react-router-dom';
 import { Prompt } from 'react-router'
 import {
     addPost,
@@ -122,6 +122,17 @@ class Submit extends Component {
 
     componentDidMount() {
         // Window Dimensions
+        console.log(this.props.users.logged)
+        if (this.props.users.logged === false || this.props.users.logged === undefined){
+          this.setState({
+            postPublished:true
+          },() => {
+            this.props.history.push("/")
+          })
+
+        } else {
+            // console.log("User ")
+        }
 
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
@@ -143,7 +154,7 @@ class Submit extends Component {
           contentClicked:true,
           objectiveDescription: '',
         },() => {
-          console.log(this.state.contentPlaceholder)
+
           this.editor.content.innerHTML = this.state.contentPlaceholder
         })
       }
@@ -154,7 +165,7 @@ class Submit extends Component {
           contentClicked:true,
           objectiveDescription: '',
         },() => {
-          console.log(this.state.contentPlaceholder)
+
           this.editor.content.innerHTML = this.state.contentPlaceholder
         })
       }
@@ -633,7 +644,7 @@ class Submit extends Component {
         );
     }
 }
-function mapStateToProps({ posts, path,submit}) {
-    return { posts, path, submit };
+function mapStateToProps({ users,posts, path,submit}) {
+    return { users,posts, path, submit };
 }
 export default connect(mapStateToProps,{addPost,editSubmitTitle,editSubmitDescription,editSubmitTags,editSubmitObjectives,editClear})(withRouter(Submit));

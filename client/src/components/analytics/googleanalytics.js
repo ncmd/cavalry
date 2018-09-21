@@ -41,6 +41,16 @@ export const Cavalry_Webapp_Login_Account_Usersignedin = (emailaddress) => {
   );
 };
 
+export const Cavalry_Webapp_Login_Account_Userfailedsignedin = (emailaddress) => {
+  ReactGA.event(
+      {
+      label: emailaddress.substring(0, emailaddress.lastIndexOf("@"))+'-'+emailaddress.substring(emailaddress.lastIndexOf("@")+1),
+      action:'user failed signed in',
+      category:'account'
+    }
+  );
+};
+
 export const Cavalry_Webapp_Signup_Account_Useraccountcreated = (emailaddress) => {
   ReactGA.event(
       {
@@ -167,36 +177,6 @@ export const Cavalry_Webapp_Landing_Runbook_Userclickedonrunbook = (runbooktitle
       label: runbooktitle,
       action:'user clicked on runbook',
       category:'runbook'
-    }
-  );
-};
-
-export const CavalryHomeClickEvent = () => {
-  ReactGA.event(
-      {
-      label:'User clicked on home button',
-      action:'Button Click',
-      category:'User Clicks'
-    }
-  );
-};
-
-export const CavalrySignupClickEvent = () => {
-  ReactGA.event(
-      {
-      label:'Clicked on Cavalry Signup',
-      action:'Button Click',
-      category:'User Clicks'
-    }
-  );
-};
-
-export const CavalryLoginClickEvent = () => {
-  ReactGA.event(
-      {
-      label:'Clicked on Cavalry Login',
-      action:'Button Click',
-      category:'User Clicks'
     }
   );
 };

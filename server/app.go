@@ -56,6 +56,9 @@ func main() {
 	// response pong
 	http.HandleFunc("/api/ping", pingpong)
 
+	// verify jwt firebase Token
+	http.HandleFunc("/api/verify", controllers_firebaseverifyidtoken_handle_verify_token_with_firebase)
+
 	// get last10 posts
 	http.HandleFunc("/api/posts", controllers_posts_fetch_last_10_posts_from_firestore)
 

@@ -162,6 +162,7 @@ class Login extends Component {
     handleLogin(email,password){
       auth.doSignInWithEmailAndPassword(email,password).then((response) => {
           if (response === 'The password is invalid or the user does not have a password.'){
+            googleanalytics.Cavalry_Webapp_Login_Account_Userfailedsignedin(email)
             this.setState({
               loginError: response
             })

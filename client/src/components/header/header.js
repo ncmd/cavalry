@@ -15,7 +15,7 @@ import { googleanalytics } from '../analytics';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    loginUser,getUser,searchBox,signoutUser,setPath
+    loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
 import {AlgoliaSearch} from '../../components/algolia/config';
@@ -36,9 +36,6 @@ const headerRequestButton = "linear-gradient(to right, #2979ff, #03a9f4 ";
 const headerBlue = "#1a237e";
 const accountButton = "linear-gradient(to right, #304ffe, #2962ff)";
 
-
-
-const manageButton = "linear-gradient(to right, #9c27b0, #673ab7)";
 class header extends Component {
 
     constructor(props) {
@@ -67,6 +64,10 @@ class header extends Component {
 
     // Gets Max Height of Window on Load
     componentDidMount() {
+          // if (auth.getJWTVerifyToken() !== null){
+          //   this.props.sendVerifyIdTokenToBackend(auth.getJWTVerifyToken())
+          // }
+
         ReactGA.pageview(window.location.pathname + window.location.search);
         this.props.getUser()
         this.updateWindowDimensions();
@@ -149,6 +150,7 @@ class header extends Component {
   };
 
     renderUserLoggedIn(){
+      auth.getJWTVerifyToken()
       const { anchorEl } = this.state;
       return (
         <Nav className="ml-auto" navbar>
@@ -269,8 +271,8 @@ class header extends Component {
     }
 }
 
-function mapStateToProps({ posts,users,search,path }) {
-    return { posts,users,search,path };
+function mapStateToProps({ posts,users,search,path,account }) {
+    return { posts,users,search,path,account };
 }
 
-export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath})(withRouter(header));
+export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend})(withRouter(header));

@@ -19,7 +19,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
 import './edit.css';
-
+import { googleanalytics } from '../components/analytics';
 
 Quill.register('modules/ImageResize', ImageResize);
 
@@ -122,6 +122,16 @@ class Edit extends Component {
 
     componentDidMount() {
         // Window Dimensions
+        if (this.props.users.logged === false || this.props.users.logged === undefined){
+          this.setState({
+            postPublished:true
+          },() => {
+            this.props.history.push("/")
+          })
+
+        } else {
+            // console.log("User ")
+        }
 
         console.log("Props Posts",this.props.posts)
         this.setState({
@@ -321,6 +331,7 @@ class Edit extends Component {
   // Adding Objective to New Runbook
   addObjective(objectiveTitle, objectiveDescription, objectiveIndex) {
     // Get Previous Objective State which should start as an empty array '[]'
+    googleanalytics.Cavalry_Webapp_Submit_Runbook_Runbookobjectivecreated(objectiveTitle)
     const prevObjectives = this.state.objectives;
 
     // Function tasks in arguments to be pushed to array
@@ -457,6 +468,7 @@ class Edit extends Component {
         this.setState({
           postPublished: true
         }, () => {
+          googleanalytics.Cavalry_Webapp_Submit_Runbook_Userpublishedrunbook(title)
         this.props.history.push('/')
         })
     }
@@ -646,7 +658,7 @@ class Edit extends Component {
         );
     }
 }
-function mapStateToProps({ posts, path,submit}) {
-    return { posts, path, submit };
+function mapStateToProps({ users,posts, path,submit}) {
+    return { users,posts, path, submit };
 }
 export default connect(mapStateToProps,{updatePost,editSubmitTitle,editSubmitDescription,editSubmitTags,editSubmitObjectives,editClear})(withRouter(Edit));

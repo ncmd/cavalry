@@ -145,6 +145,8 @@ PROJECT PATH
 - files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
 
 # To Do
+- redirect unauthorized - 10%
+- manage team
 - upvote downvote
 - talk
 - preview
@@ -157,11 +159,11 @@ PROJECT PATH
 - Digitalocean credits: https://www.digitalocean.com/hatch/
 - Success Critera
 - Make Account Management Look like Algolia's
-- Support
+- Support; done
 - Invoices
-- Account Details
+- Account Details ; done
 - Email Notifications
-- Current plan
+- Current plan; done
 - cancel subscription
 - upgrade subscription
 - reset user password with email

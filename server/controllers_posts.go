@@ -129,6 +129,51 @@ func controllers_posts_create_post_in_firestore(w http.ResponseWriter, r *http.R
 
 }
 
+func controllers_posts_add_post_history_to_account_in_firestore(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	sa := option.WithCredentialsFile("./firestore.json")
+	app, err := firebase.NewApp(context.Background(), nil, sa)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	client, err := app.Firestore(context.Background())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer client.Close()
+
+	var post Post
+	decoder := json.NewDecoder(r.Body)
+	decoder.Decode(&post)
+	if err != nil {
+		panic(err)
+	}
+
+	if r.Method != "OPTIONS" {
+		// Get a new write batch.
+		batch := client.Batch()
+
+		// accounts / accountid / posts / postid /
+		ref := client.Collection("posts").Doc(post.Id)
+		batch.Set(ref, map[string]interface{}{
+			"id":          post.Id,
+			"title":       post.Title,
+			"description": post.Description,
+			"tags":        post.Tags,
+			"objectives":  post.Objectives,
+		}, firestore.MergeAll)
+
+		// Commit the batch.
+		_, err := batch.Commit(context.Background())
+		if err != nil {
+			return
+		}
+		log.Println("Updated Post!")
+	}
+}
+
 func controllers_posts_edit_post_in_firestore(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")

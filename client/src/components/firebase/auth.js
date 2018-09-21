@@ -1,6 +1,8 @@
 import { auth } from './firebase';
+import axios from 'axios';
 
 const keys = require('../../secrets/keys');
+let backend = keys.heroku_backend_uri
 
 // Check if email exists
 export const checkEmailExists = (email) =>
@@ -63,10 +65,18 @@ export const doSignInWithEmailAndPassword = (email, password) =>
 
       });
 
-export const doGetCurrentUser = () => {
+export const getJWTVerifyToken = () => {
   auth.onAuthStateChanged(function(user) {
     if (user) {
-      return user
+        // User is signed in.
+
+        // Now verify JWT with backend
+      user.getIdToken().then(function(data) {
+        console.log("Got Token:",data)
+        let newdata = {token:data}
+        const res = axios.post(backend+'/api/verify',newdata);
+        console.log("Response from backend:",res)
+      });
       // User is signed in.
     } else {
       return null

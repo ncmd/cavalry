@@ -12,6 +12,18 @@ import Button from '@material-ui/core/Button';
 import { googleanalytics } from '../analytics';
 
 const payButtonColor = "linear-gradient(to right, #ff1744, #F44336 ";
+const ownerInfo = {
+  owner: {
+    name: 'Jenny Rosen',
+    address: {
+      line1: 'Nollendorfstraße 27',
+      city: 'Berlin',
+      postal_code: '10777',
+      country: 'DE',
+    },
+    email: 'jenny.rosen@example.com'
+  },
+};
 
 class SplitForm extends Component {
 
@@ -55,7 +67,7 @@ class SplitForm extends Component {
       googleanalytics.Cavalry_Webapp_Signup_Signup_Userclickedpaybutton(this.props.users.email)
             this.props.setStripeModal()
             this.props.stripe
-                .createSource({type:'card'},{owner:{email:this.props.users.email}})
+                .createSource({type:'card'},ownerInfo)
                 .then((payload) => {
                   // Once add user, generate password (in backend), use password to create user, send password to user via email
                     this.props.addUser(this.props.users.email,payload.source.id,this.props.users.plan).then((password) =>{

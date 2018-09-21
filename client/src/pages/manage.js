@@ -116,9 +116,6 @@ class Manage extends Component {
           selectItem3:true
         })
       }
-
-
-
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
 
@@ -297,7 +294,7 @@ class Manage extends Component {
           </Grid>
         </Grid>
         <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
-          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
+          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"45em"}} xs={12}>
             <div>
               <Typography variant={'body2'} style={{color:'black'}}><b>Email Address: </b>{this.props.users.email}</Typography>
             </div>
@@ -318,7 +315,7 @@ class Manage extends Component {
             </Grid>
           </Grid>
           <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
-            <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
+            <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"45em"}} xs={12}>
               <div>
                 <Typography variant={'body2'} style={{color:'black'}}><b>Support Email: </b>cavalrytacticsinc@gmail.com</Typography>
               </div>
@@ -420,6 +417,13 @@ class Manage extends Component {
           </Grid>
           <Grid item xs={12}>
             <Typography variant={'caption'} style={{color:'white', textAlign:'center'}}>All amounts are shown in <b>USD</b></Typography>
+          </Grid>
+        </Grid>
+        <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
+          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
+            <div>
+              <Button><Typography variant={'title'} style={{color:'black', textTransform:'none'}}>Cancel Subscription <span aria-label="emoji" role="img">😢</span></Typography></Button>
+            </div>
           </Grid>
         </Grid>
       </div>

@@ -20,7 +20,7 @@
     "herokusiteprod": "cavalry-app-prod.herokuapp.com",
     "gitusername": "ncmd",
     "githubprojectname": "https://github.com/ncmd/cavalry.git",
-    "gocommand": "go get -v github.com/elazarl/goproxy"
+    "gocommand": "go get -v github.com/dgrijalva/jwt-go"
   },
   "scripts": {
     "UTILITIES-------------------------------------------------------------": "",

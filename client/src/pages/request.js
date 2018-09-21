@@ -10,7 +10,7 @@ import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Form, FormGroup, Input } from 'reactstrap';
-import { AlgoliaRequestsHits,AlgoliaConnectedCheckBoxRefinementList } from '../components/algolia/config';
+import { AlgoliaRequestsHits } from '../components/algolia/config';
 import { InstantSearch } from 'react-instantsearch-dom';
 
 const keys = require('../secrets/keys');
@@ -35,6 +35,12 @@ class Request extends Component {
 
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
+
+      // if (this.props.users === undefined){
+      //   this.props.history.push("/")
+      // } else {
+      //     // console.log("User ")
+      // }
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
 

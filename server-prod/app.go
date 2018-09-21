@@ -33,11 +33,15 @@ func main() {
 				stripesecretkey = config.StripeDevSecretKey
 				sendgridkey = config.SendgridDevKey
 			} else if variable[1] == "prod " {
-				stripesecretkey = config.StripeProdSecretKey
-				sendgridkey = config.SendgridProdKey
+				// stripesecretkey = config.StripeProdSecretKey
+				// sendgridkey = config.SendgridProdKey
+				stripesecretkey = config.StripeDevSecretKey
+				sendgridkey = config.SendgridDevKey
 			} else if variable[1] == "prod" {
-				stripesecretkey = config.StripeProdSecretKey
-				sendgridkey = config.SendgridProdKey
+				// stripesecretkey = config.StripeProdSecretKey
+				// sendgridkey = config.SendgridProdKey
+				stripesecretkey = config.StripeDevSecretKey
+				sendgridkey = config.SendgridDevKey
 			} else {
 				fmt.Println("NO APP_ENV found!")
 			}

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { auth } from '../../components/firebase'
 import {
     // GET_POSTS,
     GET_POST,
@@ -29,16 +30,26 @@ import {
     ADD_GROUP_INSTANTMESSENGER,
     ADD_GROUP_DEPARTMENT,
     ADD_GROUP_LOCATION,
+    ADD_GROUP_SKILLSEXPERIENCE,
     ADD_GROUPS,
     ADD_ACCOUNT,
+    GET_ACCOUNT,
     SET_STRIPE_MODAL,
     SET_STRIPE_PROGRESS
     // SET_THEME,
 } from './types';
 
 const keys = require('../../secrets/keys');
-
 let backend = keys.heroku_backend_uri
+
+// Get VerifyIDToken
+export const sendVerifyIdTokenToBackend = (token) => {
+  console.log("Received Token: ",token)
+  let data = {token:data}
+  const res = axios.post(backend+'/api/verify',data);
+  console.log("Response from backend:",res)
+}
+
 
 export const setPath = (path) => dispatch => {
   console.log("This Path:",path)
@@ -92,6 +103,10 @@ export const addGroupLocation = (location) => dispatch => {
     const data = {location}
     dispatch({ type: ADD_GROUP_LOCATION, payload: data });
 };
+export const addGroupSkillsExperience = (skillsexperience) => dispatch => {
+    const data = {skillsexperience}
+    dispatch({ type: ADD_GROUP_SKILLSEXPERIENCE, payload: data });
+};
 export const addGroups = (groups) => async dispatch => {
     const data = {groups}
     dispatch({ type: ADD_GROUPS, payload: data });
@@ -107,6 +122,12 @@ export const setAccount = (email,accountid,plan) => async dispatch => {
     const data = {email:email,accountid:accountid, plan:plan}
     await axios.post(backend+'/api/accounts/create',data);
     dispatch({ type: ADD_ACCOUNT, payload: data });
+};
+
+export const getAccount = (accountid) => async dispatch => {
+    const data = {accountid:accountid}
+    await axios.post(backend+'/api/accounts/get',data);
+    dispatch({ type: GET_ACCOUNT, payload: data });
 };
 
 

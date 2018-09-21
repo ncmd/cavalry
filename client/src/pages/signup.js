@@ -83,6 +83,7 @@ class Signup extends Component {
     };
 
     componentDidMount() {
+
         // Window Dimensions
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
