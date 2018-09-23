@@ -145,7 +145,19 @@ PROJECT PATH
 - files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
 
 # To Do
-- redirect unauthorized - 10%
+- enterprise grade
+- cancel subscription
+- user management / team Management
+- assigning tasks
+- emailing
+- creating community/cult
+- share on linkedin
+- github friendly
+- websockets - gorilla
+- Reference Resilient IBM
+- craft http requests
+- redirect unauthorized - 70%
+-
 - manage team
 - upvote downvote
 - talk

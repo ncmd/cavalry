@@ -304,7 +304,7 @@ func subscribeCustomer(customer string, plan string) {
 	}
 	subscription, _ := sub.New(params)
 
-	fmt.Println("Subscription:", subscription)
+	fmt.Println("Subscription:", subscription.id)
 	// sendInvoice(customer, plan)
 
 }
