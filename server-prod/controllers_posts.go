@@ -68,7 +68,7 @@ func controllers_posts_fetch_selected_post_from_firestore(w http.ResponseWriter,
 	if r.Method != "OPTIONS" {
 		var post Post
 
-		log.Println("Response Body:", r.Method)
+		// log.Println("Response Body:", r.Method)
 		decoder := json.NewDecoder(r.Body)
 		decoder.Decode(&post)
 
@@ -79,7 +79,6 @@ func controllers_posts_fetch_selected_post_from_firestore(w http.ResponseWriter,
 			fmt.Printf("Error: %#v\n", err)
 		}
 		m := dsnap.Data()
-		fmt.Println(m)
 
 		js, err := json.MarshalIndent(m, "", "    ")
 		if err != nil {
@@ -129,7 +128,7 @@ func controllers_posts_create_post_in_firestore(w http.ResponseWriter, r *http.R
 
 }
 
-func controllers_posts_add_post_history_to_account_in_firestore() {
+func controllers_posts_add_post_history_to_account_in_firestore(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")

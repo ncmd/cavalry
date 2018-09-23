@@ -41,6 +41,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
+    "react-select": "^2.0.0",
     "react-stripe-elements": "^2.0.1",
     "react-text-truncate": "^0.13.1",
     "react-truncate": "^2.4.0",

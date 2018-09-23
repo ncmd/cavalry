@@ -1,34 +1,27 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 	"time"
 
+	"cloud.google.com/go/firestore"
+	firebase "firebase.google.com/go"
 	"github.com/stripe/stripe-go"
 	"github.com/stripe/stripe-go/customer"
 	"github.com/stripe/stripe-go/plan"
 	"github.com/stripe/stripe-go/product"
 	"github.com/stripe/stripe-go/sub"
+	"google.golang.org/api/option"
 )
 
-// //Experiment with Main
-// func main() {
-// 	// Only create 1 place with 1 service
-// 	attachPlan(createService("1_month_service"), "1_month_plan", 3500)
-//
-// 	// // Product: prod_DNsVWKlAzjtCEu
-// 	// // Plan: plan_DNsV7QMhFmBH10
-// 	// var monthlyService = "plan_DNrnS35z2a1m2z"
-// 	// var emailAddress = "test1@gmail.com"
-// 	//
-// 	// 	// You can have many customers
-// 	// 	var newCustomer = createCustomer(createSource(emailAddress))
-// 	// 	// Subscribe Customer
-// 	// 	newSubscriber(newCustomer, monthlyService)
-// }
+// get firestore accountid
+
+// get stripe customerid
 
 // subscribe user
 func controllers_stripe_generate_password_subscribe_user_to_plan_sendgrid_email_password(w http.ResponseWriter, r *http.Request) {
@@ -50,7 +43,9 @@ func controllers_stripe_generate_password_subscribe_user_to_plan_sendgrid_email_
 		if user.Plan == "1month" {
 			log.Println("Selected 1 Month!")
 			w.Write([]byte(password))
-			newSubscriber1Month(createCustomer(user.Email, user.Source))
+			var cust = createCustomer(user.Email, user.Source)
+			newSubscriber1Month(cust)
+
 			// sendEmail(user.Email, password)
 			sendgridEmail("user", user.Email, password)
 		} else if user.Plan == "12months" {
@@ -68,30 +63,185 @@ func controllers_stripe_generate_password_subscribe_user_to_plan_sendgrid_email_
 		} else {
 			log.Println("No Plan Selected...")
 		}
-
 	}
 }
 
-func newSubscriberBeta(customer string) {
-	messages := make(chan string, 2)
-	messages <- customer
-	time.Sleep(time.Second * 3)
-	var testing = (<-messages)
-	fmt.Println(testing)
+func create_customer_in_firebase_from_customerId(customerid string, customeremail string, customersubscription string) {
+
 }
 
-func newSubscriber1Month(customer string) {
-	messages := make(chan string, 2)
-	messages <- customer
-	time.Sleep(time.Second * 3)
-	subscribeCustomer(<-messages, "plan_DZlhSuoCUAGlEL")
+// this teaches you json
+func get_stripe_customerId_from_emailaddress(w http.ResponseWriter, r *http.Request) {
+	stripe.Key = stripesecretkey
+
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
+
+	if r.Method != "OPTIONS" {
+
+		var customer Customer
+		log.Println("Response Body:", r.Method)
+		decoder := json.NewDecoder(r.Body)
+		decoder.Decode(&customer)
+		url := "https://api.stripe.com/v1/search?query=" + customer.Email + "&prefix=false"
+		req, _ := http.NewRequest("GET", url, nil)
+		req.Header.Add("authorization", "Bearer "+stripe.Key)
+		req.Header.Add("content-type", "application/x-www-form-urlencoded")
+
+		res, _ := http.DefaultClient.Do(req)
+		body, _ := ioutil.ReadAll(res.Body)
+
+		// s = byte ; this needs to be converted to buffer
+		s, err := getStripeCustomer([]byte(body))
+
+		// create a buffer type
+		var buf []byte
+
+		// conver json to buffer using marshal ; getting first element; its customerid
+		buf, err = json.Marshal(s.StripeCustomerData[0])
+		if err != nil {
+			fmt.Println("whoops:", err)
+		}
+
+		// w.Header().Set("Content-Type", "application/json")
+		w.Write(buf)
+		// fmt.Println(s.StripeCustomerData[0], err)
+	}
+
 }
 
-func newSubscriber12Months(customer string) {
+// this teaches you json
+func get_stripe_subscriptionid_from_customerid(w http.ResponseWriter, r *http.Request) {
+	stripe.Key = stripesecretkey
+
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
+
+	if r.Method != "OPTIONS" {
+
+		var customer Customer
+		log.Println("Response Body:", r.Method)
+		decoder := json.NewDecoder(r.Body)
+		decoder.Decode(&customer)
+		url := "https://api.stripe.com/v1/subscriptions"
+		req, _ := http.NewRequest("GET", url, nil)
+		req.Header.Add("authorization", "Bearer "+stripe.Key)
+		req.Header.Add("content-type", "application/x-www-form-urlencoded")
+
+		res, _ := http.DefaultClient.Do(req)
+		body, _ := ioutil.ReadAll(res.Body)
+
+		// s = byte ; this needs to be converted to buffer
+		// s, _ := getStripeCustomer([]byte(body))
+		fmt.Println(string(body))
+
+		// fmt.Println(res.Body)
+	}
+
+}
+
+func getStripeSubscription(body []byte) (*StripeSubscriptionResponse, error) {
+	var s = new(StripeSubscriptionResponse)
+
+	err := json.Unmarshal(body, &s)
+	if err != nil {
+		fmt.Println("whoops:", err)
+	}
+
+	return s, err
+}
+
+func getStripeCustomer(body []byte) (*StripeCustomerResponse, error) {
+	var s = new(StripeCustomerResponse)
+
+	err := json.Unmarshal(body, &s)
+	if err != nil {
+		fmt.Println("whoops:", err)
+	}
+
+	return s, err
+}
+
+func update_stripe_customer_information_to_accounts_firestore(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	sa := option.WithCredentialsFile("./firestore.json")
+	app, err := firebase.NewApp(context.Background(), nil, sa)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	client, err := app.Firestore(context.Background())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer client.Close()
+
+	// Get a new write batch.
+	batch := client.Batch()
+
+	if r.Method != "OPTIONS" {
+		var customer Customer
+		log.Println("Response Body:", r.Method)
+		decoder := json.NewDecoder(r.Body)
+		decoder.Decode(&customer)
+
+		// Set the value
+		ref := client.Collection("accounts").Doc(customer.FirebaseAccountId)
+		batch.Set(ref, map[string]interface{}{
+			"stripeCustomerId": customer.StripeCustomerId,
+		}, firestore.MergeAll)
+
+		// Commit the batch.
+		_, err := batch.Commit(context.Background())
+		if err != nil {
+			return
+		}
+	}
+}
+
+// func add_stripe_all_customer_information_to_accounts_firestore(firestoreAccountId string, stripeCustomerId string, stripeCustomerEmail string, stripeCustomerPlanId string, stripeCustomerSourceId string, stripeCustomerSubscriptionId string) {
+// 	// Get a new write batch.
+// 	batch := client.Batch()
+//
+// 	// Set the value
+// 	ref := client.Collection("accounts").Doc(firestoreAccountId)
+// 	batch.Set(ref, map[string]interface{}{
+// 		"stripeCustomerId":             stripeCustomerId,
+// 		"stripeCustomerEmail":          stripeCustomerEmail,
+// 		"stripeCustomerPlanId":         stripeCustomerPlanId,
+// 		"stripeCustomerSourceId":       stripeCustomerSourceId,
+// 		"stripeCustomerSubscriptionId": stripeCustomerSubscriptionId,
+// 	}, firestore.MergeAll)
+//
+// 	// Commit the batch.
+// 	_, err := batch.Commit(context.Background())
+// 	if err != nil {
+// 		return
+// 	}
+// }
+
+func newSubscriberBeta(customerid string) {
 	messages := make(chan string, 2)
-	messages <- customer
+	messages <- customerid
 	time.Sleep(time.Second * 3)
-	subscribeCustomer(<-messages, "plan_DZljpBH03blVLR")
+	subscribeCustomer(<-messages, stripebetaplan)
+}
+
+func newSubscriber1Month(customerid string) {
+	messages := make(chan string, 2)
+	messages <- customerid
+	time.Sleep(time.Second * 3)
+	subscribeCustomer(<-messages, stripe1monthplan)
+}
+
+func newSubscriber12Months(customerid string) {
+	messages := make(chan string, 2)
+	messages <- customerid
+	time.Sleep(time.Second * 3)
+	subscribeCustomer(<-messages, stripe12monthsplan)
 }
 
 // Creates a Service;
@@ -124,13 +274,13 @@ func attachPlan(productID string, planNickname string, planAmount int64) string 
 	if err != nil {
 		log.Fatalln(err)
 	}
-	fmt.Println("Plan:", p.ID)
+	// fmt.Println("Plan:", p.ID)
 	return p.ID
 }
 
 func createCustomer(emailaddress string, source string) string {
 	stripe.Key = stripesecretkey
-	fmt.Println("Customer email", emailaddress, source)
+	// fmt.Println("Customer email", emailaddress, source)
 	customerParams := &stripe.CustomerParams{
 		Email: stripe.String(emailaddress),
 	}
@@ -153,19 +303,34 @@ func subscribeCustomer(customer string, plan string) {
 		Items:    items,
 	}
 	subscription, _ := sub.New(params)
-	fmt.Println("Subscription:", subscription)
+	body, _ := ioutil.ReadAll(subscription)
+	fmt.Println("Subscription:", body)
 	// sendInvoice(customer, plan)
 
 }
 
-func sendInvoice(customer string, plan string) {
+// func getCustomerInfo(customerid string) {
+// 	stripe.Key = stripesecretkey
+// 	c, err := customer.Get(customerid, nil)
+// }
+
+// func unsubscribe_stripe_customer(subscriptionid string) {
+// 	stripe.Key = stripesecretkey
+//
+// 	params := &stripe.SubscriptionParams{
+// 		CancelAtPeriodEnd: stripe.Bool(true),
+// 	}
+// 	subscription, _ := sub.Update(subscriptionid, params)
+// }
+
+func sendInvoice(customerid string, plan string) {
 	stripe.Key = stripesecretkey
 
 	items := []*stripe.SubscriptionItemsParams{
 		{Plan: stripe.String(plan)},
 	}
 	params := &stripe.SubscriptionParams{
-		Customer:     stripe.String(customer),
+		Customer:     stripe.String(customerid),
 		Items:        items,
 		Billing:      stripe.String(string(stripe.InvoiceBillingSendInvoice)),
 		DaysUntilDue: stripe.Int64(30),

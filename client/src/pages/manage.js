@@ -416,13 +416,11 @@ class Manage extends Component {
             }
           </Grid>
           <Grid item xs={12}>
-            <Typography variant={'caption'} style={{color:'white', textAlign:'center'}}>All amounts are shown in <b>USD</b></Typography>
+            <Typography variant={'caption'} style={{color:'black', textAlign:'center'}}>All amounts are shown in <b>USD</b></Typography>
           </Grid>
-        </Grid>
-        <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
           <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
             <div>
-              <Button><Typography variant={'title'} style={{color:'black', textTransform:'none'}}>Cancel Subscription <span aria-label="emoji" role="img">😢</span></Typography></Button>
+              <Button style={{background: actionButton}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Cancel Subscription</b><span aria-label="emoji" role="img">😢</span></Typography></Button>
             </div>
           </Grid>
         </Grid>

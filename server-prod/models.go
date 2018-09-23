@@ -4,11 +4,42 @@ type PingPong struct {
 	Message string
 }
 
+type FailedToken struct {
+	Message string
+}
+
+type StripeCustomerResponse struct {
+	StripeCustomerData []StripeCustomerData `json:"data"`
+}
+
+type StripeCustomerData struct {
+	StripeCustomerId string `json:"id"`
+}
+
+type StripeSubscriptionResponse struct {
+	StripeSubscriptionData []StripeSubscriptionData `json:"data"`
+}
+
+type StripeSubscriptionData struct {
+	StripeSubscriptionId string `json:"id"`
+	StripeCustomerId     string `json:"customer"`
+}
+
+type Customer struct {
+	Email             string `json:"email"`
+	StripeCustomerId  string `json:"customerid"`
+	FirebaseAccountId string `json:"accountid"`
+}
+
 type Data struct {
 	Name      string `json:"name"`
 	Phone     string `json:"phone"`
 	Email     string `json:"email"`
 	Recaptcha string `json:"recaptcha"`
+}
+
+type VerifyToken struct {
+	Token string `json:"token"`
 }
 
 type Account struct {
@@ -61,6 +92,14 @@ type Config struct {
 	StripeDevSecretKey        string
 	StripeProdPublishableKey  string
 	StripeProdSecretKey       string
+	StripeTestProduct         string
+	StripeLiveProduct         string
+	StripeTestPlan1Month      string
+	StripeTestPlan12Months    string
+	StripeTestPlanBeta        string
+	StripeLivePlan1Month      string
+	StripeLivePlan12Months    string
+	StripeLivePlanBeta        string
 	SendgridLocalKey          string
 	SendgridDevKey            string
 	SendgridProdKey           string

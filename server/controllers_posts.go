@@ -68,7 +68,7 @@ func controllers_posts_fetch_selected_post_from_firestore(w http.ResponseWriter,
 	if r.Method != "OPTIONS" {
 		var post Post
 
-		log.Println("Response Body:", r.Method)
+		// log.Println("Response Body:", r.Method)
 		decoder := json.NewDecoder(r.Body)
 		decoder.Decode(&post)
 
@@ -79,7 +79,6 @@ func controllers_posts_fetch_selected_post_from_firestore(w http.ResponseWriter,
 			fmt.Printf("Error: %#v\n", err)
 		}
 		m := dsnap.Data()
-		fmt.Println(m)
 
 		js, err := json.MarshalIndent(m, "", "    ")
 		if err != nil {

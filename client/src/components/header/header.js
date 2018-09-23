@@ -15,7 +15,7 @@ import { googleanalytics } from '../analytics';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend
+    loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
 import {AlgoliaSearch} from '../../components/algolia/config';
@@ -69,7 +69,8 @@ class header extends Component {
           // }
 
         ReactGA.pageview(window.location.pathname + window.location.search);
-        this.props.getUser()
+        this.props.getUser();
+
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
 
@@ -132,6 +133,7 @@ class header extends Component {
         googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignoutbutton(this.props.users.login)
         // console.log("State isLoggedIn:",this.state.isLoggedIn)
         this.props.signoutUser()
+        this.props.signoutAccount()
         this.props.history.push('/')
     }
 
@@ -143,6 +145,11 @@ class header extends Component {
   handleClickManage = () => {
      googleanalytics.Cavalry_Webapp_Header_Header_Userclickedmanagebutton()
      this.props.history.push('/manage')
+  }
+
+  handleClickTeam= () => {
+     googleanalytics.Cavalry_Webapp_Header_Header_Userclickedteambutton()
+     this.props.history.push('/team')
   }
 
   handleClose = () => {
@@ -184,6 +191,11 @@ class header extends Component {
                    open={Boolean(anchorEl)}
                    onClose={this.handleClose}
                 >
+                    <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.handleClickTeam()}>
+                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                      <b>Team</b>
+                      </Typography>
+                    </MenuItem>
                     <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.handleClickManage()}>
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                       <b>Manage</b>
@@ -275,4 +287,4 @@ function mapStateToProps({ posts,users,search,path,account }) {
     return { posts,users,search,path,account };
 }
 
-export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend})(withRouter(header));
+export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount})(withRouter(header));

@@ -14,6 +14,7 @@ import {
     SET_PLAN,
     // EMAIL_JIDOKA,
     SET_RECAPTCHA,
+    SET_STRIPE_CUSTOMERID,
     ADD_SUBSCRIBER,
     // LOGIN_USER,
     FETCH_USER,
@@ -35,8 +36,9 @@ import {
     ADD_ACCOUNT,
     GET_ACCOUNT,
     SET_STRIPE_MODAL,
-    SET_STRIPE_PROGRESS
+    SET_STRIPE_PROGRESS,
     // SET_THEME,
+    SIGNOUT_ACCOUNT,
 } from './types';
 
 const keys = require('../../secrets/keys');
@@ -119,6 +121,7 @@ export const addGroupUser = (uri, accountid, contactname,emailaddress,instantmes
 };
 
 export const setAccount = (email,accountid,plan) => async dispatch => {
+    console.log(email,accountid,plan)
     const data = {email:email,accountid:accountid, plan:plan}
     await axios.post(backend+'/api/accounts/create',data);
     dispatch({ type: ADD_ACCOUNT, payload: data });
@@ -143,6 +146,22 @@ export const getPosts = () => async dispatch => {
     // console.log("RES getPosts",res.data)
     dispatch({ type: 'GET_POSTS', payload: res.data });
 };
+
+export const getStripeCustomerID = (email) => async dispatch => {
+  const data = {email:email}
+  const res = await axios.get(backend+'/api/user/customerid',data)
+  console.log("getStripeCustomerID:",res.data.id)
+  // dispatch to account redux
+  dispatch({ type: SET_STRIPE_CUSTOMERID, payload: res.data.id})
+
+
+}
+
+export const updateFirebaseAccountsWithStripeCustomerId = (accountid,customerid) => async disptach => {
+  const data = {accountid:accountid, customerid:customerid}
+  const res = await axios.post(backend+'/api/accounts/update',data)
+
+}
 
 export const addPost = (title,description,tags,objectives) => async dispatch =>{
     const data = {title:title,description:description,tags:tags,objectives:objectives};
@@ -199,6 +218,11 @@ export const loginUser = (auth,email) => dispatch => {
 
 export const signoutUser = () => dispatch => {
   dispatch({ type: SIGNOUT_USER, payload:{}})
+  // console.log("Signout Redux")
+}
+
+export const signoutAccount = () => dispatch => {
+  dispatch({ type: SIGNOUT_ACCOUNT, payload:{}})
   // console.log("Signout Redux")
 }
 

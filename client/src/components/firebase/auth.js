@@ -72,10 +72,10 @@ export const getJWTVerifyToken = () => {
 
         // Now verify JWT with backend
       user.getIdToken().then(function(data) {
-        console.log("Got Token:",data)
+        // console.log("Got Token:",data)
         let newdata = {token:data}
         const res = axios.post(backend+'/api/verify',newdata);
-        console.log("Response from backend:",res)
+        // console.log("Response from backend:",res)
       });
       // User is signed in.
     } else {

@@ -12,6 +12,10 @@ import (
 
 var stripesecretkey = ""
 var sendgridkey = ""
+var stripeproduct = ""
+var stripe1monthplan = ""
+var stripe12monthsplan = ""
+var stripebetaplan = ""
 
 func main() {
 
@@ -22,26 +26,46 @@ func main() {
 			fmt.Println(len(variable[1]))
 			if variable[1] == "local " {
 				stripesecretkey = config.StripeLocalSecretKey
+				stripeproduct = config.StripeTestProduct
+				stripe1monthplan = config.StripeTestPlan1Month
+				stripe12monthsplan = config.StripeTestPlan12Months
+				stripebetaplan = config.StripeTestPlanBeta
 				sendgridkey = config.SendgridLocalKey
 			} else if variable[1] == "local" {
 				stripesecretkey = config.StripeLocalSecretKey
+				stripeproduct = config.StripeTestProduct
+				stripe1monthplan = config.StripeTestPlan1Month
+				stripe12monthsplan = config.StripeTestPlan12Months
+				stripebetaplan = config.StripeTestPlanBeta
 				sendgridkey = config.SendgridLocalKey
 			} else if variable[1] == "dev " {
 				stripesecretkey = config.StripeDevSecretKey
+				stripeproduct = config.StripeTestProduct
+				stripe1monthplan = config.StripeTestPlan1Month
+				stripe12monthsplan = config.StripeTestPlan12Months
+				stripebetaplan = config.StripeTestPlanBeta
 				sendgridkey = config.SendgridDevKey
 			} else if variable[1] == "dev" {
 				stripesecretkey = config.StripeDevSecretKey
+				stripeproduct = config.StripeTestProduct
+				stripe1monthplan = config.StripeTestPlan1Month
+				stripe12monthsplan = config.StripeTestPlan12Months
+				stripebetaplan = config.StripeTestPlanBeta
 				sendgridkey = config.SendgridDevKey
 			} else if variable[1] == "prod " {
-				// stripesecretkey = config.StripeProdSecretKey
-				// sendgridkey = config.SendgridProdKey
-				stripesecretkey = config.StripeDevSecretKey
-				sendgridkey = config.SendgridDevKey
+				stripesecretkey = config.StripeProdSecretKey
+				stripeproduct = config.StripeLiveProduct
+				stripe1monthplan = config.StripeLivePlan1Month
+				stripe12monthsplan = config.StripeLivePlan12Months
+				stripebetaplan = config.StripeLivePlanBeta
+				sendgridkey = config.SendgridProdKey
 			} else if variable[1] == "prod" {
-				// stripesecretkey = config.StripeProdSecretKey
-				// sendgridkey = config.SendgridProdKey
-				stripesecretkey = config.StripeDevSecretKey
-				sendgridkey = config.SendgridDevKey
+				stripesecretkey = config.StripeProdSecretKey
+				stripeproduct = config.StripeLiveProduct
+				stripe1monthplan = config.StripeLivePlan1Month
+				stripe12monthsplan = config.StripeLivePlan12Months
+				stripebetaplan = config.StripeLivePlanBeta
+				sendgridkey = config.SendgridProdKey
 			} else {
 				fmt.Println("NO APP_ENV found!")
 			}
@@ -59,6 +83,9 @@ func main() {
 
 	// response pong
 	http.HandleFunc("/api/ping", pingpong)
+
+	// verify jwt firebase Token
+	http.HandleFunc("/api/verify", controllers_firebaseverifyidtoken_handle_verify_token_with_firebase)
 
 	// get last10 posts
 	http.HandleFunc("/api/posts", controllers_posts_fetch_last_10_posts_from_firestore)
@@ -85,8 +112,15 @@ func main() {
 	// Adds user to Plan
 	http.HandleFunc("/api/user/new", controllers_stripe_generate_password_subscribe_user_to_plan_sendgrid_email_password)
 
+	http.HandleFunc("/api/user/customerid", get_stripe_customerId_from_emailaddress)
+
+	http.HandleFunc("/api/user/unsubscribe", get_stripe_subscriptionid_from_customerid)
+
 	// Add account information in firestore (id, email, plan)
 	http.HandleFunc("/api/accounts/create", controllers_accounts_create_user_account_in_firestore)
+
+	// Add account information in firestore (id, email, plan)
+	http.HandleFunc("/api/accounts/update", update_stripe_customer_information_to_accounts_firestore)
 
 	// listen on socket
 	port := os.Getenv("PORT")

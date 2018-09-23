@@ -151,6 +151,16 @@ export const Cavalry_Webapp_Header_Header_Userclickedmanagebutton = () => {
   );
 };
 
+export const Cavalry_Webapp_Header_Header_Userclickedteambutton = () => {
+  ReactGA.event(
+      {
+      label: 'team button',
+      action:'user clicked team button',
+      category:'header'
+    }
+  );
+};
+
 export const Cavalry_Webapp_Header_Header_Userclickedaccountbutton = (userid) => {
   ReactGA.event(
       {
