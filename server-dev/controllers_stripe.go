@@ -63,8 +63,11 @@ func controllers_stripe_generate_password_subscribe_user_to_plan_sendgrid_email_
 		} else {
 			log.Println("No Plan Selected...")
 		}
-
 	}
+}
+
+func create_customer_in_firebase_from_customerId(customerid string, customeremail string, customersubscription string) {
+
 }
 
 // this teaches you json
@@ -300,6 +303,7 @@ func subscribeCustomer(customer string, plan string) {
 		Items:    items,
 	}
 	subscription, _ := sub.New(params)
+
 	fmt.Println("Subscription:", subscription)
 	// sendInvoice(customer, plan)
 

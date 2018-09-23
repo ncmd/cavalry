@@ -303,8 +303,8 @@ func subscribeCustomer(customer string, plan string) {
 		Items:    items,
 	}
 	subscription, _ := sub.New(params)
-	body, _ := ioutil.ReadAll(subscription)
-	fmt.Println("Subscription:", body)
+
+	fmt.Println("Subscription:", subscription)
 	// sendInvoice(customer, plan)
 
 }
