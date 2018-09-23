@@ -127,10 +127,17 @@ export const setAccount = (email,accountid,plan) => async dispatch => {
     dispatch({ type: ADD_ACCOUNT, payload: data });
 };
 
+export const createAccount = (email) => async dispatch => {
+  const data = {email:email}
+  const res = await axios.post(backend+'/api/account/create',data)
+  // console.log(res)
+}
+
 export const getAccount = (accountid) => async dispatch => {
     const data = {accountid:accountid}
-    await axios.post(backend+'/api/accounts/get',data);
-    dispatch({ type: GET_ACCOUNT, payload: data });
+    const res = await axios.post(backend+'/api/account/get',data);
+    // console.log("Get Account Response:",res)
+    dispatch({ type: GET_ACCOUNT, payload: res.data });
 };
 
 
@@ -153,14 +160,11 @@ export const getStripeCustomerID = (email) => async dispatch => {
   console.log("getStripeCustomerID:",res.data.id)
   // dispatch to account redux
   dispatch({ type: SET_STRIPE_CUSTOMERID, payload: res.data.id})
-
-
 }
 
 export const updateFirebaseAccountsWithStripeCustomerId = (accountid,customerid) => async disptach => {
   const data = {accountid:accountid, customerid:customerid}
   const res = await axios.post(backend+'/api/accounts/update',data)
-
 }
 
 export const addPost = (title,description,tags,objectives) => async dispatch =>{
@@ -204,37 +208,32 @@ export const addSubscriber = (email) => async dispatch =>{
 };
 
 
-export const setUserEmail = (email,password) => dispatch => {
-    const data = {email:email,password:password};
+export const setUserEmail = (email) => dispatch => {
+    const data = {email:email};
     dispatch({ type: SET_EMAIL, payload: data });
-    console.log("setUserEmail:",data);
 };
 
-export const loginUser = (auth,email) => dispatch => {
-  const data = {logged: true,login:auth,email:email};
-  // console.log("DATA LOGINUSER:",data)
+export const loginUser = (accountid,email) => dispatch => {
+  const data = {logged: true,login:accountid,email:email};
+  const cdata = {accountid:accountid}
+
   dispatch({ type: 'LOGIN_USER', payload: data });
 };
 
 export const signoutUser = () => dispatch => {
   dispatch({ type: SIGNOUT_USER, payload:{}})
-  // console.log("Signout Redux")
 }
 
 export const signoutAccount = () => dispatch => {
   dispatch({ type: SIGNOUT_ACCOUNT, payload:{}})
-  // console.log("Signout Redux")
 }
 
 export const getUser = () => dispatch => {
   dispatch({ type: FETCH_USER});
 };
 
-
-// Need to add user email to the state because need to keep track of email address
-// This Subscribes User to Stripe Plan
-export const addUser = (email,source,plan) => async dispatch =>{
-    let data = {email:email, source:source, plan:plan};
+export const addUser = (email,accountid,source,plan) => async dispatch =>{
+    let data = {email:email, accountid:accountid, source:source, plan:plan};
     console.log("DATA:",data)
     const res =  await axios.post(backend+'/api/user/new',data);
     dispatch({ type: ADD_USER, payload: res.data });
@@ -251,7 +250,6 @@ export const removePost = () => async dispatch => {
     dispatch({ type: REMOVE_POST, payload: res.data });
 };
 
-// Ping Backend
 export const pingBackend = () => async dispatch => {
     await axios.get(backend+'/api/ping').then((response) => {
         dispatch({ type: PING_BACKEND, payload: 'up' });

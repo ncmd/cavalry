@@ -116,11 +116,13 @@ func main() {
 
 	http.HandleFunc("/api/user/unsubscribe", get_stripe_subscriptionid_from_customerid)
 
-	// Add account information in firestore (id, email, plan)
-	http.HandleFunc("/api/accounts/create", controllers_accounts_create_user_account_in_firestore)
+	// new
+	http.HandleFunc("/api/account/create", c_accounts_create_user_account_in_firebase)
+	http.HandleFunc("/api/account/get", c_accounts_get_user_account_information_in_firestore)
 
-	// Add account information in firestore (id, email, plan)
+	// depreciate
 	http.HandleFunc("/api/accounts/update", update_stripe_customer_information_to_accounts_firestore)
+	http.HandleFunc("/api/accounts/create", controllers_accounts_create_user_account_in_firestore)
 
 	// listen on socket
 	port := os.Getenv("PORT")

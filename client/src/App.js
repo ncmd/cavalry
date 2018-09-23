@@ -11,6 +11,7 @@ import Submit from './pages/submit';
 import Manage from './pages/manage';
 import Request from './pages/request';
 import Team from './pages/team';
+import Subscription from './pages/subscription';
 // import { connect } from 'react-redux';
 
 class App extends Component {
@@ -24,6 +25,7 @@ class App extends Component {
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/signup" component={Signup} />
                         <Route exact path="/manage" component={Manage} />
+                        <Route exact path="/subscription" component={Subscription} />
                         <Route exact path="/request" component={Request} />
                         <Route exact path="/team" component={Team} />
                         <Route

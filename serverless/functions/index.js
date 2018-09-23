@@ -12,7 +12,7 @@ exports.redirectHeroku = functions.https.onRequest((req, res) => {
   res.send()
   res.end()
   new Promise((resolve, reject) => {
-       const hostname = functions.config().heroku_backend_prod;
+       const hostname = functions.config().heroku.backend_prod;
        const pathname = req.url;
        let data = '';
        const request = https.get(`https://${hostname}${pathname}`, (ress) => {

@@ -15,7 +15,7 @@ import { googleanalytics } from '../analytics';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount
+    loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount,getAccount
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
 import {AlgoliaSearch} from '../../components/algolia/config';
@@ -67,6 +67,9 @@ class header extends Component {
           // if (auth.getJWTVerifyToken() !== null){
           //   this.props.sendVerifyIdTokenToBackend(auth.getJWTVerifyToken())
           // }
+        if (this.props.users.logged === true ){
+          this.props.getAccount(this.props.users.login)
+        }
 
         ReactGA.pageview(window.location.pathname + window.location.search);
         this.props.getUser();
@@ -158,6 +161,7 @@ class header extends Component {
 
     renderUserLoggedIn(){
       auth.getJWTVerifyToken()
+
       const { anchorEl } = this.state;
       return (
         <Nav className="ml-auto" navbar>
@@ -287,4 +291,4 @@ function mapStateToProps({ posts,users,search,path,account }) {
     return { posts,users,search,path,account };
 }
 
-export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount})(withRouter(header));
+export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount,getAccount})(withRouter(header));

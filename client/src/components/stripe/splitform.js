@@ -65,37 +65,15 @@ class SplitForm extends Component {
 
     handleSubmit = () => {
       googleanalytics.Cavalry_Webapp_Signup_Signup_Userclickedpaybutton(this.props.users.email)
+
             this.props.setStripeModal()
             this.props.stripe
                 .createSource({type:'card'},ownerInfo)
                 .then((payload) => {
-                  // console.log("Payload props stripe:",payload)
-                  // Once add user, generate password (in backend), use password to create user, send password to user via email
-                    this.props.addUser(this.props.users.email,payload.source.id,this.props.users.plan).then((password) =>{
-                      auth.doCreateUserWithEmailAndPassword(this.props.users.email,password).then( () => {
-                            auth.doSignInWithEmailAndPassword(this.props.users.email,this.props.users.password).then((response) => {
-                                if (response === 'The password is invalid or the user does not have a password.'){
-                                  this.setState({
-                                    loginError: response
-                                  })
-                                } else if (response.operationType === "signIn"){
-                                  googleanalytics.Cavalry_Webapp_Signup_Account_Useraccountcreated(this.props.users.email)
-
-                                    this.props.setAccount(this.props.users.email,response.user.uid,this.props.users.plan).then(() => {
-                                      this.props.getStripeCustomerID(this.props.users.email).then(() => {
-                                        this.props.updateFirebaseAccountsWithStripeCustomerId(response.user.uid,this.props.account.stripeCustomerId)
-                                      })
-
-                                    })
-
-                                    this.props.loginUser(response.user.uid,this.props.users.email)
-                                    this.props.history.push('/')
-                                }
-                            }
-                          )
-
-                        }
-                      )
+                    this.props.addUser(this.props.users.email,this.props.users.login,payload.source.id,this.props.users.plan).then(() =>{
+                        googleanalytics.Cavalry_Webapp_Signup_Account_Useraccountcreated(this.props.users.email)
+                        this.props.history.push('/')
+                      
                     })
 
                 }, (response) => {

@@ -103,15 +103,15 @@ class Manage extends Component {
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
       // Current User Plan
-      if (this.props.account.plan === '12months'){
+      if (this.props.users.plan === '12months'){
         this.setState({
           selectItem2:true
         })
-      } else if (this.props.account.plan === '1month'){
+      } else if (this.props.users.plan === '1month'){
         this.setState({
           selectItem1:true
         })
-      } else if (this.props.account.plan === 'beta'){
+      } else if (this.props.users.plan === 'beta'){
         this.setState({
           selectItem3:true
         })
@@ -340,7 +340,7 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem1
               ?
-              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem1()}}>
+              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
                 <div className="ribbonblue"><span aria-label="emoji" role="img">❄️Cool❄️</span></div>
                 <div>
                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
@@ -366,7 +366,7 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem2
               ?
-              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem2()}}>
+              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                 <div>
                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
@@ -392,7 +392,7 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem3
               ?
-              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem3()}}>
+              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
                    <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                 <div>
                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta Test</Typography>

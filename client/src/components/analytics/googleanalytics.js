@@ -1,6 +1,6 @@
 import ReactGA from 'react-ga';
 
-if (process.env.REACT_APP_HOST_ENV === 'local'){
+if (process.env.REACT_APP_HOST_ENV === 'local' && process.env.NODE_ENV !== 'production'){
   ReactGA.initialize('UA-123951173-1',{
   debug: true,
   });

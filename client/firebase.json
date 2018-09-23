@@ -8,7 +8,7 @@
     ],
     "rewrites": [
       {
-        "source": "!/api/**",
+        "source": "!/api/analytics/**",
         "destination": "/index.html"
       },{
         "source": "/api/analytics/**",

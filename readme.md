@@ -227,3 +227,10 @@ PROJECT PATH
 - firebase:
 - firestore:
 - algolia: https://www.algolia.com/apps/43JRRJRQRC/explorer/stats/posts
+
+# Community
+- slack: https://cavalry-tactics.slack.com/messages/CCKFY87FV/
+- google groups: https://groups.google.com/forum/#!forum/cavalry-tactics
+
+# Common Issues
+-
