@@ -25,6 +25,12 @@ type StripeSubscriptionData struct {
 	StripeCustomerId     string `json:"customer"`
 }
 
+type Organization struct {
+	Name           string `json:"organizationname"`
+	OrganizationId string `json:"organizationid"`
+	AccountId      string `json:"accountid"`
+}
+
 type Customer struct {
 	Email             string `json:"email"`
 	StripeCustomerId  string `json:"customerid"`
@@ -43,9 +49,12 @@ type VerifyToken struct {
 }
 
 type Account struct {
-	ID    string `json:"accountid"`
-	Plan  string `json:"plan"`
-	Email string `json:"email"`
+	ID                     string `json:"accountid"`
+	Plan                   string `json:"plan"`
+	Email                  string `json:"email"`
+	StripeSubscriptionId   string `json:"stripeSubscriptionId"`
+	StripeCustomerId       string `json:"stripeCustomerId"`
+	StripeSubscriptionPlan string `json:"stripeSubscriptionPlan"`
 }
 
 type Response struct {

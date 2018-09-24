@@ -37,8 +37,11 @@ import {
     GET_ACCOUNT,
     SET_STRIPE_MODAL,
     SET_STRIPE_PROGRESS,
+    LEAVE_ORGANIZATION,
     // SET_THEME,
     SIGNOUT_ACCOUNT,
+    CHECK_ORGANIZATION,
+    JOIN_ORGANIZATION,
 } from './types';
 
 const keys = require('../../secrets/keys');
@@ -136,10 +139,45 @@ export const createAccount = (email) => async dispatch => {
 export const getAccount = (accountid) => async dispatch => {
     const data = {accountid:accountid}
     const res = await axios.post(backend+'/api/account/get',data);
-    // console.log("Get Account Response:",res)
     dispatch({ type: GET_ACCOUNT, payload: res.data });
 };
 
+export const inviteAccount = (email) => async dispatch => {
+  const data = {email:email}
+  const res = await axios.post(backend+'/api/account/invite',data)
+}
+
+export const createOrganization = (organizationname,accountid) => async dispatch => {
+  const data = {organizationname:organizationname.toLowerCase(),accountid:accountid}
+  const res = await axios.post(backend+'/api/organization/create',data)
+}
+
+export const joinOrganization = (organizationname,accountid) => async dispatch => {
+  const data = {organizationname:organizationname.toLowerCase(),accountid:accountid}
+  const res = await axios.post(backend+'/api/organization/join',data)
+  dispatch({ type: JOIN_ORGANIZATION, payload:organizationname})
+}
+
+export const leaveOrganization = (organizationname,accountid) => async dispatch => {
+  const data = {organizationname:organizationname.toLowerCase(),accountid:accountid}
+  const res = await axios.post(backend+'/api/organization/leave',data)
+  dispatch({ type: LEAVE_ORGANIZATION, payload:organizationname})
+}
+
+
+
+export const checkOrganization = (organizationname) => async dispatch => {
+  const data = {organizationname:organizationname.toLowerCase()}
+  const res = await axios.post(backend+'/api/organization/check',data)
+  console.log(res.data.Message)
+  dispatch({ type: CHECK_ORGANIZATION, payload: res.data.Message})
+}
+
+export const unsubscribeAccount = (subscriptionid) => async dispatch => {
+  console.log("Canceling Subscription:",subscriptionid)
+  const data = {stripeSubscriptionId: subscriptionid}
+  const res = await axios.post(backend+'/api/account/unsubscribe',data)
+}
 
 export const editRequestTags = (tags) => dispatch => {
     const data = {tags}

@@ -7,7 +7,9 @@ import {
   addGroupInstantmessenger,
   addGroupDepartment,
   addGroupLocation,
-  addGroups
+  addGroups,
+  unsubscribeAccount,
+  getAccount,
 } from '../redux/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -24,10 +26,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import { Form, FormGroup, Input } from 'reactstrap';
+import { Form, FormGroup, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const actionButton = "linear-gradient(to right, #ff1744, #F44336 ";
+const cancelButton = "linear-gradient(to right, #2979ff, #03a9f4 ";
 const styles = theme => ({
   root: {
     flexGrow: 1,
@@ -96,12 +99,25 @@ class Manage extends Component {
             selectItem1:false,
             selectItem2:false,
             selectItem3:false,
+             modal: false,
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.toggle = this.toggle.bind(this);
+    }
+
+    toggle() {
+      this.setState({
+        modal: !this.state.modal
+      });
     }
 
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
+
+      if (this.props.users.logged === true ){
+        this.props.getAccount(this.props.users.login)
+      }
+
       // Current User Plan
       if (this.props.users.plan === '12months'){
         this.setState({
@@ -326,6 +342,7 @@ class Manage extends Component {
       )
     }
 
+
     renderCurrentPlan(){
       return(
         <div style={{background:'white', marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:40}}>
@@ -340,7 +357,7 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem1
               ?
-              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
+              <Button disabled className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
                 <div className="ribbonblue"><span aria-label="emoji" role="img">❄️Cool❄️</span></div>
                 <div>
                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
@@ -366,7 +383,7 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem2
               ?
-              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
+              <Button disabled className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                 <div>
                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
@@ -392,7 +409,7 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem3
               ?
-              <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
+              <Button disabled className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
                    <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                 <div>
                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta Test</Typography>
@@ -420,12 +437,28 @@ class Manage extends Component {
           </Grid>
           <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
             <div>
-              <Button style={{background: actionButton}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Cancel Subscription</b><span aria-label="emoji" role="img">😢</span></Typography></Button>
+              <Button onClick={this.toggle} style={{background: actionButton}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Cancel Subscription</b><span aria-label="emoji" role="img">😢</span></Typography></Button>
             </div>
+            <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggle}> <Typography variant={'title'} style={{textTransform:'none'}}> <b>Cancel Subscription Confirmation</b></Typography></ModalHeader>
+            <ModalBody>
+              <b>Are you sure you want to unsubscribe? </b><span aria-label="emoji" role="img">😢</span>
+            <Typography>This will continue your subscription till the end of the current billing period.</Typography>
+            </ModalBody>
+            <ModalFooter>
+              <Button style={{background:actionButton,color:'white'}} onClick={() => this.handleUnsubscribeAccount()}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Yes!</b> I want to unsubscribe!</Typography></Button>{' '}
+              <Button style={{background:cancelButton,color:'white'}} onClick={() => this.toggle}><Typography variant={'caption'} style={{color:'white',textTransform:'none'}}><b>No!</b> I changed my mind!</Typography></Button>{' '}
+            </ModalFooter>
+          </Modal>
           </Grid>
         </Grid>
       </div>
       )
+    }
+
+    handleUnsubscribeAccount(){
+      this.toggle()
+      this.props.unsubscribeAccount(this.props.account.stripeSubscriptionId)
     }
 
     handleClickItem1(){
@@ -517,5 +550,7 @@ export default connect(mapStateToProps, {
   addGroupInstantmessenger,
   addGroupDepartment,
   addGroupLocation,
-  addGroups
+  addGroups,
+  unsubscribeAccount,
+  getAccount,
 })(withRouter(withStyles(styles)(Manage)));

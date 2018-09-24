@@ -11,11 +11,15 @@ import groupsReducer from './groupsReducer';
 import accountReducer from './accountReducer';
 import themeReducer from './themeReducer';
 import stripeReducer from './stripeReducer';
+import organizationReducer from './organizationReducer';
+import teamReducer from './teamReducer';
 
 const rootReducer = combineReducers({
   users:usersReducer,
   requests:requestsReducer,
   account:accountReducer,
+  organization:organizationReducer,
+  team:teamReducer,
   posts:postsReducer,
   groups:groupsReducer,
   status,

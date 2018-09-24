@@ -67,10 +67,6 @@ class header extends Component {
           // if (auth.getJWTVerifyToken() !== null){
           //   this.props.sendVerifyIdTokenToBackend(auth.getJWTVerifyToken())
           // }
-        if (this.props.users.logged === true ){
-          this.props.getAccount(this.props.users.login)
-        }
-
         ReactGA.pageview(window.location.pathname + window.location.search);
         this.props.getUser();
 
