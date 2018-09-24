@@ -117,8 +117,15 @@ func main() {
 	http.HandleFunc("/api/user/unsubscribe", get_stripe_subscriptionid_from_customerid)
 
 	// new
+	http.HandleFunc("/api/account/unsubscribe", c_stripe_unsubscribe_account_in_stripe)
 	http.HandleFunc("/api/account/create", c_accounts_create_user_account_in_firebase)
 	http.HandleFunc("/api/account/get", c_accounts_get_user_account_information_in_firestore)
+	http.HandleFunc("/api/account/invite", c_accounts_invite_user_create_account_in_firebase)
+
+	http.HandleFunc("/api/organization/create", c_organizations_create_orgnaization_in_firebase)
+	http.HandleFunc("/api/organization/check", c_organizations_check_if_organization_exists_in_firebase)
+	http.HandleFunc("/api/organization/join", c_organizations_account_add_organization_in_firebase)
+	http.HandleFunc("/api/organization/leave", c_organizations_account_leave_organization_in_firebase)
 
 	// depreciate
 	http.HandleFunc("/api/accounts/update", update_stripe_customer_information_to_accounts_firestore)

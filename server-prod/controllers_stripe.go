@@ -233,27 +233,6 @@ func update_stripe_customer_information_to_accounts_firestore(w http.ResponseWri
 	}
 }
 
-// func add_stripe_all_customer_information_to_accounts_firestore(firestoreAccountId string, stripeCustomerId string, stripeCustomerEmail string, stripeCustomerPlanId string, stripeCustomerSourceId string, stripeCustomerSubscriptionId string) {
-// 	// Get a new write batch.
-// 	batch := client.Batch()
-//
-// 	// Set the value
-// 	ref := client.Collection("accounts").Doc(firestoreAccountId)
-// 	batch.Set(ref, map[string]interface{}{
-// 		"stripeCustomerId":             stripeCustomerId,
-// 		"stripeCustomerEmail":          stripeCustomerEmail,
-// 		"stripeCustomerPlanId":         stripeCustomerPlanId,
-// 		"stripeCustomerSourceId":       stripeCustomerSourceId,
-// 		"stripeCustomerSubscriptionId": stripeCustomerSubscriptionId,
-// 	}, firestore.MergeAll)
-//
-// 	// Commit the batch.
-// 	_, err := batch.Commit(context.Background())
-// 	if err != nil {
-// 		return
-// 	}
-// }
-
 func newSubscriberBeta(customerid string) string {
 	messages := make(chan string, 2)
 	messages <- customerid
@@ -346,14 +325,22 @@ func subscribeCustomer(customer string, plan string) string {
 // 	c, err := customer.Get(customerid, nil)
 // }
 
-// func unsubscribe_stripe_customer(subscriptionid string) {
-// 	stripe.Key = stripesecretkey
-//
-// 	params := &stripe.SubscriptionParams{
-// 		CancelAtPeriodEnd: stripe.Bool(true),
-// 	}
-// 	subscription, _ := sub.Update(subscriptionid, params)
-// }
+func c_stripe_unsubscribe_account_in_stripe(w http.ResponseWriter, r *http.Request) {
+	stripe.Key = stripesecretkey
+	w.Header().Add("Access-Control-Allow-Origin", "*")
+	w.Header().Add("Access-Control-Allow-Methods", "GET, OPTIONS")
+	w.Header().Add("Access-Control-Allow-Headers", "Content-Type")
+
+	var account Account
+	decoder := json.NewDecoder(r.Body)
+	decoder.Decode(&account)
+
+	params := &stripe.SubscriptionParams{
+		CancelAtPeriodEnd: stripe.Bool(true),
+	}
+	subscription, _ := sub.Update(account.StripeSubscriptionId, params)
+	fmt.Println("Unsubcribed:", subscription)
+}
 
 func sendInvoice(customerid string, plan string) {
 	stripe.Key = stripesecretkey

@@ -12,6 +12,43 @@ import (
 	"google.golang.org/api/option"
 )
 
+func c_accounts_invite_user_create_account_in_firebase(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	sa := option.WithCredentialsFile("./firestore.json")
+	app, err := firebase.NewApp(context.Background(), nil, sa)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if r.Method != "OPTIONS" {
+		client, err := app.Auth(context.Background())
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+		var account Account
+		decoder := json.NewDecoder(r.Body)
+		decoder.Decode(&account)
+		if err != nil {
+			panic(err)
+		}
+
+		var password = generatepassword()
+		sendgridEmail("Cavalry_User", account.Email, password)
+
+		params := (&auth.UserToCreate{}).Email(account.Email).EmailVerified(false).Password(password).Disabled(false)
+		u, err := client.CreateUser(context.Background(), params)
+		if err != nil {
+			log.Fatalf("error creating user: %v\n", err)
+		}
+		log.Printf("Successfully created user: %v\n", u.UID)
+		c_accounts_create_account_in_firebase(u.UID, account.Email)
+
+	}
+}
+
 func c_accounts_create_user_account_in_firebase(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
