@@ -545,13 +545,14 @@ class Submit extends Component {
       }
     }
 
-    imageHandler(image, callback){
+
+    imageHandler = (image, callback) => {
     var range = this.quillRef.getEditor().getSelection();
     var value = prompt('What is the image URL');
     if(value) {
         this.quillRef.getEditor().insertEmbed(range.index, 'image', value, "user");
-        }
     }
+}
 
     render() {
         return (
@@ -614,16 +615,21 @@ class Submit extends Component {
                                   </FormGroup>
                                   <FormGroup>
                                       <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Objective Description</b> </Typography>
-                                      <ReactQuill modules={{
+                                      <ReactQuill ref={(el) => this.quillRef = el} modules={{
+
                                         ImageResize: {
                                               parchment: Quill.import('parchment')
                                           },
-                                            toolbar: [
-                                        ['bold', 'italic', 'underline','strike'],
-                                        [{'list': 'ordered'}, {'list': 'bullet'}],
-                                        ['link', 'image','video'],
-                                        ['clean']
-                                      ],
+
+                                          toolbar: {
+                                              container:  [['bold', 'italic', 'underline', 'blockquote'],
+                                                  [{'list': 'ordered'}, {'list': 'bullet'}],
+                                                  ['link', 'image'],
+                                                  ['clean']],
+                                           handlers: {
+                                               'image': this.imageHandler
+                                          }
+                                      }
                                     }} style={{background:'white', height:500}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
                                   </FormGroup>
                                   <FormGroup>
