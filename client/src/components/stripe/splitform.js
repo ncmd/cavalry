@@ -7,7 +7,6 @@ import { withRouter } from 'react-router-dom';
 import {
     addUser,setStripeModal,loginUser,setAccount,updateFirebaseAccountsWithStripeCustomerId,getStripeCustomerID
 } from '../../redux/actions';
-import * as auth from "../firebase/auth";
 import Button from '@material-ui/core/Button';
 import { googleanalytics } from '../analytics';
 
@@ -73,7 +72,7 @@ class SplitForm extends Component {
                     this.props.addUser(this.props.users.email,this.props.users.login,payload.source.id,this.props.users.plan).then(() =>{
                         googleanalytics.Cavalry_Webapp_Signup_Account_Useraccountcreated(this.props.users.email)
                         this.props.history.push('/')
-                      
+
                     })
 
                 }, (response) => {

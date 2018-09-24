@@ -74,7 +74,7 @@ export const getJWTVerifyToken = () => {
       user.getIdToken().then(function(data) {
         // console.log("Got Token:",data)
         let newdata = {token:data}
-        const res = axios.post(backend+'/api/verify',newdata);
+        axios.post(backend+'/api/verify',newdata);
         // console.log("Response from backend:",res)
       });
       // User is signed in.

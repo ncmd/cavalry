@@ -52,6 +52,7 @@ type Account struct {
 	ID                     string `json:"accountid"`
 	Plan                   string `json:"plan"`
 	Email                  string `json:"email"`
+	OrganizationName       string `json:"organizationname"`
 	StripeSubscriptionId   string `json:"stripeSubscriptionId"`
 	StripeCustomerId       string `json:"stripeCustomerId"`
 	StripeSubscriptionPlan string `json:"stripeSubscriptionPlan"`

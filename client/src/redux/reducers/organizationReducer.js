@@ -2,6 +2,7 @@ import {
     CHECK_ORGANIZATION,
     JOIN_ORGANIZATION,
     LEAVE_ORGANIZATION,
+    SIGNOUT_ORGANIZATION,
 } from '../actions/types';
 
 export default function(state = [], action) {
@@ -20,6 +21,8 @@ export default function(state = [], action) {
               organizationname: "",
               organizationmember: false,
             }
+        case SIGNOUT_ORGANIZATION:
+            return []
         default:
             return state;
     }

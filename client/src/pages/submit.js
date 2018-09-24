@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../components/header/header';
 import { connect } from 'react-redux';
-import { withRouter, Redirect  } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Prompt } from 'react-router'
 import {
     addPost,

@@ -49,3 +49,4 @@ export const REMOVE_ORGANIZATION_MEMBER = 'remove_organization_member';
 export const INVITE_ORGANIZATION_MEMBER = 'invite_organization_member';
 export const CHECK_ORGANIZATION= 'check_organization';
 export const JOIN_ORGANIZATION = 'join_organization';
+export const SIGNOUT_ORGANIZATION = 'signout_organziation';

@@ -23,8 +23,6 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import { Form, FormGroup, Input, Badge } from 'reactstrap';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
@@ -111,7 +109,7 @@ class Team extends Component {
 
     // Adding Objective to New Runbook
     addGroup(emailaddress, groupIndex) {
-      this.props.inviteAccount(emailaddress)
+      this.props.inviteAccount(emailaddress,this.props.organization.organizationname)
       // Get Previous Objective State which should start as an empty array '[]'
       const prevGroups = this.state.groups;
 

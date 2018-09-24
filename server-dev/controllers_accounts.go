@@ -44,7 +44,7 @@ func c_accounts_invite_user_create_account_in_firebase(w http.ResponseWriter, r 
 			log.Fatalf("error creating user: %v\n", err)
 		}
 		log.Printf("Successfully created user: %v\n", u.UID)
-		c_accounts_create_account_in_firebase(u.UID, account.Email)
+		c_accounts_create_account_in_firebase(u.UID, account.Email, account.OrganizationName)
 
 	}
 }
@@ -81,12 +81,12 @@ func c_accounts_create_user_account_in_firebase(w http.ResponseWriter, r *http.R
 			log.Fatalf("error creating user: %v\n", err)
 		}
 		log.Printf("Successfully created user: %v\n", u.UID)
-		c_accounts_create_account_in_firebase(u.UID, account.Email)
+		c_accounts_create_account_in_firebase(u.UID, account.Email, "")
 
 	}
 }
 
-func c_accounts_create_account_in_firebase(userid string, useremail string) {
+func c_accounts_create_account_in_firebase(userid string, useremail string, organizationname string) {
 	sa := option.WithCredentialsFile("./firestore.json")
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 	if err != nil {
@@ -96,10 +96,21 @@ func c_accounts_create_account_in_firebase(userid string, useremail string) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	client.Collection("accounts").Doc(userid).Set(context.Background(), map[string]interface{}{
-		"accountid":    userid,
-		"emailaddress": useremail,
-	})
+	if organizationname != "" {
+		client.Collection("accounts").Doc(userid).Set(context.Background(), map[string]interface{}{
+			"accountid":        userid,
+			"emailaddress":     useremail,
+			"organizationname": organizationname,
+		})
+	} else {
+		client.Collection("accounts").Doc(userid).Set(context.Background(), map[string]interface{}{
+			"accountid":          userid,
+			"emailaddress":       useremail,
+			"organizationname":   "",
+			"organizationmember": false,
+		})
+	}
+
 }
 
 // Get account information in firestore (id, email, plan)

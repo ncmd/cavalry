@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { auth } from '../../components/firebase'
 import {
     // GET_POSTS,
     GET_POST,
@@ -42,6 +41,7 @@ import {
     SIGNOUT_ACCOUNT,
     CHECK_ORGANIZATION,
     JOIN_ORGANIZATION,
+    SIGNOUT_ORGANIZATION,
 } from './types';
 
 const keys = require('../../secrets/keys');
@@ -50,7 +50,7 @@ let backend = keys.heroku_backend_uri
 // Get VerifyIDToken
 export const sendVerifyIdTokenToBackend = (token) => {
   console.log("Received Token: ",token)
-  let data = {token:data}
+  let data = {token:token}
   const res = axios.post(backend+'/api/verify',data);
   console.log("Response from backend:",res)
 }
@@ -132,7 +132,7 @@ export const setAccount = (email,accountid,plan) => async dispatch => {
 
 export const createAccount = (email) => async dispatch => {
   const data = {email:email}
-  const res = await axios.post(backend+'/api/account/create',data)
+  await axios.post(backend+'/api/account/create',data)
   // console.log(res)
 }
 
@@ -142,25 +142,25 @@ export const getAccount = (accountid) => async dispatch => {
     dispatch({ type: GET_ACCOUNT, payload: res.data });
 };
 
-export const inviteAccount = (email) => async dispatch => {
-  const data = {email:email}
-  const res = await axios.post(backend+'/api/account/invite',data)
+export const inviteAccount = (email,organizationname) => async dispatch => {
+  const data = {email:email,organizationname:organizationname}
+  await axios.post(backend+'/api/account/invite',data)
 }
 
 export const createOrganization = (organizationname,accountid) => async dispatch => {
   const data = {organizationname:organizationname.toLowerCase(),accountid:accountid}
-  const res = await axios.post(backend+'/api/organization/create',data)
+  await axios.post(backend+'/api/organization/create',data)
 }
 
 export const joinOrganization = (organizationname,accountid) => async dispatch => {
   const data = {organizationname:organizationname.toLowerCase(),accountid:accountid}
-  const res = await axios.post(backend+'/api/organization/join',data)
+  await axios.post(backend+'/api/organization/join',data)
   dispatch({ type: JOIN_ORGANIZATION, payload:organizationname})
 }
 
 export const leaveOrganization = (organizationname,accountid) => async dispatch => {
   const data = {organizationname:organizationname.toLowerCase(),accountid:accountid}
-  const res = await axios.post(backend+'/api/organization/leave',data)
+  await axios.post(backend+'/api/organization/leave',data)
   dispatch({ type: LEAVE_ORGANIZATION, payload:organizationname})
 }
 
@@ -176,7 +176,7 @@ export const checkOrganization = (organizationname) => async dispatch => {
 export const unsubscribeAccount = (subscriptionid) => async dispatch => {
   console.log("Canceling Subscription:",subscriptionid)
   const data = {stripeSubscriptionId: subscriptionid}
-  const res = await axios.post(backend+'/api/account/unsubscribe',data)
+  await axios.post(backend+'/api/account/unsubscribe',data)
 }
 
 export const editRequestTags = (tags) => dispatch => {
@@ -202,7 +202,7 @@ export const getStripeCustomerID = (email) => async dispatch => {
 
 export const updateFirebaseAccountsWithStripeCustomerId = (accountid,customerid) => async disptach => {
   const data = {accountid:accountid, customerid:customerid}
-  const res = await axios.post(backend+'/api/accounts/update',data)
+  await axios.post(backend+'/api/accounts/update',data)
 }
 
 export const addPost = (title,description,tags,objectives) => async dispatch =>{
@@ -253,8 +253,6 @@ export const setUserEmail = (email) => dispatch => {
 
 export const loginUser = (accountid,email) => dispatch => {
   const data = {logged: true,login:accountid,email:email};
-  const cdata = {accountid:accountid}
-
   dispatch({ type: 'LOGIN_USER', payload: data });
 };
 
@@ -264,6 +262,10 @@ export const signoutUser = () => dispatch => {
 
 export const signoutAccount = () => dispatch => {
   dispatch({ type: SIGNOUT_ACCOUNT, payload:{}})
+}
+
+export const signoutOrganization = () => dispatch => {
+  dispatch({ type: SIGNOUT_ORGANIZATION, payload:{}})
 }
 
 export const getUser = () => dispatch => {

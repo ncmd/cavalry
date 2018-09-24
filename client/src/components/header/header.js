@@ -15,7 +15,7 @@ import { googleanalytics } from '../analytics';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount,getAccount
+    loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount,getAccount,signoutOrganization
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
 import {AlgoliaSearch} from '../../components/algolia/config';
@@ -133,6 +133,7 @@ class header extends Component {
         // console.log("State isLoggedIn:",this.state.isLoggedIn)
         this.props.signoutUser()
         this.props.signoutAccount()
+        this.props.signoutOrganization()
         this.props.history.push('/')
     }
 
@@ -283,8 +284,8 @@ class header extends Component {
     }
 }
 
-function mapStateToProps({ posts,users,search,path,account }) {
-    return { posts,users,search,path,account };
+function mapStateToProps({ posts,users,search,path,account,organization }) {
+    return { posts,users,search,path,account,organization };
 }
 
-export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount,getAccount})(withRouter(header));
+export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount,getAccount,signoutOrganization})(withRouter(header));

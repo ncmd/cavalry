@@ -9,17 +9,10 @@ import {
 } from '../redux/actions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Progress ,InputGroup, InputGroupText, InputGroupAddon, Input , FormFeedback } from 'reactstrap';
-import {Elements, StripeProvider} from "react-stripe-elements";
-import SplitForm from "../components/stripe/splitform";
+import { InputGroup, InputGroupText, InputGroupAddon, Input , FormFeedback } from 'reactstrap';
 import { auth } from '../components/firebase';
-import Check from '@material-ui/icons/Check';
 import '../components/ribbon/ribbon.css';
 import {Link} from "react-router-dom";
-import Dialog from '@material-ui/core/Dialog';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import { googleanalytics } from '../components/analytics';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";

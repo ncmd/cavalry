@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Header from '../components/header/header';
-import ReCAPTCHA from 'react-google-recaptcha';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -9,10 +8,9 @@ import {
 } from '../redux/actions';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { Progress ,InputGroup, InputGroupText, InputGroupAddon, Input , FormFeedback } from 'reactstrap';
+import { Progress } from 'reactstrap';
 import {Elements, StripeProvider} from "react-stripe-elements";
 import SplitForm from "../components/stripe/splitform";
-import { auth } from '../components/firebase';
 import Check from '@material-ui/icons/Check';
 import '../components/ribbon/ribbon.css';
 import Dialog from '@material-ui/core/Dialog';
