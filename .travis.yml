@@ -1,5 +1,7 @@
 sudo: false
 language: go
+env:
+- TRAVIS_BUILD_DIR="server-dev"
 go:
 - 1.10.x
 before_install:
@@ -11,7 +13,7 @@ before_install:
 - go get github.com/stripe/stripe-go
 - go get github.com/BurntSushi/toml
 script:
-- cd server-dev && set APP_ENV=dev & go run .
+- set APP_ENV=dev & go run .
 deploy:
   provider: heroku
   api_key:

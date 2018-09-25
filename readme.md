@@ -98,10 +98,21 @@ PROJECT PATH
 - cd server/functions npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
 
 # Travis setup
+- Signin and Activate on cavalry repository
 - https://github.com/travis-ci/travis.rb#windows
 - Download Ruby https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-2.4.4-2/rubyinstaller-devkit-2.4.4-2-x64.exe
 - Install module 1 only
 - gem install travis -v 1.8.9 --no-rdoc --no-ri
+- travis login --pro
+- use github creds + 2-factor
+- cd cavalry/
+- heroku auth:token
+- copy this token
+- travis setup heroku --force
+- Heroku API token: ************************************
+- Heroku application name: |cavalry| cavalry-app-travis
+- Deploy only from ncmd/cavalry? |yes|
+- Encrypt API key? |yes|
 
 # Server Email Setup:
 - Email: enable less secure app access https://myaccount.google.com/lesssecureapps
