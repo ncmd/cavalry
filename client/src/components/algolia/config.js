@@ -62,14 +62,12 @@ function Request({ hit }){
                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                         <Grid item zeroMinWidth>
                          <Typography variant="caption" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
-                           <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                               {hit.description}
-                          </Truncate>
                             </Typography>
                         </Grid>
                         <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
-                            {hit.tags.slice(0, 1).map((value) => {
+                            {hit.tags.slice(0, 3).map((value) => {
                               return(
                                 <Grid key={value+Math.random()+(Math.random())} item >
                                 <h6><Badge color="primary" style={{textTransform: 'none', marginRight:5,}}>{value}</Badge></h6>
@@ -130,7 +128,7 @@ function Post({ hit }) {
                         </Grid>
                         <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
-                            {hit.tags.map((value) => {
+                            {hit.tags.slice(0, 3).map((value) => {
                               return(
                                 <Grid key={value+Math.random()+(Math.random())} item >
                                 <h6><Badge color="primary" style={{textTransform: 'none', marginRight:5,}}>{value}</Badge></h6>

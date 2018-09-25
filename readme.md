@@ -97,6 +97,12 @@ PROJECT PATH
 - heroku git:remote -a cavalry-app
 - cd server/functions npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
 
+# Travis setup
+- https://github.com/travis-ci/travis.rb#windows
+- Download Ruby https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-2.4.4-2/rubyinstaller-devkit-2.4.4-2-x64.exe
+- Install module 1 only
+- gem install travis -v 1.8.9 --no-rdoc --no-ri
+
 # Server Email Setup:
 - Email: enable less secure app access https://myaccount.google.com/lesssecureapps
 - and display unlock captcha http://www.google.com/accounts/DisplayUnlockCaptcha
