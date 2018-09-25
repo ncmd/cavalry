@@ -12,8 +12,15 @@ before_install:
 - go get google.golang.org/api/option
 - go get github.com/stripe/stripe-go
 - go get github.com/BurntSushi/toml
+- godep save ./...' & godep save ./...
+- heroku git:remote -a cavalry-app-travis
+- heroku apps:destroy --app cavalry-app-travis --confirm cavalry-app-travis
+- git init & git add . & heroku create cavalry-app-travis
+- heroku git:remote -a cavalry-app-travis
+- heroku config:set APP_ENV=dev
+
 script:
-- set APP_ENV=dev & go run .
+- cd server-dev && set APP_ENV=dev & go run .
 deploy:
   provider: heroku
   api_key:
