@@ -4,7 +4,7 @@ env:
 - TRAVIS_BUILD_DIR="server-dev"
 go:
 - 1.10.x
-before_install:
+before_deploy:
 - go get golang.org/x/tools/cmd/goimports
 - go get github.com/tools/godep
 - go get golang.org/x/sys/unix
