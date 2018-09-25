@@ -3,6 +3,7 @@ import {
     GET_ACCOUNT,
     SET_STRIPE_CUSTOMERID,
     SIGNOUT_ACCOUNT,
+    JOIN_ORGANIZATION,
 } from '../actions/types';
 
 export default function(state = [], action) {
@@ -16,6 +17,11 @@ export default function(state = [], action) {
               }
         case GET_ACCOUNT:
             return action.payload;
+        case JOIN_ORGANIZATION:
+            return {...state,
+              organizationname: action.payload,
+              organizationmember: true,
+            }
         case SIGNOUT_ACCOUNT:
             return []
         default:

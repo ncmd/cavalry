@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    addUser,setStripeModal,loginUser,setAccount,updateFirebaseAccountsWithStripeCustomerId,getStripeCustomerID
+    addUser,setStripeModal,loginUser,setAccount,updateFirebaseAccountsWithStripeCustomerId,getStripeCustomerID,stripePaymentStatus
 } from '../../redux/actions';
 import Button from '@material-ui/core/Button';
 import { googleanalytics } from '../analytics';
@@ -64,8 +64,7 @@ class SplitForm extends Component {
 
     handleSubmit = () => {
       googleanalytics.Cavalry_Webapp_Signup_Signup_Userclickedpaybutton(this.props.users.email)
-
-            this.props.setStripeModal()
+      this.props.setStripeModal()
             this.props.stripe
                 .createSource({type:'card'},ownerInfo)
                 .then((payload) => {
@@ -77,12 +76,16 @@ class SplitForm extends Component {
 
                 }, (response) => {
                   if (response === null){
+                    this.props.setStripeModal()
+                    this.props.stripePaymentStatus(false)
                     this.setState({
                       complete: true,
                       paymentError: '',
                       error:false,
                     });
                   } else {
+                    this.props.setStripeModal()
+                    this.props.stripePaymentStatus(true)
                     this.setState({
                       paymentError: response,
                       error:true,
@@ -189,6 +192,14 @@ class SplitForm extends Component {
       }
     }
 
+    renderStripePaymentError(){
+      if (this.props.stripe.paymentstatus === true){
+        return (
+          <Typography>This Credit Card is not pass Stripe Payment System. Try a different Credit Card.</Typography>
+        )
+      }
+    }
+
 
 
     render() {
@@ -239,6 +250,7 @@ class SplitForm extends Component {
                   </label><br/>
                 {this.renderPayButton()}
                   <br/>
+                  {this.renderStripePaymentError()}
                   <a href="http://stripe.com" target="_blank" rel="noopener noreferrer"><img src="./images/powered_by_stripe.png" alt="Powered By Stripe" style={{width:170, height:36, marginBottom:20}}/></a>
               </form>
           );
@@ -250,4 +262,4 @@ function mapStateToProps({ users, stripe, account}) {
     return { users, stripe, account };
 }
 
-export default connect(mapStateToProps,{addUser,setStripeModal,loginUser,setAccount,getStripeCustomerID,updateFirebaseAccountsWithStripeCustomerId})(withRouter(injectStripe(SplitForm)));
+export default connect(mapStateToProps,{addUser,setStripeModal,loginUser,setAccount,getStripeCustomerID,updateFirebaseAccountsWithStripeCustomerId,stripePaymentStatus})(withRouter(injectStripe(SplitForm)));

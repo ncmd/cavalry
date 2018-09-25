@@ -440,14 +440,14 @@ class Manage extends Component {
               <Button onClick={this.toggle} style={{background: actionButton}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Cancel Subscription</b><span aria-label="emoji" role="img">😢</span></Typography></Button>
             </div>
             <Modal isOpen={this.state.modal} toggle={this.toggle}>
-            <ModalHeader toggle={this.toggle}> <Typography variant={'title'} style={{textTransform:'none'}}> <b>Cancel Subscription Confirmation</b></Typography></ModalHeader>
+            <ModalHeader toggle={this.toggle}> <Typography variant={'body2'} style={{textTransform:'none'}}> <b>Cancel Subscription Confirmation</b></Typography></ModalHeader>
             <ModalBody>
               <b>Are you sure you want to unsubscribe? </b><span aria-label="emoji" role="img">😢</span>
             <Typography>This will continue your subscription till the end of the current billing period.</Typography>
             </ModalBody>
             <ModalFooter>
               <Button style={{background:actionButton,color:'white'}} onClick={() => this.handleUnsubscribeAccount()}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Yes!</b> I want to unsubscribe!</Typography></Button>{' '}
-              <Button style={{background:cancelButton,color:'white'}} onClick={() => this.toggle}><Typography variant={'caption'} style={{color:'white',textTransform:'none'}}><b>No!</b> I changed my mind!</Typography></Button>{' '}
+              <Button style={{background:cancelButton,color:'white'}} onClick={() => this.toggle()}><Typography variant={'caption'} style={{color:'white',textTransform:'none'}}><b>No!</b> I changed my mind!</Typography></Button>{' '}
             </ModalFooter>
           </Modal>
           </Grid>

@@ -1,20 +1,14 @@
 import {
     CHECK_ORGANIZATION,
-    JOIN_ORGANIZATION,
     LEAVE_ORGANIZATION,
     SIGNOUT_ORGANIZATION,
 } from '../actions/types';
 
-export default function(state = [], action) {
+export default function(state = [{organizationmember:false}], action) {
     switch (action.type) {
         case CHECK_ORGANIZATION:
             return {...state,
               check: action.payload
-            }
-        case JOIN_ORGANIZATION:
-            return {...state,
-              organizationname: action.payload,
-              organizationmember: true,
             }
         case LEAVE_ORGANIZATION:
             return {...state,

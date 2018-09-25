@@ -258,14 +258,16 @@ class Team extends Component {
     }
 
     renderSetupGroups(){
+      var str = 'manage '+this.props.account.organizationname;
+      var res = str.toUpperCase();
 
       return(
         <div>
 
           <Form style={{marginTop:30}}>
-            <Typography style={{color:'white'}} variant={'display2'}>Manage Team</Typography>
+            <Typography style={{color:'white'}} variant={'display2'}>{res}</Typography>
             <FormGroup>
-              <Typography style={{color:'white'}}>Email Address</Typography>
+              <Typography style={{color:'white'}}>Invite users to your team!</Typography>
               <Input value={this.state.inputEmailaddress} onChange={this.handleInputEmailaddress('inputEmailaddress')} placeholder="name@company.com"/>
             </FormGroup>
             {this.renderSetupButton()}
@@ -347,13 +349,13 @@ class Team extends Component {
     }
 
     renderOrganizationSetup(){
-      if (this.props.organization.organizationmember === false){
+      if (this.props.account.organizationmember === false){
         return (
           <div>
             <Typography style={{color:'white', padding:40}} variant={'title'}><b>You need to Create or Join an Organization to be able to manage a Team</b></Typography>
               <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                 <Grid item style={{ border:'1px solid #474f97', padding:40, width:'100%'}} xs>
-            <Typography style={{color:'white'}}>Create an Organization</Typography>
+            <Typography style={{color:'white'}}><b>Create an Organization</b></Typography>
             {this.state.validOrganization
               ?
               <Input valid value={this.state.organizationname} onChange={this.handleInputOrganizationName('organizationname')} placeholder="piedpiper"/>
@@ -367,7 +369,7 @@ class Team extends Component {
             <br/>
               <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingBottom:40}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                 <Grid item style={{ border:'1px solid #474f97', padding:40, width:'100%'}} xs>
-            <Typography style={{color:'white'}}>Request to join Organization</Typography>
+            <Typography style={{color:'white'}}><b>Request to join Organization</b></Typography>
               {this.state.validOrganizationJoin
                 ?
                 <Input valid value={this.state.organizationnamejoin} onChange={this.handleInputOrganizationNameJoin('organizationnamejoin')} placeholder="piedpiper"/>
@@ -386,7 +388,7 @@ class Team extends Component {
     renderManageTeamSetup(){
       const { classes } = this.props;
 
-      if (this.props.organization.organizationmember === true){
+      if (this.props.account.organizationmember === true){
         return (
           <div >
             <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >

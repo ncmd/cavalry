@@ -36,6 +36,7 @@ import {
     GET_ACCOUNT,
     SET_STRIPE_MODAL,
     SET_STRIPE_PROGRESS,
+    SET_STRIPE_PAYMENT_STATUS,
     LEAVE_ORGANIZATION,
     // SET_THEME,
     SIGNOUT_ACCOUNT,
@@ -198,6 +199,10 @@ export const getStripeCustomerID = (email) => async dispatch => {
   console.log("getStripeCustomerID:",res.data.id)
   // dispatch to account redux
   dispatch({ type: SET_STRIPE_CUSTOMERID, payload: res.data.id})
+}
+
+export const stripePaymentStatus = (status) => async dispatch => {
+  dispatch ({ type: SET_STRIPE_PAYMENT_STATUS, payload: status})
 }
 
 export const updateFirebaseAccountsWithStripeCustomerId = (accountid,customerid) => async disptach => {
