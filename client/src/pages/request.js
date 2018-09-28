@@ -126,7 +126,7 @@ class Request extends Component {
                     style={{
                         flexGrow: 1,
                         background: bodyBlue,
-
+                        height: this.state.height,
                     }}
                 >
                     {/* Top Section */}

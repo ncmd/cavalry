@@ -15,7 +15,7 @@
 - golang 1.11.windows (windows)
 - nodejs 8.11.4 LTS (windows)
 - nodejs v10.10.0 (windows) 9/18/18
-- yarn 1.9.4 (windows)
+- yarn 1.10.x (windows)
 
 # Node -g packages
 - npm install -g concurrently
@@ -156,15 +156,35 @@ PROJECT PATH
 - Authentication
 - Stripe (limit $10, payment processing)
 
-
 # Backup Setup
 - backup & Restore: utilities/index.js
 - files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
 
+# React Native Setup with Expo
+- Download Ubuntu from Windows Store
+- Powershell: Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
+- Download and Install Android Studio
+- Download and Install latest version of Yarn
+- Confirm Nvidia performance is high for qemu-system-x86_x64.exe
+- Android Studio > Tools > SDK Manager > Android SDK > SDK Tools > Android SDK Build-Tools
+- Create Android Virtual Device
+- Pixel 2 API 23
+- Cores 6, RAM 3536, VMHeap 1256
+- npm install -g expo-cli react-native-cli
+- expo init native
+- react-native upgrade
+- react-native link
+- cd native && npm start
+- Close app on virtual device, restart app in expo; press 'a'
+
 # To Do
 - enterprise grade
-- cancel subscription
-- user management / team Management
+- cancel subscription - done
+- user management
+- organization management - 10%
+- add
+- remove
+- leave
 - assigning tasks
 - emailing
 - creating community/cult
@@ -175,7 +195,7 @@ PROJECT PATH
 - craft http requests
 - redirect unauthorized - 70%
 -
-- manage team
+- manage team - 10%
 - upvote downvote
 - talk
 - preview
@@ -188,9 +208,10 @@ PROJECT PATH
 - Digitalocean credits: https://www.digitalocean.com/hatch/
 - Success Critera
 - Make Account Management Look like Algolia's
-- Support; done
+- Feature Request
+- Support email - done
 - Invoices
-- Account Details ; done
+- Account Details - done
 - Email Notifications
 - Current plan; done
 - cancel subscription
