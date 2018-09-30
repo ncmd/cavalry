@@ -69,7 +69,6 @@ class header extends Component {
           // }
         ReactGA.pageview(window.location.pathname + window.location.search);
         this.props.getUser();
-
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
 

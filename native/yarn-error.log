@@ -1,0 +1,44 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js add react-instantsearch-native
+
+PATH: 
+  C:\Python27\;C:\Python27\Scripts;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\iCLS\;C:\Program Files\Intel\Intel(R) Management Engine Components\iCLS\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\Go\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_181\bin;C:\Program Files\nodejs\;C:\Program Files (x86)\Yarn\bin\;C:\Ruby24-x64\bin;C:\Users\f\AppData\Local\Microsoft\WindowsApps;C:\Users\f\AppData\Local\atom\bin;C:\Users\f\go\bin;C:\Program Files\heroku\bin;C:\Users\f\AppData\Local\Microsoft\WindowsApps;C:\Users\f\AppData\Local\GitHubDesktop\bin;C:\Users\f\AppData\Roaming\npm;C:\Users\f\AppData\Local\Yarn\bin
+
+Yarn version: 
+  1.10.0
+
+Node version: 
+  8.12.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: EPERM: operation not permitted, unlink 'C:\Users\f\go\src\cavalry\native\node_modules\anymatch\node_modules\arr-diff'
+
+npm manifest: 
+  {
+    "name": "empty-project-template",
+    "main": "node_modules/expo/AppEntry.js",
+    "private": true,
+    "scripts": {
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "eject": "expo eject"
+    },
+    "dependencies": {
+      "expo": "^30.0.1",
+      "native-base": "^2.8.0",
+      "react": "16.3.1",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+      "react-native-swiper": "^1.5.13",
+      "react-navigation": "^2.0.4"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

@@ -1,8 +1,107 @@
-import { auth } from './firebase';
+import { auth,db,storage } from './firebase';
 import axios from 'axios';
 
 const keys = require('../../secrets/keys');
 let backend = keys.heroku_backend_uri
+
+
+export const testAdd = () => {
+  db.collection("black").add({
+    first: "Ada",
+    last: "Lovelace",
+    born: 1815
+  })
+  .then(function(docRef) {
+      console.log("Document written with ID: ", docRef.id);
+  })
+  .catch(function(error) {
+      console.error("Error adding document: ", error);
+  });
+}
+
+export const uploadImageForPost = (uploadfile,pathfilename) => {
+
+  // Create a reference to 'posts/accountid/filename.jpg'
+  var imageImagesRef = storage.child(pathfilename);
+
+  var file = uploadfile
+  var promise = new Promise(function(resolve, reject) {
+    resolve(imageImagesRef.put(file).then(function(snapshot) {
+      console.log("Image uploaded!")
+      })
+    );})
+
+  return promise.then((url) => {
+  console.log("Finished promise uploadImageForPost")
+  // return getImageUrl(pathfilename)
+  })
+
+
+}
+
+export const getImageUrl = (pathfilename) => {
+
+  var imageImagesRef = storage.child(pathfilename);
+  var promise = new Promise(function(resolve, reject) {
+    resolve(imageImagesRef.getDownloadURL().then(function(url) {
+      // console.log(url)
+      return url
+      })
+    );})
+
+  return promise.then((url) => {
+  console.log("Finished promise getImageUrl")
+  return url
+  })
+
+}
+
+export const addMemberToOrganization = (organizationname,newmember) => {
+  var membersRef = db.collection("organizations").doc(organizationname);
+
+  membersRef.get().then(function(doc) {
+      if (doc.exists) {
+        var prevMember  = doc.data().members.slice()
+        if (prevMember.indexOf(newmember) > -1){
+          console.log("Member Exists!", prevMember.indexOf(newmember))
+        } else {
+          prevMember.push(newmember)
+          console.log("Successfully added Member!")
+          return membersRef.update({
+                members: prevMember
+            }).then(function() {
+              console.log("Document successfully updated!");
+          })
+          .catch(function(error) {
+              // The document probably doesn't exist.
+              console.error("Error updating document: ", error);
+          });
+        }
+
+      } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+      }
+  }).catch(function(error) {
+      console.log("Error getting document:", error);
+  });
+
+}
+
+
+export const getOrganizationMembers = (organizationname) => {
+    var membersRef = db.collection("organizations").doc(organizationname);
+    membersRef.get().then(function(doc) {
+        if (doc.exists) {
+            return doc.data().members
+        } else {
+            // doc.data() will be undefined in this case
+            console.log("No such document!");
+        }
+    }).catch(function(error) {
+        console.log("Error getting document:", error);
+    });
+}
 
 // Check if email exists
 export const checkEmailExists = (email) =>

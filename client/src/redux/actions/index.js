@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {auth, db} from '../../components/firebase/firebase'
 import {
     // GET_POSTS,
     GET_POST,
@@ -43,6 +44,7 @@ import {
     CHECK_ORGANIZATION,
     JOIN_ORGANIZATION,
     SIGNOUT_ORGANIZATION,
+    LOAD_ORGANIZATION,
 } from './types';
 
 const keys = require('../../secrets/keys');
@@ -56,6 +58,19 @@ export const sendVerifyIdTokenToBackend = (token) => {
   console.log("Response from backend:",res)
 }
 
+export const loadOrganizationMembers = (organizationname) => async dispatch => {
+  var membersRef = db.collection("organizations").doc(organizationname);
+  membersRef.get().then(function(doc) {
+      if (doc.exists) {
+          dispatch({type: LOAD_ORGANIZATION, payload:doc.data().members})
+      } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+      }
+  }).catch(function(error) {
+      console.log("Error getting document:", error);
+  });
+}
 
 export const setPath = (path) => dispatch => {
   console.log("This Path:",path)
@@ -145,7 +160,9 @@ export const getAccount = (accountid) => async dispatch => {
 
 export const inviteAccount = (email,organizationname) => async dispatch => {
   const data = {email:email,organizationname:organizationname}
-  await axios.post(backend+'/api/account/invite',data)
+  const res = await axios.post(backend+'/api/account/invite',data)
+  console.log(res.data)
+  return res.data
 }
 
 export const createOrganization = (organizationname,accountid) => async dispatch => {

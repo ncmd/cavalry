@@ -89,14 +89,8 @@ func main() {
 
 	// get last10 posts
 	http.HandleFunc("/api/posts", controllers_posts_fetch_last_10_posts_from_firestore)
-
-	// get post
 	http.HandleFunc("/api/post/", controllers_posts_fetch_selected_post_from_firestore)
-
-	// add post
 	http.HandleFunc("/api/post/new", controllers_posts_create_post_in_firestore)
-
-	// edit post
 	http.HandleFunc("/api/post/edit", controllers_posts_edit_post_in_firestore)
 
 	// add request
@@ -111,9 +105,7 @@ func main() {
 	// This creates user in Stripe, Creates their Payment Method
 	// Adds user to Plan
 	http.HandleFunc("/api/user/new", controllers_stripe_generate_password_subscribe_user_to_plan_sendgrid_email_password)
-
 	http.HandleFunc("/api/user/customerid", get_stripe_customerId_from_emailaddress)
-
 	http.HandleFunc("/api/user/unsubscribe", get_stripe_subscriptionid_from_customerid)
 
 	// new

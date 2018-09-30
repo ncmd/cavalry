@@ -75,6 +75,20 @@ func c_organizations_account_add_organization_in_firebase(w http.ResponseWriter,
 		if err != nil {
 			log.Fatalln(err)
 		}
+
+		// get existing members in organization
+		// dsnap, err := client.Collection("organizations").Doc(organization.Name).Get(context.Background())
+		// if err != nil {
+		// 	fmt.Println(err)
+		// }
+		// m := dsnap.Data()
+		//
+		// fmt.Printf("Document data: %#v\n", m)
+
+		// add to array of previous members
+
+		// update 'members' array in document with new users
+
 	}
 }
 

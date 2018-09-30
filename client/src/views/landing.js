@@ -121,7 +121,6 @@ class Landing extends Component {
     }
 }
 
-
 function mapStateToProps({ posts,users,account }) {
     return { posts,users,account };
 }

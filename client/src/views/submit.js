@@ -11,6 +11,7 @@ import {
     editSubmitObjectives,
     editClear,
 } from '../redux/actions';
+import {auth} from '../components/firebase';
 import Grid from "@material-ui/core/Grid";
 import { Form, FormGroup, Input } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
@@ -541,7 +542,6 @@ class Submit extends Component {
         return (
           <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Title & Description</Button>
         )
-
       }
     }
 
@@ -552,7 +552,58 @@ class Submit extends Component {
     if(value) {
         this.quillRef.getEditor().insertEmbed(range.index, 'image', value, "user");
     }
-}
+  }
+
+  findAndReplace = (string, target, replacement) => {
+   var i = 0, length = string.length;
+   for (i; i < length; i++) {
+    string = string.replace(target, replacement);
+   }
+   return string;
+  }
+
+  selectLocalImage = () => {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.click();
+
+      // Listen upload local image and save to server
+      input.onchange = () => {
+        const file = input.files[0];
+
+        // file type is only image.
+        if (/^image\//.test(file.type)) {
+          // this.saveToServer(file);
+          console.log("file",file)
+
+          var promise = new Promise(function(resolve, reject) {
+            resolve( auth.uploadImageForPost(file,"/posts/submit/"+file.name));
+          })
+
+          promise.then(() => {
+          console.log("Completed uploadImageForPost")
+            var promise = new Promise(function(resolve, reject) {
+                resolve( auth.getImageUrl("/posts/submit/"+file.name));
+            })
+              promise.then((url) => {
+                console.log("Completed getImageUrl",url)
+                this.insertToEditor(url)
+              })
+
+          })
+        } else {
+          console.warn('You could only upload images.');
+        }
+      };
+    }
+
+
+    insertToEditor = (url) => {
+      // push image url to rich editor.
+      const range = this.quillRef.getEditor().getSelection();
+      // this.quillRef.insertEmbed(range.index, 'image', url);
+      this.quillRef.getEditor().insertEmbed(range.index, 'image', url);
+    }
 
     render() {
         return (
@@ -627,7 +678,7 @@ class Submit extends Component {
                                                   ['link', 'image'],
                                                   ['clean']],
                                            handlers: {
-                                               'image': this.imageHandler
+                                               'image': this.selectLocalImage
                                           }
                                       }
                                     }} style={{background:'white', height:500}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
@@ -650,7 +701,7 @@ class Submit extends Component {
         );
     }
 }
-function mapStateToProps({ users,posts, path,submit}) {
-    return { users,posts, path, submit };
+function mapStateToProps({ users,posts, account, path,submit}) {
+    return { users,posts, account,path, submit };
 }
 export default connect(mapStateToProps,{addPost,editSubmitTitle,editSubmitDescription,editSubmitTags,editSubmitObjectives,editClear})(withRouter(Submit));

@@ -88,7 +88,7 @@ function Request({ hit }){
 function Post({ hit }) {
   return (
     <Grid item xs={12} key={hit.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
-      <Link to={{ pathname: '/post/' + hit.id + '/'+findAndReplace(findAndReplace(findAndReplace(findAndReplace(hit.title,' ','-'),'\'',''),'/','-'),'\\','-')}} onClick={() => googleanalytics.Cavalry_Webapp_Landing_Runbook_Userclickedonrunbook(hit.title)}>
+      <Link to={{ pathname: '/post/' + hit.id + '/'+findAndReplace(findAndReplace(findAndReplace(findAndReplace(hit.title,' ','-'),'\'',''),'/','-'),'\\','-').toLowerCase()}} onClick={() => googleanalytics.Cavalry_Webapp_Landing_Runbook_Userclickedonrunbook(hit.title)}>
         <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
             <Grid container style={{flexGrow:1, marginLeft:10}}>
                 <Grid item xs={9} style={{textAlign:'left'}}>

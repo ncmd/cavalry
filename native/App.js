@@ -1,35 +1,82 @@
-import React from "react";
-import { StatusBar } from "react-native";
-import { Container, Button, text, ListItem, Text } from "native-base";
-import Expo from "expo";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { loading: true };
-  }
+import {Container, Content} from 'native-base'
+import Swiper from 'react-native-swiper';
+import {createBottomTabNavigator, tabBarOptions} from 'react-navigation';
 
-  async componentWillMount() {
-    await Expo.Font.loadAsync({
-      Roboto: require("native-base/Fonts/Roboto.ttf"),
-      Roboto_medium: require("native-base/Fonts/Roboto_medium.ttf"),
-      Ionicons: require("@expo/vector-icons/fonts/Ionicons.ttf"),
-    });
-    this.setState({ loading: false });
-  }
+import Runbooks from './src/views/runbooks';
+import Account from './src/views/account';
+import Inbox from './src/views/inbox';
+import Requests from './src/views/requests';
+import Team from './src/views/team';
 
-  render() {
-    if (this.state.loading) {
-      return <Expo.AppLoading />;
+import Icon from 'react-native-vector-icons/MaterialIcons'
+
+export default createBottomTabNavigator({
+  Runbooks: {
+    screen: Runbooks,
+    navigationOptions:{
+      tabBarLabel:'RUNBOOKS',
+      tabBarIcon:({tintColor}) => (
+        <Icon name="search" color={tintColor} size={24} />
+      )
     }
-    return (
-      <Container>
-        <StatusBar hidden={true} />
+  },
+  Requests:{
+    screen: Requests,
+    navigationOptions:{
+      tabBarLabel:'REQUESTS',
+      tabBarIcon:({tintColor}) => (
+        <Icon name="speaker-notes" color={tintColor} size={24} />
+      )
+    }
+  },
+  Inbox:{
+    screen: Inbox,
+    navigationOptions:{
+      tabBarLabel:'INBOX',
+      tabBarIcon:({tintColor}) => (
+        <Icon name="mail-outline" color={tintColor} size={24} />
+      )
+    }
+  },
+  Team:{
+    screen: Team,
+    navigationOptions:{
+      tabBarLabel:'TEAM',
+      tabBarIcon:({tintColor}) => (
+        <Icon name="group" color={tintColor} size={24} />
+      )
+    }
+  },
+  Account:{
+    screen: Account,
+    navigationOptions:{
+      tabBarLabel:'ACCOUNT',
+      tabBarIcon:({tintColor}) => (
+        <Icon name="accessibility" color={tintColor} size={24} />
+      )
+    }
+  }
+}, tabBarOptions:{
+  activeTintColor:'blue',
+  inactiveTintColr:'grey',
+  style:{
+    backgroundColor: 'white',
+    borderTopWidth: 0,
+    shadowOffset: { width: 5, height: 3},
+    shadowColor: 'black',
+    shadowOpacity: 0.5,
+    elevation:5,
+  }
+})
 
-        <Button>
-          <Text>Button</Text>
-        </Button>
-
-        <ListItem />
-      </Container>
-    );
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});

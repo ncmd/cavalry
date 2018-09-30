@@ -177,6 +177,11 @@ PROJECT PATH
 - cd native && npm start
 - Close app on virtual device, restart app in expo; press 'a'
 
+# Native packages
+- npm install react-navigation@2.0.4 react-native-swiper native-base --save
+- npm install
+- npm audit fix
+
 # To Do
 - enterprise grade
 - cancel subscription - done

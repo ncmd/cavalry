@@ -50,4 +50,5 @@ export const INVITE_ORGANIZATION_MEMBER = 'invite_organization_member';
 export const CHECK_ORGANIZATION= 'check_organization';
 export const JOIN_ORGANIZATION = 'join_organization';
 export const SIGNOUT_ORGANIZATION = 'signout_organziation';
+export const LOAD_ORGANIZATION = 'load_organziation';
 export const SET_STRIPE_PAYMENT_STATUS = 'set_stripe_payment_status';

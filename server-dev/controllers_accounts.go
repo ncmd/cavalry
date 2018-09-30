@@ -45,6 +45,13 @@ func c_accounts_invite_user_create_account_in_firebase(w http.ResponseWriter, r 
 		}
 		log.Printf("Successfully created user: %v\n", u.UID)
 		c_accounts_create_account_in_firebase(u.UID, account.Email, account.OrganizationName)
+		var data = u.UID
+		js, err := json.Marshal(data)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+		w.Write(js)
 
 	}
 }

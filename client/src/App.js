@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
-import Landing from './pages/landing';
-import Status from './pages/status';
-import Login from './pages/login';
-import Signup from './pages/signup';
-import Dashboard from './pages/dashboard';
-import Post from './pages/post';
-import Edit from './pages/edit';
-import Submit from './pages/submit';
-import Manage from './pages/manage';
-import Request from './pages/request';
-import Team from './pages/team';
-import Subscription from './pages/subscription';
+import Landing from './views/landing';
+import Status from './views/status';
+import Login from './views/login';
+import Signup from './views/signup';
+import Dashboard from './views/dashboard';
+import Post from './views/post';
+import Edit from './views/edit';
+import Submit from './views/submit';
+import Manage from './views/manage';
+import Request from './views/request';
+import Team from './views/team';
+import Subscription from './views/subscription';
 // import { connect } from 'react-redux';
 
 class App extends Component {

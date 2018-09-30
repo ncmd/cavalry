@@ -9,7 +9,9 @@ import {
   checkOrganization,
   joinOrganization,
   leaveOrganization,
+  loadOrganizationMembers,
 } from '../redux/actions';
+import { auth } from '../components/firebase'
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -70,6 +72,7 @@ class Team extends Component {
             organizationnamejoinchanged:true,
             organizationnameexists:false,
             organizationnamejoinexists:false,
+            listorganiztionmembers:[],
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.handleInputEmailaddress = this.handleInputEmailaddress.bind(this);
@@ -80,10 +83,25 @@ class Team extends Component {
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
       // Current User Plan
-
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
+        if(this.props.account.organizationmember === true){
+          // console.log("Organization Name:",this.props.account.organizationname)
+          this.props.loadOrganizationMembers(this.props.account.organizationname)
+          // auth.getOrganizationMembers(this.props.account.organizationname)
+          this.props.organization.members.map((member) => {
 
+            var thismember = member.split(',');
+            var prevlistorganiztionmembers = this.state.groups
+            prevlistorganiztionmembers.push({emailaddress: thismember[0]})
+            this.setState({
+              groups: prevlistorganiztionmembers
+            })
+
+          })
+
+
+        }
     }
 
     componentWillUnmount() {
@@ -107,9 +125,16 @@ class Team extends Component {
     }
 
 
-    // Adding Objective to New Runbook
+    // Adding Member to Organzition
     addGroup(emailaddress, groupIndex) {
-      this.props.inviteAccount(emailaddress,this.props.organization.organizationname)
+      console.log(this.props.account.organizationname)
+      this.props.inviteAccount(emailaddress,this.props.organization.organizationname).then( (newaccountid) => {
+        console.log("Got new account id:",newaccountid)
+        console.log(this.props.account.organizationname)
+        auth.addMemberToOrganization(this.props.account.organizationname, emailaddress+','+newaccountid)
+        // setTimeout(function(){   auth.addMemberToOrganization(this.props.account.organizationname, newaccountid) }, 3000);
+      })
+
       // Get Previous Objective State which should start as an empty array '[]'
       const prevGroups = this.state.groups;
 
@@ -319,6 +344,7 @@ class Team extends Component {
     createAndJoinOrganization(){
       this.props.createOrganization(this.state.organizationname,this.props.account.accountid).then(() => {
         this.props.joinOrganization(this.state.organizationname,this.props.account.accountid)
+        auth.addMemberToOrganization(this.state.organizationname,this.props.account.accountid)
       })
     }
 
@@ -400,8 +426,8 @@ class Team extends Component {
                   <Table className={classes.table}>
                     <TableHead>
                       <TableRow>
-                        <TableCell>Email Address</TableCell>
-                        <TableCell>Status</TableCell>
+                        <TableCell><Typography style={{color:'black'}}><b>Email Address</b></Typography></TableCell>
+                        <TableCell><Typography style={{color:'black'}}><b>Status</b></Typography></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -428,8 +454,6 @@ class Team extends Component {
     }
 
     render() {
-
-
         return (
             <div>
                 <Header/>
@@ -469,4 +493,5 @@ export default connect(mapStateToProps, {
   checkOrganization,
   joinOrganization,
   leaveOrganization,
+  loadOrganizationMembers,
 })(withRouter(withStyles(styles)(Team)));
