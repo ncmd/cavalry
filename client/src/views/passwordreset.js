@@ -237,19 +237,8 @@ class PasswordReset extends Component {
                             <Paper square={false} style={{background:'#283593', height:425,width:428,maxWidth:"95%", marginTop:20}}>
                                 <Grid item style={{margin:20, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
                                     <Typography variant="headline" style={{color:'white', marginTop:40}}>
-                                        <b>Log in to your account</b>
+                                        <b>Create a new password</b>
                                     </Typography>
-                                    <InputGroup style={{marginTop:40}}>
-                                        <InputGroupAddon addonType="prepend">
-                                            <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">📮</span></InputGroupText>
-                                        </InputGroupAddon>
-                                        {this.state.validEmail
-                                            ?
-                                            <Input valid  style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
-                                            :
-                                            <Input invalid  style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
-                                        }
-                                    </InputGroup>
                                     <InputGroup style={{marginTop:40}}>
                                         <InputGroupAddon addonType="prepend">
                                             <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">🔑</span></InputGroupText>
@@ -259,6 +248,17 @@ class PasswordReset extends Component {
                                             <Input valid  style={{border:0}} type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
                                             :
                                             <Input invalid style={{border:0}} type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
+                                        }
+                                    </InputGroup>
+                                    <InputGroup style={{marginTop:40}}>
+                                        <InputGroupAddon addonType="prepend">
+                                            <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">🔑</span></InputGroupText>
+                                        </InputGroupAddon>
+                                        {this.state.validPassword
+                                            ?
+                                            <Input valid  style={{border:0}} type="password" placeholder="Verify Password" onChange={this.handlePassword('password')}/>
+                                            :
+                                            <Input invalid style={{border:0}} type="password" placeholder="Verify Password" onChange={this.handlePassword('password')}/>
                                         }
                                     </InputGroup>
                                     {this.renderLoginError()}

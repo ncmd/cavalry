@@ -182,11 +182,35 @@ PROJECT PATH
 - npm install
 - npm audit fix
 
+# Slack Setup
+- create bot: Bot Users page > cavalry-bot
+- token used: OAuth & permissions page > Bot User OAuth Access Token
+- Scopes:
+- client, channels:read, incoming-webhook, bot, users:read
+- Getting Legacy Token: https://medium.com/@andrewarrow/how-to-get-slack-api-tokens-with-client-scope-e311856ebe9
+- create a redirect_uri; Manage Distribution > Add OAuth Redirect URLs >
+- get client_id; Basic Information > App Credentials
+- get workspace_name
+- https://[workspace_name].slack.com/oauth/authorize?client_id=[client_id]&scope=client&redirect_uri=[redirect_url]
+
+# Ngrok Setup
+- Ngrok File location:
+- C:\Users\f/.ngrok2/ngrok.yml
+- ./ngrok http 80
+
 # To Do
-- enterprise grade
+- SETUP FKING TEAM MEMBERS!!!!
+- enterprise grade - https://www.enterpriseready.io/#
+- github style contributions
 - cancel subscription - done
 - user management
+- save runbook before publish
 - organization management - 10%
+- revisions
+- versions
+- real-time collaboration
+- adding objectives from other runbooks
+- tech debt checklist
 - add
 - remove
 - leave
@@ -199,7 +223,10 @@ PROJECT PATH
 - Reference Resilient IBM
 - craft http requests
 - redirect unauthorized - 70%
--
+- Filter by tag
+- Filter by team
+- Filter by public v  private
+- Add a flow where people can show added by/edited by in real time tracking (on the checklist feature)
 - manage team - 10%
 - upvote downvote
 - talk

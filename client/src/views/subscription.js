@@ -177,8 +177,8 @@ class Subscription extends Component {
 
       } else {
         return (
-          <div style={{width:273,height:360, marginBottom:20, background:'#474f97',borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
-            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'body2'}>Please finish section <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography></Typography>
+          <div style={{width:273,height:360, marginBottom:20, background: this.props.theme[0].PostsButtonBackground,border:this.props.theme[0].PostsButtonBorder,borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
+            <Typography style={{color:this.props.theme[0].PostsTypographyTitle, display: 'inline-block', padding:'25px 0'}} variant={'body2'}>Please finish section <Typography style={{background:this.props.theme[0].PrimaryLinear, width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography></Typography>
           </div>
         )
       }
@@ -188,6 +188,12 @@ class Subscription extends Component {
       this.props.setStripeModal()
       setInterval(this.renderProgress(), 100);
       setInterval(this.props.setStripeProgress(this.state.progresscompleted), 100);
+    }
+
+    renderTheme(){
+      if (this.props.theme.length > 0){
+        return this.props.theme[0].MainBackground
+      }
     }
 
     render() {
@@ -200,7 +206,7 @@ class Subscription extends Component {
                     style={{
                         flexGrow: 1,
                         justify: 'center',
-                        background: bodyBlue,
+                        background: this.renderTheme(),
                         paddingLeft:10,
                         paddingRight:10,
                         height:this.state.height,
@@ -208,12 +214,12 @@ class Subscription extends Component {
                 >
                         <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                           <Grid item>
-                            <Typography variant={'subheading'} style={{color:'white'}}>
-                              <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography> <b>Select a plan that works for you:</b>
+                            <Typography variant={'subheading'} style={{color:this.props.theme[0].PostsTypographyTitle}}>
+                              <Typography style={{background:this.props.theme[0].PrimaryLinear, width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography> <b>Select a plan that works for you:</b>
                             </Typography>
                           </Grid>
                         </Grid>
-                        <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
+                        <Grid container style={{flexGrow:1,border:this.props.theme[0].PostsButtonBorder, background: this.props.theme[0].PostsButtonBackground, margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
                           <Grid item style={{marginTop:10}}>
                             {this.state.selectItem1
                               ?
@@ -228,7 +234,7 @@ class Subscription extends Component {
                                 </div>
                               </Button>
                               :
-                              <Button className="box" style={{background:'white', height:230, width:230}} onClick={()=> {this.handleClickItem1()}}>
+                              <Button className="box" style={{background:'white', height:230, width:230 ,border:this.props.theme[0].PostsButtonBorder}} onClick={()=> {this.handleClickItem1()}}>
                                 <div className="ribbonblue"><span aria-label="emoji" role="img">❄️Cool❄️</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
@@ -254,7 +260,7 @@ class Subscription extends Component {
                                 </div>
                               </Button>
                               :
-                              <Button className="box" style={{background:'white', height:230, width:230}} onClick={()=> {this.handleClickItem2()}}>
+                              <Button className="box" style={{background:'white', height:230, width:230,border:this.props.theme[0].PostsButtonBorder}} onClick={()=> {this.handleClickItem2()}}>
                                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
@@ -280,7 +286,7 @@ class Subscription extends Component {
                                 </div>
                               </Button>
                               :
-                              <Button className="box" style={{background:'white', height:230, width:230}} onClick={()=> {this.handleClickItem3()}}>
+                              <Button className="box" style={{background:'white', height:230, width:230,border:this.props.theme[0].PostsButtonBorder}} onClick={()=> {this.handleClickItem3()}}>
                                 <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                                 <div>
                                   <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta</Typography>
@@ -299,8 +305,8 @@ class Subscription extends Component {
 
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item>
-                        <Typography variant={'subheading'} style={{color:'white'}}>
-                          <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography> <b>Enter payment information:</b>
+                        <Typography variant={'subheading'} style={{color:this.props.theme[0].PostsTypographyTitle}}>
+                          <Typography style={{background:this.props.theme[0].PrimaryLinear, width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography> <b>Enter payment information:</b>
                         </Typography>
                       </Grid>
                     </Grid>
@@ -308,15 +314,15 @@ class Subscription extends Component {
                       <Grid item xs style={{ padding:40, paddingTop:0,paddingBottom:0}}>
                           {this.renderStripe()}
                       </Grid>
-                      <Grid item style={{ border:'1px solid #474f97', padding:40}} xs>
-                        <Typography style={{color:'white'}} variant={'title'}><b>This plan includes:</b></Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">🚫</span> No Advertisements</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 24/7 support by <span aria-label="emoji" role="img">📧</span> email</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">📚</span> Unlimited runbook access</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request for <span aria-label="emoji" role="img">📕</span> runbooks</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request new <span aria-label="emoji" role="img">😍</span> features</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Create & edit your <span aria-label="emoji" role="img">📖</span> runbooks</Typography>
-                        <Typography style={{color:'white',padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 95.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</Typography>
+                      <Grid item style={{ border:this.props.theme[0].PostsButtonBorder,background:this.props.theme[0].PostsButtonBackground, padding:40}} xs>
+                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'title'}><b>This plan includes:</b></Typography>
+                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">🚫</span> No Advertisements</Typography>
+                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 24/7 support by <span aria-label="emoji" role="img">📧</span> email</Typography>
+                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">📚</span> Unlimited runbook access</Typography>
+                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request for <span aria-label="emoji" role="img">📕</span> runbooks</Typography>
+                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request new <span aria-label="emoji" role="img">😍</span> features</Typography>
+                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Create & edit your <span aria-label="emoji" role="img">📖</span> runbooks</Typography>
+                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 95.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</Typography>
                       </Grid>
                     </Grid>
                 </div>
@@ -341,8 +347,8 @@ class Subscription extends Component {
     }
 }
 
-function mapStateToProps({ status, users, stripe }) {
-    return { status,users, stripe };
+function mapStateToProps({ status, users, stripe,theme }) {
+    return { status,users, stripe,theme };
 }
 
 export default connect(mapStateToProps,{pingBackend,setUserEmail,applySecurity,setPlan,setStripeModal,loginUser})(withRouter(Subscription));

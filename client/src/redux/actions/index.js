@@ -1,10 +1,12 @@
 import axios from 'axios';
-import {auth, db} from '../../components/firebase/firebase'
+import {db} from '../../components/firebase/firebase'
+import {auth} from '../../components/firebase'
 import {
     // GET_POSTS,
     GET_POST,
     ADD_POST,
     ADD_REQUEST,
+    ADD_ACTIVITY,
     EDIT_REQUEST_TAGS,
     REMOVE_POST,
     UPDATE_POST,
@@ -39,16 +41,75 @@ import {
     SET_STRIPE_PROGRESS,
     SET_STRIPE_PAYMENT_STATUS,
     LEAVE_ORGANIZATION,
-    // SET_THEME,
+    SET_THEME,
     SIGNOUT_ACCOUNT,
     CHECK_ORGANIZATION,
     JOIN_ORGANIZATION,
     SIGNOUT_ORGANIZATION,
     LOAD_ORGANIZATION,
+    FILTERED_POSTS,
+    SET_TAGS,
+    CHANGE_DEPARTMENT_ORGANIZATION,
 } from './types';
 
 const keys = require('../../secrets/keys');
 let backend = keys.heroku_backend_uri
+
+export const lightThemeLoad = () => dispatch => {
+  const theme = [{
+    theme:'light',
+    PrimaryDark:'#5533ff',
+    PrimaryLight:'#3d63ff',
+    PrimaryLinear:'linear-gradient(#5533ff, #3d63ff)',
+    BorderRadius:'5px 5px 5px 5px',
+    Secondary:'#6772e5',
+    MainBackground:'#e3e8ee',
+    HeaderBackground: '#e3e8ee',
+    PostsButtonBackground:"white",
+    PostsButtonBorder:"1px solid #ced4da",
+    PostsTypographyTitle:"#333333",
+    PostsTypographyDescription:"#525f7f",
+    PostsTypographyObjectives:"#525f7f",
+    PostsSectionBorder:'2px solid #ced4da',
+    PostsTagsBackground:"#7795f8",
+    PostsTagsText:"white",
+    AlgoliaSearchText:"black",
+  }]
+  dispatch({ type: SET_THEME, payload: theme})
+}
+
+export const darkThemeLoad = () => dispatch => {
+  const theme = [{
+    theme:'dark',
+    PrimaryDark:'#5533ff',
+    PrimaryLight:'#3d63ff',
+    PrimaryLinear:'linear-gradient(#5533ff, #3d63ff)',
+    BorderRadius:'5px 5px 5px 5px',
+    Secondary:'#6772e5',
+    MainBackground:'#030303',
+    HeaderBackground: '#030303',
+    PostsButtonBackground:"#1A1A1B",
+    PostsButtonBorder:"1px solid #ced4da",
+    PostsTypographyTitle:"#6772e5",
+    PostsTypographyDescription:"#E0E0E0",
+    PostsTypographyObjectives:"#E0E0E0",
+    PostsSectionBorder:'2px solid #424242',
+    PostsTagsBackground:"#7795f8",
+    PostsTagsText:"white",
+    AlgoliaSearchText:"black",
+  }]
+  dispatch({ type: SET_THEME, payload: theme})
+}
+
+
+
+
+export const filterPostByTagAction = (filtertagname) => async dispatch => {
+  const data = await auth.filterPostByTag(filtertagname)
+  console.log("DAAATA",data)
+  dispatch({ type: FILTERED_POSTS, payload: data})
+
+}
 
 // Get VerifyIDToken
 export const sendVerifyIdTokenToBackend = (token) => {
@@ -58,18 +119,10 @@ export const sendVerifyIdTokenToBackend = (token) => {
   console.log("Response from backend:",res)
 }
 
-export const loadOrganizationMembers = (organizationname) => async dispatch => {
-  var membersRef = db.collection("organizations").doc(organizationname);
-  membersRef.get().then(function(doc) {
-      if (doc.exists) {
-          dispatch({type: LOAD_ORGANIZATION, payload:doc.data().members})
-      } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-      }
-  }).catch(function(error) {
-      console.log("Error getting document:", error);
-  });
+export const loadOrganizationAll = (organizationname) => async dispatch => {
+  const data =await  auth.loadOrganization(organizationname)
+  console.log("DAAATA",data)
+  dispatch({type: LOAD_ORGANIZATION, payload:data })
 }
 
 export const setPath = (path) => dispatch => {
@@ -133,6 +186,11 @@ export const addGroups = (groups) => async dispatch => {
     dispatch({ type: ADD_GROUPS, payload: data });
 };
 
+export const changeOrgMemberDepartment = (organizationname,index,department) => dispatch => {
+  auth.changeOrgMemberDepartmentFirestore(organizationname,index,department)
+  dispatch({ type: CHANGE_DEPARTMENT_ORGANIZATION, payloadindex: index, payloaddepartment:department})
+}
+
 export const addGroupUser = (uri, accountid, contactname,emailaddress,instantmessenger,department,location) => async dispatch => {
     const data = {accountid:accountid, contactname:contactname,emailaddress:emailaddress,instantmessenger:instantmessenger,department:department,location:location}
     await axios.post(backend+`${uri}`,data);
@@ -165,19 +223,25 @@ export const inviteAccount = (email,organizationname) => async dispatch => {
   return res.data
 }
 
-export const createOrganization = (organizationname,accountid) => async dispatch => {
-  const data = {organizationname:organizationname.toLowerCase(),accountid:accountid}
-  await axios.post(backend+'/api/organization/create',data)
+export const createOrganization = (organizationname,emailaddress,accountid) => async dispatch => {
+  const data = {organizationname:organizationname.toLowerCase(),emailaddress:emailaddress,accountid:accountid}
+  await axios.post(backend+'/api/organization/create',data).then(function(result){
+    console.log("Create Organization:",result)
+      dispatch({ type: JOIN_ORGANIZATION, payload:organizationname})
+      const orgdata = auth.loadOrganization(organizationname)
+      console.log(orgdata)
+  })
 }
 
 export const joinOrganization = (organizationname,accountid) => async dispatch => {
+  console.log("Joining Organization")
   const data = {organizationname:organizationname.toLowerCase(),accountid:accountid}
   await axios.post(backend+'/api/organization/join',data)
-  dispatch({ type: JOIN_ORGANIZATION, payload:organizationname})
+  // dispatch({ type: JOIN_ORGANIZATION, payload:organizationname})
 }
 
 export const leaveOrganization = (organizationname,accountid) => async dispatch => {
-  const data = {organizationname:organizationname.toLowerCase(),accountid:accountid}
+  const data = {organizationname:organizationname,accountid:accountid}
   await axios.post(backend+'/api/organization/leave',data)
   dispatch({ type: LEAVE_ORGANIZATION, payload:organizationname})
 }
@@ -202,12 +266,31 @@ export const editRequestTags = (tags) => dispatch => {
     dispatch({ type: EDIT_REQUEST_TAGS, payload: data });
 };
 
+// Need to adjust performance
+export const getTags = () => async dispatch => {
+  const res = await axios.get(backend+'/api/posts')
+    let allTags = []
+    res.data.map((post) => {
+      // console.log("getPost",post.tags)
+      post.tags.map((tag) => {
+        allTags.push(tag)
+      })
+    })
+    console.log("allTags:",allTags)
+    console.log("resdata",res.data)
+    dispatch({ type: SET_TAGS, payload: allTags})
+    return res.data
+}
 
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
 export const getPosts = () => async dispatch => {
-    const res = await axios.get(backend+'/api/posts');
-    // console.log("RES getPosts",res.data)
+    const res = await axios.get(backend+'/api/posts')
     dispatch({ type: 'GET_POSTS', payload: res.data });
+};
+
+export const getRequests = () => async dispatch => {
+    const res = await axios.get(backend+'/api/requests')
+    dispatch({ type: 'GET_REQUESTS', payload: res.data });
 };
 
 export const getStripeCustomerID = (email) => async dispatch => {
@@ -237,6 +320,12 @@ export const addRequest = (description,tags) => async dispatch =>{
     const data = {description:description,tags:tags};
     await axios.post(backend+'/api/request/new',data);
     dispatch({ type: ADD_REQUEST });
+};
+
+export const addActivity = (postid,accountid) => async dispatch =>{
+    const data = {postid:postid,accountid:accountid};
+    await axios.post(backend+'/api/activity/new',data);
+    dispatch({ type: ADD_ACTIVITY });
 };
 
 export const updatePost = (id,title,description,tags,objectives) => async dispatch =>{

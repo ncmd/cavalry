@@ -167,6 +167,14 @@ func c_organizations_create_orgnaization_in_firebase(w http.ResponseWriter, r *h
 			"organizationid":    organization.Name,
 			"organizationname":  organization.Name,
 			"organizationadmin": organization.AccountId,
+			"organizationmembers": []interface{}{
+				map[string]interface{}{
+					"emailaddress": organization.Email,
+					"accountid":    organization.AccountId,
+					"status":       "active",
+					"department":   "any",
+				},
+			},
 		})
 		if err != nil {
 			log.Fatalln(err)

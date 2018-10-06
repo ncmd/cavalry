@@ -10,8 +10,10 @@ import Edit from './views/edit';
 import Submit from './views/submit';
 import Manage from './views/manage';
 import Request from './views/request';
+import Activity from './views/activity';
 import Team from './views/team';
 import Subscription from './views/subscription';
+import PasswordReset from './views/passwordreset';
 // import { connect } from 'react-redux';
 
 class App extends Component {
@@ -27,7 +29,9 @@ class App extends Component {
                         <Route exact path="/manage" component={Manage} />
                         <Route exact path="/subscription" component={Subscription} />
                         <Route exact path="/request" component={Request} />
+                        <Route exact path="/activity" component={Activity} />
                         <Route exact path="/team" component={Team} />
+                        <Route path="/reset" component={PasswordReset} />
                         <Route
                           exact
                           path="/post/:postId/:postTitle"

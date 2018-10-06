@@ -231,9 +231,9 @@ class Signup extends Component {
               </InputGroupAddon>
               {this.state.validEmail
               ?
-              <Input valid style={{border:0, borderRadius:'0 5px 5px 0'}} placeholder="email@gmail.com" onChange={this.handleEmail('email')}/>
+              <Input valid style={{border:'1px solid #ced4da', boxShadow:'none', borderRadius:'0 5px 5px 0'}} placeholder="email@gmail.com" onChange={this.handleEmail('email')}/>
               :
-              <Input invalid  style={{border:0, borderRadius:'0 5px 5px 0'}} placeholder="email@gmail.com" onChange={this.handleEmail('email')}/>
+              <Input invalid  style={{border:'1px solid #ced4da',  boxShadow:'none',borderRadius:'0 5px 5px 0'}} placeholder="email@gmail.com" onChange={this.handleEmail('email')}/>
           }
               {this.renderErrorEmail()}
           </InputGroup>
@@ -251,8 +251,8 @@ class Signup extends Component {
         )
       }  else {
         return (
-          <div style={{width:273,height:78, background:'#474f97',borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
-            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'body2'}>Please finish section <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography></Typography>
+          <div style={{width:273,height:78, background:this.props.theme[0].PostsTagsBackground,borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
+            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'caption'}><b>Please finish section </b><Typography style={{background:this.props.theme[0].PrimaryLinear, width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography></Typography>
           </div>
         )
       }
@@ -263,10 +263,10 @@ class Signup extends Component {
         return (
           <div>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-              <Grid item xs style={{ border:'1px solid #474f97', padding:40, width:'100%'}}>
-                <Typography variant={'body2'} style={{color:'white'}}> Sent your password to your email address.</Typography>
+              <Grid item xs style={{ border:this.props.theme[0].PostsButtonBorder,  background:this.props.theme[0].PostsButtonBackground, padding:40, width:'100%'}}>
+                <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyTitle}}> Sent your password to your email address.</Typography>
                   <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
-                      <Button raised="true" variant="raised" style={{height:30, background:'#474f97', textTransform: 'none'}}>
+                      <Button raised="true" variant="raised" style={{height:30, background:this.props.theme[0].PrimaryLinear, textTransform: 'none'}}>
                           <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                               <b>Log in</b>
                           </Typography>
@@ -281,32 +281,38 @@ class Signup extends Component {
           <div>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
               <Grid item>
-                <Typography variant={'subheading'} style={{color:'white'}}>
-                  <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography> <b>Enter your email address:</b>
+                <Typography variant={'subheading'} style={{color:this.props.theme[0].PostsTypographyTitle}}>
+                  <Typography style={{background:this.props.theme[0].PrimaryLinear, width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography> <b>Enter your email address:</b>
                 </Typography>
               </Grid>
             </Grid>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-              <Grid item xs style={{ border:'1px solid #474f97', padding:40, width:'100%'}}>
-                <Typography variant={'body2'} style={{color:'white'}}> <b>Privacy guarantee:</b> We do not share your information and will contact you only as needed to provide our service.</Typography>
+              <Grid item xs style={{ border:this.props.theme[0].PostsButtonBorder, background:this.props.theme[0].PostsButtonBackground, padding:40, width:'100%'}}>
+                <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyTitle}}> <b>Privacy guarantee:</b> We do not share your information and will contact you only as needed to provide our service.</Typography>
                 {this.renderEmailAddress()}
               </Grid>
             </Grid>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
               <Grid item>
-                <Typography variant={'subheading'} style={{color:'white'}}>
-                  <Typography style={{background:'red', width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography> <b>Verify reCAPTCHA:</b>
+                <Typography variant={'subheading'} style={{color:this.props.theme[0].PostsTypographyTitle}}>
+                  <Typography style={{background:this.props.theme[0].PrimaryLinear, width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography> <b>Verify reCAPTCHA:</b>
                 </Typography>
               </Grid>
             </Grid>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-              <Grid item style={{ border:'1px solid #474f97', padding:40, width:'100%'}} xs>
-                <Typography variant={'body2'} style={{color:'white'}}> <b>Fraud Detection:</b> We keep the <span aria-label="emoji" role="img">🤖</span> bots away and do our best to provide you great content with no interruption.</Typography>
+              <Grid item style={{border:this.props.theme[0].PostsButtonBorder, background:this.props.theme[0].PostsButtonBackground, padding:40, width:'100%'}} xs>
+                <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyTitle}}> <b>Fraud Detection:</b> We keep the <span aria-label="emoji" role="img">🤖</span> bots away and do our best to provide you great content with no interruption.</Typography>
                 {this.renderRecaptcha()}
             </Grid>
           </Grid>
           </div>
         )
+      }
+    }
+
+    renderTheme(){
+      if (this.props.theme.length > 0){
+        return this.props.theme[0].MainBackground
       }
     }
 
@@ -318,7 +324,7 @@ class Signup extends Component {
                     style={{
                         flexGrow: 1,
                         justify: 'center',
-                        background: bodyBlue,
+                        background: this.renderTheme(),
                         paddingLeft:10,
                         paddingRight:10,
                         height:this.state.height
@@ -332,8 +338,8 @@ class Signup extends Component {
     }
 }
 
-function mapStateToProps({ status, users, stripe }) {
-    return { status,users, stripe };
+function mapStateToProps({ status, users, stripe,theme }) {
+    return { status,users, stripe,theme };
 }
 
 export default connect(mapStateToProps,{pingBackend,setUserEmail,applySecurity,setPlan,setStripeModal,loginUser,createAccount})(withRouter(Signup));

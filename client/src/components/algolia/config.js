@@ -15,7 +15,7 @@ import {
 } from 'react-instantsearch-dom';
 // import Grid from '@material-ui/core/Grid';
 // import Hidden from '@material-ui/core/Hidden';
-import { Input,InputGroup, InputGroupText, InputGroupAddon } from 'reactstrap';
+import { Input,InputGroup, InputGroupText, InputGroupAddon ,Form, FormGroup } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import Truncate from 'react-truncate';
@@ -29,14 +29,14 @@ import './algolia.css';
 import { googleanalytics } from '../analytics';
 
 const MySearchBox = ({currentRefinement, refine}) =>
-<form>
-  <InputGroup>
-      <InputGroupAddon addonType="prepend">
-          <InputGroupText style={{background:'#283593', border:'0',paddingLeft:6,paddingRight:6, height:36}}><span aria-label="emoji" role="img">🔍</span></InputGroupText>
-      </InputGroupAddon>
-      <Input style={{background:'#283593', border:'0', color:'white',padding:0, height:36}} type="text" name="search" id="runbookSearch" placeholder="Search..." value={currentRefinement} onChange={e => refine(e.target.value)}/>
-  </InputGroup>
-</form>
+    <form>
+    <InputGroup size="sm">
+        <InputGroupAddon addonType="prepend">
+            <InputGroupText style={{background:'transparent',border: '1px solid #ced4da',paddingLeft:6,paddingRight:6, height:36}}><span aria-label="emoji" role="img">🔍</span></InputGroupText>
+        </InputGroupAddon>
+        <Input style={{background:'transparent',border: '1px solid #ced4da', color:'grey', height:36, boxShadow:'none'}} type="text" name="search" id="runbookSearch" placeholder="Search..." value={currentRefinement} onChange={e => refine(e.target.value)}/>
+    </InputGroup>
+  </form>
 
 const CustomSearch = connectSearchBox(MySearchBox);
 
@@ -55,30 +55,26 @@ export const AlgoliaSearch = () =>
 function Request({ hit }){
   return (
     <Grid item xs={12} key={hit.description+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
-
-        <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
-            <Grid container style={{flexGrow:1, marginLeft:10}}>
-                <Grid item xs={9} style={{textAlign:'left'}}>
-                    <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
-                        <Grid item zeroMinWidth>
-                         <Typography variant="caption" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
-                              {hit.description}
-                            </Typography>
-                        </Grid>
-                        <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
-                          <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
-                            {hit.tags.slice(0, 3).map((value) => {
-                              return(
-                                <Grid key={value+Math.random()+(Math.random())} item >
-                                <h6><Badge color="primary" style={{textTransform: 'none', marginRight:5,}}>{value}</Badge></h6>
-                              </Grid>)
-                            }
-                            )}
-                          </Grid>
-                        </Grid>
+          <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none', minWidth:'100%',maxWidth:'100%'}}>
+              <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
+                  <Grid item xs>
+                   <Typography variant="caption" style={{color:'#939ed5', marginTop:10, flexGrow:1, overflow:'hidden', overflowX:'scroll'}}>
+                        {hit.description}
+                      </Typography>
+                  </Grid>
+                  <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
+                    <Grid container style={{ flexGrow:1, height:"100%" }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
+                      {hit.tags.slice(0, 3).map((value) => {
+                        return(
+                          <Grid key={value+Math.random()+(Math.random())} item >
+                          <h6><Badge color="primary" style={{textTransform: 'none', marginRight:5,}}>{value}</Badge></h6>
+                        </Grid>)
+                      }
+                      )}
                     </Grid>
-                </Grid>
-            </Grid>
+                  </Grid>
+              </Grid>
+
         </Button>
 
     </Grid>
@@ -89,22 +85,22 @@ function Post({ hit }) {
   return (
     <Grid item xs={12} key={hit.title+Math.random()+(Math.random())} style={{ marginBottom:15, maxWidth:'100%', marginLeft:10, marginRight:10}}>
       <Link to={{ pathname: '/post/' + hit.id + '/'+findAndReplace(findAndReplace(findAndReplace(findAndReplace(hit.title,' ','-'),'\'',''),'/','-'),'\\','-').toLowerCase()}} onClick={() => googleanalytics.Cavalry_Webapp_Landing_Runbook_Userclickedonrunbook(hit.title)}>
-        <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
+        <Button variant="contained" style={{ height:100,background:'#283593',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>
             <Grid container style={{flexGrow:1, marginLeft:10}}>
-                <Grid item xs={9} style={{textAlign:'left'}}>
+                <Grid item xs={10} style={{textAlign:'left'}}>
                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                         <Grid item zeroMinWidth>
-                            <Typography variant="title" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden', fontWeight:'bold'}}>
+                            <Typography variant="body1" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden', fontWeight:'bold'}}>
                               <Hidden mdDown>
-                              <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
+                              <Truncate width={600} lines={1} ellipsis={<span>...</span>}>
                                  <Highlight attribute="title" hit={hit} />
                              </Truncate>
                            </Hidden>
                             </Typography>
 
-                            <Typography variant="subheading" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                            <Typography variant="caption" style={{color:'#939ed5', marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                               <Hidden mdDown>
-                              <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
+                              <Truncate width={600} lines={1} ellipsis={<span>...</span>}>
                                  {hit.description}
                              </Truncate>
                              </Hidden>
@@ -117,7 +113,7 @@ function Post({ hit }) {
                           </Truncate>
                         </Hidden>
                          </Typography>
-                         <Typography variant="caption" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                         <Typography variant="caption" style={{color:'#939ed5', marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                            <Hidden smUp>
                            <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                               {hit.description}
@@ -126,12 +122,12 @@ function Post({ hit }) {
 
                             </Typography>
                         </Grid>
-                        <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
+                        <Grid item style={{marginRight:5}}>
                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
                             {hit.tags.slice(0, 3).map((value) => {
                               return(
                                 <Grid key={value+Math.random()+(Math.random())} item >
-                                <h6><Badge color="primary" style={{textTransform: 'none', marginRight:5,}}>{value}</Badge></h6>
+                                <h6><Badge color="primary" style={{marginRight:5,}}>{value}</Badge></h6>
                               </Grid>)
                             }
                             )}
@@ -143,7 +139,7 @@ function Post({ hit }) {
                 <Grid item style={{ textAlign:'left',borderLeft: '2px solid rgba(0, 0, 0, 0.12)'}}>
                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                         <Grid item>
-                            <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
+                            <Typography variant="caption" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
                                 {hit.objectives.length} Objectives
                             </Typography>
                         </Grid>

@@ -9,7 +9,9 @@ import {
   checkOrganization,
   joinOrganization,
   leaveOrganization,
-  loadOrganizationMembers,
+  loadOrganizationAll,
+  getAccount,
+  changeOrgMemberDepartment,
 } from '../redux/actions';
 import { auth } from '../components/firebase'
 import { connect } from 'react-redux';
@@ -26,6 +28,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { Form, FormGroup, Input, Badge } from 'reactstrap';
+import Select from 'react-select';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const actionButton = "linear-gradient(to right, #ff1744, #F44336 ";
@@ -37,6 +40,7 @@ const styles = theme => ({
   },
   table: {
     minWidth: 700,
+    minHeight: 400,
   },
 });
 
@@ -73,6 +77,9 @@ class Team extends Component {
             organizationnameexists:false,
             organizationnamejoinexists:false,
             listorganiztionmembers:[],
+            loadSelectOptions:false,
+            selectValueOptions:[{value:"any",label:"any"},{value:"legal",label:"legal"},{value:"security",label:"security"}],
+            selectValue:[],
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.handleInputEmailaddress = this.handleInputEmailaddress.bind(this);
@@ -83,24 +90,35 @@ class Team extends Component {
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
       // Current User Plan
-        this.updateWindowDimensions();
-        window.addEventListener('resize', this.updateWindowDimensions);
-        if(this.props.account.organizationmember === true){
-          // console.log("Organization Name:",this.props.account.organizationname)
-          this.props.loadOrganizationMembers(this.props.account.organizationname)
-          // auth.getOrganizationMembers(this.props.account.organizationname)
-          this.props.organization.members.map((member) => {
-
-            var thismember = member.split(',');
+      if(this.props.account.organizationname !== ""){
+        this.props.loadOrganizationAll(this.props.account.organizationname).then(() => {
+          console.log("Organization Loaded")
+          this.props.organization.organizationmembers.map((member) => {
+            console.log("Member",member)
             var prevlistorganiztionmembers = this.state.groups
-            prevlistorganiztionmembers.push({emailaddress: thismember[0]})
+            prevlistorganiztionmembers.push(
+              {
+                emailaddress: member.emailaddress,
+                status: member.status,
+                department: member.department,
+              }
+            )
             this.setState({
               groups: prevlistorganiztionmembers
             })
 
           })
+        })
+      }
+      if (this.props.users.logged === true ){
+        this.props.getAccount(this.props.users.login)
+      }
 
-
+        this.updateWindowDimensions();
+        window.addEventListener('resize', this.updateWindowDimensions);
+        if(this.props.account.organizationmember === true ){
+          // console.log("Organization Name:",this.props.account.organizationname)
+          // auth.getOrganizationMembers(this.props.account.organizationname)
         }
     }
 
@@ -124,6 +142,18 @@ class Team extends Component {
       })
     }
 
+    handleChangeSelect = (index,selectValue) => (event) => {
+      // this.setState({
+      //     [selectValue]: event,
+      // })
+
+      const groups = this.state.groups;
+      groups[index].department = event.value
+      this.forceUpdate();
+      this.props.changeOrgMemberDepartment(this.props.account.organizationname,index,event.value)
+      console.log("Selected:",event.value)
+
+   }
 
     // Adding Member to Organzition
     addGroup(emailaddress, groupIndex) {
@@ -131,7 +161,7 @@ class Team extends Component {
       this.props.inviteAccount(emailaddress,this.props.organization.organizationname).then( (newaccountid) => {
         console.log("Got new account id:",newaccountid)
         console.log(this.props.account.organizationname)
-        auth.addMemberToOrganization(this.props.account.organizationname, emailaddress+','+newaccountid)
+        auth.addMemberToOrganization(this.props.account.organizationname, emailaddress, newaccountid, "invited")
         // setTimeout(function(){   auth.addMemberToOrganization(this.props.account.organizationname, newaccountid) }, 3000);
       })
 
@@ -143,6 +173,8 @@ class Team extends Component {
       // 'expanded' determines if the objective expands to show 'tasks'
       prevGroups.push({
         emailaddress:  emailaddress,
+        department: "any",
+        status: "invited",
         index: groupIndex,
       });
 
@@ -162,7 +194,11 @@ class Team extends Component {
         this.setState({
             [inputEmailaddress]: event.target.value,
         }, () => {
+
+
+
             this.props.addGroupEmailaddress(this.state.inputEmailaddress)
+
             const emailRegex = /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
             if (emailRegex.test(inputEmailaddress)) {
                 // // console.log("Valid Email Address:",email);
@@ -274,25 +310,32 @@ class Team extends Component {
         if (emailRegex.test(email)) {
             // // console.log("Valid Email Address:",email);
             this.setState({validEmail:true});
-
+            // validate if email exists
+            this.state.groups.map((member) => {
+              console.log(member.emailaddress,email)
+              if (member.emailaddress.indexOf(email) > -1){
+                  this.setState({validEmail:false})
+              }
+            })
         } else {
             // Invalid phone number
             // // console.log("Invalid Email Address:",email);
             this.setState({validEmail:false})
+
         }
     }
 
     renderSetupGroups(){
       var str = 'manage '+this.props.account.organizationname;
-      var res = str.toUpperCase();
+      var res = str.toLowerCase();
 
       return(
         <div>
 
-          <Form style={{marginTop:30}}>
-            <Typography style={{color:'white'}} variant={'display2'}>{res}</Typography>
+          <Form style={{paddingTop:30, paddingBottom:30}}>
+            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'display2'}>{res}</Typography>
             <FormGroup>
-              <Typography style={{color:'white'}}>Invite users to your team!</Typography>
+              <Typography style={{color:this.props.theme[0].PostsTypographyDescription}}>Invite users to your team!</Typography>
               <Input value={this.state.inputEmailaddress} onChange={this.handleInputEmailaddress('inputEmailaddress')} placeholder="name@company.com"/>
             </FormGroup>
             {this.renderSetupButton()}
@@ -316,12 +359,12 @@ class Team extends Component {
     renderOrganizationNameError(){
       if(this.state.validOrganization === false){
         return (
-            <Typography style={{color:'white'}} variant={'caption'}>Not a valid Organization name. At least 4 characters, max 30 characters, no special characters.</Typography>
+            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'caption'}>Not a valid Organization name. At least 4 characters, max 30 characters, no special characters.</Typography>
         )
       }
       if(this.props.organization.check === "exists"){
         return (
-            <Typography style={{color:'white'}} variant={'caption'}>This organization exists! Request to Join or Create a new Organization.</Typography>
+            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'caption'}>This organization exists! Request to Join or Create a new Organization.</Typography>
         )
       }
     }
@@ -330,21 +373,21 @@ class Team extends Component {
       if(this.state.validOrganizationJoin === false){
         return (
           <div>
-            <Typography style={{color:'white'}} variant={'caption'}>Not a valid Organization name. At least 4 characters, max 30 characters, no special characters.</Typography>
+            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'caption'}>Not a valid Organization name. At least 4 characters, max 30 characters, no special characters.</Typography>
           </div>
         )
       }
       if(this.props.organization.check === "available"){
         return (
-            <Typography style={{color:'white'}} variant={'caption'}>This organization does not exist! You can Create a new Organization or ask your team for the correct Organization name.</Typography>
+            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'caption'}>This organization does not exist! You can Create a new Organization or ask your team for the correct Organization name.</Typography>
         )
       }
     }
 
     createAndJoinOrganization(){
-      this.props.createOrganization(this.state.organizationname,this.props.account.accountid).then(() => {
+      this.props.createOrganization(this.state.organizationname,this.props.account.emailaddress,this.props.account.accountid).then(() => {
         this.props.joinOrganization(this.state.organizationname,this.props.account.accountid)
-        auth.addMemberToOrganization(this.state.organizationname,this.props.account.accountid)
+        // auth.addMemberToOrganization(this.state.organizationname,this.props.account.accountid)
       })
     }
 
@@ -352,7 +395,7 @@ class Team extends Component {
       if (this.state.validOrganization === true && this.props.organization.check === 'available'){
         return (
           <div>
-            <Button onClick={() => this.createAndJoinOrganization()} style={{background:actionButton}}><Typography style={{textTransform:'none', color:'white'}} variant={'caption'}><b>Create</b></Typography> </Button>
+            <Button onClick={() => this.createAndJoinOrganization()} style={{background:this.props.theme[0].PrimaryLinear}}><Typography style={{textTransform:'none', color:'white'}} variant={'caption'}><b>Create</b></Typography> </Button>
           </div>
         )
       } else {
@@ -365,7 +408,7 @@ class Team extends Component {
     renderButtonValidOrgNameJoin(){
       if (this.state.validOrganizationJoin === true && this.props.organization.check === 'exists'){
         return (
-          <Button style={{background:actionButton}}><Typography style={{textTransform:'none', color:'white'}} variant={'caption'}><b>Request</b></Typography> </Button>
+          <Button style={{background:actionButton}}><Typography style={{textTransform:'none', color:this.props.theme[0].PrimaryLinear}} variant={'caption'}><b>Request</b></Typography> </Button>
         )
       } else {
         return (
@@ -378,10 +421,10 @@ class Team extends Component {
       if (this.props.account.organizationmember === false){
         return (
           <div>
-            <Typography style={{color:'white', padding:40}} variant={'title'}><b>You need to Create or Join an Organization to be able to manage a Team</b></Typography>
+            <Typography style={{color:this.props.theme[0].PostsTypographyTitle, padding:40}} variant={'title'}><b>You need to Create or Join an Organization to be able to manage a Team</b></Typography>
               <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-                <Grid item style={{ border:'1px solid #474f97', padding:40, width:'100%'}} xs>
-            <Typography style={{color:'white'}}><b>Create an Organization</b></Typography>
+                <Grid item style={{ border:this.props.theme[0].PostsButtonBorder, padding:40, width:'100%'}} xs>
+            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Create an Organization</b></Typography>
             {this.state.validOrganization
               ?
               <Input valid value={this.state.organizationname} onChange={this.handleInputOrganizationName('organizationname')} placeholder="piedpiper"/>
@@ -394,8 +437,8 @@ class Team extends Component {
           </Grid>
             <br/>
               <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingBottom:40}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-                <Grid item style={{ border:'1px solid #474f97', padding:40, width:'100%'}} xs>
-            <Typography style={{color:'white'}}><b>Request to join Organization</b></Typography>
+                <Grid item style={{ border:this.props.theme[0].PostsButtonBorder, padding:40, width:'100%'}} xs>
+            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Request to join Organization</b></Typography>
               {this.state.validOrganizationJoin
                 ?
                 <Input valid value={this.state.organizationnamejoin} onChange={this.handleInputOrganizationNameJoin('organizationnamejoin')} placeholder="piedpiper"/>
@@ -411,33 +454,77 @@ class Team extends Component {
       }
     }
 
+    renderSelect(index,valueDepartment){
+
+      if(this.state.selectValueOptions.length > 0){
+        return(
+          <Select
+            name="department"
+            options={this.state.selectValueOptions}
+            className="basic-single"
+            isClearable={false}
+            classNamePrefix="select"
+            value={valueDepartment}
+            onChange={this.handleChangeSelect(index,'selectValue')}
+          />
+        )
+      }
+    }
+
     renderManageTeamSetup(){
       const { classes } = this.props;
 
-      if (this.props.account.organizationmember === true){
+      if (this.props.account.organizationmember === true && this.props.organization.organizationname !== ""){
         return (
           <div >
-            <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
+            <Grid container style={{ background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
               <Grid item>{this.renderSetupGroups()}</Grid>
             </Grid>
-            <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:50}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
+            <Grid container style={{ background:this.props.theme[0].PostsButtonBackground , border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:30, marginTop:5}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
+
               <Grid item>
                 <Paper className={classes.root}>
                   <Table className={classes.table}>
                     <TableHead>
                       <TableRow>
                         <TableCell><Typography style={{color:'black'}}><b>Email Address</b></Typography></TableCell>
+                        <TableCell><Typography style={{color:'black'}}><b>Department</b></Typography></TableCell>
                         <TableCell><Typography style={{color:'black'}}><b>Status</b></Typography></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {this.state.groups.map(g => {
-                        return (
-                          <TableRow key={g.emailaddress}>
-                            <TableCell>{g.emailaddress}</TableCell>
-                            <TableCell><Badge style={{background:"red"}}>Invited</Badge></TableCell>
-                          </TableRow>
-                        );
+                      {this.state.groups.map((g,index) => {
+                        if(g.status === "active"){
+                          return (
+                            <TableRow key={g.emailaddress}>
+                              <TableCell>{g.emailaddress}</TableCell>
+                              <TableCell>
+                                {this.renderSelect(index,{value:g.department,label:g.department})}
+                              </TableCell>
+                              <TableCell><Badge style={{background:"green"}}>{g.status}</Badge></TableCell>
+                            </TableRow>
+                          )
+                        } else if (g.status === "invited"){
+                          return (
+                            <TableRow key={g.emailaddress}>
+                              <TableCell>{g.emailaddress}</TableCell>
+                                <TableCell>
+                                  {this.renderSelect(index,{value:g.department,label:g.department})}
+                                </TableCell>
+                              <TableCell><Badge style={{background:"blue"}}>{g.status}</Badge></TableCell>
+                            </TableRow>
+                          )
+                        }else if (g.status === "requested"){
+                          return (
+                            <TableRow key={g.emailaddress}>
+                              <TableCell>{g.emailaddress}</TableCell>
+                                <TableCell>
+                                  {this.renderSelect(index,{value:g.department,label:g.department})}
+                                </TableCell>
+                              <TableCell><Badge style={{background:"red"}}>{g.status}</Badge></TableCell>
+                            </TableRow>
+                          )
+                        }
                       })}
                     </TableBody>
                   </Table>
@@ -445,7 +532,7 @@ class Team extends Component {
               </Grid>
             </Grid>
             <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
-              <Button style={{background:actionButton}} onClick={() => this.props.leaveOrganization(this.props.organization.organizationname,this.props.account.accountid)}><Typography style={{color:'white'}} variant={'caption'}>Leave Organization</Typography></Button>
+              {/*<Button style={{background:actionButton}} onClick={() => this.props.leaveOrganization(this.props.organization.organizationname,this.props.account.accountid)}><Typography style={{color:'white'}} variant={'caption'}>Leave Organization</Typography></Button>*/}
             </Grid>
 
           </div>
@@ -461,12 +548,12 @@ class Team extends Component {
                     style={{
                         flexGrow: 1,
                         justify: 'center',
-                        background: bodyBlue,
+                        background: this.props.theme[0].MainBackground,
                         height: this.state.height,
                     }}
                 >
                     {/* Top Section */}
-                      <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
+                      <Grid container style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
                         <Grid item>
                           {this.renderOrganizationSetup()}
                         </Grid>
@@ -482,8 +569,8 @@ Team.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-function mapStateToProps({ groups,users,account,organization }) {
-    return { groups,users,account,organization };
+function mapStateToProps({ groups,users,account,organization,theme }) {
+    return { groups,users,account,organization ,theme};
 }
 export default connect(mapStateToProps, {
   addGroupEmailaddress,
@@ -492,6 +579,8 @@ export default connect(mapStateToProps, {
   createOrganization,
   checkOrganization,
   joinOrganization,
+  getAccount,
   leaveOrganization,
-  loadOrganizationMembers,
+  loadOrganizationAll,
+  changeOrgMemberDepartment,
 })(withRouter(withStyles(styles)(Team)));

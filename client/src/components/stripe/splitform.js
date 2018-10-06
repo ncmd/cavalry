@@ -182,7 +182,7 @@ class SplitForm extends Component {
     renderPayButton(){
       if (this.state.cardnumber === true && this.state.expirationdate === true && this.state.cvc === true && this.state.postalcode === true){
         return (
-          <Button style={{width:'50%', background:payButtonColor, color:'white', marginTop: 20, marginBottom: 20, textTransform:'none'}} onClick={() => {this.handleSubmit()}}><b>Pay</b></Button>
+          <Button style={{width:'50%', background:this.props.theme[0].PrimaryLinear, color:'white', marginTop: 20, marginBottom: 20, textTransform:'none'}} onClick={() => {this.handleSubmit()}}><b>Pay</b></Button>
         )
       } else {
         // console.log(this.state.cardnumber,this.state.expirationdate,this.state.cvc,this.state.postalcode)
@@ -200,6 +200,21 @@ class SplitForm extends Component {
       }
     }
 
+    renderStripeLogo(){
+      if(this.props.theme[0].theme === 'dark'){
+        return(
+          <a href="http://stripe.com" target="_blank" rel="noopener noreferrer"><img src="./images/powered_by_stripe_dark.png" alt="Powered By Stripe" style={{width:170, height:41, marginBottom:20}}/></a>
+        )
+
+      }
+      if(this.props.theme[0].theme === 'light'){
+        return(
+          <a href="http://stripe.com" target="_blank" rel="noopener noreferrer"><img src="./images/powered_by_stripe_light.png" alt="Powered By Stripe" style={{width:170, height:41, marginBottom:20}}/></a>
+        )
+      }
+
+    }
+
 
 
     render() {
@@ -209,7 +224,7 @@ class SplitForm extends Component {
           return (
               <form onSubmit={this.handleSubmit}>
                   <label style={{width:250, color:'white'}}>
-                    <Typography variant={'body2'} style={{color:'white'}}>Card Number</Typography>
+                    <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Card Number</b></Typography>
                       <CardNumberElement
                           onBlur={this.handleBlur}
                           onChange={this.handleChangeCardNumber()}
@@ -219,7 +234,7 @@ class SplitForm extends Component {
                       />
                   </label><br/>
                   <label style={{color:'white'}}>
-                      <Typography variant={'body2'} style={{color:'white'}}>Expiration Date</Typography>
+                      <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Expiration Date</b></Typography>
                       <CardExpiryElement
                           onBlur={this.handleBlur}
                           onChange={this.handleChangeExpirationDate()}
@@ -229,7 +244,7 @@ class SplitForm extends Component {
                       />
                   </label>{' '}
                   <label  style={{color:'white' ,width:100, marginLeft:10}}>
-                      <Typography variant={'body2'} style={{color:'white'}}>CVC</Typography>
+                      <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyTitle}}><b>CVC</b></Typography>
                       <CardCVCElement
                           onBlur={this.handleBlur}
                           onChange={this.handleChangeCVC()}
@@ -239,7 +254,7 @@ class SplitForm extends Component {
                       />
                   </label><br/>
                 <label style={{color:'white' , width:200}}>
-                      <Typography variant={'body2'} style={{color:'white'}}>Postal Code</Typography>
+                      <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Postal Code</b></Typography>
                       <PostalCodeElement
                           onBlur={this.handleBlur}
                           onChange={this.handleChangePostalCode()}
@@ -251,15 +266,15 @@ class SplitForm extends Component {
                 {this.renderPayButton()}
                   <br/>
                   {this.renderStripePaymentError()}
-                  <a href="http://stripe.com" target="_blank" rel="noopener noreferrer"><img src="./images/powered_by_stripe.png" alt="Powered By Stripe" style={{width:170, height:36, marginBottom:20}}/></a>
+                  {this.renderStripeLogo()}
               </form>
           );
         }
     }
 }
 
-function mapStateToProps({ users, stripe, account}) {
-    return { users, stripe, account };
+function mapStateToProps({ users, stripe, account,theme}) {
+    return { users, stripe, account,theme };
 }
 
 export default connect(mapStateToProps,{addUser,setStripeModal,loginUser,setAccount,getStripeCustomerID,updateFirebaseAccountsWithStripeCustomerId,stripePaymentStatus})(withRouter(injectStripe(SplitForm)));

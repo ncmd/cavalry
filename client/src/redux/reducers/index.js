@@ -13,12 +13,14 @@ import themeReducer from './themeReducer';
 import stripeReducer from './stripeReducer';
 import organizationReducer from './organizationReducer';
 import teamReducer from './teamReducer';
+import tagsReducer from './tagsReducer';
 
 const rootReducer = combineReducers({
   users:usersReducer,
   requests:requestsReducer,
   account:accountReducer,
   organization:organizationReducer,
+  tags:tagsReducer,
   team:teamReducer,
   posts:postsReducer,
   groups:groupsReducer,

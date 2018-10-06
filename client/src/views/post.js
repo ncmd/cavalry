@@ -74,13 +74,13 @@ class Post extends Component {
         this.state.objectives.map( (obj,index) => {
           // console.log("OOOO:",obj)
           return(
-            <Grid key={obj.title} style={{background:'white',margin:0, padding:20}} item xs={12} >
+            <Grid key={obj.title} style={{background:this.props.theme[0].PostsButtonBackground,border:this.props.theme[0].PostsButtonBorder,margin:0, padding:20,  borderRadius:'5px 5px 5px 5px'}} item xs={12} >
 
-                  <Typography variant={'body2'} style={{color:'black'}}>
-                    <Typography variant={'body2'} style={{background:'red', width:26,height:26, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>{index+1}</Typography> <b>{obj.title}</b>
+                  <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyTitle}}>
+                    <Typography variant={'body2'} style={{background:this.props.theme[0].PrimaryLinear, width:26,height:26, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>{index+1}</Typography> <b>{obj.title}</b>
                   </Typography>
+                  <div style={{color:this.props.theme[0].PostsTypographyDescription}} dangerouslySetInnerHTML={{__html: obj.description}} />
 
-                  <div dangerouslySetInnerHTML={{__html: obj.description}} />
 
               </Grid>
               )
@@ -97,6 +97,12 @@ class Post extends Component {
      return string;
     }
 
+    renderTheme(){
+      if (this.props.theme.length > 0){
+        return this.props.theme[0].MainBackground
+      }
+    }
+
     render() {
 
 
@@ -108,25 +114,28 @@ class Post extends Component {
                     style={{
                         flexGrow: 1,
                         justify: 'center',
-                        background: bodyBlue,
+                        background: this.renderTheme(),
                         minHeight:this.state.height
                     }}
                 >
-                    <Grid container style={{ background:'#283593',borderColor:'#474f97',  margin:"0 auto", maxWidth:"63em", padding:25, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'flex-start'} direction={'column'}>
+                    <Grid container style={{ background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto", maxWidth:"63em", padding:25, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'flex-start'} direction={'column'}>
                       <Grid item xs>
-                        <Typography variant={'display1'} style={{color:'white'}}><b>{this.state.postTitle}</b></Typography><br/>
+                        <Typography variant={'display1'} style={{color:this.props.theme[0].PostsTypographyTitle}}><b>{this.state.postTitle}</b></Typography><br/>
                       </Grid>
                       <Grid item xs>
-                        <Typography variant={'subheading'} style={{color:'white'}}>{this.state.postDescription}</Typography>
+                        <Typography variant={'subheading'} style={{color:this.props.theme[0].PostsTypographyDescription}}>{this.state.postDescription}</Typography>
                       </Grid>
                       <Grid item xs style={{paddingTop:20}}>
                         {this.props.users.logged
                           ?
-                          <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+this.findAndReplace(this.findAndReplace(this.state.postTitle,' ','-'),'\'','')+'/edit'}}>
-                           <Button style={{background:"linear-gradient(to right, #ff1744, #F44336 "}}>
-                             <Typography style={{color:'white'}}>Edit</Typography>
-                           </Button>
-                         </Link>
+                          <div>
+                            <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+this.findAndReplace(this.findAndReplace(this.state.postTitle,' ','-'),'\'','')+'/edit'}}>
+                             <Button style={{background:"linear-gradient(to right, #ff1744, #F44336 "}}>
+                               <Typography variant={'caption'} style={{color:'white'}}><b>Edit</b></Typography>
+                             </Button>
+                           </Link>
+                           <Button style={{background:this.props.theme[0].PrimaryLinear, marginLeft:20}}><Typography variant={'caption'} style={{color:'white'}}><b>Run</b></Typography></Button>
+                          </div>
                           :
                           <div></div>
                         }
@@ -135,7 +144,7 @@ class Post extends Component {
                     </Grid>
 
                     {/* Bottom Section */}
-                    <Grid container style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em", paddingBottom:100, }}  alignItems={'flex-start'} justify={'flex-start'} direction={'row'}  >
+                    <Grid container style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', marginTop: 20, maxWidth:"63em", paddingBottom:100 }}  alignItems={'flex-start'} justify={'flex-start'} direction={'row'}  >
                       {this.renderObjectives()}
                     </Grid>
                 </div>
@@ -145,8 +154,8 @@ class Post extends Component {
 }
 
 
-function mapStateToProps({ posts,users }) {
-    return { posts,users };
+function mapStateToProps({ posts,users,theme }) {
+    return { posts,users,theme };
 }
 export default connect(mapStateToProps, {
   getPost,

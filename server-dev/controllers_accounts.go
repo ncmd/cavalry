@@ -12,6 +12,30 @@ import (
 	"google.golang.org/api/option"
 )
 
+// func c_accounts_activate_user_organization_in_firebase(w http.ResponseWriter, r *http.Request){
+// 	w.Header().Set("Access-Control-Allow-Origin", "*")
+// 	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
+// 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+// 	sa := option.WithCredentialsFile("./firestore.json")
+// 	app, err := firebase.NewApp(context.Background(), nil, sa)
+// 	if err != nil {
+// 		log.Fatalln(err)
+// 	}
+// 	if r.Method != "OPTIONS" {
+// 		client, err := app.Auth(context.Background())
+// 		if err != nil {
+// 			log.Fatalln(err)
+// 		}
+//
+// 		var account Account
+// 		decoder := json.NewDecoder(r.Body)
+// 		decoder.Decode(&account)
+// 		if err != nil {
+// 			panic(err)
+// 		}
+// 	}
+// }
+
 func c_accounts_invite_user_create_account_in_firebase(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
@@ -105,9 +129,10 @@ func c_accounts_create_account_in_firebase(userid string, useremail string, orga
 	}
 	if organizationname != "" {
 		client.Collection("accounts").Doc(userid).Set(context.Background(), map[string]interface{}{
-			"accountid":        userid,
-			"emailaddress":     useremail,
-			"organizationname": organizationname,
+			"accountid":          userid,
+			"emailaddress":       useremail,
+			"organizationname":   organizationname,
+			"organizationmember": true,
 		})
 	} else {
 		client.Collection("accounts").Doc(userid).Set(context.Background(), map[string]interface{}{

@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import 'firebase';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
@@ -16,6 +17,7 @@ const config = {
 firebase.initializeApp(config);
 
 if (!firebase.apps.length) {
+  console.log(firebase.apps)
     firebase.initializeApp(config);
 }
 

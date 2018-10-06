@@ -1,6 +1,7 @@
 export const GET_POSTS = 'GET_POSTS';
 export const ADD_POST = 'add_item';
 export const ADD_REQUEST = 'add_request';
+export const ADD_ACTIVITY = 'add_activity';
 export const EDIT_REQUEST_TAGS = 'edit_request_tags';
 export const REMOVE_POST = 'remove_item';
 export const UPDATE_POST = 'update_item';
@@ -52,3 +53,8 @@ export const JOIN_ORGANIZATION = 'join_organization';
 export const SIGNOUT_ORGANIZATION = 'signout_organziation';
 export const LOAD_ORGANIZATION = 'load_organziation';
 export const SET_STRIPE_PAYMENT_STATUS = 'set_stripe_payment_status';
+export const FILTERED_POSTS = 'filtered_posts';
+export const SET_TAGS = 'set_tags';
+export const CREATE_ORGANIZATION = 'create_organization';
+export const SET_ORGANIZATION = 'set_organization';
+export const CHANGE_DEPARTMENT_ORGANIZATION = 'change_department_organization';

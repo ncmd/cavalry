@@ -4,8 +4,6 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 const db = admin.firestore();
 
-
-
 const https = require('https');
 
 exports.redirectHeroku = functions.https.onRequest((req, res) => {
@@ -77,3 +75,48 @@ exports.onRequestWrite = functions.firestore.document('requests/{requestId}').on
 
   return null
 });
+
+
+// when a document 'post/id' is created
+exports.aggregate100Posts = functions.firestore.document('posts/{postId}').onCreate(async (snapshot,context) => {
+        // post = all of snapshot data
+        const post = snapshot.data();
+
+        // aggregate variable = aggregation/posts document
+        const aggRef = db.doc('aggregation/posts');
+
+        // wait for response of aggRef data
+        const aggDoc = await aggRef.get();
+
+        // set this variable to = the 'data' of aggDoc json response
+        const aggData = aggDoc.data();
+
+        // Aggregate New Data
+        const next = {
+            count: aggData.count + 1,
+            last100: [post, ...aggData.last100.slice(0, 99)]
+        };
+        return aggRef.set(next);
+});
+
+// when a document 'post/id' is created
+exports.aggregate100Requests = functions.firestore.document('requests/{requestId}').onCreate(async (snapshot,context) => {
+        // post = all of snapshot data
+        const request = snapshot.data();
+
+        // aggregate variable = aggregation/posts document
+        const aggRef = db.doc('aggregation/requests');
+
+        // wait for response of aggRef data
+        const aggDoc = await aggRef.get();
+
+        // set this variable to = the 'data' of aggDoc json response
+        const aggData = aggDoc.data();
+
+        // Aggregate New Data
+        const next = {
+            count: aggData.count + 1,
+            last100: [request, ...aggData.last100.slice(0, 99)]
+        };
+        return aggRef.set(next);
+    });

@@ -19,6 +19,29 @@ export const testAdd = () => {
   });
 }
 
+export const filterPostByTag = (tagname) => {
+  console.log(tagname)
+  const  postsRef = db.collection("posts");
+
+  let foundPosts = []
+
+  var promise = new Promise(function(resolve, reject) {
+    resolve(postsRef.where("tags", "array-contains", tagname).get().then(function(filterPostResults) {
+      filterPostResults.forEach(function(doc) {
+          // doc.data() is never undefined for query doc snapshots
+          // console.log(doc.id, " => ", doc.data());
+          foundPosts.push(doc.data())
+      });
+      })
+    );})
+
+  return promise.then(() => {
+    console.log("Finished",foundPosts)
+    return foundPosts
+  })
+
+}
+
 export const uploadImageForPost = (uploadfile,pathfilename) => {
 
   // Create a reference to 'posts/accountid/filename.jpg'
@@ -56,33 +79,81 @@ export const getImageUrl = (pathfilename) => {
 
 }
 
-export const addMemberToOrganization = (organizationname,newmember) => {
-  var membersRef = db.collection("organizations").doc(organizationname);
-
-  membersRef.get().then(function(doc) {
+export const loadOrganization = (organizationname) => {
+  console.log(organizationname)
+  const postsRef = db.collection("organizations").doc(organizationname);
+  let foundAccount = []
+  var promise = new Promise(function(resolve, reject) {
+    resolve(postsRef.get().then(function(doc) {
       if (doc.exists) {
-        var prevMember  = doc.data().members.slice()
-        if (prevMember.indexOf(newmember) > -1){
-          console.log("Member Exists!", prevMember.indexOf(newmember))
-        } else {
-          prevMember.push(newmember)
-          console.log("Successfully added Member!")
-          return membersRef.update({
-                members: prevMember
-            }).then(function() {
-              console.log("Document successfully updated!");
-          })
-          .catch(function(error) {
-              // The document probably doesn't exist.
-              console.error("Error updating document: ", error);
-          });
-        }
-
+        console.log(doc.data())
+        return doc.data()
       } else {
           // doc.data() will be undefined in this case
           console.log("No such document!");
+          return []
+    }
+      })
+    );})
+
+  return promise.then((data) => {
+    console.log("Finished",data)
+    return data
+  })
+}
+
+export const changeOrgMemberDepartmentFirestore = (organizationname,thisindex,department) => {
+  var membersRef = db.collection("organizations").doc(organizationname);
+
+  membersRef.get().then(function(doc) {
+      if (doc.exists){
+        var prevMembers = doc.data().organizationmembers
+        prevMembers.forEach(function(element, index, theArray) {
+          if (index === thisindex){
+            console.log("PartIndexArray",element,index)
+            theArray[index] = {
+              accountid: element.accountid,
+              department: department,
+              emailaddress: element.emailaddress,
+              status: element.status,
+            }
+          }
+
+        });
+      console.log("changeOrgMemberDepartmentFirestore PrevMembers:",prevMembers)
+
+      // now set firestore with new document
+      membersRef.update({
+        organizationmembers: prevMembers
+      })
+
       }
-  }).catch(function(error) {
+    }).catch(function(error) {
+      console.log("Error getting document:", error);
+  });
+
+}
+
+export const addMemberToOrganization = (organizationname,emailaddress,accountid,status) => {
+  var membersRef = db.collection("organizations").doc(organizationname);
+
+  membersRef.get().then(function(doc) {
+      if (doc.exists){
+        var prevMembers = doc.data().organizationmembers
+
+      console.log("PrevMembers:",prevMembers)
+      prevMembers.push({
+        accountid:accountid,
+        emailaddress:emailaddress,
+        status:status,
+        department: "any",
+      })
+
+      membersRef.update({
+        organizationmembers: prevMembers
+      })
+      }
+    }).catch(function(error) {
       console.log("Error getting document:", error);
   });
 
@@ -93,7 +164,7 @@ export const getOrganizationMembers = (organizationname) => {
     var membersRef = db.collection("organizations").doc(organizationname);
     membersRef.get().then(function(doc) {
         if (doc.exists) {
-            return doc.data().members
+            return doc.data().organizationmembers
         } else {
             // doc.data() will be undefined in this case
             console.log("No such document!");

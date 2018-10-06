@@ -11,6 +11,7 @@ import {
     editSubmitObjectives,
     editClear,
 } from '../redux/actions';
+import {auth} from '../components/firebase';
 import Grid from "@material-ui/core/Grid";
 import { Form, FormGroup, Input } from 'reactstrap';
 import Typography from '@material-ui/core/Typography';
@@ -20,8 +21,12 @@ import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
 import './edit.css';
 import { googleanalytics } from '../components/analytics';
+import screenfull from 'screenfull';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 
 Quill.register('modules/ImageResize', ImageResize);
+
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const objectiveButton = "linear-gradient(to right, #304ffe, #2962ff)";
@@ -57,6 +62,9 @@ const getListStyle = isDraggingOver => ({
   padding: grid,
   width: '100%',
 });
+function Transition(props) {
+  return <Slide direction="up" {...props} />;
+}
 
 class Edit extends Component {
 
@@ -89,6 +97,7 @@ class Edit extends Component {
             contentPlaceholder:'<font color="#9E9E9E"><b>Tip: List all dependencies of this objective and how to complete it</b>\n<li>Scope</li>\n<li>Reference URLs</li>\n<li>Teams Involved & Contact Information</li>\n<li>Book Titles</li>\n<li>Applications Used</li>\n<li>Pictures & Files</li>\n<li>Costs</li>\n<li>Pros & Cons</li>\n<li>Warnings</li>\n<li>Estimated Time</li>\n<li>Trends</li></font>',
             contentPlaceholderDefault:'<font color="#9E9E9E"><b>Tip: List all dependencies of this objective and how to complete it</b>\n<li>Scope</li>\n<li>Reference URLs</li>\n<li>Teams Involved & Contact Information</li>\n<li>Book Titles</li>\n<li>Applications Used</li>\n<li>Pictures & Files</li>\n<li>Costs</li>\n<li>Pros & Cons</li>\n<li>Warnings</li>\n<li>Estimated Time</li>\n<li>Trends</li></font>',
             contentClicked: false,
+            open:false,
         };
         this.onDragEnd = this.onDragEnd.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -116,6 +125,16 @@ class Edit extends Component {
 
     this.props.editSubmitObjectives(this.state.objectives)
   }
+
+  handleClickOpen = () => {
+      this.setState({ open: true });
+    };
+
+    handleClose = () => {
+      this.setState({ open: false });
+    };
+
+
   handleChangeEditor(value) {
     this.setState({ text: value })
   }
@@ -168,7 +187,7 @@ class Edit extends Component {
           contentClicked:true,
           objectiveDescription: '',
         },() => {
-          console.log(this.state.contentPlaceholder)
+
           this.editor.content.innerHTML = this.state.contentPlaceholder
         })
       }
@@ -179,7 +198,7 @@ class Edit extends Component {
           contentClicked:true,
           objectiveDescription: '',
         },() => {
-          console.log(this.state.contentPlaceholder)
+
           this.editor.content.innerHTML = this.state.contentPlaceholder
         })
       }
@@ -397,9 +416,9 @@ class Edit extends Component {
 
           this.props.editSubmitTags(myArray)
 
-          console.log("Tags are valid!")
+          // console.log("Tags are valid!")
       } else {
-          console.log("Still invalid...")
+          // console.log("Still invalid...")
           this.setState({tagsValid:false})
       }
   }
@@ -408,9 +427,9 @@ class Edit extends Component {
       if (this.state.postTitle !=='') {
           // // console.log("Valid Email Address:",email);
           this.setState({titleValid:true});
-          console.log("Title is valid!")
+          // console.log("Title is valid!")
       } else {
-          console.log("Still invalid...")
+          // console.log("Still invalid...")
           this.setState({titleValid:false})
       }
   }
@@ -418,9 +437,9 @@ class Edit extends Component {
       if (this.state.objectiveTitle !=='') {
           // // console.log("Valid Email Address:",email);
           this.setState({objectiveTitleValid:true});
-          console.log("Objective Title is valid!")
+          // console.log("Objective Title is valid!")
       } else {
-          console.log("Objective Title Still invalid...")
+          // console.log("Objective Title Still invalid...")
           this.setState({objectiveTitleValid:false})
       }
   }
@@ -428,9 +447,9 @@ class Edit extends Component {
       if (this.state.objectiveDescription !=='') {
           // // console.log("Valid Email Address:",email);
           this.setState({objectiveDescriptionValid:true});
-          console.log("Objective Description is valid!")
+          // console.log("Objective Description is valid!")
       } else {
-          console.log("Objective Description Still invalid...")
+          // console.log("Objective Description Still invalid...")
           this.setState({objectiveDescriptionValid:false})
       }
   }
@@ -439,9 +458,9 @@ class Edit extends Component {
       if (this.state.postDescription !=='') {
           // // console.log("Valid Email Address:",email);
           this.setState({descriptionValid:true});
-          console.log("Description is valid!")
+          // console.log("Description is valid!")
       } else {
-          console.log("Still invalid...")
+          // console.log("Still invalid...")
           this.setState({descriptionValid:false})
       }
   }
@@ -463,7 +482,7 @@ class Edit extends Component {
   }
 
     updatePost(id,title,description,tags,objectives){
-        console.log("Clicked Once")
+        // console.log("Clicked Once")
         this.props.updatePost(id,title,description,tags,objectives);
         this.setState({
           postPublished: true
@@ -555,11 +574,10 @@ class Edit extends Component {
         return (
           <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Title & Description</Button>
         )
-
       }
     }
 
-    imageHandler(image, callback){
+    imageHandler = (image, callback) => {
     var range = this.quillRef.getEditor().getSelection();
     var value = prompt('What is the image URL');
     if(value) {
@@ -567,7 +585,86 @@ class Edit extends Component {
         }
     }
 
+  findAndReplace = (string, target, replacement) => {
+   var i = 0, length = string.length;
+   for (i; i < length; i++) {
+    string = string.replace(target, replacement);
+   }
+   return string;
+  }
+
+  selectLocalImage = () => {
+      const input = document.createElement('input');
+      input.setAttribute('type', 'file');
+      input.click();
+
+      // Listen upload local image and save to server
+      input.onchange = () => {
+        const file = input.files[0];
+
+        // file type is only image.
+        if (/^image\//.test(file.type)) {
+          // this.saveToServer(file);
+          console.log("file",file)
+
+          var promise = new Promise(function(resolve, reject) {
+            resolve( auth.uploadImageForPost(file,"/posts/submit/"+file.name));
+          })
+
+          promise.then(() => {
+          console.log("Completed uploadImageForPost")
+            var promise = new Promise(function(resolve, reject) {
+                resolve( auth.getImageUrl("/posts/submit/"+file.name));
+            })
+              promise.then((url) => {
+                console.log("Completed getImageUrl",url)
+                this.insertToEditor(url)
+              })
+
+          })
+        } else {
+          console.warn('You could only upload images.');
+        }
+      };
+    }
+
+
+    insertToEditor = (url) => {
+      // push image url to rich editor.
+      const range = this.quillRef.getEditor().getSelection();
+      // this.quillRef.insertEmbed(range.index, 'image', url);
+      this.quillRef.getEditor().insertEmbed(range.index, 'image', url);
+    }
+
+    // var customButton = document.querySelector('.ql-omega');
+    omegafullscreen = () => {
+      this.setState({open: !this.state.open})
+      // if (screenfull.enabled) {
+      //   console.log('requesting fullscreen');
+      //   screenfull.request();
+      // } else {
+      //   console.log('Screenfull not enabled');
+      // }
+    }
+
+    renderTheme(){
+      if (this.props.theme.length > 0){
+        return this.props.theme[0].MainBackground
+      }
+    }
+
     render() {
+
+      const CustomToolbar = () => (
+        <div id="toolbar" className="fullToolbar">
+          <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="flex-start" direction="row" justify="flex-end" >
+              <Grid item>
+                <Button style={{border:this.props.theme[0].PostsButtonBorder, marginRight:10}} className="ql-bold" onClick={() => this.omegafullscreen()}><Typography variant={'caption'} style={{textTransform:'none', color:'black'}}><b>Exit Fullscreen</b></Typography></Button>
+              </Grid>
+            </Grid>
+
+        </div>
+      )
         return (
             <div>
               <Prompt
@@ -580,16 +677,16 @@ class Edit extends Component {
                     style={{
                         flexGrow: 1,
                         justify: 'center',
-                        background: bodyBlue,
-                        height:this.state.height+(300*this.state.objectives.length)
+                        background: this.renderTheme(),
+                        height:this.state.height+400+(300*this.state.objectives.length)
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{background:'#283593', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="row" justify="center" >
+                    <Grid container style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="row" justify="center" >
                         <Grid item style={{width:'100%'}} xs>
                             <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Runbook Title</b></Typography>
+                                    <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Title</b></Typography>
                                       {this.state.titleValid
                                       ?
                                       <Input valid placeholder="Subject of a problem or process" value={this.state.postTitle} onChange={this.handlePostTitle('postTitle')}/>
@@ -598,7 +695,7 @@ class Edit extends Component {
                                       }
                                 </FormGroup>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Runbook Description</b></Typography>
+                                    <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Description</b></Typography>
 
                                       {this.state.descriptionValid
                                       ?
@@ -608,7 +705,7 @@ class Edit extends Component {
                                       }
                                 </FormGroup>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Runbook Tags</b></Typography>
+                                    <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Tags</b></Typography>
                                       {this.state.tagsValid
                                       ?
                                       <Input valid placeholder={"Separate each tag with ',' (comma"} value={this.state.tags} onChange={this.handlePostTags('tags')}/>
@@ -618,7 +715,7 @@ class Edit extends Component {
                                 </FormGroup>
 
                                   <FormGroup>
-                                      <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Objective Title</b></Typography>
+                                      <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Title</b></Typography>
                                         {this.state.objectiveTitleValid
                                         ?
                                         <Input valid placeholder="Step 1 on how to solve the problem or process" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
@@ -627,18 +724,57 @@ class Edit extends Component {
                                         }
                                   </FormGroup>
                                   <FormGroup>
-                                      <Typography variant="button" style={{color:'white', textTransform:'none'}}><b>Objective Description</b> </Typography>
-                                      <ReactQuill modules={{
+                                    <Grid container style={{background:this.props.theme[0].PostsButtonBackground, flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="row" justify="center" >
+                                        <Grid item style={{width:'100%'}} xs>
+                                          <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Description</b> </Typography>
+                                      </Grid>
+                                      <Grid><Button style={{ border:this.props.theme[0].PostsButtonBorder}} onClick={()=> this.omegafullscreen()}><Typography  variant={'caption'} style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Fullscreen</b></Typography></Button></Grid>
+                                    </Grid>
+
+                                        <ReactQuill ref={(el) => this.quillRef = el} modules={{
+
                                         ImageResize: {
                                               parchment: Quill.import('parchment')
                                           },
-                                            toolbar: [
-                                        ['bold', 'italic', 'underline','strike'],
+
+                                            toolbar: {
+                                                container:  [['bold', 'italic', 'underline', 'blockquote'],
                                         [{'list': 'ordered'}, {'list': 'bullet'}],
-                                        ['link', 'image','video'],
-                                        ['clean']
-                                      ],
-                                    }} style={{background:'white', height:500}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
+                                                    ['link', 'image'],
+                                                    ['clean']],
+
+                                             handlers: {
+                                                 'image': this.selectLocalImage,
+                                            }
+                                        }
+                                      }} style={{background:'white',  border:this.props.theme[0].PostsButtonBorder, height:500}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
+                                        <Dialog
+                                          fullScreen
+                                          open={this.state.open}
+                                          onClose={this.handleClose}
+                                          TransitionComponent={Transition}
+                                          style={{maxWidth:'800px',flexGrow:1, margin:"0 auto"}}
+                                        >
+                                        <CustomToolbar />
+                                      <ReactQuill ref={(el) => this.quillRef = el} modules={{
+
+                                        ImageResize: {
+                                              parchment: Quill.import('parchment')
+                                          },
+
+                                          toolbar: {
+                                              container:  [['bold', 'italic', 'underline', 'blockquote'],
+                                                  [{'list': 'ordered'}, {'list': 'bullet'}],
+                                                  ['link', 'image'],
+                                                  ['clean']],
+
+                                           handlers: {
+                                               'image': this.selectLocalImage,
+
+                                          }
+                                      }
+                                    }} style={{background:'white', height:500 }} className={'quillFullScreen'} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
+                                </Dialog>
                                   </FormGroup>
                                   <FormGroup>
                                         {this.renderAddObjectiveButton()}
@@ -650,7 +786,7 @@ class Edit extends Component {
                                     </Grid>
                                 </Grid>
                     <Grid container alignItems="center" direction="row" justify="space-between" style={{ flexGrow:1, margin:"0 auto", maxWidth:"63em", paddingTop:20}}>
-                      <Typography variant={'button'} style={{color:'white', textTransform:'none'}}>You can sort the objectives by dragging and dropping the objects</Typography>
+                      <Typography variant={'button'} style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}>You can sort the objectives by dragging and dropping the objects</Typography>
                                 {this.renderObjectives()}
                                 </Grid>
                 </div>
@@ -658,7 +794,7 @@ class Edit extends Component {
         );
     }
 }
-function mapStateToProps({ users,posts, path,submit}) {
-    return { users,posts, path, submit };
+function mapStateToProps({ users,posts, account, path,submit,theme}) {
+    return { users,posts, account,path, submit,theme };
 }
 export default connect(mapStateToProps,{updatePost,editSubmitTitle,editSubmitDescription,editSubmitTags,editSubmitObjectives,editClear})(withRouter(Edit));

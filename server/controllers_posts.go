@@ -37,9 +37,9 @@ func controllers_posts_fetch_last_10_posts_from_firestore(w http.ResponseWriter,
 		}
 		m := dsnap.Data()
 
-		last10 := m["last10"]
+		last100 := m["last100"]
 
-		js, err := json.MarshalIndent(last10, "", "    ")
+		js, err := json.MarshalIndent(last100, "", "    ")
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return

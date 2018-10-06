@@ -94,6 +94,7 @@ func main() {
 	http.HandleFunc("/api/post/edit", controllers_posts_edit_post_in_firestore)
 
 	// add request
+	http.HandleFunc("/api/requests", c_requests_fetch_last_10_requests_from_firestore)
 	http.HandleFunc("/api/request/new", controllers_requests_create_request_in_firestore)
 
 	// add email address to firestore for an email list

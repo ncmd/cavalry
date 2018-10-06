@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
 import {
     Collapse,
     Navbar,
     NavbarToggler,
     Nav,
-    NavItem
+    NavItem,
+    Button,
+    Popover, PopoverHeader, PopoverBody,
 } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,7 +17,18 @@ import { googleanalytics } from '../analytics';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount,getAccount,signoutOrganization
+    loginUser,
+    getUser,
+    searchBox
+    ,signoutUser,
+    setPath,
+    sendVerifyIdTokenToBackend
+    ,getStripeCustomerID,
+    signoutAccount,
+    getAccount,
+    signoutOrganization,
+    lightThemeLoad,
+    darkThemeLoad,
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
 import {AlgoliaSearch} from '../../components/algolia/config';
@@ -24,13 +37,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Hidden from '@material-ui/core/Hidden';
 import './header.css';
 import ReactGA from 'react-ga';
+import { AlgoliaPostsHits,AlgoliaConnectedCheckBoxRefinementList } from '../algolia/config';
 
 
 ReactGA.initialize('UA-123951173-1',{
 debug: true,
 });
 
-const headerSignupButton = "linear-gradient(to right, #ff1744, #F44336 ";
+const headerSignupButton = "linear-gradient(to right, #F44336, #ff1744";
 const headerPostButton = "linear-gradient(to right, #f44336, #e91e63 ";
 const headerRequestButton = "linear-gradient(to right, #2979ff, #03a9f4 ";
 const headerBlue = "#1a237e";
@@ -42,6 +56,7 @@ class header extends Component {
         super(props);
         this.state = {
             // Gets Max Height of Window on Load
+            popoverOpen: false,
             width: window.innerWidth,
             height: window.innerHeight,
             isOpen: false,
@@ -50,9 +65,11 @@ class header extends Component {
             path:'',
             open: false,
             anchorEl: null,
-            backgroundTheme:true
+            backgroundTheme:true,
+
         };
         this.toggle = this.toggle.bind(this);
+        this.toggleAlgoliaResults = this.toggleAlgoliaResults.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
@@ -62,11 +79,19 @@ class header extends Component {
         });
     }
 
+    toggleAlgoliaResults() {
+    this.setState({
+      popoverOpen: !this.state.popoverOpen
+    });
+  }
+
+  componentWillMount(){
+
+  }
+
     // Gets Max Height of Window on Load
     componentDidMount() {
-          // if (auth.getJWTVerifyToken() !== null){
-          //   this.props.sendVerifyIdTokenToBackend(auth.getJWTVerifyToken())
-          // }
+
         ReactGA.pageview(window.location.pathname + window.location.search);
         this.props.getUser();
         this.updateWindowDimensions();
@@ -82,41 +107,56 @@ class header extends Component {
         this.setState({ width: window.innerWidth, height: window.innerHeight });
     }
 
+    setLightTheme(){
+      this.props.lightThemeLoad()
+      this.setState({
+        backgroundTheme: !this.state.backgroundTheme
+      })
+    }
+
+    setDarkTheme(){
+      this.props.darkThemeLoad()
+      this.setState({
+        backgroundTheme: !this.state.backgroundTheme
+      })
+    }
+
     renderUserNotLoggedIn(){
 
       return (
         <Nav className="ml-auto" navbar>
-          {/*<NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
+          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             {this.state.backgroundTheme
               ?
-              <Button raised="true" variant="raised" style={{border:'white', height:30, backgroundImage:'radial-gradient(#F44336 0%, #1a237e 0%, #474f97 60%)', textTransform: 'none'}} onClick={() => this.setState({backgroundTheme:!this.state.backgroundTheme})} >
+              <Button style={{height:35,  border: '0px solid #3d63ff',boxShadow:'none',  background:'transparent', textTransform: 'none'}} onClick={() => this.setDarkTheme()} >
                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                      <span aria-label="emoji" role="img">🌙<ArrowRight/>☀️</span>
+                      <span aria-label="emoji" role="img">🌙</span>
                   </Typography>
               </Button>
               :
-              <Button raised="true" variant="raised" style={{border:'white', height:30, background:'radial-gradient(#F44336 0%, #ff1744 0%, #F44336 60%)', textTransform: 'none'}} onClick={() => this.setState({backgroundTheme:!this.state.backgroundTheme})}  >
+              <Button style={{height:35,  border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                      <span aria-label="emoji" role="img">☀️<ArrowRight/>🌙</span>
+                      <span aria-label="emoji" role="img">☀️</span>
                   </Typography>
               </Button>
             }
-          </NavItem> */}
+          </NavItem>
 
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
-              <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
-                  <Button raised="true" variant="raised" style={{height:30, background:'#474f97', textTransform: 'none'}}>
-                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                          <b>Log in</b>
+                <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
+                  <Button size="sm" style={{ height:35, background:'transparent', width:75, border: '0px solid #3d63ff',  boxShadow:'none'}}>
+                      <Typography style={{color:"#3d63ff", textTransform:'none'}}  variant={"caption"} >
+                          <b>login</b>
                       </Typography>
                   </Button>
-              </Link>
+                </Link>
+
           </NavItem>
           <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             <Link to={{pathname:'/signup'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignupbutton()}>
-                  <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
+                  <Button raised="true" variant="raised" style={{border:'white', height:35, width:75, background:'linear-gradient(#5533ff, #3d63ff)', textTransform: 'none'}} >
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                          <b>Sign up</b>
+                          <b>signup</b>
                       </Typography>
                   </Button>
               </Link>
@@ -161,10 +201,35 @@ class header extends Component {
       const { anchorEl } = this.state;
       return (
         <Nav className="ml-auto" navbar>
+          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
+            {this.state.backgroundTheme
+              ?
+              <Button style={{height:35,  border: '0px solid #3d63ff',boxShadow:'none',  background:'transparent', textTransform: 'none'}} onClick={() => this.setDarkTheme()} >
+                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                      <span aria-label="emoji" role="img">🌙</span>
+                  </Typography>
+              </Button>
+              :
+              <Button style={{height:35,  border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
+                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                      <span aria-label="emoji" role="img">☀️</span>
+                  </Typography>
+              </Button>
+            }
+          </NavItem>
+          <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
+              <Link to={{pathname:'/activity'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedactivitybutton()}>
+                <Button size="sm" style={{ height:35, background:'transparent', marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
+                    <Typography style={{color:"#3d63ff", textTransform:'none'}}  variant={"caption"} >
+                        <b>Activity</b>
+                      </Typography>
+                  </Button>
+              </Link>
+          </NavItem>
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
               <Link to={{pathname:'/request'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedrequestbutton()}>
-                  <Button style={{ height:30, background:headerRequestButton, marginRight:10, textTransform: 'none'}}  >
-                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                <Button size="sm" style={{ height:35, background:'transparent', marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
+                    <Typography style={{color:"#3d63ff", textTransform:'none'}}  variant={"caption"} >
                         <b>Request</b>
                       </Typography>
                   </Button>
@@ -172,15 +237,15 @@ class header extends Component {
           </NavItem>
         <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             <Link to={{pathname:'/submit'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedpostbutton()}>
-                <Button style={{ height:30, background:headerPostButton, marginRight:10, textTransform: 'none'}}  >
-                    <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+              <Button size="sm" style={{ height:35, background:'transparent',marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
+                  <Typography style={{color:"#3d63ff", textTransform:'none'}}  variant={"caption"} >
                       <b>Post</b>
                     </Typography>
                 </Button>
             </Link>
         </NavItem>
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
-                <Button raised="true" variant="raised" style={{height:30, background:accountButton, color:'white',textTransform: 'none'}} onClick={this.handleClick}>
+            <Button raised="true" variant="raised" style={{border:'white', height:35,background:'linear-gradient(#5533ff, #3d63ff)', textTransform: 'none'}} onClick={this.handleClick}>
                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                   <b>Account</b>
                   </Typography>
@@ -236,6 +301,14 @@ class header extends Component {
       ReactGA.event({label:'Clicked on Cavalry Signup', action:'Button Click', category:'User Clicks'});
     };
 
+    renderTheme(){
+      if (this.props.theme.length > 0){
+        return this.props.theme[0].MainBackground
+      } else {
+        this.props.lightThemeLoad()
+      }
+    }
+
     render() {
 
         return (
@@ -245,14 +318,14 @@ class header extends Component {
                         flexGrow: 1,
                         marginTop: 0,
                         justify: 'center',
-                        background:headerBlue,
+                        background:this.renderTheme(),
                     }}
                 >
-                    <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',paddingTop:10,paddingLeft:1,paddingRight:1}} color={headerBlue} dark expand="sm">
-                      <Grid container style={{flexGrow:1, margin:"0 auto"}} direction="row" justify="space-between" alignItems="flex-start" spacing={24} >
+                    <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',paddingTop:10,paddingLeft:1,paddingRight:1, paddingBottom:0}} color={headerBlue} dark expand="sm">
+                      <Grid container style={{flexGrow:1, margin:"0 auto"}} direction="row" justify="space-between" alignItems="stretch" >
                         <Grid item xs>
                           <Link to={{pathname:'/'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedhomebutton()}>
-                              <Button raised="true" variant="raised" style={{border:'white', height:30, background:headerSignupButton, textTransform: 'none'}} >
+                              <Button raised="true" variant="raised" style={{border:'white', height:35,background:'linear-gradient(#5533ff, #3d63ff)', textTransform: 'none'}} >
                                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                                     <b>Cavalry</b>
                                   </Typography>
@@ -261,7 +334,9 @@ class header extends Component {
                         </Grid>
                         <Hidden smDown>
                         <Grid item xs={6}>
-                          {this.renderSearch()}
+                          <div style={{background:'transparent', paddingTop:10, paddingBottom:10}}>
+                            {this.renderSearch()}
+                          </div>
                         </Grid>
                       </Hidden>
                         <Grid item xs>
@@ -283,8 +358,8 @@ class header extends Component {
     }
 }
 
-function mapStateToProps({ posts,users,search,path,account,organization }) {
-    return { posts,users,search,path,account,organization };
+function mapStateToProps({ posts,users,search,path,account,organization,theme }) {
+    return { posts,users,search,path,account,organization,theme };
 }
 
-export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount,getAccount,signoutOrganization})(withRouter(header));
+export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount,getAccount,signoutOrganization,lightThemeLoad,darkThemeLoad})(withRouter(header));

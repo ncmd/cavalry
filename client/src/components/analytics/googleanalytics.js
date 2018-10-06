@@ -141,6 +141,16 @@ export const Cavalry_Webapp_Header_Header_Userclickedrequestbutton = () => {
   );
 };
 
+export const Cavalry_Webapp_Header_Header_Userclickedactivitybutton = () => {
+  ReactGA.event(
+      {
+      label: 'activity button',
+      action:'user clicked activity button',
+      category:'header'
+    }
+  );
+};
+
 export const Cavalry_Webapp_Header_Header_Userclickedmanagebutton = () => {
   ReactGA.event(
       {

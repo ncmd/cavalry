@@ -29,6 +29,8 @@ type Organization struct {
 	Name           string `json:"organizationname"`
 	OrganizationId string `json:"organizationid"`
 	AccountId      string `json:"accountid"`
+	Email          string `json:"emailaddress"`
+	Department     string `json:"department"`
 }
 
 type Customer struct {

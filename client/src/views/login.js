@@ -154,7 +154,7 @@ class Login extends Component {
 
     renderButton(){
       return (
-        <Button raised="true" variant="raised" style={{height:40, width:'100%', background:'#6772e5', marginTop:40}}  onClick={() =>this.handleLogin(this.state.email,this.state.password)}>Login</Button>
+        <Button style={{height:40, width:'100%', background:this.props.theme[0].Secondary, marginTop:40, textTransform:'none'}}  onClick={() =>this.handleLogin(this.state.email,this.state.password)}><Typography variant={'caption'} style={{ textTransform:'none', color:'white'}}><b>login</b></Typography></Button>
       )
 
     }
@@ -218,13 +218,13 @@ class Login extends Component {
                     style={{
                         flexGrow: 1,
                         justify: 'center',
-                        background: bodyBlue,
+                        background: this.props.theme[0].MainBackground,
                         height:this.state.height
                     }}
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
                         <Grid style={{background:'transparent'}} container direction={'row'} justify={'center'} alignItems={'center'}>
-                            <Paper square={false} style={{background:'#283593', height:425,width:428,maxWidth:"95%", marginTop:20}}>
+                            <Paper square={false} style={{background:this.props.theme[0].PrimaryLinear, height:425,width:428,maxWidth:"95%", marginTop:20}}>
                                 <Grid item style={{margin:20, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
                                     <Typography variant="headline" style={{color:'white', marginTop:40}}>
                                         <b>Log in to your account</b>
@@ -258,8 +258,8 @@ class Login extends Component {
     }
 }
 
-function mapStateToProps({ users,account }) {
-    return { users, account };
+function mapStateToProps({ users,account,theme }) {
+    return { users, account,theme };
 }
 
 export default connect(mapStateToProps,{loginUser, getAccount})(withRouter(Login));

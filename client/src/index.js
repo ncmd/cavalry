@@ -10,6 +10,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import epicMiddleware from './redux/epics/rootEpic'
 
 const persistConfig = {
   key: 'root',
@@ -17,7 +18,7 @@ const persistConfig = {
 }
 const persistedReducer = persistReducer(persistConfig, reducers)
 
-const store = createStore(persistedReducer,  composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(persistedReducer,  composeWithDevTools(applyMiddleware(thunk,epicMiddleware)));
 
 const persistor = persistStore(store)
 
