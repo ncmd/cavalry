@@ -39,8 +39,7 @@ const styles = theme => ({
     overflowX: 'auto',
   },
   table: {
-    minWidth: 700,
-    minHeight: 400,
+    
   },
 });
 
@@ -483,7 +482,7 @@ class Team extends Component {
             <Grid container style={{ background:this.props.theme[0].PostsButtonBackground , border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:30, marginTop:5}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
 
               <Grid item>
-                <Paper className={classes.root}>
+
                   <Table className={classes.table}>
                     <TableHead>
                       <TableRow>
@@ -528,7 +527,7 @@ class Team extends Component {
                       })}
                     </TableBody>
                   </Table>
-                </Paper>
+
               </Grid>
             </Grid>
             <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >

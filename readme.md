@@ -198,8 +198,19 @@ PROJECT PATH
 - C:\Users\f/.ngrok2/ngrok.yml
 - ./ngrok http 80
 
+# To Do ; Security
+- Fix dangerouslySetInnerHTML
+- rate limiting
+- confirm pages with JWT
+- session timeout
+- reset password
+- 2 factor
+
+
 # To Do
-- SETUP FKING TEAM MEMBERS!!!!
+- Watch Runbook feature (see real-time progress)
+- Identify leaders
+- Identify member skills and project owners
 - enterprise grade - https://www.enterpriseready.io/#
 - github style contributions
 - cancel subscription - done

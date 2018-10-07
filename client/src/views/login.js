@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
-    loginUser,getAccount
+    loginUser,getAccount,loadOrganizationAll
 } from '../redux/actions';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -170,6 +170,7 @@ class Login extends Component {
             googleanalytics.Cavalry_Webapp_Login_Account_Usersignedin(email)
               this.props.loginUser(response.user.uid,email)
               this.props.getAccount(response.user.uid).then(() => {
+                this.props.loadOrganizationAll(this.props.account.organizationname)
                 if (this.props.account.stripeSubscriptionPlan === "1month" || this.props.account.stripeSubscriptionPlan === "12months" || this.props.account.stripeSubscriptionPlan === "beta" ){
                   this.props.history.push('/')
                 } else {
@@ -262,4 +263,4 @@ function mapStateToProps({ users,account,theme }) {
     return { users, account,theme };
 }
 
-export default connect(mapStateToProps,{loginUser, getAccount})(withRouter(Login));
+export default connect(mapStateToProps,{loginUser, getAccount,loadOrganizationAll})(withRouter(Login));

@@ -39,6 +39,10 @@ func c_slack_invite_new_user_to_slack_team_and_channel(emailaddress string) {
 
 }
 
+func c_slack_sent_message_to_user_with_emailaddress(emailaddress string) {
+
+}
+
 // get slack userid from email address
 // message userid
 // include action buttons completed/yes/note

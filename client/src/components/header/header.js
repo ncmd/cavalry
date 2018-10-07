@@ -92,6 +92,18 @@ class header extends Component {
     // Gets Max Height of Window on Load
     componentDidMount() {
 
+      if(this.props.theme[0].theme === "dark"){
+        this.setState({
+          backgroundTheme: false
+        })
+      }
+
+      if(this.props.theme[0].theme === "light"){
+        this.setState({
+          backgroundTheme: true
+        })
+      }
+
         ReactGA.pageview(window.location.pathname + window.location.search);
         this.props.getUser();
         this.updateWindowDimensions();
@@ -186,11 +198,6 @@ class header extends Component {
      this.props.history.push('/manage')
   }
 
-  handleClickTeam= () => {
-     googleanalytics.Cavalry_Webapp_Header_Header_Userclickedteambutton()
-     this.props.history.push('/team')
-  }
-
   handleClose = () => {
     this.setState({ anchorEl: null });
   };
@@ -244,6 +251,15 @@ class header extends Component {
                 </Button>
             </Link>
         </NavItem>
+        <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
+            <Link to={{pathname:'/team'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedteambutton()}>
+              <Button size="sm" style={{ height:35, background:'transparent',marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
+                  <Typography style={{color:"#3d63ff", textTransform:'none'}}  variant={"caption"} >
+                      <b>Team</b>
+                    </Typography>
+                </Button>
+            </Link>
+        </NavItem>
           <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             <Button raised="true" variant="raised" style={{border:'white', height:35,background:'linear-gradient(#5533ff, #3d63ff)', textTransform: 'none'}} onClick={this.handleClick}>
                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
@@ -256,11 +272,6 @@ class header extends Component {
                    open={Boolean(anchorEl)}
                    onClose={this.handleClose}
                 >
-                    <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.handleClickTeam()}>
-                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                      <b>Team</b>
-                      </Typography>
-                    </MenuItem>
                     <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.handleClickManage()}>
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                       <b>Manage</b>
@@ -321,24 +332,24 @@ class header extends Component {
                         background:this.renderTheme(),
                     }}
                 >
-                    <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',paddingTop:10,paddingLeft:1,paddingRight:1, paddingBottom:0}} color={headerBlue} dark expand="sm">
+                    <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',paddingTop:10,paddingLeft:1,paddingRight:1, paddingBottom:10}} color={headerBlue} dark expand="sm">
                       <Grid container style={{flexGrow:1, margin:"0 auto"}} direction="row" justify="space-between" alignItems="stretch" >
                         <Grid item xs>
                           <Link to={{pathname:'/'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedhomebutton()}>
-                              <Button raised="true" variant="raised" style={{border:'white', height:35,background:'linear-gradient(#5533ff, #3d63ff)', textTransform: 'none'}} >
+                              <Button raised="true" variant="raised" style={{border:'white', height:35,background:'linear-gradient(#5533ff, #3d63ff)', textTransform: 'none', marginLeft:10}} >
                                   <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                                     <b>Cavalry</b>
                                   </Typography>
                               </Button>
                           </Link>
                         </Grid>
-                        <Hidden smDown>
+                        {/*<Hidden smDown>
                         <Grid item xs={6}>
                           <div style={{background:'transparent', paddingTop:10, paddingBottom:10}}>
                             {this.renderSearch()}
                           </div>
                         </Grid>
-                      </Hidden>
+                      </Hidden>*/}
                         <Grid item xs>
                           <NavbarToggler onClick={this.toggle} style={{}}/>
                           <Collapse isOpen={this.state.isOpen} navbar>

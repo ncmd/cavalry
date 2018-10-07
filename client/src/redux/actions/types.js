@@ -58,3 +58,4 @@ export const SET_TAGS = 'set_tags';
 export const CREATE_ORGANIZATION = 'create_organization';
 export const SET_ORGANIZATION = 'set_organization';
 export const CHANGE_DEPARTMENT_ORGANIZATION = 'change_department_organization';
+export const EDIT_SUBMIT_DEPARTMENT = 'edit_submit_department';

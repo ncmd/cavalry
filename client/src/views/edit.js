@@ -9,6 +9,7 @@ import {
     editSubmitDescription,
     editSubmitTags,
     editSubmitObjectives,
+    editSubmitDepartment,
     editClear,
 } from '../redux/actions';
 import {auth} from '../components/firebase';
@@ -24,6 +25,7 @@ import { googleanalytics } from '../components/analytics';
 import screenfull from 'screenfull';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
+import Select from 'react-select';
 
 Quill.register('modules/ImageResize', ImageResize);
 
@@ -49,6 +51,8 @@ const getItemStyle = (isDragging, draggableStyle) => ({
   padding: grid * 2,
   margin: `0 0 ${grid}px 0`,
   width: '100%',
+  borderRadius: '5px 5px 5px 5px',
+  border:'1px solid #ced4da',
 
   // change background colour if dragging
   background: isDragging ? 'lightgreen' : 'white',
@@ -61,7 +65,11 @@ const getListStyle = isDraggingOver => ({
   background: isDraggingOver ? 'lightblue' : 'lightgrey',
   padding: grid,
   width: '100%',
+  borderRadius: '5px 5px 5px 5px',
+  border:'1px solid #ced4da',
 });
+
+
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
@@ -92,12 +100,15 @@ class Edit extends Component {
             objectiveTitle: '',
             objectiveDescription: '',
             objectiveIndex:0,
+            objectiveDepartment: 'any',
             expandObjectiveState: false,
             status: null,
             contentPlaceholder:'<font color="#9E9E9E"><b>Tip: List all dependencies of this objective and how to complete it</b>\n<li>Scope</li>\n<li>Reference URLs</li>\n<li>Teams Involved & Contact Information</li>\n<li>Book Titles</li>\n<li>Applications Used</li>\n<li>Pictures & Files</li>\n<li>Costs</li>\n<li>Pros & Cons</li>\n<li>Warnings</li>\n<li>Estimated Time</li>\n<li>Trends</li></font>',
             contentPlaceholderDefault:'<font color="#9E9E9E"><b>Tip: List all dependencies of this objective and how to complete it</b>\n<li>Scope</li>\n<li>Reference URLs</li>\n<li>Teams Involved & Contact Information</li>\n<li>Book Titles</li>\n<li>Applications Used</li>\n<li>Pictures & Files</li>\n<li>Costs</li>\n<li>Pros & Cons</li>\n<li>Warnings</li>\n<li>Estimated Time</li>\n<li>Trends</li></font>',
             contentClicked: false,
             open:false,
+            selectValueOptions:[{value:"any",label:"any"},{value:"legal",label:"legal"},{value:"security",label:"security"}],
+            selectValue:[],
         };
         this.onDragEnd = this.onDragEnd.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -348,7 +359,7 @@ class Edit extends Component {
   }
 
   // Adding Objective to New Runbook
-  addObjective(objectiveTitle, objectiveDescription, objectiveIndex) {
+  addObjective(objectiveTitle, objectiveDescription, objectiveIndex,objectiveDepartment) {
     // Get Previous Objective State which should start as an empty array '[]'
     googleanalytics.Cavalry_Webapp_Submit_Runbook_Runbookobjectivecreated(objectiveTitle)
     const prevObjectives = this.state.objectives;
@@ -360,6 +371,7 @@ class Edit extends Component {
       title: objectiveTitle,
       description:  objectiveDescription,
       index: objectiveIndex,
+      department: objectiveDepartment,
     });
 
     // Set the State of current page of objectives
@@ -530,15 +542,25 @@ class Edit extends Component {
                         provided.draggableProps.style
                       )}
                     >
-                        <Typography style={{color:'black'}}>Objective {index+1}</Typography>
-                        <Typography style={{color:'black'}}>Title: {obj.title}</Typography>
-                        Description: <div dangerouslySetInnerHTML={{__html: obj.description}} />
+                    <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyTitle}}>
+                      <Typography variant={'body2'} style={{background:this.props.theme[0].PrimaryLinear, width:26,height:26, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>{index+1}</Typography><b>{obj.title}</b>
+                    </Typography>
+                      <Typography variant={'body2'}>
+                        <div dangerouslySetInnerHTML={{__html: obj.description}} />
+                        </Typography>
+                      <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" >
+                          <Grid key={obj.department+Math.random()+(Math.random())} item >
+                            <span style={{background:'#7795f8',height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
+                              <Typography variant={'caption'} style={{color:'white'}}><font size="1"><b>{obj.department}</b></font></Typography>
+                            </span>
+                        </Grid>
+                        </Grid>
                       <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" >
                         <Grid item >
-                          <Button style={{background:submitButton,color:'white'}} onClick={() => this.removeObjective(index)}>Remove</Button>
+                          <Button style={{background:submitButton}} onClick={() => this.removeObjective(index)}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Remove</b></Typography></Button>
                         </Grid>
                         <Grid item >
-                          <Button style={{background:submitButton,color:'white'}} onClick={() => this.editObjective(index)}>Edit</Button>
+                          <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.editObjective(index)}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Edit</b></Typography></Button>
                         </Grid>
                         </Grid>
                     </div>
@@ -556,7 +578,7 @@ class Edit extends Component {
     renderAddObjectiveButton(){
       if (this.state.objectiveTitleValid === true && this.state.objectiveDescriptionValid === true && this.state.objectiveDescription.length !== 0 && this.state.objectiveTitle.length !== 0){
         return (
-          <Button style={{ height:30, background:objectiveButton, textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex)} >Add Objective</Button>
+          <Button style={{ height:30, background:objectiveButton, textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex,this.state.objectiveDepartment)} >Add Objective</Button>
         )
       } else if (this.state.objectiveTitleValid === false && this.state.objectiveDescriptionValid === false){
         return (
@@ -636,9 +658,10 @@ class Edit extends Component {
       this.quillRef.getEditor().insertEmbed(range.index, 'image', url);
     }
 
-    // var customButton = document.querySelector('.ql-omega');
+    // // var customButton = document.querySelector('.ql-omega');
     omegafullscreen = () => {
       this.setState({open: !this.state.open})
+      // this.quillRef.getEditor().format('custom', 'test');
       // if (screenfull.enabled) {
       //   console.log('requesting fullscreen');
       //   screenfull.request();
@@ -652,6 +675,33 @@ class Edit extends Component {
         return this.props.theme[0].MainBackground
       }
     }
+
+    renderSelect(){
+        return (
+          <Select
+            defaultValue={this.state.selectValueOptions[0]}
+            name="colors"
+            options={this.state.selectValueOptions}
+            className="basic-single"
+            isClearable={false}
+            classNamePrefix="select"
+            onChange={this.handleChangeSelect('objectiveDepartment')}
+          />
+        )
+      }
+
+
+    handleChangeSelect = objectiveDepartment => (event) => {
+      this.setState({
+          [objectiveDepartment]: event.value,
+      }, () => {
+        console.log("Selected:",event.value)
+        console.log(this.state.objectiveDepartment)
+        this.props.editSubmitDepartment(event.value)
+      })
+
+   }
+
 
     render() {
 
@@ -682,7 +732,7 @@ class Edit extends Component {
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="row" justify="center" >
+                    <Grid container style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius,flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="row" justify="center" >
                         <Grid item style={{width:'100%'}} xs>
                             <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                                 <FormGroup>
@@ -724,13 +774,16 @@ class Edit extends Component {
                                         }
                                   </FormGroup>
                                   <FormGroup>
+                                      <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Assigned Department</b></Typography>
+                                        {this.renderSelect()}
+                                  </FormGroup>
+                                  <FormGroup>
                                     <Grid container style={{background:this.props.theme[0].PostsButtonBackground, flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="row" justify="center" >
                                         <Grid item style={{width:'100%'}} xs>
                                           <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Description</b> </Typography>
                                       </Grid>
                                       <Grid><Button style={{ border:this.props.theme[0].PostsButtonBorder}} onClick={()=> this.omegafullscreen()}><Typography  variant={'caption'} style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Fullscreen</b></Typography></Button></Grid>
                                     </Grid>
-
                                         <ReactQuill ref={(el) => this.quillRef = el} modules={{
 
                                         ImageResize: {
@@ -761,7 +814,6 @@ class Edit extends Component {
                                         ImageResize: {
                                               parchment: Quill.import('parchment')
                                           },
-
                                           toolbar: {
                                               container:  [['bold', 'italic', 'underline', 'blockquote'],
                                                   [{'list': 'ordered'}, {'list': 'bullet'}],
@@ -770,7 +822,6 @@ class Edit extends Component {
 
                                            handlers: {
                                                'image': this.selectLocalImage,
-
                                           }
                                       }
                                     }} style={{background:'white', height:500 }} className={'quillFullScreen'} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
@@ -797,4 +848,4 @@ class Edit extends Component {
 function mapStateToProps({ users,posts, account, path,submit,theme}) {
     return { users,posts, account,path, submit,theme };
 }
-export default connect(mapStateToProps,{updatePost,editSubmitTitle,editSubmitDescription,editSubmitTags,editSubmitObjectives,editClear})(withRouter(Edit));
+export default connect(mapStateToProps,{updatePost,editSubmitTitle,editSubmitDescription,editSubmitTags,editSubmitObjectives,editSubmitDepartment,editClear})(withRouter(Edit));

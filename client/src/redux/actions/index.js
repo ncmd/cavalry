@@ -50,6 +50,7 @@ import {
     FILTERED_POSTS,
     SET_TAGS,
     CHANGE_DEPARTMENT_ORGANIZATION,
+    EDIT_SUBMIT_DEPARTMENT,
 } from './types';
 
 const keys = require('../../secrets/keys');
@@ -61,6 +62,7 @@ export const lightThemeLoad = () => dispatch => {
     PrimaryDark:'#5533ff',
     PrimaryLight:'#3d63ff',
     PrimaryLinear:'linear-gradient(#5533ff, #3d63ff)',
+    SecondaryLinear:'linear-gradient(#ff1744, #F44336)',
     BorderRadius:'5px 5px 5px 5px',
     Secondary:'#6772e5',
     MainBackground:'#e3e8ee',
@@ -84,13 +86,14 @@ export const darkThemeLoad = () => dispatch => {
     PrimaryDark:'#5533ff',
     PrimaryLight:'#3d63ff',
     PrimaryLinear:'linear-gradient(#5533ff, #3d63ff)',
+    SecondaryLinear:'linear-gradient(#ff1744, #F44336)',
     BorderRadius:'5px 5px 5px 5px',
     Secondary:'#6772e5',
     MainBackground:'#030303',
     HeaderBackground: '#030303',
     PostsButtonBackground:"#1A1A1B",
     PostsButtonBorder:"1px solid #ced4da",
-    PostsTypographyTitle:"#6772e5",
+    PostsTypographyTitle:"white",
     PostsTypographyDescription:"#E0E0E0",
     PostsTypographyObjectives:"#E0E0E0",
     PostsSectionBorder:'2px solid #424242',
@@ -100,8 +103,6 @@ export const darkThemeLoad = () => dispatch => {
   }]
   dispatch({ type: SET_THEME, payload: theme})
 }
-
-
 
 
 export const filterPostByTagAction = (filtertagname) => async dispatch => {
@@ -152,6 +153,10 @@ export const editSubmitObjectives = (objectives) => dispatch => {
     const data = {objectives}
     dispatch({ type: EDIT_SUBMIT_OBJECTIVES, payload: data });
 };
+export const editSubmitDepartment = (department) => dispatch => {
+    const data = {department}
+    dispatch({ type: EDIT_SUBMIT_DEPARTMENT, payload: data })
+}
 export const editClear = () => dispatch => {
     dispatch({ type: EDIT_CLEAR });
 };
