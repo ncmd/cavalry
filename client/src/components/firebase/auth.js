@@ -20,34 +20,34 @@ export const testAdd = () => {
 }
 
 export const assignActivityToOrganizationFirestore = (accountid) => {
-  var membersRef = db.collection("organizations").doc(organizationname);
-
-  membersRef.get().then(function(doc) {
-      if (doc.exists){
-        var prevActivity = doc.data().organizatioactivity
-        prevActivity.forEach(function(element, index, theArray) {
-          if (index === thisindex){
-            console.log("PartIndexArray",element,index)
-            theArray[index] = {
-              accountid: element.accountid,
-              department: department,
-              emailaddress: element.emailaddress,
-              status: element.status,
-            }
-          }
-
-        });
-      console.log("changeOrgMemberDepartmentFirestore PrevMembers:",prevActivity)
-
-      // now set firestore with new document
-      membersRef.update({
-        organizatioactivity: prevActivity
-      })
-
-      }
-    }).catch(function(error) {
-      console.log("Error getting document:", error);
-  });
+  // var membersRef = db.collection("organizations").doc(organizationname);
+//
+  // membersRef.get().then(function(doc) {
+  //     if (doc.exists){
+  //       var prevActivity = doc.data().organizatioactivity
+  //       prevActivity.forEach(function(element, index, theArray) {
+  //         if (index === thisindex){
+  //           console.log("PartIndexArray",element,index)
+  //           theArray[index] = {
+  //             accountid: element.accountid,
+  //             department: department,
+  //             emailaddress: element.emailaddress,
+  //             status: element.status,
+  //           }
+  //         }
+  //
+  //       });
+  //     console.log("changeOrgMemberDepartmentFirestore PrevMembers:",prevActivity)
+  //
+  //     // now set firestore with new document
+  //     membersRef.update({
+  //       organizatioactivity: prevActivity
+  //     })
+  //
+  //     }
+  //   }).catch(function(error) {
+  //     console.log("Error getting document:", error);
+  // });
 }
 
 export const filterPostByTag = (tagname) => {
