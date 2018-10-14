@@ -15,7 +15,7 @@ import {
 } from 'react-instantsearch-dom';
 // import Grid from '@material-ui/core/Grid';
 // import Hidden from '@material-ui/core/Hidden';
-import { Input,InputGroup, InputGroupText, InputGroupAddon ,Form, FormGroup } from 'reactstrap';
+import { Input,InputGroup, InputGroupText, InputGroupAddon } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import Truncate from 'react-truncate';

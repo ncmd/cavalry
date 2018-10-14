@@ -4,6 +4,9 @@ type PingPong struct {
 	Message string
 }
 
+type Activity struct {
+}
+
 type FailedToken struct {
 	Message string
 }
@@ -58,6 +61,18 @@ type Account struct {
 	StripeSubscriptionId   string `json:"stripeSubscriptionId"`
 	StripeCustomerId       string `json:"stripeCustomerId"`
 	StripeSubscriptionPlan string `json:"stripeSubscriptionPlan"`
+	Activity               struct {
+		Runbookid          string   `json:"runbookid"`
+		Runbooktitle       string   `json:"runbooktitle"`
+		Runbookdescription string   `json:"runbookdescription"`
+		Runbookstatus      string   `json:"runbookstatus"`
+		Runbooktags        []string `json:"runbooktags"`
+		Runbookobjectives  struct {
+			Objectivetitle       string `json:"objectivetitle"`
+			Objectivedescription string `json:"objectivedescription"`
+			Objectivestatus      string `json:"objectivestatus"`
+		} `json:"runbookobjectives"`
+	} `json:"activity"`
 }
 
 type Response struct {

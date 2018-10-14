@@ -7,34 +7,57 @@ import (
 	"log"
 	"net/http"
 
+	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
 	"firebase.google.com/go/auth"
 	"google.golang.org/api/option"
 )
 
-// func c_accounts_activate_user_organization_in_firebase(w http.ResponseWriter, r *http.Request){
-// 	w.Header().Set("Access-Control-Allow-Origin", "*")
-// 	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
-// 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-// 	sa := option.WithCredentialsFile("./firestore.json")
-// 	app, err := firebase.NewApp(context.Background(), nil, sa)
-// 	if err != nil {
-// 		log.Fatalln(err)
-// 	}
-// 	if r.Method != "OPTIONS" {
-// 		client, err := app.Auth(context.Background())
-// 		if err != nil {
-// 			log.Fatalln(err)
-// 		}
-//
-// 		var account Account
-// 		decoder := json.NewDecoder(r.Body)
-// 		decoder.Decode(&account)
-// 		if err != nil {
-// 			panic(err)
-// 		}
-// 	}
-// }
+func c_accounts_add_activity_objectives_to_user_in_firestore(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	sa := option.WithCredentialsFile("./firestore.json")
+	app, err := firebase.NewApp(context.Background(), nil, sa)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	client, err := app.Firestore(context.Background())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer client.Close()
+
+	if r.Method != "OPTIONS" {
+
+		var account Account
+		decoder := json.NewDecoder(r.Body)
+		decoder.Decode(&account)
+		if err != nil {
+			panic(err)
+		}
+
+		fmt.Println("Updating Activity!")
+		_, err = client.Collection("accounts").Doc(account.ID).Set(context.Background(), map[string]interface{}{
+			"activity": []interface{}{
+				map[string]interface{}{
+					"runbookid":     account.Activity.Runbookid,
+					"runbooktitle":  account.Activity.Runbooktitle,
+					"runbookstatus": account.Activity.Runbookstatus,
+					"runbookobjectives": []interface{}{
+						map[string]interface{}{
+							"objectivetitle": account.Activity.Runbookobjectives.Objectivetitle,
+						},
+					},
+				},
+			},
+		}, firestore.MergeAll)
+		if err != nil {
+			log.Fatalln(err)
+		}
+
+	}
+}
 
 func c_accounts_invite_user_create_account_in_firebase(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -133,6 +156,7 @@ func c_accounts_create_account_in_firebase(userid string, useremail string, orga
 			"emailaddress":       useremail,
 			"organizationname":   organizationname,
 			"organizationmember": true,
+			"activity":           []interface{}{},
 		})
 	} else {
 		client.Collection("accounts").Doc(userid).Set(context.Background(), map[string]interface{}{
@@ -140,6 +164,7 @@ func c_accounts_create_account_in_firebase(userid string, useremail string, orga
 			"emailaddress":       useremail,
 			"organizationname":   "",
 			"organizationmember": false,
+			"activity":           []interface{}{},
 		})
 	}
 

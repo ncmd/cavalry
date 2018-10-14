@@ -22,7 +22,6 @@ import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
 import './submit.css';
 import { googleanalytics } from '../components/analytics';
-import screenfull from 'screenfull';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import Select from 'react-select';

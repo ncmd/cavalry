@@ -12,18 +12,18 @@ import {
     darkThemeLoad,
 } from '../redux/actions';
 import Hidden from '@material-ui/core/Hidden';
-import { AlgoliaPostsHits,AlgoliaConnectedCheckBoxRefinementList } from '../components/algolia/config';
+// import { AlgoliaPostsHits,AlgoliaConnectedCheckBoxRefinementList } from '../components/algolia/config';
 import { CurrentRefinements, ClearRefinements,InstantSearch } from 'react-instantsearch-dom';
 import { googleanalytics } from '../components/analytics';
 import Button from '@material-ui/core/Button';
 import {Link} from "react-router-dom";
-import { Badge } from 'reactstrap';
+// import { Badge } from 'reactstrap';
 import Truncate from 'react-truncate';
 import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 
 const keys = require('../secrets/keys');
-const bodyBlue = "linear-gradient(#1a237e, #121858)";
+// const bodyBlue = "linear-gradient(#1a237e, #121858)";
 function findAndReplace(string, target, replacement) {
  var i = 0, length = string.length;
  for (i; i < length; i++) {
@@ -215,7 +215,7 @@ class Landing extends Component {
                                     if (value !== " "){
                                       return(
                                         <Grid key={value+Math.random()+(Math.random())} item >
-                                          <span style={{background:'#7795f8',height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
+                                          <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
                                             <Typography variant={'caption'} style={{color:'white'}}><font size="1"><b>{value}</b></font></Typography>
                                           </span>
                                       </Grid>)
@@ -244,17 +244,17 @@ class Landing extends Component {
     }
     }
 
-    renderAlgoliaFilter(){
-      return (
-        <Grid item style={{width:180, borderColor:'#474f97', textTransform: 'none', marginRight:20 }}>
-            <Grid container style={{flexGrow:1, margin:"0 auto"}} >
-              <CurrentRefinements />
-              <ClearRefinements />
-              <AlgoliaConnectedCheckBoxRefinementList attribute="tags"  />
-            </Grid>
-        </Grid>
-      )
-    }
+    // renderAlgoliaFilter(){
+    //   return (
+    //     <Grid item style={{width:180, borderColor:'#474f97', textTransform: 'none', marginRight:20 }}>
+    //         <Grid container style={{flexGrow:1, margin:"0 auto"}} >
+    //           <CurrentRefinements />
+    //           <ClearRefinements />
+    //           <AlgoliaConnectedCheckBoxRefinementList attribute="tags"  />
+    //         </Grid>
+    //     </Grid>
+    //   )
+    // }
 
     handleChangeSelect = selectValue => (event) => {
       this.setState({
@@ -285,7 +285,8 @@ class Landing extends Component {
                           flexGrow: 1,
                           justify: 'center',
                           background: this.renderTheme(),
-                          minHeight:this.state.height
+                          minHeight:this.state.height,
+                          paddingTop:5,
                       }}
                   >
                   {this.renderBannerIfLoggedIn(this.state.isLoggedIn)}

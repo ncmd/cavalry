@@ -226,14 +226,11 @@ class Signup extends Component {
         return (
 
           <InputGroup>
-              <InputGroupAddon addonType="prepend">
-                  <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">📧</span></InputGroupText>
-              </InputGroupAddon>
               {this.state.validEmail
               ?
-              <Input valid style={{border:'1px solid #ced4da', boxShadow:'none', borderRadius:'0 5px 5px 0'}} placeholder="email@gmail.com" onChange={this.handleEmail('email')}/>
+              <Input valid style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} placeholder="" onChange={this.handleEmail('email')}/>
               :
-              <Input invalid  style={{border:'1px solid #ced4da',  boxShadow:'none',borderRadius:'0 5px 5px 0'}} placeholder="email@gmail.com" onChange={this.handleEmail('email')}/>
+              <Input invalid  style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} placeholder="" onChange={this.handleEmail('email')}/>
           }
               {this.renderErrorEmail()}
           </InputGroup>
@@ -252,7 +249,7 @@ class Signup extends Component {
       }  else {
         return (
           <div style={{width:273,height:78, background:this.props.theme[0].PostsTagsBackground,borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
-            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'caption'}><b>Please finish section </b><Typography style={{background:this.props.theme[0].PrimaryLinear, width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography></Typography>
+            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'caption'}>Please enter a valid email address</Typography>
           </div>
         )
       }
@@ -263,7 +260,7 @@ class Signup extends Component {
         return (
           <div>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-              <Grid item xs style={{ border:this.props.theme[0].PostsButtonBorder,  background:this.props.theme[0].PostsButtonBackground, padding:40, width:'100%'}}>
+              <Grid item xs style={{ border:this.props.theme[0].PostsButtonBorder,  background:this.props.theme[0].PostsButtonBackground,borderRadius:this.props.theme[0].BorderRadius, padding:40, width:'100%'}}>
                 <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyTitle}}> Sent your password to your email address.</Typography>
                   <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
                       <Button raised="true" variant="raised" style={{height:30, background:this.props.theme[0].PrimaryLinear, textTransform: 'none'}}>
@@ -279,30 +276,40 @@ class Signup extends Component {
       } else {
         return (
           <div>
-            <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
+            <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
+              <Grid item style={{marginBottom:30}}>
+                <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'45px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                    <b>Join Cavalry</b>
+                </Typography>
+                <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                    The best way to create, share, and coordinate runbooks.
+                </Typography>
+              </Grid>
               <Grid item>
-                <Typography variant={'subheading'} style={{color:this.props.theme[0].PostsTypographyTitle}}>
-                  <Typography style={{background:this.props.theme[0].PrimaryLinear, width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>1</Typography> <b>Enter your email address:</b>
+                <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                    <b>Create your account</b>
                 </Typography>
               </Grid>
             </Grid>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-              <Grid item xs style={{ border:this.props.theme[0].PostsButtonBorder, background:this.props.theme[0].PostsButtonBackground, padding:40, width:'100%'}}>
-                <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyTitle}}> <b>Privacy guarantee:</b> We do not share your information and will contact you only as needed to provide our service.</Typography>
+              <Grid item xs style={{ border:this.props.theme[0].PostsButtonBorder, background:this.props.theme[0].PostsButtonBackground,borderRadius:this.props.theme[0].BorderRadius, padding:40, width:'100%'}}>
+                <Typography variant={'caption'} style={{marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyDescription}} ><b>Email address</b></Typography>
                 {this.renderEmailAddress()}
+                <Typography variant={'caption'} style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle}}>We’ll send updates about your account to this inbox. We’ll never share your email address with anyone.</Typography>
               </Grid>
             </Grid>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
               <Grid item>
-                <Typography variant={'subheading'} style={{color:this.props.theme[0].PostsTypographyTitle}}>
-                  <Typography style={{background:this.props.theme[0].PrimaryLinear, width:23,height:23, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>2</Typography> <b>Verify reCAPTCHA:</b>
+                <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                    <b>Verify account</b>
                 </Typography>
               </Grid>
             </Grid>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
-              <Grid item style={{border:this.props.theme[0].PostsButtonBorder, background:this.props.theme[0].PostsButtonBackground, padding:40, width:'100%'}} xs>
-                <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyTitle}}> <b>Fraud Detection:</b> We keep the <span aria-label="emoji" role="img">🤖</span> bots away and do our best to provide you great content with no interruption.</Typography>
+              <Grid item style={{border:this.props.theme[0].PostsButtonBorder, background:this.props.theme[0].PostsButtonBackground,borderRadius:this.props.theme[0].BorderRadius, padding:40, width:'100%'}} xs>
+                <Typography variant={'caption'} style={{marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyDescription}} ><b>Complete ReCAPTCHA</b></Typography>
                 {this.renderRecaptcha()}
+                <Typography variant={'caption'} style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle}}>By clicking on “ReCAPTCHA”, you agree to our terms of service and privacy statement.</Typography>
             </Grid>
           </Grid>
           </div>
@@ -328,7 +335,6 @@ class Signup extends Component {
                         paddingLeft:10,
                         paddingRight:10,
                         height:this.state.height
-
                     }}
                 >
                     {this.renderSignup()}

@@ -51,6 +51,8 @@ import {
     SET_TAGS,
     CHANGE_DEPARTMENT_ORGANIZATION,
     EDIT_SUBMIT_DEPARTMENT,
+    ADD_ACTIVITY_ORGANIZATION,
+    COMPLETE_ACTIVITY_ORGANIZATION
 } from './types';
 
 const keys = require('../../secrets/keys');
@@ -61,8 +63,10 @@ export const lightThemeLoad = () => dispatch => {
     theme:'light',
     PrimaryDark:'#5533ff',
     PrimaryLight:'#3d63ff',
-    PrimaryLinear:'linear-gradient(#5533ff, #3d63ff)',
+    PrimaryLinear:'linear-gradient(#3d63ff, #5533ff)',
     SecondaryLinear:'linear-gradient(#ff1744, #F44336)',
+    BackgroundImage:'linear-gradient(-180deg,#3d63ff,#5533ff 90%)',
+    PrimaryBorder:'1px solid rgba(27,31,35,0.2)',
     BorderRadius:'5px 5px 5px 5px',
     Secondary:'#6772e5',
     MainBackground:'#e3e8ee',
@@ -85,19 +89,21 @@ export const darkThemeLoad = () => dispatch => {
     theme:'dark',
     PrimaryDark:'#5533ff',
     PrimaryLight:'#3d63ff',
-    PrimaryLinear:'linear-gradient(#5533ff, #3d63ff)',
+    PrimaryLinear:'linear-gradient(#3d63ff, #5533ff)',
     SecondaryLinear:'linear-gradient(#ff1744, #F44336)',
+    BackgroundImage:'linear-gradient(-180deg,#3d63ff,#5533ff 90%)',
+    PrimaryBorder:'1px solid rgba(27,31,35,0.2)',
     BorderRadius:'5px 5px 5px 5px',
     Secondary:'#6772e5',
     MainBackground:'#030303',
     HeaderBackground: '#030303',
     PostsButtonBackground:"#1A1A1B",
-    PostsButtonBorder:"1px solid #ced4da",
+    PostsButtonBorder:"1px solid #343536",
     PostsTypographyTitle:"white",
     PostsTypographyDescription:"#E0E0E0",
     PostsTypographyObjectives:"#E0E0E0",
     PostsSectionBorder:'2px solid #424242',
-    PostsTagsBackground:"#7795f8",
+    PostsTagsBackground:"#343536",
     PostsTagsText:"white",
     AlgoliaSearchText:"black",
   }]
@@ -107,27 +113,27 @@ export const darkThemeLoad = () => dispatch => {
 
 export const filterPostByTagAction = (filtertagname) => async dispatch => {
   const data = await auth.filterPostByTag(filtertagname)
-  console.log("DAAATA",data)
+  // console.log("DAAATA",data)
   dispatch({ type: FILTERED_POSTS, payload: data})
 
 }
 
 // Get VerifyIDToken
 export const sendVerifyIdTokenToBackend = (token) => {
-  console.log("Received Token: ",token)
+  // console.log("Received Token: ",token)
   let data = {token:token}
   const res = axios.post(backend+'/api/verify',data);
-  console.log("Response from backend:",res)
+  // console.log("Response from backend:",res)
 }
 
 export const loadOrganizationAll = (organizationname) => async dispatch => {
-  const data =await  auth.loadOrganization(organizationname)
-  console.log("DAAATA",data)
+  const data = await auth.loadOrganization(organizationname)
+  // // console.log("DAAATA",data)
   dispatch({type: LOAD_ORGANIZATION, payload:data })
 }
 
 export const setPath = (path) => dispatch => {
-  console.log("This Path:",path)
+  // console.log("This Path:",path)
   const data ={path:path}
   dispatch({type: SET_PATH, payload: data})
 }
@@ -203,7 +209,7 @@ export const addGroupUser = (uri, accountid, contactname,emailaddress,instantmes
 };
 
 export const setAccount = (email,accountid,plan) => async dispatch => {
-    console.log(email,accountid,plan)
+    // console.log(email,accountid,plan)
     const data = {email:email,accountid:accountid, plan:plan}
     await axios.post(backend+'/api/accounts/create',data);
     dispatch({ type: ADD_ACCOUNT, payload: data });
@@ -212,7 +218,7 @@ export const setAccount = (email,accountid,plan) => async dispatch => {
 export const createAccount = (email) => async dispatch => {
   const data = {email:email}
   await axios.post(backend+'/api/account/create',data)
-  // console.log(res)
+  // // console.log(res)
 }
 
 export const getAccount = (accountid) => async dispatch => {
@@ -224,25 +230,25 @@ export const getAccount = (accountid) => async dispatch => {
 export const inviteAccount = (email,organizationname) => async dispatch => {
   const data = {email:email,organizationname:organizationname}
   const res = await axios.post(backend+'/api/account/invite',data)
-  console.log(res.data)
+  // console.log(res.data)
   return res.data
 }
 
 export const createOrganization = (organizationname,emailaddress,accountid) => async dispatch => {
   const data = {organizationname:organizationname.toLowerCase(),emailaddress:emailaddress,accountid:accountid}
   await axios.post(backend+'/api/organization/create',data).then(function(result){
-    console.log("Create Organization:",result)
+    // console.log("Create Organization:",result)
       dispatch({ type: JOIN_ORGANIZATION, payload:organizationname})
       const orgdata = auth.loadOrganization(organizationname)
-      console.log(orgdata)
+      // console.log(orgdata)
   })
 }
 
 export const joinOrganization = (organizationname,accountid) => async dispatch => {
-  console.log("Joining Organization")
+  // console.log("Joining Organization")
   const data = {organizationname:organizationname.toLowerCase(),accountid:accountid}
   await axios.post(backend+'/api/organization/join',data)
-  // dispatch({ type: JOIN_ORGANIZATION, payload:organizationname})
+  dispatch({ type: JOIN_ORGANIZATION, payload:organizationname})
 }
 
 export const leaveOrganization = (organizationname,accountid) => async dispatch => {
@@ -256,12 +262,12 @@ export const leaveOrganization = (organizationname,accountid) => async dispatch 
 export const checkOrganization = (organizationname) => async dispatch => {
   const data = {organizationname:organizationname.toLowerCase()}
   const res = await axios.post(backend+'/api/organization/check',data)
-  console.log(res.data.Message)
+  // console.log(res.data.Message)
   dispatch({ type: CHECK_ORGANIZATION, payload: res.data.Message})
 }
 
 export const unsubscribeAccount = (subscriptionid) => async dispatch => {
-  console.log("Canceling Subscription:",subscriptionid)
+  // console.log("Canceling Subscription:",subscriptionid)
   const data = {stripeSubscriptionId: subscriptionid}
   await axios.post(backend+'/api/account/unsubscribe',data)
 }
@@ -276,13 +282,13 @@ export const getTags = () => async dispatch => {
   const res = await axios.get(backend+'/api/posts')
     let allTags = []
     res.data.map((post) => {
-      // console.log("getPost",post.tags)
+      // // console.log("getPost",post.tags)
       post.tags.map((tag) => {
         allTags.push(tag)
       })
     })
-    console.log("allTags:",allTags)
-    console.log("resdata",res.data)
+    // console.log("allTags:",allTags)
+    // console.log("resdata",res.data)
     dispatch({ type: SET_TAGS, payload: allTags})
     return res.data
 }
@@ -295,13 +301,19 @@ export const getPosts = () => async dispatch => {
 
 export const getRequests = () => async dispatch => {
     const res = await axios.get(backend+'/api/requests')
-    dispatch({ type: 'GET_REQUESTS', payload: res.data });
+    const data = []
+    res.data.map((req) => {
+      data.push({description:req.description, tags:req.tags})
+    })
+
+    // console.log("getRequests Data",data)
+    dispatch({ type: 'GET_REQUESTS', payload: data });
 };
 
 export const getStripeCustomerID = (email) => async dispatch => {
   const data = {email:email}
   const res = await axios.get(backend+'/api/user/customerid',data)
-  console.log("getStripeCustomerID:",res.data.id)
+  // console.log("getStripeCustomerID:",res.data.id)
   // dispatch to account redux
   dispatch({ type: SET_STRIPE_CUSTOMERID, payload: res.data.id})
 }
@@ -322,15 +334,42 @@ export const addPost = (title,description,tags,objectives) => async dispatch =>{
 };
 
 export const addRequest = (description,tags) => async dispatch =>{
+    const getlength = await axios.get(backend+'/api/requests')
+    // console.log("Length:",getlength.data.length)
     const data = {description:description,tags:tags};
     await axios.post(backend+'/api/request/new',data);
-    dispatch({ type: ADD_REQUEST });
+    dispatch({ type: ADD_REQUEST, payload:data, payloadindex: getlength.data.length });
 };
 
-export const addActivity = (postid,accountid) => async dispatch =>{
-    const data = {postid:postid,accountid:accountid};
-    await axios.post(backend+'/api/activity/new',data);
-    dispatch({ type: ADD_ACTIVITY });
+export const getAccountActivityFromOrganizationFirestore = () => async dispatch => {
+
+}
+
+export const addActivity = (activity,accountid) => async dispatch =>{
+  // console.log("ACTIVITY!!!!",activity)
+  await auth.addActivityToAccount(activity,accountid)
+  const data = [];
+  data.push(activity)
+  // console.log("Data addActivity:",data)
+  // const data = {runbookid:runbook.runbookid, runbookname:runbook.runbookname,runbookstatus:runbook.runbookstatus, runbookobjectives:runbook.runbookobjectives, accountid:accountid};
+  // await axios.post(backend+'/api/account/activity/new',data);
+  dispatch({ type: ADD_ACTIVITY, payload: data });
+};
+
+export const addActivityToOrganization = (organizationname,activity) => async dispatch =>{
+  // console.log("ACTIVITY!!!!",activity)
+  await auth.addActivityToOrganization(organizationname,activity)
+  // const data = [];
+  // data.push(activity)
+  // // console.log("Data addActivityToOrganization:",data)
+  // const data = {runbookid:runbook.runbookid, runbookname:runbook.runbookname,runbookstatus:runbook.runbookstatus, runbookobjectives:runbook.runbookobjectives, accountid:accountid};
+  // await axios.post(backend+'/api/account/activity/new',data);
+  dispatch({ type: ADD_ACTIVITY_ORGANIZATION, payload: activity, payloadindex: 0});
+};
+
+export const completeOrganizationActivity = (organizationname,activity) => async dispatch =>{
+  await auth.completeOrganizationActivityFirestore(organizationname,activity)
+  dispatch({ type: COMPLETE_ACTIVITY_ORGANIZATION, payload: activity, payloadindex: 0});
 };
 
 export const updatePost = (id,title,description,tags,objectives) => async dispatch =>{
@@ -341,15 +380,15 @@ export const updatePost = (id,title,description,tags,objectives) => async dispat
 
 
 export const getPost = (uri) => async dispatch => {
-  // console.log("URI:",uri);
+  // // console.log("URI:",uri);
 
   const res = await axios.get(backend+`${uri}`);
-  console.log("RES",res)
+  // console.log("RES",res)
     dispatch({ type: GET_POST, payload: res.data });
 }
 
 export const editPost = (uri) => async dispatch => {
-  console.log("URI:",uri);
+  // console.log("URI:",uri);
   const res = await axios.get(backend+`${uri}`);
     dispatch({ type: GET_POST, payload: res.data });
 }
@@ -357,7 +396,7 @@ export const editPost = (uri) => async dispatch => {
 export const addSubscriber = (email) => async dispatch =>{
     const data = {email:email};
     const res = await axios.post(backend+'/api/subscribe/new',data);
-    console.log("Add Sub Response:",res)
+    // console.log("Add Sub Response:",res)
     dispatch({ type: ADD_SUBSCRIBER, payload: res.data });
 };
 
@@ -390,7 +429,7 @@ export const getUser = () => dispatch => {
 
 export const addUser = (email,accountid,source,plan) => async dispatch =>{
     let data = {email:email, accountid:accountid, source:source, plan:plan};
-    console.log("DATA:",data)
+    // console.log("DATA:",data)
     const res =  await axios.post(backend+'/api/user/new',data);
     dispatch({ type: ADD_USER, payload: res.data });
     return res.data

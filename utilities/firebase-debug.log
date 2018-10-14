@@ -1,0 +1,60 @@
+[debug] [2018-10-07T07:21:09.345Z] ----------------------------------------------------------------------
+[debug] [2018-10-07T07:21:09.351Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\f\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase firestore:delete --all-collections -y
+[debug] [2018-10-07T07:21:09.351Z] CLI Version:   4.2.1
+[debug] [2018-10-07T07:21:09.351Z] Platform:      win32
+[debug] [2018-10-07T07:21:09.351Z] Node Version:  v8.12.0
+[debug] [2018-10-07T07:21:09.351Z] Time:          Sun Oct 07 2018 00:21:09 GMT-0700 (Pacific Daylight Time)
+[debug] [2018-10-07T07:21:09.351Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-10-07T07:21:09.374Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-10-07T07:21:09.376Z] > authorizing via signed-in user
+[debug] [2018-10-07T07:21:09.382Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-10-07T07:21:09.382Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+
+[debug] [2018-10-07T07:21:09.621Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:09.634Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/cavalry-app-dev  
+ 
+[debug] [2018-10-07T07:21:09.919Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:09.920Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:listCollectionIds  
+
+[debug] [2018-10-07T07:21:10.143Z] <<< HTTP RESPONSE 200
+[info] Deleting the following collections: accounts, aggregation, posts, subscribers
+[debug] [2018-10-07T07:21:10.147Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:runQuery  
+
+[debug] [2018-10-07T07:21:10.148Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:runQuery  
+
+[debug] [2018-10-07T07:21:10.149Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:runQuery  
+
+[debug] [2018-10-07T07:21:10.150Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:runQuery  
+
+[debug] [2018-10-07T07:21:10.293Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:10.295Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:commit  
+
+[debug] [2018-10-07T07:21:10.473Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:10.474Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:commit  
+
+[debug] [2018-10-07T07:21:10.528Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:10.529Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:commit  
+
+[debug] [2018-10-07T07:21:10.541Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:10.542Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:commit  
+
+[debug] [2018-10-07T07:21:10.673Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:10.676Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:runQuery  
+
+[debug] [2018-10-07T07:21:10.681Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:10.681Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:runQuery  
+
+[debug] [2018-10-07T07:21:10.838Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:10.840Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:10.840Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:runQuery  
+
+[debug] [2018-10-07T07:21:10.845Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:10.846Z] >>> HTTP REQUEST POST https://firestore.googleapis.com/v1beta1/projects/cavalry-app-dev/databases/(default)/documents:runQuery  
+
+[debug] [2018-10-07T07:21:10.951Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:11.008Z] <<< HTTP RESPONSE 200
+[debug] [2018-10-07T07:21:31.921Z] Error: connect ETIMEDOUT 216.58.195.234:443
+    at TCPConnectWrap.afterConnect [as oncomplete] (net.js:1191:14)
+[error] 
+[error] Error: Server Error. connect ETIMEDOUT 216.58.195.234:443

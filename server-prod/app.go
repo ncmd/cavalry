@@ -114,6 +114,7 @@ func main() {
 	http.HandleFunc("/api/account/create", c_accounts_create_user_account_in_firebase)
 	http.HandleFunc("/api/account/get", c_accounts_get_user_account_information_in_firestore)
 	http.HandleFunc("/api/account/invite", c_accounts_invite_user_create_account_in_firebase)
+	http.HandleFunc("/api/account/activity/new", c_accounts_add_activity_objectives_to_user_in_firestore)
 
 	http.HandleFunc("/api/organization/create", c_organizations_create_orgnaization_in_firebase)
 	http.HandleFunc("/api/organization/check", c_organizations_check_if_organization_exists_in_firebase)
@@ -129,6 +130,7 @@ func main() {
 	if port == "" {
 		port = "8000" // Setting a Default port to 8000 to be used locally
 	}
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 	http.ListenAndServe(":"+port, nil)
 
 }

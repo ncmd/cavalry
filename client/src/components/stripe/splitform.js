@@ -10,7 +10,7 @@ import {
 import Button from '@material-ui/core/Button';
 import { googleanalytics } from '../analytics';
 
-const payButtonColor = "linear-gradient(to right, #ff1744, #F44336 ";
+// const payButtonColor = "linear-gradient(to right, #ff1744, #F44336 ";
 const ownerInfo = {
   owner: {
     name: 'Cavalry Tactics',
@@ -70,7 +70,7 @@ class SplitForm extends Component {
                 .then((payload) => {
                     this.props.addUser(this.props.users.email,this.props.users.login,payload.source.id,this.props.users.plan).then(() =>{
                         googleanalytics.Cavalry_Webapp_Signup_Account_Useraccountcreated(this.props.users.email)
-                        this.props.history.push('/')
+                        this.props.history.push('/team')
 
                     })
 

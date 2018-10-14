@@ -315,3 +315,13 @@ PROJECT PATH
 
 # Common Issues
 -
+
+# Anki Setup
+- Website: https://ankiweb.net
+- Download Desktop app version 2.1 https://ankiweb.net
+- Addons:
+- Night Mode
+- Progress Bar
+- Speed Focus Mode auto-alert auto-reveal auto-fail
+- Syntax highlighting for Code
+- loadbalancer

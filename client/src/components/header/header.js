@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Typography from '@material-ui/core/Typography';
 // import Button from '@material-ui/core/Button';
 import {
     Collapse,
@@ -8,7 +7,7 @@ import {
     Nav,
     NavItem,
     Button,
-    Popover, PopoverHeader, PopoverBody,
+    // Popover, PopoverHeader, PopoverBody,
 } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -32,23 +31,107 @@ import {
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
 import {AlgoliaSearch} from '../../components/algolia/config';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import Hidden from '@material-ui/core/Hidden';
+// import Hidden from '@material-ui/core/Hidden';
 import './header.css';
 import ReactGA from 'react-ga';
-import { AlgoliaPostsHits,AlgoliaConnectedCheckBoxRefinementList } from '../algolia/config';
-
+import Hidden from '@material-ui/core/Hidden';
+import PropTypes from 'prop-types';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import InputBase from '@material-ui/core/InputBase';
+import Badge from '@material-ui/core/Badge';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+import { fade } from '@material-ui/core/styles/colorManipulator';
+import { withStyles } from '@material-ui/core/styles';
+import MenuIcon from '@material-ui/icons/Menu';
+import SearchIcon from '@material-ui/icons/Search';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import MailIcon from '@material-ui/icons/Mail';
+import NotificationsIcon from '@material-ui/icons/Notifications';
+import MoreIcon from '@material-ui/icons/MoreVert';
 
 ReactGA.initialize('UA-123951173-1',{
 debug: true,
 });
-
-const headerSignupButton = "linear-gradient(to right, #F44336, #ff1744";
-const headerPostButton = "linear-gradient(to right, #f44336, #e91e63 ";
-const headerRequestButton = "linear-gradient(to right, #2979ff, #03a9f4 ";
+//
+// const headerSignupButton = "linear-gradient(to right, #F44336, #ff1744";
+// const headerPostButton = "linear-gradient(to right, #f44336, #e91e63 ";
+// const headerRequestButton = "linear-gradient(to right, #2979ff, #03a9f4 ";
 const headerBlue = "#1a237e";
-const accountButton = "linear-gradient(to right, #304ffe, #2962ff)";
+// const accountButton = "linear-gradient(to right, #304ffe, #2962ff)";
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+  },
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginLeft: -12,
+    marginRight: 20,
+  },
+  title: {
+    display: 'none',
+    [theme.breakpoints.up('sm')]: {
+      display: 'block',
+    },
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25),
+    },
+    marginRight: theme.spacing.unit * 2,
+    marginLeft: 0,
+    width: '100%',
+    [theme.breakpoints.up('sm')]: {
+      marginLeft: theme.spacing.unit * 3,
+      width: 'auto',
+    },
+  },
+  searchIcon: {
+    width: theme.spacing.unit * 9,
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputRoot: {
+    color: 'inherit',
+    width: '100%',
+  },
+  inputInput: {
+    paddingTop: theme.spacing.unit,
+    paddingRight: theme.spacing.unit,
+    paddingBottom: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit * 10,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: 200,
+    },
+  },
+  sectionDesktop: {
+    display: 'none',
+    [theme.breakpoints.up('md')]: {
+      display: 'flex',
+    },
+  },
+  sectionMobile: {
+    display: 'flex',
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
+    },
+  },
+});
 
 class header extends Component {
 
@@ -66,6 +149,8 @@ class header extends Component {
             open: false,
             anchorEl: null,
             backgroundTheme:true,
+            anchorEl: null,
+            mobileMoreAnchorEl: null,
 
         };
         this.toggle = this.toggle.bind(this);
@@ -136,8 +221,7 @@ class header extends Component {
     renderUserNotLoggedIn(){
 
       return (
-        <Nav className="ml-auto" navbar>
-          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
+        <div>
             {this.state.backgroundTheme
               ?
               <Button style={{height:35,  border: '0px solid #3d63ff',boxShadow:'none',  background:'transparent', textTransform: 'none'}} onClick={() => this.setDarkTheme()} >
@@ -152,29 +236,24 @@ class header extends Component {
                   </Typography>
               </Button>
             }
-          </NavItem>
 
-          <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
                 <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
-                  <Button size="sm" style={{ height:35, background:'transparent', width:75, border: '0px solid #3d63ff',  boxShadow:'none'}}>
+                  <Button size="sm" style={{ marginLeft:16,height:35, background:'transparent', width:120, border: '1px solid #3d63ff',  boxShadow:'none'}}>
                       <Typography style={{color:"#3d63ff", textTransform:'none'}}  variant={"caption"} >
-                          <b>login</b>
+                          <b>Log in</b>
                       </Typography>
                   </Button>
                 </Link>
 
-          </NavItem>
-          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
+
             <Link to={{pathname:'/signup'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignupbutton()}>
-                  <Button raised="true" variant="raised" style={{border:'white', height:35, width:75, background:'linear-gradient(#5533ff, #3d63ff)', textTransform: 'none'}} >
+                  <Button raised="true" variant="raised" style={{border:'white',marginLeft:16, height:35, width:120, background:this.props.theme[0].PrimaryLinear, border:this.props.theme[0].PrimaryBorder, textTransform: 'none'}} >
                       <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                          <b>signup</b>
+                          <b>Sign up</b>
                       </Typography>
                   </Button>
               </Link>
-          </NavItem>
-
-          </Nav>
+              </div>
       )
     }
 
@@ -320,57 +399,157 @@ class header extends Component {
       }
     }
 
+    handleProfileMenuOpen = event => {
+    this.setState({ anchorEl: event.currentTarget });
+    };
+
+    handleMenuClose = () => {
+      this.setState({ anchorEl: null });
+      this.handleMobileMenuClose();
+    };
+
+    handleMobileMenuOpen = event => {
+      this.setState({ mobileMoreAnchorEl: event.currentTarget });
+    };
+
+    handleMobileMenuClose = () => {
+      this.setState({ mobileMoreAnchorEl: null });
+    };
+
     render() {
+       const { anchorEl, mobileMoreAnchorEl } = this.state;
+       const { classes } = this.props;
+       const isMenuOpen = Boolean(anchorEl);
+       const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+       const renderMenu = (
+          <Menu
+            anchorEl={anchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMenuOpen}
+            onClose={this.handleMenuClose}
+          >
+            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
+            <MenuItem onClick={this.handleClose}>My account</MenuItem>
+          </Menu>
+        );
+
+        const renderMobileMenu = (
+          <Menu
+            anchorEl={mobileMoreAnchorEl}
+            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+            open={isMobileMenuOpen}
+            onClose={this.handleMobileMenuClose}
+          >
+
+              {this.state.backgroundTheme
+                ?
+                <MenuItem onClick={() => this.setDarkTheme()}>
+                  <IconButton style={{  border: '0px solid #3d63ff',boxShadow:'none',  background:'transparent', textTransform: 'none'}} >
+                      <span aria-label="emoji" role="img">🌙</span>
+                  </IconButton>
+                  <Typography style={{color:'black',textTransform: 'none'}} variant={"caption"} >
+                    <b>Dark theme</b>
+                  </Typography>
+                </MenuItem>
+                :
+                <MenuItem onClick={() => this.setLightTheme()}>
+                <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
+                  <span aria-label="emoji" role="img">☀️</span>
+                </IconButton>
+                <Typography style={{color:'black',textTransform: 'none'}} variant={"caption"} >
+                  <b>Light theme</b>
+                </Typography>
+              </MenuItem>
+              }
+              <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
+            <MenuItem>
+              <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
+                < span aria-label="emoji" role="img">🐎</span>
+              </IconButton>
+                <Typography style={{color:'black',textTransform: 'none'}} variant={"caption"} >
+                  <b>Log in</b>
+                </Typography>
+            </MenuItem>
+          </Link>
+          <Link to={{pathname:'/signup'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignupbutton()}>
+            <MenuItem>
+              <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
+                <span aria-label="emoji" role="img">✋</span>
+              </IconButton>
+              <Typography style={{color:'black',textTransform: 'none'}} variant={"caption"} >
+                <b>Sign up</b>
+              </Typography>
+            </MenuItem>
+              </Link>
+          </Menu>
+        );
+
+
 
         return (
             <div>
                 <div
                     style={{
                         flexGrow: 1,
-                        marginTop: 0,
+                        marginBottom: 0,
                         justify: 'center',
                         background:this.renderTheme(),
                     }}
                 >
-                    <Navbar style={{maxWidth:'63em', marginLeft:'auto', marginRight:'auto',paddingTop:10,paddingLeft:1,paddingRight:1, paddingBottom:10}} color={headerBlue} dark expand="sm">
-                      <Grid container style={{flexGrow:1, margin:"0 auto"}} direction="row" justify="space-between" alignItems="stretch" >
-                        <Grid item xs>
-                          <Link to={{pathname:'/'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedhomebutton()}>
-                              <Button raised="true" variant="raised" style={{border:'white', height:35,background:'linear-gradient(#5533ff, #3d63ff)', textTransform: 'none', marginLeft:10}} >
-                                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                                    <b>Cavalry</b>
-                                  </Typography>
-                              </Button>
-                          </Link>
-                        </Grid>
-                        {/*<Hidden smDown>
-                        <Grid item xs={6}>
-                          <div style={{background:'transparent', paddingTop:10, paddingBottom:10}}>
-                            {this.renderSearch()}
+                <AppBar position="static" style={{background:this.props.theme[0].MainBackground,  boxShadow:'0px 0px 0px 0px', borderBottom:this.props.theme[0].PostsButtonBorder}}>
+                  <Toolbar variant="dense">
+                    <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:'63em'}} direction="row" justify="space-between" alignItems="stretch" >
+                      <Grid item xs>
+                        <Link to={{pathname:'/'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedhomebutton()}>
+                          <div>
+                            <img src="./cavalry.svg" style={{width:32,height:32}}></img>
+                            <img src="./cavalrytextcolor.svg" style={{height:18,paddingLeft:8}}></img>
                           </div>
-                        </Grid>
-                      </Hidden>*/}
-                        <Grid item xs>
-                          <NavbarToggler onClick={this.toggle} style={{}}/>
-                          <Collapse isOpen={this.state.isOpen} navbar>
+                        </Link>
+                      </Grid>
+                      <Hidden smDown>
+                      <Grid item xs={6}>
+                        <div style={{background:'transparent'}}>
+                          {this.renderSearch()}
+                        </div>
+                      </Grid>
+                    </Hidden>
+                    <div className={classes.grow} />
+                      <div className={classes.sectionDesktop}>
+                        <Grid item >
                             {this.props.users.logged
                                 ?
                                 this.renderUserLoggedIn()
                                 :
                                 this.renderUserNotLoggedIn()
                             }
-                          </Collapse>
                         </Grid>
-                      </Grid>
-                    </Navbar>
+                      </div>
+                    </Grid>
+                    <div className={classes.sectionMobile}>
+                      <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="primary">
+                        <MenuIcon />
+                      </IconButton>
+                    </div>
+                  </Toolbar>
+                </AppBar>
+                {renderMenu}
+                {renderMobileMenu}
                 </div>
             </div>
         );
     }
 }
 
+header.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
+
 function mapStateToProps({ posts,users,search,path,account,organization,theme }) {
     return { posts,users,search,path,account,organization,theme };
 }
 
-export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount,getAccount,signoutOrganization,lightThemeLoad,darkThemeLoad})(withRouter(header));
+export default connect(mapStateToProps,{loginUser,getUser,searchBox,signoutUser,setPath,sendVerifyIdTokenToBackend,getStripeCustomerID,signoutAccount,getAccount,signoutOrganization,lightThemeLoad,darkThemeLoad})(withRouter(withStyles(styles)(header)));

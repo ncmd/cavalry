@@ -39,20 +39,16 @@ func c_slack_invite_new_user_to_slack_team_and_channel(emailaddress string) {
 
 }
 
-func c_slack_sent_message_to_user_with_emailaddress(emailaddress string) {
-
-}
-
 // get slack userid from email address
 // message userid
 // include action buttons completed/yes/note
-
-func c_slack_get_userid_from_emailaddress(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Access-Control-Allow-Origin", "*")
-	w.Header().Set("Access-Control-Allow-Methods", "GET,OPTIONS")
-	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
-
-	if r.Method != "OPTIONS" {
-
-	}
-}
+//
+// func c_slack_get_userid_from_emailaddress(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Access-Control-Allow-Origin", "*")
+// 	w.Header().Set("Access-Control-Allow-Methods", "GET,OPTIONS")
+// 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+//
+// 	if r.Method != "OPTIONS" {
+//
+// 	}
+// }

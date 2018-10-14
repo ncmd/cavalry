@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import Header from '../components/header/header';
 import Grid from '@material-ui/core/Grid';
 import {
-    getPost
+    getPost,
+    addActivity,
+    addActivityToOrganization,
+    loadOrganizationAll,
 } from '../redux/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -53,6 +56,8 @@ class Post extends Component {
             open:false,
             selectValueOptions:[],
             selectValue:[],
+            organizationActivity:[],
+
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
@@ -61,7 +66,7 @@ class Post extends Component {
       this.setState({ open: false });
     };
 
-    renderSelect(index,valueAssignedMember){
+    renderSelect(index,selectOption){
       if(this.state.selectValueOptions.length > 0){
         return(
           <Select
@@ -70,7 +75,7 @@ class Post extends Component {
             className="basic-single"
             isClearable={false}
             classNamePrefix="select"
-            value={valueAssignedMember}
+            value={selectOption.value}
             onChange={this.handleChangeSelect(index,'selectValue')}
           />
         )
@@ -78,12 +83,17 @@ class Post extends Component {
       // if task was assigned, disable / or just be to reassign task
     }
 
-    handleChangeSelect = (index,selectValue) => (event) => {
-      // const groups = this.state.groups;
-      // groups[index].department = event.value
-      // this.forceUpdate();
+    handleChangeSelect = (index,selectValue) => (event) =>  {
+      const prevObjectives = this.state.objectives;
+      prevObjectives[index].selectOption = event.value
+      prevObjectives[index].selectEmail = event.label
+      this.forceUpdate();
       // this.props.changeOrgMemberDepartment(this.props.account.organizationname,index,event.value)
-      // console.log("Selected:",event.value)
+      // console.log("You selected:",event)
+      // console.log("Objectives:",this.state.objectives)
+      // this.setState({
+      //   objectives:prevObjectives
+      // })
 
    }
 
@@ -91,20 +101,38 @@ class Post extends Component {
     componentDidMount() {
 
       // Load select options if user is logged in
-      if (this.props.users.logged === true){
+      if (this.props.users.logged === true && this.props.account.organizationmember !== false){
         var prevSelectOptions = this.state.selectValueOptions
-        this.props.organization.organizationmembers.map((member)=>{
-          // console.log(member)
-          // add each member to selectValueOptions
-          prevSelectOptions.push({
-            value: member.emailaddress,
-            label: member.emailaddress,
-          })
+          this.props.loadOrganizationAll(this.props.account.organizationname).then(()=>{
+            this.props.organization.organizationmembers.map((member)=>{
+              // console.log("member",member)
+              // add each member to selectValueOptions
+              prevSelectOptions.push({
+                value: member.accountid,
+                label: member.emailaddress,
+              })
 
-        })
+            })
+          })
+        // var prevOrganizationActivity = this.state.organizationActivity
+
+        // this.props.organization.organizationactivity.map((activity)=>{
+          // console.log(member)
+        //   // add each member to selectValueOptions
+        //   prevOrganizationActivity.push({
+        //     runbookid: activity.runbookid,
+        //     runbooktitle: activity.runbooktitle,
+        //     runbookdescription: activity.runbookdescription,
+        //     runbooktags: activity.runbooktags,
+        //     runbookobjectives: activity.runbookobjectives,
+        //   })
+        //
+        // })
         this.setState({
-          selectValueOptions: prevSelectOptions
+          selectValueOptions: prevSelectOptions,
+          // organizationActivity: prevOrganizationActivity,
         })
+        // console.log("State Organization Activity:",this.state.organizationActivity)
       }
 
 
@@ -126,6 +154,8 @@ class Post extends Component {
                     title: r.title,
                     description: r.description,
                     department: r.department,
+                    selectOption: {value:"any",label:"any"},
+                    assignButton: false,
                   })
                   this.setState({
                     objectives: prevObjectives,
@@ -156,12 +186,15 @@ class Post extends Component {
                   </Typography>
                   <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" >
                     <Grid key={obj.department+Math.random()+(Math.random())} item >
-                      <span style={{background:'#7795f8',height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
+                      <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
                         <Typography variant={'caption'} style={{color:'white'}}><font size="1"><b>{obj.department}</b></font></Typography>
                       </span>
                   </Grid>
                   </Grid>
-                  <div style={{color:this.props.theme[0].PostsTypographyDescription}} dangerouslySetInnerHTML={{__html: obj.description}} />
+                  <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'body2'}>
+                    <div style={{color:this.props.theme[0].PostsTypographyTitle}}  dangerouslySetInnerHTML={{__html: obj.description}} />
+                  </Typography>
+
               </Grid>
               )
         })
@@ -189,22 +222,63 @@ class Post extends Component {
       })
     }
 
+    handleAssignObjective(activity, accountid,emailaddress){
+      console.log("handleAssignObjective",activity)
+      // massage data
+      // console.log("props.posts",this.props.posts)
+
+      var data = {
+          runbookid: this.props.posts.id,
+          runbooktitle: this.props.posts.title,
+          runbookdescription: this.props.posts.description,
+          runbooktags: this.props.posts.tags,
+          runbookobjectives: {
+            objectivetitle: activity.obj.title,
+            objectivedescription:activity.obj.description,
+            objectivestatus:"assigned",
+            objectiveassignedto: {accountid:accountid,emailaddress:emailaddress},
+          },
+      }
+      // console.log("Handle Assigne objective Data",data)
+      this.props.addActivity(data, accountid)
+      this.props.addActivityToOrganization(this.props.account.organizationname,data)
+    }
+
+    renderAssignButton(index, obj, accountid){
+      // console.log("obj",obj)
+      if (this.state.objectives[index].assignButton === false){
+        return (
+          <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.handleAssignObjective({obj},accountid)}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assign</b></Typography></Button>
+        )
+      } else if (this.state.objectives[index].assignButton === true){
+          return (
+            <Button disabled style={{background:"grey"}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assigned</b></Typography></Button>
+          )
+        }
+
+    }
+
     renderAssignObjectives(){
       if (this.state.open === true){
         //load select options
 
+        // need to fix this.
+        // map all objectives for runbook that match runbook
+        // that way each objective has an assigned user
+
+        // this should be showing organizationactivity > runbookid === runbookid > objectives
         return (
-          this.props.posts.objectives.map((obj,index) => {
+          this.state.objectives.map((obj,index) => {
             return (
               <TableRow key={obj.index+obj.title}>
                   <TableCell component="th" scope="row">{obj.title}</TableCell>
-
                 <TableCell>
-                  {this.renderSelect(index,{value:"test@gmail.com",label:"test@gmail.com"})}
+                  {this.renderSelect(index,this.state.objectives[index].selectOption)}
                 </TableCell>
                 <TableCell padding="checkbox">{obj.department}</TableCell>
                 <TableCell padding="checkbox">
-                   <Button style={{background:this.props.theme[0].PrimaryLinear}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assign</b></Typography></Button>
+                  <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.handleAssignObjective({obj},this.state.objectives[index].selectOption,this.state.objectives[index].selectEmail)}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assign</b></Typography></Button>
+                  {/* {this.renderAssignButton(index,{obj},this.state.objectives[index].selectOption)}*/}
                 </TableCell>
               </TableRow>
             )
@@ -215,14 +289,19 @@ class Post extends Component {
 
     }
 
-    renderLaunch(){
-      if (1 === 1){
+    renderDialog(){
+      // if user not in organization, render modal asking to join team first
+      // else show runbook launch dialog
+    }
+
+    renderAssingAllObjectives(){
+      if (1 === 0){
         return(
-          <Button style={{background:this.props.theme[0].PrimaryLinear, marginRight:20}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Launch</b></Typography></Button>
+          <Button style={{background:this.props.theme[0].PrimaryLinear, marginRight:20}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assign All Objectives</b></Typography></Button>
         )
       } else if (2 === 2){
         return (
-          <Button disabled style={{background:"grey", marginRight:20}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Launch</b></Typography></Button>
+          <Button disabled style={{background:"grey", marginRight:20}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assign All Objectives</b></Typography></Button>
         )
       }
     }
@@ -273,7 +352,7 @@ class Post extends Component {
                                    <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'body2'}><b>Assign objectives to the appropriate users</b></Typography>
                                  </Grid>
                                  <Grid item>
-                                   <Button style={{background:this.props.theme[0].PrimaryLinear, marginRight:20}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Launch</b></Typography></Button>
+                                   {this.renderAssingAllObjectives()}
                                    <Button style={{background:this.props.theme[0].SecondaryLinear}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}} onClick={() => this.renderModal()}><b>Close</b></Typography></Button>
                                  </Grid>
                                </Grid>
@@ -282,8 +361,8 @@ class Post extends Component {
                                  <TableHead>
                                    <TableRow>
                                      <TableCell component="th" scope="row"><Typography style={{color:'black'}}><b>Objective</b></Typography></TableCell>
-                                     <TableCell><Typography style={{color:'black'}}><b>Assigned to</b></Typography></TableCell>
-                                     <TableCell padding="checkbox"><Typography style={{color:'black'}}><b>Department</b></Typography></TableCell>
+                                     <TableCell><Typography style={{color:'black'}}><b>Assigned this User</b></Typography></TableCell>
+                                     <TableCell padding="checkbox"><Typography style={{color:'black'}}><b>Dept.</b></Typography></TableCell>
                                      <TableCell padding="checkbox"><Typography style={{color:'black'}}><b>Action</b></Typography></TableCell>
                                    </TableRow>
                                  </TableHead>
@@ -319,9 +398,12 @@ Post.propTypes = {
 };
 
 
-function mapStateToProps({ posts,users,theme, organization}) {
-    return { posts,users,theme,organization };
+function mapStateToProps({ posts,users,theme, organization,account, activity}) {
+    return { posts,users,theme,organization,account, activity };
 }
 export default connect(mapStateToProps, {
   getPost,
+  addActivity,
+  addActivityToOrganization,
+  loadOrganizationAll,
 })(withRouter(withStyles(styles)(Post)));

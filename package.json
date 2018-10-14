@@ -46,6 +46,7 @@
     "local": "npm-run-all --parallel local-frontend local-backend",
     "local-frontend": "npm run start-local --prefix client",
     "local-backend": "cd server & set APP_ENV=local & go run .",
+    "local-native": "cd native & expo start",
     "local-backend-dev": "cd server-dev & set APP_ENV=dev & go run .",
     "local-backend-prod": "cd server-prod & set APP_ENV=prod & go run .",
     "local-backend-exe": "cd server & go build -o server.exe & server.exe",

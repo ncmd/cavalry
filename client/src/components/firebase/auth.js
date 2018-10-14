@@ -12,46 +12,47 @@ export const testAdd = () => {
     born: 1815
   })
   .then(function(docRef) {
-      console.log("Document written with ID: ", docRef.id);
+      // console.log("Document written with ID: ", docRef.id);
   })
   .catch(function(error) {
       console.error("Error adding document: ", error);
   });
 }
 
-export const assignActivityToOrganizationFirestore = (accountid) => {
-  // var membersRef = db.collection("organizations").doc(organizationname);
-//
-  // membersRef.get().then(function(doc) {
-  //     if (doc.exists){
-  //       var prevActivity = doc.data().organizatioactivity
-  //       prevActivity.forEach(function(element, index, theArray) {
-  //         if (index === thisindex){
-  //           console.log("PartIndexArray",element,index)
-  //           theArray[index] = {
-  //             accountid: element.accountid,
-  //             department: department,
-  //             emailaddress: element.emailaddress,
-  //             status: element.status,
-  //           }
-  //         }
-  //
-  //       });
-  //     console.log("changeOrgMemberDepartmentFirestore PrevMembers:",prevActivity)
-  //
-  //     // now set firestore with new document
-  //     membersRef.update({
-  //       organizatioactivity: prevActivity
-  //     })
-  //
-  //     }
-  //   }).catch(function(error) {
-  //     console.log("Error getting document:", error);
-  // });
+
+export const addAccountActivityFirestore = (organizationname,accountid,index) => {
+
+  var accountRef = db.collection("account").doc(accountid);
+  accountRef.get().then(function(doc) {
+      if (doc.exists){
+        // var prevActivity = doc.data().organizatioactivity
+      //   prevActivity.forEach(function(element, index, theArray) {
+      //     if (index === thisindex){
+            console.log("Account,",doc)
+      //       theArray[index] = {
+      //         accountid: element.accountid,
+      //         department: department,
+      //         emailaddress: element.emailaddress,
+      //         status: element.status,
+      //       }
+      //     }
+      //
+      //   });
+      // console.log("changeOrgMemberDepartmentFirestore PrevMembers:",prevActivity)
+
+      // now set firestore with new document
+      // accountRef.update({
+      //   activity: prevAccount
+      // })
+
+      }
+    }).catch(function(error) {
+      // console.log("Error getting document:", error);
+  });
 }
 
 export const filterPostByTag = (tagname) => {
-  console.log(tagname)
+  // console.log(tagname)
   const  postsRef = db.collection("posts");
 
   let foundPosts = []
@@ -67,7 +68,7 @@ export const filterPostByTag = (tagname) => {
     );})
 
   return promise.then(() => {
-    console.log("Finished",foundPosts)
+    // console.log("Finished",foundPosts)
     return foundPosts
   })
 
@@ -81,12 +82,12 @@ export const uploadImageForPost = (uploadfile,pathfilename) => {
   var file = uploadfile
   var promise = new Promise(function(resolve, reject) {
     resolve(imageImagesRef.put(file).then(function(snapshot) {
-      console.log("Image uploaded!")
+      // console.log("Image uploaded!")
       })
     );})
 
   return promise.then((url) => {
-  console.log("Finished promise uploadImageForPost")
+  // console.log("Finished promise uploadImageForPost")
   // return getImageUrl(pathfilename)
   })
 
@@ -104,33 +105,36 @@ export const getImageUrl = (pathfilename) => {
     );})
 
   return promise.then((url) => {
-  console.log("Finished promise getImageUrl")
+  // console.log("Finished promise getImageUrl")
   return url
   })
 
 }
 
 export const loadOrganization = (organizationname) => {
-  console.log(organizationname)
-  const postsRef = db.collection("organizations").doc(organizationname);
-  let foundAccount = []
-  var promise = new Promise(function(resolve, reject) {
-    resolve(postsRef.get().then(function(doc) {
-      if (doc.exists) {
-        console.log(doc.data())
-        return doc.data()
-      } else {
-          // doc.data() will be undefined in this case
-          console.log("No such document!");
-          return []
-    }
-      })
-    );})
+  // console.log(organizationname)
+  if (organizationname !== ""){
+    const postsRef = db.collection("organizations").doc(organizationname);
+    let foundAccount = []
+    var promise = new Promise(function(resolve, reject) {
+      resolve(postsRef.get().then(function(doc) {
+        if (doc.exists) {
+          // console.log(doc.data())
+          return doc.data()
+        } else {
+            // doc.data() will be undefined in this case
+            // console.log("No such document!");
+            return []
+      }
+        })
+      );})
 
-  return promise.then((data) => {
-    console.log("Finished",data)
-    return data
-  })
+    return promise.then((data) => {
+      // console.log("Finished",data)
+      return data
+    })
+  }
+
 }
 
 export const changeOrgMemberDepartmentFirestore = (organizationname,thisindex,department) => {
@@ -141,7 +145,7 @@ export const changeOrgMemberDepartmentFirestore = (organizationname,thisindex,de
         var prevMembers = doc.data().organizationmembers
         prevMembers.forEach(function(element, index, theArray) {
           if (index === thisindex){
-            console.log("PartIndexArray",element,index)
+            // console.log("PartIndexArray",element,index)
             theArray[index] = {
               accountid: element.accountid,
               department: department,
@@ -151,7 +155,7 @@ export const changeOrgMemberDepartmentFirestore = (organizationname,thisindex,de
           }
 
         });
-      console.log("changeOrgMemberDepartmentFirestore PrevMembers:",prevMembers)
+      // console.log("changeOrgMemberDepartmentFirestore PrevMembers:",prevMembers)
 
       // now set firestore with new document
       membersRef.update({
@@ -160,7 +164,7 @@ export const changeOrgMemberDepartmentFirestore = (organizationname,thisindex,de
 
       }
     }).catch(function(error) {
-      console.log("Error getting document:", error);
+      // console.log("Error getting document:", error);
   });
 
 }
@@ -172,7 +176,7 @@ export const addMemberToOrganization = (organizationname,emailaddress,accountid,
       if (doc.exists){
         var prevMembers = doc.data().organizationmembers
 
-      console.log("PrevMembers:",prevMembers)
+      // console.log("PrevMembers:",prevMembers)
       prevMembers.push({
         accountid:accountid,
         emailaddress:emailaddress,
@@ -185,9 +189,143 @@ export const addMemberToOrganization = (organizationname,emailaddress,accountid,
       })
       }
     }).catch(function(error) {
-      console.log("Error getting document:", error);
+      // console.log("Error getting document:", error);
   });
 
+}
+
+
+export const addActivityToAccount = (activity, accountid) => {
+  // console.log("Activity:",activity, accountid)
+  var activityRef = db.collection("accounts").doc(accountid);
+
+  activityRef.get().then(function(doc) {
+      if (doc.exists){
+        var prevActivity = doc.data().activity
+        //
+        // console.log("PrevActivity:",prevActivity)
+        // console.log(activity.runbookid,activity.runbooktitle,activity.runbookstatus,activity.runbookobjectives)
+        prevActivity.push({
+          runbookid:activity.runbookid,
+          runbooktitle:activity.runbooktitle,
+          runbookobjectives: activity.runbookobjectives,
+        })
+
+        activityRef.update({
+          activity: prevActivity
+        })
+        }
+    }).catch(function(error) {
+      // console.log("Error getting document:", error);
+  });
+}
+
+export const getAccountActivityFromOrganization =  (organizationname, accountid)  => {
+  var activityRef = db.collection("organizations").doc(organizationname);
+  activityRef.get().then(function(doc) {
+      if (doc.exists){
+        var prevActivity = doc.data().organizationactivity
+        prevActivity.map((act) => {
+
+        })
+        }
+    }).catch(function(error) {
+      // console.log("Error getting document:", error);
+  });
+}
+export const addActivityToOrganization = (organizationname, activity) => {
+  // console.log("Activity:",activity)
+  var activityRef = db.collection("organizations").doc(organizationname);
+
+  activityRef.get().then(function(doc) {
+      if (doc.exists){
+        var prevActivity = doc.data().organizationactivity
+        //
+        console.log("addActivityToOrganization PrevActivity:",prevActivity)
+        // console.log(activity.runbookid,activity.runbooktitle,activity.runbookstatus,activity.runbookobjectives)
+        // prevActivity.map((act,ind) => {
+          // if (act.runbookid === activity.runbookid){
+          //   var index = prevActivity.indexOf(ind);
+          //   if (index > -1) {
+          //     prevActivity.splice(index, 1);
+          //     prevActivity.push({
+          //       runbookid:activity.runbookid,
+          //       runbooktitle:activity.runbooktitle,
+          //       runbookobjectives: activity.runbookobjectives,
+          //       runbooktags: activity.runbooktags,
+          //     })
+          //     console.log("New Org Activity",prevActivity)
+          //     activityRef.update({
+          //       organizationactivity: prevActivity
+          //     })
+          //   }
+          // }
+
+          // Need to avoid duplicates for the same runbook
+            prevActivity.push({
+              runbookid:activity.runbookid,
+              runbooktitle:activity.runbooktitle,
+              runbookobjectives: activity.runbookobjectives,
+              runbooktags: activity.runbooktags,
+            })
+            console.log("New Org Activity",prevActivity)
+            activityRef.update({
+              organizationactivity: prevActivity
+            })
+
+
+
+        }
+    }).catch(function(error) {
+      // console.log("Error getting document:", error);
+  });
+}
+
+export const completeOrganizationActivityFirestore = (organizationname, activity) => {
+  // console.log("Activity:",activity)
+  var activityRef = db.collection("organizations").doc(organizationname);
+
+  activityRef.get().then(function(doc) {
+      if (doc.exists){
+        var prevActivity = doc.data().organizationactivity
+        //
+        console.log("completeOrganizationActivityFirestore PrevActivity:",prevActivity)
+        prevActivity.map((act,ind) => {
+
+          if (act.runbookid === activity.runbookid){
+            console.log("%c completeOrganizationActivityFirestore ",'color:blue; font-weight:bold;')
+            console.log("Match",act.runbookid, activity)
+            prevActivity[ind] = {
+              runbookid:activity.runbookid,
+              runbooktitle:activity.runbooktitle,
+              runbookobjectives: activity.runbookobjectives,
+              runbooktags: activity.runbooktags,
+            }
+            console.log("New Org Activity",prevActivity)
+            activityRef.update({
+              organizationactivity: prevActivity
+            })
+          }
+
+        })
+      }
+    }).catch(function(error) {
+      // console.log("Error getting document:", error);
+  });
+}
+
+export const getOrganizationActivity = (organizationname) => {
+    var activityRef = db.collection("organizations").doc(organizationname);
+    activityRef.get().then(function(doc) {
+        if (doc.exists) {
+            return doc.data().organizationactivity
+        } else {
+            // doc.data() will be undefined in this case
+            // console.log("No such document!");
+        }
+    }).catch(function(error) {
+        // console.log("Error getting document:", error);
+    });
 }
 
 
@@ -198,10 +336,10 @@ export const getOrganizationMembers = (organizationname) => {
             return doc.data().organizationmembers
         } else {
             // doc.data() will be undefined in this case
-            console.log("No such document!");
+            // console.log("No such document!");
         }
     }).catch(function(error) {
-        console.log("Error getting document:", error);
+        // console.log("Error getting document:", error);
     });
 }
 
@@ -219,7 +357,7 @@ export const doCreateUserWithEmailAndPassword = (email, password) =>
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log("Error Message:",errorCode,errorMessage);
+        // console.log("Error Message:",errorCode,errorMessage);
         return errorMessage
     });
 
@@ -246,7 +384,7 @@ export const doSignInWithEmailAndPassword = (email, password) =>
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log("Error Message:",errorCode,errorMessage);
+        // console.log("Error Message:",errorCode,errorMessage);
         return errorMessage
     }, ()=> {
       //set session
@@ -261,7 +399,7 @@ export const doSignInWithEmailAndPassword = (email, password) =>
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
-        console.log(errorCode,errorMessage)
+        // console.log(errorCode,errorMessage)
         });
 
       });
@@ -290,11 +428,11 @@ export const getJWTVerifyToken = () => {
 // Sign out
 export const doSignOut = () =>
     auth.signOut().then( () => {
-      console.log("Signing out!")
+      // console.log("Signing out!")
         return null
     }).catch(function(error) {
         // Handle Errors here.
-        console.log("Error Message:",error);
+        // console.log("Error Message:",error);
         return error
     });
 

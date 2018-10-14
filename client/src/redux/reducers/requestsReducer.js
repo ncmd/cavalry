@@ -8,7 +8,11 @@ export default function(state = [], action) {
         case 'GET_REQUESTS':
           return action.payload;
         case ADD_REQUEST:
-            return {...state};
+          const indexActivity = action.payloadindex;
+          console.log(state)
+            return {...state,
+                  [indexActivity]: action.payload
+            };
         case EDIT_REQUEST_TAGS:
           return [{ ...state[0], tags:action.payload}];
         default:

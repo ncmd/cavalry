@@ -175,6 +175,7 @@ func c_organizations_create_orgnaization_in_firebase(w http.ResponseWriter, r *h
 					"department":   "any",
 				},
 			},
+			"organizationactivity": []interface{}{},
 		})
 		if err != nil {
 			log.Fatalln(err)

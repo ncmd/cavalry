@@ -301,18 +301,18 @@ class Manage extends Component {
 
     renderAccountDetails(){
       return (
-        <div style={{background:'white', marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:40}}>
-        <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
-          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
+        <div style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius: this.props.theme[0].BorderRadius, marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:40}}>
+        <Grid container style={{flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
+          <Grid item style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
             <div>
-              <Typography variant={'display1'} style={{color:'black'}}>Your information</Typography>
+              <Typography variant={'display1'} style={{background:this.props.theme[0].PostsButtonBackground, color:this.props.theme[0].PostsTypographyTitle}}>Your information</Typography>
             </div>
           </Grid>
         </Grid>
         <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
-          <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"45em"}} xs={12}>
+          <Grid item style={{flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"45em"}} xs={12}>
             <div>
-              <Typography variant={'body2'} style={{color:'black'}}><b>Email Address: </b>{this.props.users.email}</Typography>
+              <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyDescription}}><b>Email Address: </b>{this.props.users.email}</Typography>
             </div>
           </Grid>
         </Grid>
@@ -500,13 +500,13 @@ class Manage extends Component {
                     style={{
                         flexGrow: 1,
                         justify: 'center',
-                        background: bodyBlue,
+                        background: this.props.theme[0].MainBackground,
                         height:this.state.height,
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'row'}>
-                      <Grid item >
+                    <Grid container style={{background:this.props.theme[0].PostsButtonBackground,border:this.props.theme[0].PostsButtonBorder, flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'row'}>
+                      <Grid item style={{padding:20}}>
                         <Tabs
                           classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
                           value={this.state.tabValue}
@@ -541,8 +541,8 @@ Manage.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-function mapStateToProps({ groups,users,account }) {
-    return { groups,users,account };
+function mapStateToProps({ groups,users,account,theme }) {
+    return { groups,users,account,theme };
 }
 export default connect(mapStateToProps, {
   addGroupContactname,

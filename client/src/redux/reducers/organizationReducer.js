@@ -7,6 +7,8 @@ import {
     CREATE_ORGANIZATION,
     SET_ORGANIZATION,
     CHANGE_DEPARTMENT_ORGANIZATION,
+    ADD_ACTIVITY_ORGANIZATION,
+    COMPLETE_ACTIVITY_ORGANIZATION,
 } from '../actions/types';
 
 export default function(state = [], action) {
@@ -18,6 +20,19 @@ export default function(state = [], action) {
               organizationmember: true,
               organizationadmin: action.organizationadmin,
               organizationmembers: action.organizationmembers
+            }
+        case ADD_ACTIVITY_ORGANIZATION:
+            const indexActivity = action.payloadindex;
+            console.log(state)
+            return {...state,
+                organizationactivity: {
+                    [indexActivity]: action.payload
+                }
+            }
+        case COMPLETE_ACTIVITY_ORGANIZATION:
+            const indexObjActivity = action.payloadindex;
+            console.log(state)
+            return {...state
             }
         case CHANGE_DEPARTMENT_ORGANIZATION:
             const indexOrgMembers = action.payloadindex;

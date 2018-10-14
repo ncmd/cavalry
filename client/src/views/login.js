@@ -9,11 +9,11 @@ import {
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import { InputGroup, InputGroupText, InputGroupAddon, Input, FormFeedback } from 'reactstrap';
+import { InputGroup, InputGroupText, InputGroupAddon, Input, FormFeedback,  Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import * as auth from "../components/firebase/auth";
 import { googleanalytics } from '../components/analytics';
-
-const bodyBlue = "linear-gradient(#1a237e, #121858)";
+import {Link} from "react-router-dom";
+// const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const resetPasswordButton = "linear-gradient(to right, #ff1744, #F44336 ";
 
 class Login extends Component {
@@ -28,7 +28,9 @@ class Login extends Component {
             status: null,
             emailExists:false,
             loginError: '',
+            modal: false
         };
+        this.toggle = this.toggle.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.handleEmail = this.handleEmail.bind(this);
         this.handlePassword = this.handlePassword.bind(this);
@@ -154,7 +156,7 @@ class Login extends Component {
 
     renderButton(){
       return (
-        <Button style={{height:40, width:'100%', background:this.props.theme[0].Secondary, marginTop:40, textTransform:'none'}}  onClick={() =>this.handleLogin(this.state.email,this.state.password)}><Typography variant={'caption'} style={{ textTransform:'none', color:'white'}}><b>login</b></Typography></Button>
+        <Button style={{height:40, marginTop:20,width:'100%',border:'1px solid rgba(27,31,35,0.2)', background:'#28a745', backgroundImage:'linear-gradient(-180deg,#3d63ff,#5533ff 90%)'}}  onClick={() =>this.handleLogin(this.state.email,this.state.password)}><Typography variant={'caption'} style={{ textTransform:'none', color:'white'}}><b>Sign in</b></Typography></Button>
       )
 
     }
@@ -195,6 +197,18 @@ class Login extends Component {
         }
     }
 
+    toggle() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+
+  passwordResetSetup(){
+    auth.doPasswordReset(this.state.email)
+    this.toggle()
+
+  }
+
     renderLoginError(){
       if (this.state.loginError === ''){
         return (
@@ -203,8 +217,17 @@ class Login extends Component {
       } else {
         return (
           <div>
-            <Typography style={{color:'white'}} variant={'caption'}>{this.state.loginError}</Typography>
-            <Button style={{background:resetPasswordButton}} onClick={() => auth.doPasswordReset(this.state.email)}><Typography style={{color:'white'}} variant={'caption'}><b>Reset password</b></Typography></Button>
+            <Typography style={{color:this.props.theme[0].PostsTypographyDescription}} variant={'caption'}>{this.state.loginError}</Typography>
+            <Button style={{background:resetPasswordButton}} onClick={() => this.passwordResetSetup()}><Typography style={{color:'white', textTransform:'none'}} variant={'caption'}><b>Reset password</b></Typography></Button>
+              <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                <ModalHeader toggle={this.toggle}>Reset link sent!</ModalHeader>
+                <ModalBody>
+                  Please check your Email for your password reset link.
+                </ModalBody>
+                <ModalFooter>
+                  <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={ () => this.toggle()}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Close</b></Typography></Button>{' '}
+                </ModalFooter>
+              </Modal>
           </div>
         )
       }
@@ -224,33 +247,36 @@ class Login extends Component {
                     }}
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
-                        <Grid style={{background:'transparent'}} container direction={'row'} justify={'center'} alignItems={'center'}>
-                            <Paper square={false} style={{background:this.props.theme[0].PrimaryLinear, height:425,width:428,maxWidth:"95%", marginTop:20}}>
-                                <Grid item style={{margin:20, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
-                                    <Typography variant="headline" style={{color:'white', marginTop:40}}>
-                                        <b>Log in to your account</b>
+                        <Grid style={{ height:480,width:428, marginTop:20, marginLeft:'auto', marginRight:'auto'}} container direction={'row'} justify={'center'} alignItems={'flex-start'}>
+                                <Grid item style={{ textAlign:'center', marginTop:20,marginLeft:'auto',marginRight:'auto', width:'75%'}}>
+                                  <img src="./cavalry.svg" style={{width:70,height:70}}></img>
+                                    <Typography style={{color:this.props.theme[0].PostsTypographyTitle, margin:20, letterSpacing:'-0.5px', fontSize:'24px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                                        <b>Sign in to Cavalry</b>
                                     </Typography>
-                                    <InputGroup style={{marginTop:40}}>
-                                        <InputGroupAddon addonType="prepend">
-                                            <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">📮</span></InputGroupText>
-                                        </InputGroupAddon>
-                                        <Input style={{border:0}} placeholder="Email Address" onChange={this.handleEmail('email')}/>
-                                    </InputGroup>
-                                    <InputGroup style={{marginTop:40}}>
-                                        <InputGroupAddon addonType="prepend">
-                                            <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">🔑</span></InputGroupText>
-                                        </InputGroupAddon>
-                                        {this.state.validPassword
-                                            ?
-                                            <Input valid  style={{border:0}} type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
-                                            :
-                                            <Input invalid style={{border:0}} type="password" placeholder="Password" onChange={this.handlePassword('password')}/>
-                                        }
-                                    </InputGroup>
-                                    {this.renderLoginError()}
-                                    {this.renderButton()}
                                 </Grid>
-                            </Paper>
+                                <Grid item style={{ textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'90%', background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, padding:20}}>
+                                  <Typography variant={'caption'} style={{marginTop:20, marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyDescription}} ><b>Email address</b></Typography>
+                                  <InputGroup >
+                                      <Input style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} placeholder="" onChange={this.handleEmail('email')}/>
+                                  </InputGroup>
+                                  <Typography variant={'caption'} style={{marginTop:20, marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyDescription}} ><b>Password</b></Typography>
+                                  <InputGroup>
+                                      {this.state.validPassword
+                                          ?
+                                          <Input valid  style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} type="password" placeholder="" onChange={this.handlePassword('password')}/>
+                                          :
+                                          <Input invalid style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} type="password" placeholder="" onChange={this.handlePassword('password')}/>
+                                      }
+                                  </InputGroup>
+                                  {this.renderLoginError()}
+                                  {this.renderButton()}
+                                </Grid>
+                                <Grid item style={{ marginTop:20,textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'90%', background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, padding:20}}>
+                                  <Typography style={{color:this.props.theme[0].PostsTypographyTitle, margin:10, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                                      <b>New to Cavalry? <Link to={{ pathname: '/signup'}}>Create an account.</Link></b>
+                                  </Typography>
+                                </Grid>
+
                         </Grid>
                     </Grid>
                 </div>

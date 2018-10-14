@@ -1,0 +1,16 @@
+activity
+	0 {
+		runbookid
+		runbookname
+		runbookstatus [ launched, canceled, completed]
+		runbook_objectives {
+			0 {
+				obj1_title,
+				obj1_description,
+				obj1_status [assigned, in-progress, blocked, completed]
+			}
+		}
+	},
+	1 {
+		...
+	}

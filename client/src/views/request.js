@@ -11,13 +11,13 @@ import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { Form, FormGroup, Input } from 'reactstrap';
-import { AlgoliaRequestsHits } from '../components/algolia/config';
+// import { AlgoliaRequestsHits } from '../components/algolia/config';
 import { InstantSearch } from 'react-instantsearch-dom';
 import Truncate from 'react-truncate';
 import Hidden from '@material-ui/core/Hidden';
 
 const keys = require('../secrets/keys');
-const bodyBlue = "linear-gradient(#1a237e, #121858)";
+// const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const actionButton = "linear-gradient(to right, #ff1744, #F44336 ";
 
 class Request extends Component {
@@ -33,6 +33,7 @@ class Request extends Component {
             tagsValid:false,
             tags:'',
             runbookRequested:false,
+            requests:[],
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
@@ -45,7 +46,22 @@ class Request extends Component {
       // } else {
       //     // console.log("User ")
       // }
-      this.props.getRequests()
+      this.props.getRequests().then(()=> {
+        if (this.props.requests.length > 0){
+          var prevRequests = this.state.requests
+          this.props.requests.map((req) => {
+            prevRequests.push({
+              description: req.description,
+              tags: req.tags,
+            })
+            return null
+          })
+          this.setState({
+            requests:prevRequests
+          })
+          console.log("This state requests:",this.state.requests)
+        }
+      })
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
 
@@ -97,7 +113,7 @@ class Request extends Component {
               tags: myArray
             })
 
-            this.props.editRequestTags(myArray)
+            // this.props.editRequestTags(myArray)
 
             console.log("Tags are valid!")
         } else {
@@ -107,12 +123,17 @@ class Request extends Component {
     }
 
     submitRequest(description,tags){
+      console.log("submitRequest:",description,tags)
       if(this.state.tagsValid === true){
         this.props.addRequest(description,tags);
+        var prevRequests = this.state.requests
+        prevRequests.push({
+          description:description,
+          tags:tags,
+        })
         this.setState({
-          runbookRequested: true
-        }, () => {
-          this.props.history.push('/request')
+          requests:prevRequests,
+          runbookRequested: true,
         })
       }
     }
@@ -130,8 +151,8 @@ class Request extends Component {
     }
 
     renderRequests(){
-      if (this.props.requests !== null && this.props.requests.length > 0 ){
-      return (this.props.requests.map((hit,index) => {
+      if ( this.state.requests.length > 0 ){
+      return (this.state.requests.map((hit,index) => {
           return (
           <Grid item xs={12} key={index+Math.random()+(Math.random())} style={{ marginBottom:5, maxWidth:'100%', marginLeft:10, marginRight:10}}>
               <Button variant="contained" style={{ height:100, border: this.props.theme[0].PostsButtonBorder, background:this.props.theme[0].PostsButtonBackground, textTransform: 'none',  minWidth:'100%'}}>
