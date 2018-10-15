@@ -109,6 +109,12 @@ class Login extends Component {
 
     }
 
+    _handleKeyPress = (e) => {
+      if (e.key === 'Enter') {
+        this.handleLogin(this.state.email,this.state.password)
+      }
+    }
+
 
     handlePassword = password => event => {
 
@@ -133,13 +139,9 @@ class Login extends Component {
                 // }
             }
         });
-    };
 
-    _handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      console.log('do validate');
-    }
-  }
+
+    };
 
 
     validatePassword(password){
@@ -264,9 +266,9 @@ class Login extends Component {
                                   <InputGroup>
                                       {this.state.validPassword
                                           ?
-                                          <Input valid  style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} type="password" placeholder="" onChange={this.handlePassword('password')}/>
+                                          <Input valid  style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} type="password" placeholder="" onKeyPress={this._handleKeyPress} onChange={this.handlePassword('password')}/>
                                           :
-                                          <Input invalid style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} type="password" placeholder="" onChange={this.handlePassword('password')}/>
+                                          <Input invalid style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} type="password" placeholder="" onKeyPress={this._handleKeyPress} onChange={this.handlePassword('password')}/>
                                       }
                                   </InputGroup>
                                   {this.renderLoginError()}
