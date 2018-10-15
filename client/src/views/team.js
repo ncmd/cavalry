@@ -332,9 +332,9 @@ class Team extends Component {
         <div>
 
           <Form style={{paddingTop:30, paddingBottom:30}}>
-            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'display2'}>{res}</Typography>
+            <div style={{color:this.props.theme[0].PostsTypographyTitle}} >{res}</div>
             <FormGroup>
-              <Typography style={{color:this.props.theme[0].PostsTypographyDescription}}>Invite users to your team!</Typography>
+              <div style={{color:this.props.theme[0].PostsTypographyDescription}}>Invite users to your team!</div>
               <Input value={this.state.inputEmailaddress} onChange={this.handleInputEmailaddress('inputEmailaddress')} placeholder="name@company.com"/>
             </FormGroup>
             {this.renderSetupButton()}
@@ -346,11 +346,11 @@ class Team extends Component {
     renderSetupButton(){
       if(this.state.validEmail === true){
         return (
-          <Button style={{background:actionButton}} onClick={() => this.addGroup(this.state.inputEmailaddress,)}><Typography variant={"caption"} style={{color:'white', textTransform: 'none'}}><b>Invite</b></Typography></Button>
+          <Button style={{background:actionButton}} onClick={() => this.addGroup(this.state.inputEmailaddress,)}><div  style={{color:'white', textTransform: 'none'}}><b>Invite</b></div></Button>
         )
       } else {
         return (
-          <Button disabled style={{background:"grey"}} ><Typography variant={"caption"} style={{color:'white', textTransform: 'none'}}><b>Invite</b></Typography></Button>
+          <Button disabled style={{background:"grey"}} ><div  style={{color:'white', textTransform: 'none'}}><b>Invite</b></div></Button>
         )
       }
     }
@@ -358,12 +358,12 @@ class Team extends Component {
     renderOrganizationNameError(){
       if(this.state.validOrganization === false){
         return (
-            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'caption'}>Not a valid Organization name. At least 4 characters, max 30 characters, no special characters.</Typography>
+            <div style={{color:this.props.theme[0].PostsTypographyTitle}} >Not a valid Organization name. At least 4 characters, max 30 characters, no special characters.</div>
         )
       }
       if(this.props.organization.check === "exists"){
         return (
-            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'caption'}>This organization exists! Request to Join or Create a new Organization.</Typography>
+            <div style={{color:this.props.theme[0].PostsTypographyTitle}} >This organization exists! Request to Join or Create a new Organization.</div>
         )
       }
     }
@@ -372,13 +372,13 @@ class Team extends Component {
       if(this.state.validOrganizationJoin === false){
         return (
           <div>
-            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'caption'}>Not a valid Organization name. At least 4 characters, max 30 characters, no special characters.</Typography>
+            <div style={{color:this.props.theme[0].PostsTypographyTitle}} >Not a valid Organization name. At least 4 characters, max 30 characters, no special characters.</div>
           </div>
         )
       }
       if(this.props.organization.check === "available"){
         return (
-            <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'caption'}>This organization does not exist! You can Create a new Organization or ask your team for the correct Organization name.</Typography>
+            <div style={{color:this.props.theme[0].PostsTypographyTitle}} >This organization does not exist! You can Create a new Organization or ask your team for the correct Organization name.</div>
         )
       }
     }
@@ -394,12 +394,12 @@ class Team extends Component {
       if (this.state.validOrganization === true && this.props.organization.check === 'available'){
         return (
           <div>
-            <Button onClick={() => this.createAndJoinOrganization()} style={{background:this.props.theme[0].PrimaryLinear}}><Typography style={{textTransform:'none', color:'white'}} variant={'caption'}><b>Create</b></Typography> </Button>
+            <Button onClick={() => this.createAndJoinOrganization()} style={{background:this.props.theme[0].PrimaryLinear}}><div style={{textTransform:'none', color:'white'}} ><b>Create</b></div> </Button>
           </div>
         )
       } else {
         return (
-          <Button disabled style={{background:'grey'}}><Typography style={{textTransform:'none', color:'white'}} variant={'caption'}><b>Create</b></Typography> </Button>
+          <Button disabled style={{background:'grey'}}><div style={{textTransform:'none', color:'white'}} ><b>Create</b></div> </Button>
         )
       }
     }
@@ -407,11 +407,11 @@ class Team extends Component {
     renderButtonValidOrgNameJoin(){
       if (this.state.validOrganizationJoin === true && this.props.organization.check === 'exists'){
         return (
-          <Button style={{background:actionButton}}><Typography style={{textTransform:'none', color:this.props.theme[0].PrimaryLinear}} variant={'caption'}><b>Request</b></Typography> </Button>
+          <Button style={{background:actionButton}}><div style={{textTransform:'none', color:this.props.theme[0].PrimaryLinear}} ><b>Request</b></div> </Button>
         )
       } else {
         return (
-          <Button disabled style={{background:'grey'}}><Typography style={{textTransform:'none', color:'white'}} variant={'caption'}><b>Request</b></Typography> </Button>
+          <Button disabled style={{background:'grey'}}><div style={{textTransform:'none', color:'white'}} ><b>Request</b></div> </Button>
         )
       }
     }
@@ -425,7 +425,7 @@ class Team extends Component {
                 <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                     <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                     <Grid item style={{width:'100%'}}>
-                      <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'title'}><b>Create or Join an Organization to be able to manage a Team</b></Typography>
+                      <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Create or Join an Organization to be able to manage a Team</b></div>
                     </Grid>
                   </Grid>
                 </Form>
@@ -437,7 +437,7 @@ class Team extends Component {
                   <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                       <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                       <Grid item style={{width:'100%'}}>
-                      <Typography style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Create</b> an Organization</Typography>
+                      <div style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Create</b> an Organization</div>
                       {this.state.validOrganization
                         ?
                         <Input valid value={this.state.organizationname} onChange={this.handleInputOrganizationName('organizationname')} placeholder="piedpiper"/>
@@ -457,7 +457,7 @@ class Team extends Component {
                   <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                       <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                       <Grid item style={{width:'100%'}}>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Request</b> to join Organization</Typography>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Request</b> to join Organization</div>
                           {this.state.validOrganizationJoin
                             ?
                             <Input valid value={this.state.organizationnamejoin} onChange={this.handleInputOrganizationNameJoin('organizationnamejoin')} placeholder="piedpiper"/>
@@ -509,9 +509,9 @@ class Team extends Component {
                   <Table className={classes.table}>
                     <TableHead>
                       <TableRow>
-                        <TableCell><Typography style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Email Address</b></Typography></TableCell>
-                        <TableCell><Typography style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Department</b></Typography></TableCell>
-                        <TableCell><Typography style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Status</b></Typography></TableCell>
+                        <TableCell><div style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Email Address</b></div></TableCell>
+                        <TableCell><div style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Department</b></div></TableCell>
+                        <TableCell><div style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Status</b></div></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -519,7 +519,7 @@ class Team extends Component {
                         if(g.status === "active"){
                           return (
                             <TableRow key={g.emailaddress}>
-                              <TableCell><Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyDescription}}>{g.emailaddress}</Typography></TableCell>
+                              <TableCell><div  style={{color:this.props.theme[0].PostsTypographyDescription}}>{g.emailaddress}</div></TableCell>
                               <TableCell>
                                 {this.renderSelect(index,{value:g.department,label:g.department})}
                               </TableCell>
@@ -529,7 +529,7 @@ class Team extends Component {
                         } else if (g.status === "invited"){
                           return (
                             <TableRow key={g.emailaddress}>
-                              <TableCell><Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyDescription}}>{g.emailaddress}</Typography></TableCell>
+                              <TableCell><div  style={{color:this.props.theme[0].PostsTypographyDescription}}>{g.emailaddress}</div></TableCell>
                                 <TableCell>
                                   {this.renderSelect(index,{value:g.department,label:g.department})}
                                 </TableCell>
@@ -539,7 +539,7 @@ class Team extends Component {
                         }else if (g.status === "requested"){
                           return (
                             <TableRow key={g.emailaddress}>
-                              <TableCell><Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyDescription}}>{g.emailaddress}</Typography></TableCell>
+                              <TableCell><div  style={{color:this.props.theme[0].PostsTypographyDescription}}>{g.emailaddress}</div></TableCell>
                                 <TableCell>
                                   {this.renderSelect(index,{value:g.department,label:g.department})}
                                 </TableCell>
@@ -554,7 +554,7 @@ class Team extends Component {
               </Grid>
             </Grid>
             <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
-              {/*<Button style={{background:actionButton}} onClick={() => this.props.leaveOrganization(this.props.organization.organizationname,this.props.account.accountid)}><Typography style={{color:'white'}} variant={'caption'}>Leave Organization</Typography></Button>*/}
+              {/*<Button style={{background:actionButton}} onClick={() => this.props.leaveOrganization(this.props.organization.organizationname,this.props.account.accountid)}><div style={{color:'white'}} >Leave Organization</div></Button>*/}
             </Grid>
 
           </div>

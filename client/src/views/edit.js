@@ -549,8 +549,8 @@ class Edit extends Component {
                         </div>
                       <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" >
                           <Grid key={obj.department+Math.random()+(Math.random())} item >
-                            <span style={{background:'#7795f8',height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
-                              <div  style={{color:'white'}}><font size="1"><b>{obj.department}</b></font></div>
+                            <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
+                              <div style={{color:'white',  letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{obj.department}</b></div>
                             </span>
                         </Grid>
                         </Grid>
@@ -727,7 +727,8 @@ class Edit extends Component {
                         flexGrow: 1,
                         justify: 'center',
                         background: this.renderTheme(),
-                        height:this.state.height+400+(300*this.state.objectives.length)
+                        height:this.state.height+400+(300*this.state.objectives.length),
+                        paddingTop:5,
                     }}
                 >
                     {/* Top Section */}
@@ -836,7 +837,7 @@ class Edit extends Component {
                                     </Grid>
                                 </Grid>
                     <Grid container alignItems="center" direction="row" justify="space-between" style={{ flexGrow:1, margin:"0 auto", maxWidth:"63em", paddingTop:20}}>
-                      <div style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}>You can sort the objectives by dragging and dropping the objects</div>
+                      <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Preview:</b> You can sort the objectives by dragging and dropping the objects</div>
                                 {this.renderObjectives()}
                                 </Grid>
                 </div>

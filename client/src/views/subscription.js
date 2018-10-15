@@ -178,7 +178,7 @@ class Subscription extends Component {
       } else {
         return (
           <div style={{width:273,height:360, marginBottom:20, background: this.props.theme[0].PostsButtonBackground,border:this.props.theme[0].PostsButtonBorder,borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
-            <Typography style={{color:this.props.theme[0].PostsTypographyTitle, display: 'inline-block', padding:'25px 0'}} variant={'body2'}>Please select a plan</Typography>
+            <div style={{color:this.props.theme[0].PostsTypographyTitle, display: 'inline-block', padding:'25px 0'}} >Please select a plan</div>
           </div>
         )
       }
@@ -214,17 +214,17 @@ class Subscription extends Component {
                 >
                         <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                           <Grid item style={{marginBottom:30}}>
-                            <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'45px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                            <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'45px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                 <b>Welcome to Cavalry</b>
-                            </Typography>
-                            <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                            </div>
+                            <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                 You've taken your first step into a global community.
-                            </Typography>
+                            </div>
                           </Grid>
                           <Grid item>
-                            <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                            <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                 <b>Select a plan that works for you:</b>
-                            </Typography>
+                            </div>
                           </Grid>
                         </Grid>
                         <Grid container style={{flexGrow:1,border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, background: this.props.theme[0].PostsButtonBackground, margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
@@ -234,22 +234,22 @@ class Subscription extends Component {
                               <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem1()}}>
 
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$35</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                                  <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$35</b> billed every month</Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$420</b> per year)</Typography>
+                                  <div style={{color:'black',textTransform:'none'}} >1 Month</div>
+                                  <div style={{color:'black'}} ><b>$35</b></div>
+                                  <div style={{textTransform:'none'}} >per month</div>
+                                  <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$35</b> billed every month</div>
+                                  <div style={{textTransform:'none'}} >(<b>$420</b> per year)</div>
                                 </div>
                               </Button>
                               :
                               <Button className="box" style={{background:'white', height:230, width:230 ,border:this.props.theme[0].PostsButtonBorder}} onClick={()=> {this.handleClickItem1()}}>
 
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$35</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$35</b> billed every month</Typography>
-                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$420</b> per year)</Typography>
+                                  <div style={{color:'black',textTransform:'none'}} >1 Month</div>
+                                  <div style={{color:'black'}} ><b>$35</b></div>
+                                  <div style={{textTransform:'none'}} >per month</div>
+                                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$35</b> billed every month</div>
+                                    <div style={{textTransform:'none'}} >(<b>$420</b> per year)</div>
                                 </div>
                               </Button>
                             }
@@ -260,22 +260,22 @@ class Subscription extends Component {
                               <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem2()}}>
                                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$25</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$300</b> billed every 12 months</Typography>
-                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$300</b> per year)</Typography>
+                                  <div style={{color:'black',textTransform:'none'}} >12 Months</div>
+                                  <div style={{color:'black'}} ><b>$25</b></div>
+                                  <div style={{textTransform:'none'}} >per month</div>
+                                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$300</b> billed every 12 months</div>
+                                    <div style={{textTransform:'none'}} >(<b>$300</b> per year)</div>
                                 </div>
                               </Button>
                               :
                               <Button className="box" style={{background:'white', height:230, width:230,border:this.props.theme[0].PostsButtonBorder}} onClick={()=> {this.handleClickItem2()}}>
                                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$25</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$300</b> billed every 12 months</Typography>
-                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$300</b> per year)</Typography>
+                                  <div style={{color:'black',textTransform:'none'}} >12 Months</div>
+                                  <div style={{color:'black'}} ><b>$25</b></div>
+                                  <div style={{textTransform:'none'}} >per month</div>
+                                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$300</b> billed every 12 months</div>
+                                    <div style={{textTransform:'none'}} >(<b>$300</b> per year)</div>
                                 </div>
                               </Button>
                             }
@@ -286,36 +286,36 @@ class Subscription extends Component {
                               <Button className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}} onClick={()=> {this.handleClickItem3()}}>
                                    <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$1</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>for now...</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$1</b> billed every month</Typography>
-                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</Typography>
+                                  <div style={{color:'black',textTransform:'none'}} >Beta</div>
+                                  <div style={{color:'black'}} ><b>$1</b></div>
+                                  <div style={{textTransform:'none'}} >for now...</div>
+                                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$1</b> billed every month</div>
+                                    <div style={{textTransform:'none'}} >(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</div>
                                 </div>
                               </Button>
                               :
                               <Button className="box" style={{background:'white', height:230, width:230,border:this.props.theme[0].PostsButtonBorder}} onClick={()=> {this.handleClickItem3()}}>
                                 <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                                 <div>
-                                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta</Typography>
-                                  <Typography style={{color:'black'}} variant={'display1'}><b>$1</b></Typography>
-                                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$1</b> billed every month</Typography>
-                                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</Typography>
+                                  <div style={{color:'black',textTransform:'none'}} >Beta</div>
+                                  <div style={{color:'black'}} ><b>$1</b></div>
+                                  <div style={{textTransform:'none'}} >per month</div>
+                                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$1</b> billed every month</div>
+                                    <div style={{textTransform:'none'}} >(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</div>
                                 </div>
                               </Button>
                             }
                           </Grid>
                           <Grid item xs={12}>
-                            <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyDescription, textAlign:'center'}}>All amounts are shown in <b>USD</b></Typography>
+                            <div  style={{color:this.props.theme[0].PostsTypographyDescription, textAlign:'center'}}>All amounts are shown in <b>USD</b></div>
                           </Grid>
                         </Grid>
 
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
                       <Grid item>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                             <b>Enter payment information:</b>
-                        </Typography>
+                        </div>
                       </Grid>
                     </Grid>
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20}} direction={'row'} justify={'flex-start'} alignItems={'flex-start'}>
@@ -323,16 +323,16 @@ class Subscription extends Component {
                           {this.renderStripe()}
                       </Grid>
                       <Grid item style={{ border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius,background:this.props.theme[0].PostsButtonBackground, padding:40}} xs>
-                          <Typography style={{color:this.props.theme[0].PostsTypographyTitle, marginTop:-20, marginBottom:10, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                          <div style={{color:this.props.theme[0].PostsTypographyTitle, marginTop:-20, marginBottom:10, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                               You're going to love Cavalry
-                          </Typography>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">🚫</span> No Advertisements</Typography>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 24/7 support by <span aria-label="emoji" role="img">📧</span> email</Typography>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">📚</span> Unlimited runbook access</Typography>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request for <span aria-label="emoji" role="img">📕</span> runbooks</Typography>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Able to request new <span aria-label="emoji" role="img">😍</span> features</Typography>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> Create & edit your <span aria-label="emoji" role="img">📖</span> runbooks</Typography>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} variant={'body2'}><Check style={{color:'#00e676'}}/> 95.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</Typography>
+                          </div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">🚫</span> No Advertisements</div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> 24/7 support by <span aria-label="emoji" role="img">📧</span> email</div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">📚</span> Unlimited runbook access</div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> Able to request for <span aria-label="emoji" role="img">📕</span> runbooks</div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> Able to request new <span aria-label="emoji" role="img">😍</span> features</div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> Create & edit your <span aria-label="emoji" role="img">📖</span> runbooks</div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> 95.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</div>
                       </Grid>
                     </Grid>
                 </div>
