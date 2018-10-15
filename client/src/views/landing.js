@@ -194,16 +194,16 @@ class Landing extends Component {
                                    </Hidden>
                                  </div>
 
-                                <div  style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                <div  style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden',  letterSpacing:'-0.5px', fontSize:'15px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                  <Hidden smUp>
-                                 <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
+                                 <Truncate width={255} lines={1} ellipsis={<span>...</span>}>
                                     {hit.title}
                                 </Truncate>
                               </Hidden>
                                </div>
-                               <div  style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                               <div  style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden' ,letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                  <Hidden smUp>
-                                 <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
+                                 <Truncate width={255} lines={1} ellipsis={<span>...</span>}>
                                     {hit.description}
                                 </Truncate>
                               </Hidden>
@@ -212,11 +212,11 @@ class Landing extends Component {
                               <Grid item style={{marginRight:5}}>
                                 <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
                                   {hit.tags.slice(0, 3).map((value) => {
-                                    if (value !== " "){
+                                    if (value !== " " && value.length < 15){
                                       return(
                                         <Grid key={value+Math.random()+(Math.random())} item >
                                           <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
-                                            <div style={{color:'white',  letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{value}</b></div>
+                                            <div style={{color:'white', letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{value}</b></div>
                                           </span>
                                       </Grid>)
                                     }
