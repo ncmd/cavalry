@@ -13,18 +13,30 @@ class banner extends Component {
           sentence3:"Stay prepared.",
           sentence4:"The Cavalry's Here!",
           render:true,
-          showSignup: false,
         };
     }
 
-    componentDidMount() {
+    clearTimeouts() {
+        this.timeouts.forEach(clearTimeout);
+    }
+
+    timeout(){
       setTimeout(() => {
         this.setState({
           render:false,
-          showSignup: true,
         })
-
       }, 18900);
+    }
+
+    componentDidMount() {
+      this.timeout()
+    }
+
+
+    componentWillUnmount(){
+      if (this.timeout) {
+        clearTimeout(this.timeout)
+      }
     }
 
     renderTypist(){
@@ -32,7 +44,7 @@ class banner extends Component {
         return (
           <Grid container style={{ flexGrow:1, margin:"0 auto", maxWidth:"35em", paddingBottom:10}} >
               <Grid item xs={12} style={{ borderColor:'#474f97', textTransform: 'none', border:'0px solid #474f97', marginLeft:5, marginRight:5}}>
-          <Typography style={{color:'#3d63ff', textAlign:'center'}} variant={"title"} >
+          <div style={{color:'#3d63ff', textAlign:'center', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:440, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} variant={"title"} >
             <Typist>
               <span><b>{this.state.sentence1}</b></span>
                 <Typist.Backspace count={this.state.sentence1.length} delay={1000} />
@@ -42,7 +54,7 @@ class banner extends Component {
                 <Typist.Backspace count={this.state.sentence3.length} delay={1000} />
               <span><b>{this.state.sentence4}</b></span>
             </Typist>
-          </Typography>
+          </div>
         </Grid>
     </Grid>
         )

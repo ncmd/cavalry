@@ -58,9 +58,9 @@ function Request({ hit }){
           <Button variant="contained" style={{ height:150,background:'#283593',borderColor:'#474f97', textTransform: 'none', minWidth:'100%',maxWidth:'100%'}}>
               <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                   <Grid item xs>
-                   <Typography variant="caption" style={{color:'#939ed5', marginTop:10, flexGrow:1, overflow:'hidden', overflowX:'scroll'}}>
+                   <div  style={{color:'#939ed5', marginTop:10, flexGrow:1, overflow:'hidden', overflowX:'scroll'}}>
                         {hit.description}
-                      </Typography>
+                      </div>
                   </Grid>
                   <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
                     <Grid container style={{ flexGrow:1, height:"100%" }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
@@ -90,37 +90,37 @@ function Post({ hit }) {
                 <Grid item xs={10} style={{textAlign:'left'}}>
                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                         <Grid item zeroMinWidth>
-                            <Typography variant="body1" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden', fontWeight:'bold'}}>
+                            <div  style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden', fontWeight:'bold'}}>
                               <Hidden mdDown>
                               <Truncate width={600} lines={1} ellipsis={<span>...</span>}>
                                  <Highlight attribute="title" hit={hit} />
                              </Truncate>
                            </Hidden>
-                            </Typography>
+                            </div>
 
-                            <Typography variant="caption" style={{color:'#939ed5', marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                            <div  style={{color:'#939ed5', marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                               <Hidden mdDown>
                               <Truncate width={600} lines={1} ellipsis={<span>...</span>}>
                                  {hit.description}
                              </Truncate>
                              </Hidden>
-                           </Typography>
+                           </div>
 
-                          <Typography variant="body2" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                          <div  style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                            <Hidden smUp>
                            <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                               {hit.title}
                           </Truncate>
                         </Hidden>
-                         </Typography>
-                         <Typography variant="caption" style={{color:'#939ed5', marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                         </div>
+                         <div  style={{color:'#939ed5', marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                            <Hidden smUp>
                            <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                               {hit.description}
                           </Truncate>
                         </Hidden>
 
-                            </Typography>
+                            </div>
                         </Grid>
                         <Grid item style={{marginRight:5}}>
                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
@@ -139,9 +139,9 @@ function Post({ hit }) {
                 <Grid item style={{ textAlign:'left',borderLeft: '2px solid rgba(0, 0, 0, 0.12)'}}>
                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                         <Grid item>
-                            <Typography variant="caption" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
+                            <div  style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
                                 {hit.objectives.length} Objectives
-                            </Typography>
+                            </div>
                         </Grid>
                     </Grid>
                 </Grid>
@@ -179,7 +179,7 @@ const MaterialUiCheckBoxRefinementList = ({
             refine(item.value);
           }}
       >
-    <Typography style={{color:'white'}}>{item.label}</Typography>
+    <div style={{color:'white'}}>{item.label}</div>
       </ListItem>
     ))}
   </List>

@@ -14,7 +14,7 @@ import * as auth from "../components/firebase/auth";
 import { googleanalytics } from '../components/analytics';
 import {Link} from "react-router-dom";
 // const bodyBlue = "linear-gradient(#1a237e, #121858)";
-const resetPasswordButton = "linear-gradient(to right, #ff1744, #F44336 ";
+const resetPasswordButton = "linear-gradient(#F44336, #ff1744 ";
 
 class Login extends Component {
 
@@ -156,7 +156,8 @@ class Login extends Component {
 
     renderButton(){
       return (
-        <Button style={{height:40, marginTop:20,width:'100%',border:'1px solid rgba(27,31,35,0.2)', background:'#28a745', backgroundImage:'linear-gradient(-180deg,#3d63ff,#5533ff 90%)'}}  onClick={() =>this.handleLogin(this.state.email,this.state.password)}><Typography variant={'caption'} style={{ textTransform:'none', color:'white'}}><b>Sign in</b></Typography></Button>
+        <Button style={{height:40, marginTop:20,width:'100%',border:'1px solid rgba(27,31,35,0.2)', background:'#28a745', backgroundImage:'linear-gradient(-180deg,#3d63ff,#5533ff 90%)'}}  onClick={() =>this.handleLogin(this.state.email,this.state.password)}>
+          <div  style={{ textTransform:'none', color:'white', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>Sign in</b></div></Button>
       )
 
     }
@@ -217,15 +218,15 @@ class Login extends Component {
       } else {
         return (
           <div>
-            <Typography style={{color:this.props.theme[0].PostsTypographyDescription}} variant={'caption'}>{this.state.loginError}</Typography>
-            <Button style={{background:resetPasswordButton}} onClick={() => this.passwordResetSetup()}><Typography style={{color:'white', textTransform:'none'}} variant={'caption'}><b>Reset password</b></Typography></Button>
+            <div style={{color:this.props.theme[0].PostsTypographyDescription, letterSpacing:'-0.5px', fontSize:'12px', fontWeight:400, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >{this.state.loginError}</div>
+            <Button style={{background:resetPasswordButton}} onClick={() => this.passwordResetSetup()}><div style={{color:'white', textTransform:'none', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>Reset password</b></div></Button>
               <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                 <ModalHeader toggle={this.toggle}>Reset link sent!</ModalHeader>
                 <ModalBody>
                   Please check your Email for your password reset link.
                 </ModalBody>
                 <ModalFooter>
-                  <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={ () => this.toggle()}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Close</b></Typography></Button>{' '}
+                  <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={ () => this.toggle()}><div  style={{color:'white', textTransform:'none'}}><b>Close</b></div></Button>{' '}
                 </ModalFooter>
               </Modal>
           </div>
@@ -247,19 +248,19 @@ class Login extends Component {
                     }}
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
-                        <Grid style={{ height:480,width:428, marginTop:20, marginLeft:'auto', marginRight:'auto'}} container direction={'row'} justify={'center'} alignItems={'flex-start'}>
+                        <Grid style={{ height:480,width:400, marginTop:20, marginLeft:'auto', marginRight:'auto'}} container direction={'row'} justify={'center'} alignItems={'flex-start'}>
                                 <Grid item style={{ textAlign:'center', marginTop:20,marginLeft:'auto',marginRight:'auto', width:'75%'}}>
                                   <img src="./cavalry.svg" style={{width:70,height:70}}></img>
-                                    <Typography style={{color:this.props.theme[0].PostsTypographyTitle, margin:20, letterSpacing:'-0.5px', fontSize:'24px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                                    <div style={{color:this.props.theme[0].PostsTypographyTitle, margin:20, letterSpacing:'-0.5px', fontSize:'24px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                         <b>Sign in to Cavalry</b>
-                                    </Typography>
+                                    </div>
                                 </Grid>
-                                <Grid item style={{ textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'90%', background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, padding:20}}>
-                                  <Typography variant={'caption'} style={{marginTop:20, marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyDescription}} ><b>Email address</b></Typography>
+                                <Grid item style={{ textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'90%', background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, paddingLeft:20, paddingRight:20,paddingBottom:20}}>
+                                  <div  style={{marginTop:20, marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'20px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>Email address</b></div>
                                   <InputGroup >
-                                      <Input style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} placeholder="" onChange={this.handleEmail('email')}/>
+                                      <Input style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px',letterSpacing:'-0.5px', fontSize:'20px', fontWeight:400, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} placeholder="" onChange={this.handleEmail('email')}/>
                                   </InputGroup>
-                                  <Typography variant={'caption'} style={{marginTop:20, marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyDescription}} ><b>Password</b></Typography>
+                                  <div  style={{marginTop:20, marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'20px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>Password</b></div>
                                   <InputGroup>
                                       {this.state.validPassword
                                           ?
@@ -272,9 +273,9 @@ class Login extends Component {
                                   {this.renderButton()}
                                 </Grid>
                                 <Grid item style={{ marginTop:20,textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'90%', background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, padding:20}}>
-                                  <Typography style={{color:this.props.theme[0].PostsTypographyTitle, margin:10, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
-                                      <b>New to Cavalry? <Link to={{ pathname: '/signup'}}>Create an account.</Link></b>
-                                  </Typography>
+                                  <div style={{color:this.props.theme[0].PostsTypographyTitle, margin:10, letterSpacing:'-0.5px', fontSize:'18px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                                      <b>New to Cavalry? <Link style={{textDecoration: 'none' }} to={{ pathname: '/signup'}}>Create an account.</Link></b>
+                                  </div>
                                 </Grid>
 
                         </Grid>

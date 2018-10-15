@@ -402,11 +402,11 @@ class Edit extends Component {
       return (
         <Grid key={(Math.random()+Math.random())+index} style={{minWidth:'100%'}}>
           <FormGroup>
-              <Typography variant="button" style={{color:'white'}}>Objective {index+1}</Typography>
+              <div  style={{color:'white'}}>Objective {index+1}</div>
               <Input placeholder={t.title}  onChange={this.handlePostTitle('postTitle')}/>
           </FormGroup>
           <FormGroup>
-              <Typography variant="button" style={{color:'white'}}>Objective {index+1} Description</Typography>
+              <div  style={{color:'white'}}>Objective {index+1} Description</div>
               <Input type="textarea" style={{height:200}} placeholder={t.description} onChange={this.handlePostDescription('postDescription')}/>
           </FormGroup>
         </Grid>
@@ -541,25 +541,25 @@ class Edit extends Component {
                         provided.draggableProps.style
                       )}
                     >
-                    <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyTitle}}>
-                      <Typography variant={'body2'} style={{background:this.props.theme[0].PrimaryLinear, width:26,height:26, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>{index+1}</Typography><b>{obj.title}</b>
-                    </Typography>
-                      <Typography variant={'body2'}>
+                    <div  style={{color:this.props.theme[0].PostsTypographyTitle}}>
+                      <div  style={{background:this.props.theme[0].PrimaryLinear, width:26,height:26, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>{index+1}</div><b>{obj.title}</b>
+                    </div>
+                      <div >
                         <div dangerouslySetInnerHTML={{__html: obj.description}} />
-                        </Typography>
+                        </div>
                       <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" >
                           <Grid key={obj.department+Math.random()+(Math.random())} item >
                             <span style={{background:'#7795f8',height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
-                              <Typography variant={'caption'} style={{color:'white'}}><font size="1"><b>{obj.department}</b></font></Typography>
+                              <div  style={{color:'white'}}><font size="1"><b>{obj.department}</b></font></div>
                             </span>
                         </Grid>
                         </Grid>
                       <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" >
                         <Grid item >
-                          <Button style={{background:submitButton}} onClick={() => this.removeObjective(index)}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Remove</b></Typography></Button>
+                          <Button style={{background:submitButton}} onClick={() => this.removeObjective(index)}><div  style={{color:'white', textTransform:'none'}}><b>Remove</b></div></Button>
                         </Grid>
                         <Grid item >
-                          <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.editObjective(index)}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Edit</b></Typography></Button>
+                          <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.editObjective(index)}><div  style={{color:'white', textTransform:'none'}}><b>Edit</b></div></Button>
                         </Grid>
                         </Grid>
                     </div>
@@ -708,7 +708,7 @@ class Edit extends Component {
         <div id="toolbar" className="fullToolbar">
           <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="flex-start" direction="row" justify="flex-end" >
               <Grid item>
-                <Button style={{border:this.props.theme[0].PostsButtonBorder, marginRight:10}} className="ql-bold" onClick={() => this.omegafullscreen()}><Typography variant={'caption'} style={{textTransform:'none', color:'black'}}><b>Exit Fullscreen</b></Typography></Button>
+                <Button style={{border:this.props.theme[0].PostsButtonBorder, marginRight:10}} className="ql-bold" onClick={() => this.omegafullscreen()}><div  style={{textTransform:'none', color:'black'}}><b>Exit Fullscreen</b></div></Button>
               </Grid>
             </Grid>
 
@@ -735,7 +735,7 @@ class Edit extends Component {
                         <Grid item style={{width:'100%'}} xs>
                             <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Title</b></Typography>
+                                    <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Title</b></div>
                                       {this.state.titleValid
                                       ?
                                       <Input valid placeholder="Subject of a problem or process" value={this.state.postTitle} onChange={this.handlePostTitle('postTitle')}/>
@@ -744,7 +744,7 @@ class Edit extends Component {
                                       }
                                 </FormGroup>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Description</b></Typography>
+                                    <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Description</b></div>
 
                                       {this.state.descriptionValid
                                       ?
@@ -754,7 +754,7 @@ class Edit extends Component {
                                       }
                                 </FormGroup>
                                 <FormGroup>
-                                    <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Tags</b></Typography>
+                                    <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Tags</b></div>
                                       {this.state.tagsValid
                                       ?
                                       <Input valid placeholder={"Separate each tag with ',' (comma"} value={this.state.tags} onChange={this.handlePostTags('tags')}/>
@@ -764,7 +764,7 @@ class Edit extends Component {
                                 </FormGroup>
 
                                   <FormGroup>
-                                      <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Title</b></Typography>
+                                      <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Title</b></div>
                                         {this.state.objectiveTitleValid
                                         ?
                                         <Input valid placeholder="Step 1 on how to solve the problem or process" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
@@ -773,15 +773,15 @@ class Edit extends Component {
                                         }
                                   </FormGroup>
                                   <FormGroup>
-                                      <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Assigned Department</b></Typography>
+                                      <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Assigned Department</b></div>
                                         {this.renderSelect()}
                                   </FormGroup>
                                   <FormGroup>
                                     <Grid container style={{background:this.props.theme[0].PostsButtonBackground, flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="row" justify="center" >
                                         <Grid item style={{width:'100%'}} xs>
-                                          <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Description</b> </Typography>
+                                          <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Description</b> </div>
                                       </Grid>
-                                      <Grid><Button style={{ border:this.props.theme[0].PostsButtonBorder}} onClick={()=> this.omegafullscreen()}><Typography  variant={'caption'} style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Fullscreen</b></Typography></Button></Grid>
+                                      <Grid><Button style={{ border:this.props.theme[0].PostsButtonBorder}} onClick={()=> this.omegafullscreen()}><div   style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Fullscreen</b></div></Button></Grid>
                                     </Grid>
                                         <ReactQuill ref={(el) => this.quillRef = el} modules={{
 
@@ -836,7 +836,7 @@ class Edit extends Component {
                                     </Grid>
                                 </Grid>
                     <Grid container alignItems="center" direction="row" justify="space-between" style={{ flexGrow:1, margin:"0 auto", maxWidth:"63em", paddingTop:20}}>
-                      <Typography variant={'button'} style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}>You can sort the objectives by dragging and dropping the objects</Typography>
+                      <div style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}>You can sort the objectives by dragging and dropping the objects</div>
                                 {this.renderObjectives()}
                                 </Grid>
                 </div>

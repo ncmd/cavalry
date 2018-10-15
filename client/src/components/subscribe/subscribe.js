@@ -109,7 +109,7 @@ class subscribe extends Component {
                 ?
                 <Grid container style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em" }}  direction={'row'} justify={'center'} alignItems={'flex-start'}  >
                     <Grid item style={{borderColor:'#474f97', marginTop:20, textTransform: 'none', marginLeft:10, marginRight:10}}>
-                      <Typography variant={"headline"} style={{color:'white'}}><b>Thank you for Subscribing! <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🎉</span>️</b></Typography>
+                      <div style={{color:'white'}}><b>Thank you for Subscribing! <span aria-label="emoji" role="img" style={{fontSize:'1.8rem'}}>🎉</span>️</b></div>
                       </Grid>
                     </Grid>
                 :

@@ -39,7 +39,6 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -221,39 +220,37 @@ class header extends Component {
     renderUserNotLoggedIn(){
 
       return (
-        <div>
+        <Grid item >
             {this.state.backgroundTheme
               ?
-              <Button style={{height:35,  border: '0px solid #3d63ff',boxShadow:'none',  background:'transparent', textTransform: 'none'}} onClick={() => this.setDarkTheme()} >
-                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+              <Button style={{height:40,  border: '0px solid #3d63ff',boxShadow:'none',  background:'transparent', textTransform: 'none'}} onClick={() => this.setDarkTheme()} >
+                  <div style={{color:'white',textTransform: 'none'}}  >
                       <span aria-label="emoji" role="img">🌙</span>
-                  </Typography>
+                  </div>
               </Button>
               :
-              <Button style={{height:35,  border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
-                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+              <Button style={{height:40,  border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
+                  <div style={{color:'white',textTransform: 'none'}}  >
                       <span aria-label="emoji" role="img">☀️</span>
-                  </Typography>
+                  </div>
               </Button>
             }
 
-                <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
-                  <Button size="sm" style={{ marginLeft:16,height:35, background:'transparent', width:120, border: '1px solid #3d63ff',  boxShadow:'none'}}>
-                      <Typography style={{color:"#3d63ff", textTransform:'none'}}  variant={"caption"} >
-                          <b>Log in</b>
-                      </Typography>
-                  </Button>
-                </Link>
-
-
+            <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
+              <Button size="sm" style={{ marginLeft:16,height:40, background:'transparent', width:120, border: '1px solid #3d63ff',  boxShadow:'none'}}>
+                  <div style={{color:"#3d63ff", textTransform:'none',  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
+                      <b>LOG IN</b>
+                  </div>
+              </Button>
+            </Link>
             <Link to={{pathname:'/signup'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignupbutton()}>
-                  <Button raised="true" variant="raised" style={{border:'white',marginLeft:16, height:35, width:120, background:this.props.theme[0].PrimaryLinear, border:this.props.theme[0].PrimaryBorder, textTransform: 'none'}} >
-                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                          <b>Sign up</b>
-                      </Typography>
+                  <Button raised="true" variant="raised" style={{border:'white',marginLeft:16, height:40, width:120, background:this.props.theme[0].PrimaryLinear, border:this.props.theme[0].PrimaryBorder, textTransform: 'none'}} >
+                      <div style={{color:'white',textTransform: 'none',  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}  >
+                          <b>SIGN UP</b>
+                      </div>
                   </Button>
               </Link>
-              </div>
+            </Grid>
       )
     }
 
@@ -286,84 +283,56 @@ class header extends Component {
 
       const { anchorEl } = this.state;
       return (
-        <Nav className="ml-auto" navbar>
-          <NavItem  style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
+        <div >
             {this.state.backgroundTheme
               ?
               <Button style={{height:35,  border: '0px solid #3d63ff',boxShadow:'none',  background:'transparent', textTransform: 'none'}} onClick={() => this.setDarkTheme()} >
-                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                  <div style={{color:'white',textTransform: 'none'}}  >
                       <span aria-label="emoji" role="img">🌙</span>
-                  </Typography>
+                  </div>
               </Button>
               :
-              <Button style={{height:35,  border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
-                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+              <Button style={{height:40,  border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
+                  <div style={{color:'white',textTransform: 'none'}}  >
                       <span aria-label="emoji" role="img">☀️</span>
-                  </Typography>
+                  </div>
               </Button>
             }
-          </NavItem>
-          <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
               <Link to={{pathname:'/activity'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedactivitybutton()}>
-                <Button size="sm" style={{ height:35, background:'transparent', marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
-                    <Typography style={{color:"#3d63ff", textTransform:'none'}}  variant={"caption"} >
+                <Button size="sm" style={{ height:40, background:'transparent', marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
+                      <div style={{color:"#3d63ff", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
                         <b>Activity</b>
-                      </Typography>
+                      </div>
                   </Button>
               </Link>
-          </NavItem>
-          <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
               <Link to={{pathname:'/request'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedrequestbutton()}>
-                <Button size="sm" style={{ height:35, background:'transparent', marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
-                    <Typography style={{color:"#3d63ff", textTransform:'none'}}  variant={"caption"} >
+                <Button size="sm" style={{ height:40, background:'transparent', marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
+                      <div style={{color:"#3d63ff", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
                         <b>Request</b>
-                      </Typography>
+                      </div>
                   </Button>
               </Link>
-          </NavItem>
-        <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             <Link to={{pathname:'/submit'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedpostbutton()}>
-              <Button size="sm" style={{ height:35, background:'transparent',marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
-                  <Typography style={{color:"#3d63ff", textTransform:'none'}}  variant={"caption"} >
+              <Button size="sm" style={{ height:40, background:'transparent',marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
+                    <div style={{color:"#3d63ff", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
                       <b>Post</b>
-                    </Typography>
+                    </div>
                 </Button>
             </Link>
-        </NavItem>
-        <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
             <Link to={{pathname:'/team'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedteambutton()}>
               <Button size="sm" style={{ height:35, background:'transparent',marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
-                  <Typography style={{color:"#3d63ff", textTransform:'none'}}  variant={"caption"} >
+                    <div style={{color:"#3d63ff", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
                       <b>Team</b>
-                    </Typography>
+                    </div>
                 </Button>
             </Link>
-        </NavItem>
-          <NavItem style={{marginRight:'auto',marginLeft:'auto',padding:2}}>
-            <Button raised="true" variant="raised" style={{border:'white', height:35,background:'linear-gradient(#5533ff, #3d63ff)', textTransform: 'none'}} onClick={this.handleClick}>
-                  <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+            <Button raised="true" variant="raised" style={{border:this.props.theme[0].PrimaryBorder, height:35,background:this.props.theme[0].PrimaryLinear, textTransform: 'none'}} onClick={this.handleClick}>
+              <div style={{color:"white", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
                   <b>Account</b>
-                  </Typography>
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={anchorEl}
-                   open={Boolean(anchorEl)}
-                   onClose={this.handleClose}
-                >
-                    <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.handleClickManage()}>
-                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                      <b>Manage</b>
-                      </Typography>
-                    </MenuItem>
-                    <MenuItem  style={{ background:'#474f97', textTransform: 'none', color:'white', marginTop:-9, marginBottom:-9}} onClick={() => this.firebaseSignout()}>
-                      <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
-                      <b>Signout</b>
-                      </Typography>
-                    </MenuItem>
-                </Menu>
-          </NavItem>
-        </Nav>
+              </div>
+            </Button>
+
+        </div>
       )
     }
 
@@ -430,62 +399,167 @@ class header extends Component {
             open={isMenuOpen}
             onClose={this.handleMenuClose}
           >
-            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-            <MenuItem onClick={this.handleClose}>My account</MenuItem>
+              <MenuItem  style={{textTransform: 'none', color:'black'}} onClick={() => this.handleClickManage()}>
+                <div style={{color:'black',textTransform: 'none'}}  >
+                <b>Manage</b>
+                </div>
+              </MenuItem>
+              <MenuItem  style={{ textTransform: 'none', color:'black'}} onClick={() => this.firebaseSignout()}>
+                <div style={{color:'black',textTransform: 'none'}}  >
+                <b>Sign out</b>
+                </div>
+              </MenuItem>
           </Menu>
         );
 
-        const renderMobileMenu = (
-          <Menu
-            anchorEl={mobileMoreAnchorEl}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-            open={isMobileMenuOpen}
-            onClose={this.handleMobileMenuClose}
-          >
+        var renderMobileMenu = (<div></div>)
 
-              {this.state.backgroundTheme
-                ?
-                <MenuItem onClick={() => this.setDarkTheme()}>
-                  <IconButton style={{  border: '0px solid #3d63ff',boxShadow:'none',  background:'transparent', textTransform: 'none'}} >
-                      <span aria-label="emoji" role="img">🌙</span>
+        if (this.props.users.logged === true ){
+          renderMobileMenu = (
+            <Menu
+              anchorEl={mobileMoreAnchorEl}
+              anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+              transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+              open={isMobileMenuOpen}
+              onClose={this.handleMobileMenuClose}
+            >
+
+                {this.state.backgroundTheme
+                  ?
+                  <MenuItem onClick={() => this.setDarkTheme()}>
+                    <IconButton style={{  border: '0px solid #3d63ff',boxShadow:'none',  background:'transparent', textTransform: 'none'}} onClick={() => this.setDarkTheme()}  >
+                        <span aria-label="emoji" role="img">🌙</span>
+                    </IconButton>
+                    <div style={{color:'black',textTransform: 'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}  >
+                      <b>Dark theme</b>
+                    </div>
+                  </MenuItem>
+                  :
+                  <MenuItem onClick={() => this.setLightTheme()}>
+                  <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
+                    <span aria-label="emoji" role="img">☀️</span>
                   </IconButton>
-                  <Typography style={{color:'black',textTransform: 'none'}} variant={"caption"} >
-                    <b>Dark theme</b>
-                  </Typography>
+                  <div style={{color:'black',textTransform: 'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}  >
+                    <b>Light theme</b>
+                  </div>
                 </MenuItem>
-                :
-                <MenuItem onClick={() => this.setLightTheme()}>
-                <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
-                  <span aria-label="emoji" role="img">☀️</span>
+                }
+              <Link to={{pathname:'/activity'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
+              <MenuItem>
+                <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}}>
+                  < span aria-label="emoji" role="img">🔥</span>
                 </IconButton>
-                <Typography style={{color:'black',textTransform: 'none'}} variant={"caption"} >
-                  <b>Light theme</b>
-                </Typography>
+                  <div style={{color:'black',textTransform: 'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}  >
+                    <b>Activity</b>
+                  </div>
               </MenuItem>
-              }
-              <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
+            </Link>
+            <Link to={{pathname:'/request'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
             <MenuItem>
-              <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
-                < span aria-label="emoji" role="img">🐎</span>
+              <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}}>
+                < span aria-label="emoji" role="img">💡</span>
               </IconButton>
-                <Typography style={{color:'black',textTransform: 'none'}} variant={"caption"} >
-                  <b>Log in</b>
-                </Typography>
+                <div style={{color:'black',textTransform: 'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}  >
+                  <b>Request</b>
+                </div>
             </MenuItem>
           </Link>
-          <Link to={{pathname:'/signup'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignupbutton()}>
-            <MenuItem>
-              <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
-                <span aria-label="emoji" role="img">✋</span>
-              </IconButton>
-              <Typography style={{color:'black',textTransform: 'none'}} variant={"caption"} >
-                <b>Sign up</b>
-              </Typography>
-            </MenuItem>
+          <Link to={{pathname:'/submit'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
+          <MenuItem>
+            <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}}>
+              < span aria-label="emoji" role="img">🚩</span>
+            </IconButton>
+              <div style={{color:'black',textTransform: 'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}  >
+                <b>Post</b>
+              </div>
+          </MenuItem>
+        </Link>
+          <Link to={{pathname:'/team'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
+          <MenuItem>
+            <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}}>
+              < span aria-label="emoji" role="img">👥</span>
+            </IconButton>
+              <div style={{color:'black',textTransform: 'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}  >
+                <b>Team</b>
+              </div>
+          </MenuItem>
+        </Link>
+          <Link to={{pathname:'/manage'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedmanagebutton()}>
+          <MenuItem>
+            <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}}>
+              < span aria-label="emoji" role="img">👤</span>
+            </IconButton>
+            <div style={{color:'black',textTransform: 'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}  >
+              <b>Account</b>
+            </div>
+          </MenuItem>
+        </Link>
+          <MenuItem onClick={() => this.firebaseSignout()}>
+            <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}}>
+              < span aria-label="emoji" role="img">👋</span>
+            </IconButton>
+            <div style={{color:'black',textTransform: 'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}  >
+              <b>Sign out</b>
+            </div>
+          </MenuItem>
+            </Menu>
+          );
+        }
+
+          if (this.props.users.logged === false ){
+            renderMobileMenu = (
+              <Menu
+                anchorEl={mobileMoreAnchorEl}
+                anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+                open={isMobileMenuOpen}
+                onClose={this.handleMobileMenuClose}
+              >
+
+                  {this.state.backgroundTheme
+                    ?
+                    <MenuItem onClick={() => this.setDarkTheme()}>
+                      <IconButton style={{  border: '0px solid #3d63ff',boxShadow:'none',  background:'transparent', textTransform: 'none'}} onClick={() => this.setDarkTheme()}  >
+                          <span aria-label="emoji" role="img">🌙</span>
+                      </IconButton>
+                      <div style={{color:'black',textTransform: 'none'}}  >
+                        <b>Dark theme</b>
+                      </div>
+                    </MenuItem>
+                    :
+                    <MenuItem onClick={() => this.setLightTheme()}>
+                    <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}} onClick={() => this.setLightTheme()}  >
+                      <span aria-label="emoji" role="img">☀️</span>
+                    </IconButton>
+                    <div style={{color:'black',textTransform: 'none'}}  >
+                      <b>Light theme</b>
+                    </div>
+                  </MenuItem>
+                  }
+                  <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
+                <MenuItem>
+                  <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}}  >
+                    < span aria-label="emoji" role="img">🐎</span>
+                  </IconButton>
+                    <div style={{color:'black',textTransform: 'none'}}  >
+                      <b>Log in</b>
+                    </div>
+                </MenuItem>
               </Link>
-          </Menu>
-        );
+              <Link to={{pathname:'/signup'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignupbutton()}>
+                <MenuItem>
+                  <IconButton style={{border: '0px solid #3d63ff', boxShadow:'none', background:'transparent', textTransform: 'none'}}  >
+                    <span aria-label="emoji" role="img">✋</span>
+                  </IconButton>
+                  <div style={{color:'black',textTransform: 'none'}}  >
+                    <b>Sign up</b>
+                  </div>
+                </MenuItem>
+                  </Link>
+              </Menu>
+            );
+          }
+
 
 
 
@@ -503,30 +577,34 @@ class header extends Component {
                   <Toolbar variant="dense">
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:'63em'}} direction="row" justify="space-between" alignItems="stretch" >
                       <Grid item xs>
-                        <Link to={{pathname:'/'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedhomebutton()}>
+                        <Link  style={{color:"#3d63ff",textDecoration: 'none' }} to={{pathname:'/'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedhomebutton()}>
                           <div>
-                            <img src="./cavalry.svg" style={{width:32,height:32}}></img>
-                            <img src="./cavalrytextcolor.svg" style={{height:18,paddingLeft:8}}></img>
+                            <div style={{textTransform:'none', height:25,fontSize:'25px', fontWeight:400, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                            <img src="/cavalry.svg" style={{width:40,height:40}}></img>
+                            <b style={{paddingLeft:8}}>Cavalry</b></div>
                           </div>
                         </Link>
                       </Grid>
-                      <Hidden smDown>
-                      <Grid item xs={6}>
-                        <div style={{background:'transparent'}}>
-                          {this.renderSearch()}
-                        </div>
-                      </Grid>
-                    </Hidden>
+                      {/*
+                        <Hidden smDown>
+                        <Grid item xs={6}>
+                          <div style={{background:'transparent'}}>
+                            {this.renderSearch()}
+                          </div>
+                        </Grid>
+                        </Hidden>
+                        */}
+
                     <div className={classes.grow} />
                       <div className={classes.sectionDesktop}>
-                        <Grid item >
+
                             {this.props.users.logged
                                 ?
                                 this.renderUserLoggedIn()
                                 :
                                 this.renderUserNotLoggedIn()
                             }
-                        </Grid>
+
                       </div>
                     </Grid>
                     <div className={classes.sectionMobile}>

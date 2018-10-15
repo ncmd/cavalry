@@ -141,11 +141,11 @@ class Request extends Component {
     renderRequestButton(){
       if (this.state.tagsValid === true && this.state.requestDescription !== ''){
         return (
-          <Button style={{color:'white', background:actionButton, textTransform:'none'}} onClick={() => this.submitRequest(this.state.requestDescription,this.state.tags)}><Typography variant={'caption'} style={{color:'white'}}><b>Request</b></Typography></Button>
+          <Button style={{color:'white', background:actionButton, textTransform:'none'}} onClick={() => this.submitRequest(this.state.requestDescription,this.state.tags)}><div  style={{color:'white'}}><b>Request</b></div></Button>
         )
       } else if (this.state.tagsValid === false ||  this.state.requestDescription === ''){
         return(
-          <Button disabled style={{ background:'grey', textTransform:'none'}} ><Typography variant={'caption'} style={{color:'white'}}><b>Request</b></Typography></Button>
+          <Button disabled style={{ background:'grey', textTransform:'none'}} ><div  style={{color:'white'}}><b>Request</b></div></Button>
         )
       }
     }
@@ -161,20 +161,20 @@ class Request extends Component {
                       <Grid item xs={10} style={{textAlign:'left'}}>
                           <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                               <Grid item zeroMinWidth>
-                                  <Typography variant="caption" style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                  <div variant="caption" style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                     <Hidden mdDown>
                                     <Truncate width={600} lines={1} ellipsis={<span>...</span>}>
                                        {hit.description}
                                    </Truncate>
                                    </Hidden>
-                                 </Typography>
-                               <Typography variant="caption" style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                 </div>
+                               <div variant="caption" style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                  <Hidden smUp>
                                  <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                                     {hit.description}
                                 </Truncate>
                               </Hidden>
-                                  </Typography>
+                                  </div>
                               </Grid>
                           </Grid>
                       </Grid>
@@ -208,17 +208,17 @@ class Request extends Component {
                         <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                             <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                             <Grid item>
-                              <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'body2'}><b>Request a Runbook</b></Typography>
+                              <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Request a Runbook</b></div>
                             </Grid>
                             <Grid item>
 
-                              <Typography style={{color:this.props.theme[0].PostsTypographyDescription}} variant={'body2'}><b>{this.state.requestDescriptionLength}/150</b></Typography>
+                              <div style={{color:this.props.theme[0].PostsTypographyDescription}} ><b>{this.state.requestDescriptionLength}/150</b></div>
                             </Grid>
                           </Grid>
 
                         <Input style={{width:'100%', height:70}} type="textarea" placeholder={'Describe your current problem.'} value={this.state.requestDescription} onChange={this.handleRequestDescription('requestDescription')}/>
                           <FormGroup>
-                              <Typography variant="button" style={{color:this.props.theme[0].PostsTypographyDescription, textTransform:'none'}}><b>Runbook Tags</b></Typography>
+                              <div variant="button" style={{color:this.props.theme[0].PostsTypographyDescription, textTransform:'none'}}><b>Runbook Tags</b></div>
                                 {this.state.tagsValid
                                 ?
                                 <Input valid placeholder={"Separate each tag with ',' (comma"} value={this.state.tags} onChange={this.handleRequestTags('tags')}/>

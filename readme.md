@@ -208,60 +208,58 @@ PROJECT PATH
 
 
 # To Do
-- Watch Runbook feature (see real-time progress)
-- Identify leaders
-- Identify member skills and project owners
-- enterprise grade - https://www.enterpriseready.io/#
-- github style contributions
-- cancel subscription - done
-- user management
-- save runbook before publish
-- organization management - 10%
-- revisions
-- versions
-- real-time collaboration
-- adding objectives from other runbooks
-- tech debt checklist
-- add
-- remove
-- leave
-- assigning tasks
-- emailing
-- creating community/cult
-- share on linkedin
-- github friendly
-- websockets - gorilla
-- Reference Resilient IBM
-- craft http requests
-- redirect unauthorized - 70%
-- Filter by tag
-- Filter by team
-- Filter by public v  private
-- Add a flow where people can show added by/edited by in real time tracking (on the checklist feature)
-- manage team - 10%
-- upvote downvote
-- talk
-- preview
-- experience
-- categories
-- design simple
-- failure to signin
-- replicate prod database to dev and local
-- Roadmap https://cavalrytactics.rikko.io/
-- Digitalocean credits: https://www.digitalocean.com/hatch/
-- Success Critera
-- Make Account Management Look like Algolia's
-- Feature Request
-- Support email - done
-- Invoices
-- Account Details - done
-- Email Notifications
-- Current plan; done
-- cancel subscription
-- upgrade subscription
-- reset user password with email
+## High Priority $$$
+- search bar
+- add history of when runbook is executed
+- add history when objectives are assigned
 - survive reddit hug of death
 - survive producthunt
+- Hacker News
+- The Next Web
+- sending Invoices - 10%
+- assigning objectives - 70%
+- upgrade subscription - 0%
+- Make Account Management Look like Algolia's - 20%
+- Creator of Runbook information added - 0%
+- Assigning to all users once all selected - 20%
+- Send notifications to everyone when they are assigned objective - 0%
+- When objective is assigned, notify user in real-time - 0%
+- Closing Run (sometimes it closes) - 80%
+- Watch Runbook feature (see real-time progress) - 0%
+- Posts infinite scroll - 0%
+- Identify leaders - 0%
+- Identify member skills and project owners - 0%
+- enterprise grade - https://www.enterpriseready.io/#
+- github style contributions - 5%
+- Mobile notifications - 0%
+- Email notifications when assigned - 0%
+- save runbook before publish - 0%
+- Slack integration - 0%
+- revisions - 0%
+- versions - 0%
+- real-time collaboration - 0%
+- adding objectives from other runbooks - 0%
+- posts spam prevention - 0%
+- requests spam prevention - 0%
+- clone spam prevention - 0%
+- upvote downvote - 0%
+
+## Low Priority
+- manage team - 10%
+- implement experience level
+- implement skills
+- runbook categories
+- Filter by team
+- Filter by public vs private
+- organization management - 70%
+- filter by tag - 80%
+- filter by assignee
+- same sorting as reddit (popular trending)
+- watch requests
+- redirect unauthorized - 70%
+- request a runbook - 85%
+- assign to multiple department
+- reset user password with email
 - time estimation per runbook
 - runbook: preparation phase
 - runbook: post mortem lessons learned
@@ -269,8 +267,6 @@ PROJECT PATH
 - runbook: mitigation
 - runbook: prevention
 - runbook: contacts
-- add day theme
-- request a runbook
 - Auto-populate objectives using google/wikihow results
 - Too much manual content creation
 - Fix Search, perhaps only show results instead of editing the entire landing page
@@ -287,17 +283,52 @@ PROJECT PATH
 - Add ratings on objectives
 - Need private only runbooks
 - Need offline version because they do not want to share information to public
-- Slack integration
 - Phone text integration
 - Mobile App React Native
-- Signup with linkedin
-- Signup with google
-- Signup with facebook
-- Signup with twitter
 - "Make the mobile app to get the alerts!"
 - Consider making training material for people to learn security tasks
 - Add area to get customer's support
 - Create a Slack/Discord Chat community
+- tech debt checklist
+- Feature Request
+- email notifications
+- Success Critera
+- Signup with linkedin
+- Signup with google
+- Signup with facebook
+- Signup with twitter
+- remove member of organization
+- leave organization
+- emailing
+- creating community/cult
+- share on linkedin
+- rxjs
+- websockets
+
+## Complete
+- cancel subscription - done
+- user management - done
+- add light theme - done
+- add dark theme - done
+- support email - done
+- account details - done
+- current plan; done
+- cancel subscription - done
+- preview - done
+- create organization - done
+- invite member to organization - done
+
+## MISC
+- github friendly
+- websockets - gorilla
+- Reference Resilient IBM
+- craft http requests
+- Add a flow where people can show added by/edited by in real time tracking (on the checklist feature)
+- design simple
+- failure to sign-in
+- replicate prod database to dev and local
+- Roadmap https://cavalrytactics.rikko.io/
+- Digitalocean credits: https://www.digitalocean.com/hatch/
 
 # Metrics
 - https://analytics.google.com/analytics/web/#/savedreport/fuVSPoQYQJG5vOkiQ_KSOw/a123951173w182313602p180023379/_.advseg=&_.useg=&_.sectionId=&_r.dsa=1&metric.type=5/

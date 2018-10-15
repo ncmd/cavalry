@@ -233,7 +233,7 @@ class Manage extends Component {
         <div>
 
           <Form style={{marginTop:30}}>
-            <Typography style={{color:'white'}} variant={'display2'}>Manage Groups</Typography>
+            <div style={{color:'white'}} >Manage Groups</div>
             <FormGroup style={{marginTop:20}}>
               <Input value={this.state.inputContactname} onChange={this.handleInputContactname()} placeholder="firstname lastname"/>
             </FormGroup>
@@ -248,7 +248,7 @@ class Manage extends Component {
             </FormGroup>
             <FormGroup>
               <Input value={this.state.inputLocation} onChange={this.handleInputLocation()} style={{width:'50%',display:'inline'}} placeholder="san francisco"/>
-              <Button style={{background:actionButton}} onClick={() => this.addGroup(this.state.inputContactname, this.state.inputEmailaddress,this.state.inputInstantmessenger,this.state.inputDepartment,this.state.inputLocation,this.state.groupIndex)}><Typography variant={"caption"} style={{color:'white', textTransform: 'none'}}><b>Submit</b></Typography></Button>
+              <Button style={{background:actionButton}} onClick={() => this.addGroup(this.state.inputContactname, this.state.inputEmailaddress,this.state.inputInstantmessenger,this.state.inputDepartment,this.state.inputLocation,this.state.groupIndex)}><div  style={{color:'white', textTransform: 'none'}}><b>Submit</b></div></Button>
             </FormGroup>
           </Form>
           <Paper>
@@ -305,14 +305,14 @@ class Manage extends Component {
         <Grid container style={{flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
           <Grid item style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
             <div>
-              <Typography variant={'display1'} style={{background:this.props.theme[0].PostsButtonBackground, color:this.props.theme[0].PostsTypographyTitle}}>Your information</Typography>
+              <div  style={{background:this.props.theme[0].PostsButtonBackground, color:this.props.theme[0].PostsTypographyTitle}}>Your information</div>
             </div>
           </Grid>
         </Grid>
         <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
           <Grid item style={{flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"45em"}} xs={12}>
             <div>
-              <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyDescription}}><b>Email Address: </b>{this.props.users.email}</Typography>
+              <div  style={{color:this.props.theme[0].PostsTypographyDescription}}><b>Email Address: </b>{this.props.users.email}</div>
             </div>
           </Grid>
         </Grid>
@@ -326,14 +326,14 @@ class Manage extends Component {
           <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
             <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
               <div>
-                <Typography variant={'display1'} style={{color:'black'}}>Contact support</Typography>
+                <div  style={{color:'black'}}>Contact support</div>
               </div>
             </Grid>
           </Grid>
           <Grid container style={{flexGrow:1,border:'1px solid #474f97', margin:"0 auto", maxWidth:"50em", padding:40, marginTop:20}} direction={'row'} justify={'space-around'} alignItems={'center'} spacing={0}>
             <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"45em"}} xs={12}>
               <div>
-                <Typography variant={'body2'} style={{color:'black'}}><b>Support Email: </b>cavalrytacticsinc@gmail.com</Typography>
+                <div  style={{color:'black'}}><b>Support Email: </b>cavalrytacticsinc@gmail.com</div>
               </div>
             </Grid>
           </Grid>
@@ -349,7 +349,7 @@ class Manage extends Component {
         <Grid container style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
           <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
             <div>
-              <Typography variant={'display1'} style={{color:'black'}}>Your current plan</Typography>
+              <div  style={{color:'black'}}>Your current plan</div>
             </div>
           </Grid>
         </Grid>
@@ -357,25 +357,23 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem1
               ?
-              <Button disabled className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
-                <div className="ribbonblue"><span aria-label="emoji" role="img">❄️Cool❄️</span></div>
+              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder, height:250, width:265, border:'8px solid #00e676'}}>
                 <div>
-                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
-                  <Typography style={{color:'black'}} variant={'display1'}><b>$35.00</b></Typography>
-                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                  <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$35.00</b> billed every month</Typography>
-                  <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$420.00</b> per year)</Typography>
+                  <div style={{color:'black',textTransform:'none'}} >1 Month</div>
+                  <div style={{color:'black'}} ><b>$35.00</b></div>
+                  <div style={{textTransform:'none'}} >per month</div>
+                  <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$35.00</b> billed every month</div>
+                  <div style={{textTransform:'none'}} >(<b>$420.00</b> per year)</div>
                 </div>
               </Button>
               :
-              <Button disabled className="box" style={{background:'white', height:230, width:230}}>
-                <div className="ribbonblue"><span aria-label="emoji" role="img">❄️Cool❄️</span></div>
+              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder, height:230, width:230}}>
                 <div>
-                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>1 Month</Typography>
-                  <Typography style={{color:'black'}} variant={'display1'}><b>$35.00</b></Typography>
-                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$35.00</b> billed every month</Typography>
-                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$420.00</b> per year)</Typography>
+                  <div style={{color:'black',textTransform:'none'}} >1 Month</div>
+                  <div style={{color:'black'}} ><b>$35.00</b></div>
+                  <div style={{textTransform:'none'}} >per month</div>
+                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$35.00</b> billed every month</div>
+                    <div style={{textTransform:'none'}} >(<b>$420.00</b> per year)</div>
                 </div>
               </Button>
             }
@@ -383,25 +381,25 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem2
               ?
-              <Button disabled className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
+              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder, height:250, width:265, border:'8px solid #00e676'}}>
                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                 <div>
-                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
-                  <Typography style={{color:'black'}} variant={'display1'}><b>$25.00</b></Typography>
-                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$300.00</b> billed every 12 months</Typography>
-                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$300.00</b> per year)</Typography>
+                  <div style={{color:'black',textTransform:'none'}} >12 Months</div>
+                  <div style={{color:'black'}} ><b>$25.00</b></div>
+                  <div style={{textTransform:'none'}} >per month</div>
+                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$300.00</b> billed every 12 months</div>
+                    <div style={{textTransform:'none'}} >(<b>$300.00</b> per year)</div>
                 </div>
               </Button>
               :
-              <Button disabled className="box" style={{background:'white', height:230, width:230}}>
+              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder, height:230, width:230}}>
                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                 <div>
-                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>12 Months</Typography>
-                  <Typography style={{color:'black'}} variant={'display1'}><b>$25.00</b></Typography>
-                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$300.00</b> billed every 12 months</Typography>
-                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b>$300.00</b> per year)</Typography>
+                  <div style={{color:'black',textTransform:'none'}} >12 Months</div>
+                  <div style={{color:'black'}} ><b>$25.00</b></div>
+                  <div style={{textTransform:'none'}} >per month</div>
+                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$300.00</b> billed every 12 months</div>
+                    <div style={{textTransform:'none'}} >(<b>$300.00</b> per year)</div>
                 </div>
               </Button>
             }
@@ -409,45 +407,45 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem3
               ?
-              <Button disabled className="box" style={{background:'white', height:250, width:265, border:'8px solid #00e676'}}>
+              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder,height:250, width:265, border:'8px solid #00e676'}}>
                    <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                 <div>
-                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta Test</Typography>
-                  <Typography style={{color:'black'}} variant={'display1'}><b>$1.00</b></Typography>
-                  <Typography style={{textTransform:'none'}} variant={'caption'}>for now...</Typography>
-                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$1.00</b> billed every month</Typography>
-                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</Typography>
+                  <div style={{color:'black',textTransform:'none'}} >Beta Test</div>
+                  <div style={{color:'black'}} ><b>$1.00</b></div>
+                  <div style={{textTransform:'none'}} >for now...</div>
+                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$1.00</b> billed every month</div>
+                    <div style={{textTransform:'none'}} >(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</div>
                 </div>
               </Button>
               :
-              <Button disabled className="box" style={{background:'white', height:230, width:230}}>
+              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder, height:230, width:230}}>
                 <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                 <div>
-                  <Typography style={{color:'black',textTransform:'none'}} variant={'title'}>Beta Test</Typography>
-                  <Typography style={{color:'black'}} variant={'display1'}><b>$1.00</b></Typography>
-                  <Typography style={{textTransform:'none'}} variant={'caption'}>per month</Typography>
-                    <Typography style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} variant={'caption'}><b>$1.00</b> billed every month</Typography>
-                    <Typography style={{textTransform:'none'}} variant={'caption'}>(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</Typography>
+                  <div style={{color:'black',textTransform:'none'}} >Beta Test</div>
+                  <div style={{color:'black'}} ><b>$1.00</b></div>
+                  <div style={{textTransform:'none'}} >per month</div>
+                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$1.00</b> billed every month</div>
+                    <div style={{textTransform:'none'}} >(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</div>
                 </div>
               </Button>
             }
           </Grid>
           <Grid item xs={12}>
-            <Typography variant={'caption'} style={{color:'black', textAlign:'center'}}>All amounts are shown in <b>USD</b></Typography>
+            <div  style={{color:'black', textAlign:'center'}}>All amounts are shown in <b>USD</b></div>
           </Grid>
           <Grid item style={{background:'white',borderColor:'#474f97', flexGrow:1, marginLeft:'auto', marginRight:'auto', paddingTop:20, maxWidth:"45em"}} xs={12}>
             <div>
-              <Button onClick={this.toggle} style={{background: actionButton}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Cancel Subscription</b><span aria-label="emoji" role="img">😢</span></Typography></Button>
+              <Button onClick={this.toggle} style={{background: actionButton}}><div  style={{color:'white', textTransform:'none'}}><b>Cancel Subscription</b><span aria-label="emoji" role="img">😢</span></div></Button>
             </div>
             <Modal isOpen={this.state.modal} toggle={this.toggle}>
-            <ModalHeader toggle={this.toggle}> <Typography variant={'body2'} style={{textTransform:'none'}}> <b>Cancel Subscription Confirmation</b></Typography></ModalHeader>
+            <ModalHeader toggle={this.toggle}> <div  style={{textTransform:'none'}}> <b>Cancel Subscription Confirmation</b></div></ModalHeader>
             <ModalBody>
               <b>Are you sure you want to unsubscribe? </b><span aria-label="emoji" role="img">😢</span>
-            <Typography>This will continue your subscription till the end of the current billing period.</Typography>
+            <div>This will continue your subscription till the end of the current billing period.</div>
             </ModalBody>
             <ModalFooter>
-              <Button style={{background:actionButton,color:'white'}} onClick={() => this.handleUnsubscribeAccount()}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Yes!</b> I want to unsubscribe!</Typography></Button>{' '}
-              <Button style={{background:cancelButton,color:'white'}} onClick={() => this.toggle()}><Typography variant={'caption'} style={{color:'white',textTransform:'none'}}><b>No!</b> I changed my mind!</Typography></Button>{' '}
+              <Button style={{background:actionButton,color:'white'}} onClick={() => this.handleUnsubscribeAccount()}><div  style={{color:'white', textTransform:'none'}}><b>Yes!</b> I want to unsubscribe!</div></Button>{' '}
+              <Button style={{background:cancelButton,color:'white'}} onClick={() => this.toggle()}><div  style={{color:'white',textTransform:'none'}}><b>No!</b> I changed my mind!</div></Button>{' '}
             </ModalFooter>
           </Modal>
           </Grid>
@@ -523,7 +521,7 @@ class Manage extends Component {
                     {/* Bottom Section
                     <Grid container style={{background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'center'} justify={'center'} direction={'row'}>
                       <Grid item>
-                        <Button style={{background:actionButton}} onClick={() => this.handleClickSetupGroups()}><Typography variant={"caption"} style={{color:'white', textTransform: 'none'}}><b>Setup Groups</b></Typography></Button>
+                        <Button style={{background:actionButton}} onClick={() => this.handleClickSetupGroups()}><div  style={{color:'white', textTransform: 'none'}}><b>Setup Groups</b></div></Button>
                       </Grid>
                     </Grid>
 

@@ -168,14 +168,14 @@ class SplitForm extends Component {
 
     renderConfirmedPayment(){
       return(
-        <div><Typography style={{color:'white'}}>Payment Confirmed!</Typography></div>
+        <div><div style={{color:'white'}}>Payment Confirmed!</div></div>
       )
     }
 
     renderPaymentError(){
       return(
         <div>
-          <Typography style={{color:'white'}}>Payment Error! <br/> {this.state.paymentError}</Typography></div>
+          <div style={{color:'white'}}>Payment Error! <br/> {this.state.paymentError}</div></div>
       )
     }
 
@@ -195,7 +195,7 @@ class SplitForm extends Component {
     renderStripePaymentError(){
       if (this.props.stripe.paymentstatus === true){
         return (
-          <Typography>This Credit Card is not pass Stripe Payment System. Try a different Credit Card.</Typography>
+          <div>This Credit Card is not pass Stripe Payment System. Try a different Credit Card.</div>
         )
       }
     }
@@ -224,7 +224,7 @@ class SplitForm extends Component {
           return (
               <form onSubmit={this.handleSubmit}>
                   <label style={{width:250, color:'white'}}>
-                    <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Card Number</b></Typography>
+                    <div  style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Card Number</b></div>
                       <CardNumberElement
                           onBlur={this.handleBlur}
                           onChange={this.handleChangeCardNumber()}
@@ -234,7 +234,7 @@ class SplitForm extends Component {
                       />
                   </label><br/>
                   <label style={{color:'white'}}>
-                      <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Expiration Date</b></Typography>
+                      <div  style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Expiration Date</b></div>
                       <CardExpiryElement
                           onBlur={this.handleBlur}
                           onChange={this.handleChangeExpirationDate()}
@@ -244,7 +244,7 @@ class SplitForm extends Component {
                       />
                   </label>{' '}
                   <label  style={{color:'white' ,width:100, marginLeft:10}}>
-                      <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyTitle}}><b>CVC</b></Typography>
+                      <div  style={{color:this.props.theme[0].PostsTypographyTitle}}><b>CVC</b></div>
                       <CardCVCElement
                           onBlur={this.handleBlur}
                           onChange={this.handleChangeCVC()}
@@ -254,7 +254,7 @@ class SplitForm extends Component {
                       />
                   </label><br/>
                 <label style={{color:'white' , width:200}}>
-                      <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Postal Code</b></Typography>
+                      <div  style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Postal Code</b></div>
                       <PostalCodeElement
                           onBlur={this.handleBlur}
                           onChange={this.handleChangePostalCode()}

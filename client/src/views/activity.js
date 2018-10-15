@@ -207,11 +207,11 @@ class Activity extends Component {
     renderCommentCompleteButton(activityindex){
       if (this.state.commentInput !== ''){
         return(
-            <Button style={{background:this.props.theme[0].PrimaryLinear, border:this.props.theme[0].PostsButtonBorder}} onClick={()=>this.handleClickCompleteObjective(activityindex)}><Typography style={{color:'white',textTransform:'none'}} variant={'caption'}><b>Complete</b></Typography></Button>
+            <Button style={{background:this.props.theme[0].PrimaryLinear, border:this.props.theme[0].PostsButtonBorder}} onClick={()=>this.handleClickCompleteObjective(activityindex)}><div style={{color:'white',textTransform:'none'}} ><b>Complete</b></div></Button>
         )
       } else if ( this.state.commentInput === '' ){
         return (
-          <Button disabled style={{background:"grey", border:this.props.theme[0].PostsButtonBorder}}><Typography style={{color:'white',textTransform:'none'}} variant={'caption'}><b>Complete</b></Typography></Button>
+          <Button disabled style={{background:"grey", border:this.props.theme[0].PostsButtonBorder}}><div style={{color:'white',textTransform:'none'}} ><b>Complete</b></div></Button>
         )
       }
     }
@@ -236,14 +236,14 @@ class Activity extends Component {
             <div style={{flexGrow:1}}>
               <ExpansionPanel >
                 <ExpansionPanelSummary style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder}} expandIcon={<ExpandMoreIcon style={{color:this.props.theme[0].PostsTypographyTitle}}/>}>
-                  {this.renderProgressStatus(obj.objectivestatus)}<Typography style={{color:this.props.theme[0].PostsTypographyDescription, marginLeft:20}}><b>{obj.objectivetitle}</b></Typography>
+                  {this.renderProgressStatus(obj.objectivestatus)}<div style={{color:this.props.theme[0].PostsTypographyDescription, marginLeft:20}}><b>{obj.objectivetitle}</b></div>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder}}>
                     <div style={{color:this.props.theme[0].PostsTypographyTitle}}  dangerouslySetInnerHTML={{__html: obj.objectivedescription}} />
                 </ExpansionPanelDetails>
                 <ExpansionPanelActions style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder}}>
-                  <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyDescription}}><b>Add Comment</b></Typography>
-                  <Input placeholder="" onChange={this.handleCommentInput('commentInput')}></Input> <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyDescription}}><b>{this.state.commentInput.length}/60</b></Typography>
+                  <div  style={{color:this.props.theme[0].PostsTypographyDescription}}><b>Add Comment</b></div>
+                  <Input placeholder="" onChange={this.handleCommentInput('commentInput')}></Input> <div  style={{color:this.props.theme[0].PostsTypographyDescription}}><b>{this.state.commentInput.length}/60</b></div>
                   {this.renderCommentCompleteButton(ind)}
                 </ExpansionPanelActions>
               </ExpansionPanel>
@@ -261,14 +261,14 @@ class Activity extends Component {
               <div style={{flexGrow:1, marginBottom:5}} key={act.act.runbookobjectives.objectivetitle+index}>
                 <ExpansionPanel >
                   <ExpansionPanelSummary style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder}} expandIcon={<ExpandMoreIcon style={{color:this.props.theme[0].PostsTypographyTitle}}/>}>
-                    <CircularProgress style={{width:22,height:22,marginRight:20}} /><Typography style={{color:this.props.theme[0].PostsTypographyDescription}}><b>{act.act.runbookobjectives.objectivetitle}</b></Typography>
+                    <CircularProgress style={{width:22,height:22,marginRight:20}} /><div style={{color:this.props.theme[0].PostsTypographyDescription}}><b>{act.act.runbookobjectives.objectivetitle}</b></div>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder}}>
                       <div style={{color:this.props.theme[0].PostsTypographyTitle}}  dangerouslySetInnerHTML={{__html: act.act.runbookobjectives.objectivedescription}} />
                   </ExpansionPanelDetails>
                   <ExpansionPanelActions style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder}}>
-                    <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyDescription}}><b>Add Comment</b></Typography>
-                    <Input placeholder="I completed the objective!" onChange={this.handleCommentInput('commentInput')}></Input> <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyDescription}}><b>{this.state.commentInput.length}/60</b></Typography>
+                    <div  style={{color:this.props.theme[0].PostsTypographyDescription}}><b>Add Comment</b></div>
+                    <Input placeholder="I completed the objective!" onChange={this.handleCommentInput('commentInput')}></Input> <div  style={{color:this.props.theme[0].PostsTypographyDescription}}><b>{this.state.commentInput.length}/60</b></div>
                     {this.renderCommentCompleteButton(index)}
                   </ExpansionPanelActions>
                 </ExpansionPanel>
@@ -289,8 +289,8 @@ class Activity extends Component {
                   <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                       <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                       <Grid item style={{width:'100%'}}>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'body2'}><b>Runbook name: </b>{act.act.runbooktitle}</Typography>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'body2'}><b>Objectives assigned to you:</b></Typography>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Runbook name: </b>{act.act.runbooktitle}</div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Objectives assigned to you:</b></div>
                         {this.renderActivityObjectives(act.act.runbookobjectives,index)}
                       </Grid>
                     </Grid>
@@ -310,8 +310,8 @@ class Activity extends Component {
                   <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                       <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                       <Grid item style={{width:'100%'}}>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'body2'}><b>Runbook name: </b>{act.act.runbooktitle}</Typography>
-                        <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'body2'}><b>Objectives assigned to you:</b></Typography>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Runbook name: </b>{act.act.runbooktitle}</div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Objectives assigned to you:</b></div>
                         {this.renderActivityObjectives(act.act.runbookobjectives,index)}
                       </Grid>
                     </Grid>
@@ -349,38 +349,38 @@ class Activity extends Component {
                           <Grid item xs={10} style={{textAlign:'left'}}>
                               <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                                   <Grid item zeroMinWidth>
-                                      <Typography variant="body1" style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden', fontWeight:'bold'}}>
+                                      <div variant="body1" style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden', fontWeight:'bold'}}>
                                         <Hidden mdDown>
                                         <Truncate width={600} lines={1} ellipsis={<span>...</span>}>
                                           {act.act.runbooktitle}
                                        </Truncate>
                                      </Hidden>
-                                      </Typography>
+                                      </div>
                                       <Link to={{ pathname: '/post/' + act.act.runbookid + '/'+this.findAndReplace(this.findAndReplace(this.findAndReplace(this.findAndReplace(act.act.runbooktitle,' ','-'),'\'',''),'/','-'),'\\','-').toLowerCase()}} onClick={() => googleanalytics.Cavalry_Webapp_Landing_Runbook_Userclickedonrunbook(act.act.runbooktitle)}>
-                                        <Typography variant={'caption'} style={{color:this.props.theme[0].PostsTypographyDescription}}>View Runbook</Typography>
+                                        <div  style={{color:this.props.theme[0].PostsTypographyDescription}}>View Runbook</div>
                                       </Link>
-                                      <Typography variant="caption" style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                      <div variant="caption" style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                         <Hidden mdDown>
                                         <Truncate width={600} lines={1} ellipsis={<span>...</span>}>
                                            {act.act.runbookdescription}
                                        </Truncate>
                                        </Hidden>
-                                     </Typography>
+                                     </div>
 
-                                    <Typography variant="body2" style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                    <div variant="body2" style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                      <Hidden smUp>
                                      <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                                         {act.act.runbooktitle}
                                     </Truncate>
                                   </Hidden>
-                                   </Typography>
-                                   <Typography variant="caption" style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                   </div>
+                                   <div variant="caption" style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                      <Hidden smUp>
                                      <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                                         {act.act.runbookdescription}
                                     </Truncate>
                                   </Hidden>
-                                      </Typography>
+                                      </div>
                                   </Grid>
                                   <Grid item style={{marginRight:5}}>
                                     <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
@@ -389,7 +389,7 @@ class Activity extends Component {
                                           return(
                                             <Grid key={value+Math.random()+(Math.random())} item >
                                               <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
-                                                <Typography variant={'caption'} style={{color:'white'}}><font size="1"><b>{value}</b></font></Typography>
+                                                <div style={{color:'white',  letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{value}</b></div>
                                               </span>
                                           </Grid>)
                                         }
@@ -405,9 +405,9 @@ class Activity extends Component {
                   <Table className={classes.table}>
                     <TableHead>
                       <TableRow>
-                        <TableCell component="th" scope="row"><Typography style={{color:'black'}}><b>Objective</b></Typography></TableCell>
-                        <TableCell><Typography style={{color:'black'}}><b>Assigned User</b></Typography></TableCell>
-                        <TableCell padding="checkbox"><Typography style={{color:'black'}}><b>Status</b></Typography></TableCell>
+                        <TableCell component="th" scope="row"><div style={{color:'black'}}><b>Objective</b></div></TableCell>
+                        <TableCell><div style={{color:'black'}}><b>Assigned User</b></div></TableCell>
+                        <TableCell padding="checkbox"><div style={{color:'black'}}><b>Status</b></div></TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
@@ -439,7 +439,7 @@ class Activity extends Component {
                   </TableCell>
                   <TableCell padding="checkbox">{obj.department}</TableCell>
                   <TableCell padding="checkbox">
-                    <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.handleAssignObjective({obj},this.state.objectives[index].selectOption,this.state.objectives[index].selectEmail)}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assign</b></Typography></Button>
+                    <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.handleAssignObjective({obj},this.state.objectives[index].selectOption,this.state.objectives[index].selectEmail)}><div  style={{color:'white', textTransform:'none'}}><b>Assign</b></div></Button>
                     {/* {this.renderAssignButton(index,{obj},this.state.objectives[index].selectOption)}*/}
                   </TableCell>
                 </TableRow>
@@ -478,7 +478,7 @@ class Activity extends Component {
                         <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                             <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                             <Grid item xs>
-                              <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'title'}><b>Your Activity</b></Typography>
+                              <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Your Activity</b></div>
                                 <Tabs
                                   classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
                                   value={this.state.tabValue}
@@ -502,7 +502,7 @@ class Activity extends Component {
                         <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                             <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                             <Grid item style={{width:'100%'}}>
-                              <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'title'}><b>Your Organization's Activity</b></Typography>
+                              <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Your Organization's Activity</b></div>
                             </Grid>
                           </Grid>
                         </Form>

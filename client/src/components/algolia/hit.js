@@ -36,41 +36,41 @@ function Product({ hit }) {
                 <Grid item xs={9} style={{textAlign:'left'}}>
                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                         <Grid item zeroMinWidth>
-                            <Typography variant="title" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                            <div style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                               <Hidden mdDown>
                               <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
                                  <Highlight attribute="title" hit={hit} />
                              </Truncate>
                            </Hidden>
-                            </Typography>
+                            </div>
 
-                            <Typography variant="subheading" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                            <div style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                               <Hidden mdDown>
                               <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
                                  {hit.description}
                              </Truncate>
                              </Hidden>
-                           </Typography>
+                           </div>
 
-                          <Typography variant="body2" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                          <div  style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                            <Hidden smUp>
                            <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                               {hit.title}
                           </Truncate>
                         </Hidden>
-                         </Typography>
-                         <Typography variant="caption" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                         </div>
+                         <div  style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                            <Hidden smUp>
                            <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                               {hit.description}
                           </Truncate>
                         </Hidden>
 
-                            </Typography>
+                            </div>
                         </Grid>
                         <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
-                            
+
                           </Grid>
                         </Grid>
                     </Grid>
@@ -79,9 +79,9 @@ function Product({ hit }) {
                 <Grid item style={{ textAlign:'left',borderLeft: '2px solid rgba(0, 0, 0, 0.12)'}}>
                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                         <Grid item>
-                            <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
+                            <div style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
                                 {hit.objectives.length} Objectives
-                            </Typography>
+                            </div>
                         </Grid>
                     </Grid>
                 </Grid>

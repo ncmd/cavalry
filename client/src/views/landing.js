@@ -135,15 +135,15 @@ class Landing extends Component {
     renderObjectives(objectivelength){
       if (objectivelength === 1){
         return (
-          <Typography variant="caption" style={{color: this.props.theme[0].PostsTypographyObjectives, marginLeft:20, marginTop:10}}>
+          <div  style={{color: this.props.theme[0].PostsTypographyObjectives, marginLeft:20, marginTop:10}}>
           {objectivelength} Objective
-        </Typography>
+        </div>
         )
       } else {
         return (
-          <Typography variant="caption" style={{color: this.props.theme[0].PostsTypographyObjectives, marginLeft:20, marginTop:10}}>
+          <div  style={{color: this.props.theme[0].PostsTypographyObjectives, marginLeft:20, marginTop:10}}>
           {objectivelength} Objectives
-        </Typography>
+        </div>
         )
       }
     }
@@ -171,43 +171,43 @@ class Landing extends Component {
       return (this.props.posts.map((hit) => {
           return (
           <Grid item xs={12} key={hit.title+Math.random()+(Math.random())} style={{ marginBottom:5, maxWidth:'100%', marginLeft:10, marginRight:10}}>
-            <Link to={{ pathname: '/post/' + hit.id + '/'+findAndReplace(findAndReplace(findAndReplace(findAndReplace(hit.title,' ','-'),'\'',''),'/','-'),'\\','-').toLowerCase()}} onClick={() => googleanalytics.Cavalry_Webapp_Landing_Runbook_Userclickedonrunbook(hit.title)}>
+            <Link style={{textDecoration: 'none' }} to={{ pathname: '/post/' + hit.id + '/'+findAndReplace(findAndReplace(findAndReplace(findAndReplace(hit.title,' ','-'),'\'',''),'/','-'),'\\','-').toLowerCase()}} onClick={() => googleanalytics.Cavalry_Webapp_Landing_Runbook_Userclickedonrunbook(hit.title)}>
               <Button variant="contained" style={{ height:100, border: this.props.theme[0].PostsButtonBorder, background:this.props.theme[0].PostsButtonBackground, textTransform: 'none',  minWidth:'100%'}}>
                 {/*}<Button variant="contained" style={{ height:100,background:'linear-gradient(#5533ff, #3d63ff)',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>*/}
                   <Grid container style={{flexGrow:1, marginLeft:10}}>
                       <Grid item xs={10} style={{textAlign:'left'}}>
                           <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                               <Grid item zeroMinWidth>
-                                  <Typography variant="body1" style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden', fontWeight:'bold'}}>
+                                  <div  style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden',  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:500, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                     <Hidden mdDown>
                                     <Truncate width={600} lines={1} ellipsis={<span>...</span>}>
                                       {hit.title}
                                    </Truncate>
                                  </Hidden>
-                                  </Typography>
+                                  </div>
 
-                                  <Typography variant="caption" style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                  <div  style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:440, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                     <Hidden mdDown>
                                     <Truncate width={600} lines={1} ellipsis={<span>...</span>}>
                                        {hit.description}
                                    </Truncate>
                                    </Hidden>
-                                 </Typography>
+                                 </div>
 
-                                <Typography variant="body2" style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                <div  style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                  <Hidden smUp>
                                  <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                                     {hit.title}
                                 </Truncate>
                               </Hidden>
-                               </Typography>
-                               <Typography variant="caption" style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                               </div>
+                               <div  style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                  <Hidden smUp>
                                  <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                                     {hit.description}
                                 </Truncate>
                               </Hidden>
-                                  </Typography>
+                                  </div>
                               </Grid>
                               <Grid item style={{marginRight:5}}>
                                 <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
@@ -216,7 +216,7 @@ class Landing extends Component {
                                       return(
                                         <Grid key={value+Math.random()+(Math.random())} item >
                                           <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
-                                            <Typography variant={'caption'} style={{color:'white'}}><font size="1"><b>{value}</b></font></Typography>
+                                            <div style={{color:'white',  letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{value}</b></div>
                                           </span>
                                       </Grid>)
                                     }
@@ -294,7 +294,7 @@ class Landing extends Component {
                           {/* Hide if below at tablet size or lower*/}
                           <Hidden smDown>
                           <Grid item style={{width:180, borderColor:'#474f97', textTransform: 'none', marginRight:20,marginLeft:10 }}>
-                            <Typography style={{color:"#3d63ff"}} variant={'caption'}><b>Filter by Tag</b></Typography>
+                            <div style={{color:"#3d63ff"}} ><b>Filter by Tag</b></div>
                             {this.renderSelect()}
                           </Grid>
                           </Hidden>

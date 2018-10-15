@@ -228,9 +228,9 @@ class Signup extends Component {
           <InputGroup>
               {this.state.validEmail
               ?
-              <Input valid style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} placeholder="" onChange={this.handleEmail('email')}/>
+              <Input valid style={{ border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, boxShadow:'0px 0px 0px 0px', letterSpacing:'-0.5px', fontSize:'20px', fontWeight:400, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} placeholder="" onChange={this.handleEmail('email')}/>
               :
-              <Input invalid  style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px'}} placeholder="" onChange={this.handleEmail('email')}/>
+              <Input invalid  style={{ border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, boxShadow:'0px 0px 0px 0px', letterSpacing:'-0.5px', fontSize:'20px', fontWeight:400, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} placeholder="" onChange={this.handleEmail('email')}/>
           }
               {this.renderErrorEmail()}
           </InputGroup>
@@ -249,7 +249,7 @@ class Signup extends Component {
       }  else {
         return (
           <div style={{width:273,height:78, background:this.props.theme[0].PostsTagsBackground,borderRadius:'5px 5px 5px 5px',textAlign:'center',}}>
-            <Typography style={{color:'white', display: 'inline-block', padding:'25px 0'}} variant={'caption'}>Please enter a valid email address</Typography>
+            <div style={{color:'white', display: 'inline-block', padding:'25px 0',letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >Please enter a valid email address</div>
           </div>
         )
       }
@@ -261,12 +261,12 @@ class Signup extends Component {
           <div>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
               <Grid item xs style={{ border:this.props.theme[0].PostsButtonBorder,  background:this.props.theme[0].PostsButtonBackground,borderRadius:this.props.theme[0].BorderRadius, padding:40, width:'100%'}}>
-                <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyTitle}}> Sent your password to your email address.</Typography>
+                <div  style={{color:this.props.theme[0].PostsTypographyTitle}}> Sent your password to your email address.</div>
                   <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
                       <Button raised="true" variant="raised" style={{height:30, background:this.props.theme[0].PrimaryLinear, textTransform: 'none'}}>
-                          <Typography style={{color:'white',textTransform: 'none'}} variant={"caption"} >
+                          <div style={{color:'white',textTransform: 'none'}} variant={"caption"} >
                               <b>Log in</b>
-                          </Typography>
+                          </div>
                       </Button>
                   </Link>
               </Grid>
@@ -278,38 +278,38 @@ class Signup extends Component {
           <div>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
               <Grid item style={{marginBottom:30}}>
-                <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'45px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'45px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                     <b>Join Cavalry</b>
-                </Typography>
-                <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                </div>
+                <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                     The best way to create, share, and coordinate runbooks.
-                </Typography>
+                </div>
               </Grid>
               <Grid item>
-                <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                     <b>Create your account</b>
-                </Typography>
+                </div>
               </Grid>
             </Grid>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
               <Grid item xs style={{ border:this.props.theme[0].PostsButtonBorder, background:this.props.theme[0].PostsButtonBackground,borderRadius:this.props.theme[0].BorderRadius, padding:40, width:'100%'}}>
-                <Typography variant={'caption'} style={{marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyDescription}} ><b>Email address</b></Typography>
+                <div  style={{marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyDescription, letterSpacing:'-0.5px', fontSize:'20px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>Email address</b></div>
                 {this.renderEmailAddress()}
-                <Typography variant={'caption'} style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle}}>We’ll send updates about your account to this inbox. We’ll never share your email address with anyone.</Typography>
+                <div  style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>We’ll send updates about your account to this inbox. We’ll never share your email address with anyone.</div>
               </Grid>
             </Grid>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
               <Grid item>
-                <Typography style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                     <b>Verify account</b>
-                </Typography>
+                </div>
               </Grid>
             </Grid>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em", paddingTop:20, paddingBottom:20}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
               <Grid item style={{border:this.props.theme[0].PostsButtonBorder, background:this.props.theme[0].PostsButtonBackground,borderRadius:this.props.theme[0].BorderRadius, padding:40, width:'100%'}} xs>
-                <Typography variant={'caption'} style={{marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyDescription}} ><b>Complete ReCAPTCHA</b></Typography>
+                <div  style={{marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyDescription, letterSpacing:'-0.5px', fontSize:'20px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>Complete ReCAPTCHA</b></div>
                 {this.renderRecaptcha()}
-                <Typography variant={'caption'} style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle}}>By clicking on “ReCAPTCHA”, you agree to our terms of service and privacy statement.</Typography>
+                <div  style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle,letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>By clicking on “ReCAPTCHA”, you agree to our terms of service and privacy statement.</div>
             </Grid>
           </Grid>
           </div>

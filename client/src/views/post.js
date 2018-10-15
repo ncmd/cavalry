@@ -22,6 +22,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import { InputGroup, InputGroupAddon, Input } from 'reactstrap';
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 function Transition(props) {
@@ -144,6 +145,7 @@ class Post extends Component {
               this.setState({
                 postTitle:this.props.posts.title,
                 postDescription:this.props.posts.description,
+                postTags:this.props.posts.tags,
               })
 
               if(this.props.posts.objectives.length > 0) {
@@ -181,19 +183,19 @@ class Post extends Component {
           return(
             <Grid key={obj.title} style={{background:this.props.theme[0].PostsButtonBackground,border:this.props.theme[0].PostsButtonBorder,margin:0, padding:20, marginTop: 5, borderRadius:'5px 5px 5px 5px'}} item xs={12} >
 
-                  <Typography variant={'body2'} style={{color:this.props.theme[0].PostsTypographyTitle}}>
-                    <Typography variant={'body2'} style={{background:this.props.theme[0].PrimaryLinear, width:26,height:26, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>{index+1}</Typography> <b>{obj.title}</b>
-                  </Typography>
-                  <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" >
+                  <div  style={{color:this.props.theme[0].PostsTypographyTitle,marginBottom:5, padding:5 }} >
+                    <div  style={{background:this.props.theme[0].PrimaryLinear,width:28,height:28,borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>{index+1}</div> <b>{obj.title}</b>
+                  </div>
+                  <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" style={{paddingTop:5}}>
                     <Grid key={obj.department+Math.random()+(Math.random())} item >
                       <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
-                        <Typography variant={'caption'} style={{color:'white'}}><font size="1"><b>{obj.department}</b></font></Typography>
+                        <div style={{color:'white',  letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{obj.department}</b></div>
                       </span>
                   </Grid>
                   </Grid>
-                  <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'body2'}>
+                  <div style={{color:this.props.theme[0].PostsTypographyTitle}} >
                     <div style={{color:this.props.theme[0].PostsTypographyTitle}}  dangerouslySetInnerHTML={{__html: obj.description}} />
-                  </Typography>
+                  </div>
 
               </Grid>
               )
@@ -248,11 +250,11 @@ class Post extends Component {
       // console.log("obj",obj)
       if (this.state.objectives[index].assignButton === false){
         return (
-          <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.handleAssignObjective({obj},accountid)}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assign</b></Typography></Button>
+          <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.handleAssignObjective({obj},accountid)}><div  style={{color:'white', textTransform:'none'}}><b>Assign</b></div></Button>
         )
       } else if (this.state.objectives[index].assignButton === true){
           return (
-            <Button disabled style={{background:"grey"}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assigned</b></Typography></Button>
+            <Button disabled style={{background:"grey"}}><div  style={{color:'white', textTransform:'none'}}><b>Assigned</b></div></Button>
           )
         }
 
@@ -277,7 +279,7 @@ class Post extends Component {
                 </TableCell>
                 <TableCell padding="checkbox">{obj.department}</TableCell>
                 <TableCell padding="checkbox">
-                  <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.handleAssignObjective({obj},this.state.objectives[index].selectOption,this.state.objectives[index].selectEmail)}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assign</b></Typography></Button>
+                  <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.handleAssignObjective({obj},this.state.objectives[index].selectOption,this.state.objectives[index].selectEmail)}><div  style={{color:'white', textTransform:'none'}}><b>Assign</b></div></Button>
                   {/* {this.renderAssignButton(index,{obj},this.state.objectives[index].selectOption)}*/}
                 </TableCell>
               </TableRow>
@@ -297,13 +299,33 @@ class Post extends Component {
     renderAssingAllObjectives(){
       if (1 === 0){
         return(
-          <Button style={{background:this.props.theme[0].PrimaryLinear, marginRight:20}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assign All Objectives</b></Typography></Button>
+          <Button style={{background:this.props.theme[0].PrimaryLinear, marginRight:20}}><div  style={{color:'white', textTransform:'none'}}><b>Assign All Objectives</b></div></Button>
         )
       } else if (2 === 2){
         return (
-          <Button disabled style={{background:"grey", marginRight:20}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}}><b>Assign All Objectives</b></Typography></Button>
+          <Button disabled style={{background:"grey", marginRight:20}}><div  style={{color:'white', textTransform:'none'}}><b>Assign All Objectives</b></div></Button>
         )
       }
+    }
+
+    renderPostTags(){
+      if (this.state.postTags !== undefined){
+        return (
+          this.state.postTags.map((value) => {
+            if (value !== " "){
+              return(
+                <Grid key={value+Math.random()+(Math.random())} item >
+                  <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
+                    <div style={{color:'white',  letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{value}</b></div>
+                  </span>
+              </Grid>)
+            }
+          }
+          )
+        )
+
+      }
+
     }
 
     render() {
@@ -312,77 +334,115 @@ class Post extends Component {
         return (
             <div>
                 <Header/>
-
                 <div
                     style={{
                         flexGrow: 1,
                         justify: 'center',
                         background: this.renderTheme(),
-                        minHeight:this.state.height
+                        minHeight:this.state.height,
+                        paddingTop:5,
                     }}
                 >
-                    <Grid container style={{ background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto", maxWidth:"63em", padding:25, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'flex-start'} direction={'column'}>
-                      <Grid item xs>
-                        <Typography variant={'display1'} style={{color:this.props.theme[0].PostsTypographyTitle}}><b>{this.state.postTitle}</b></Typography><br/>
-                      </Grid>
-                      <Grid item xs>
-                        <Typography variant={'subheading'} style={{color:this.props.theme[0].PostsTypographyDescription}}>{this.state.postDescription}</Typography>
-                      </Grid>
-                      <Grid item xs style={{paddingTop:20}}>
-                        {this.props.users.logged
-                          ?
-                          <div>
-                            <Link to={{ pathname: '/post/' + this.props.posts.id + '/'+this.findAndReplace(this.findAndReplace(this.state.postTitle,' ','-'),'\'','')+'/edit'}}>
-                             <Button style={{background:this.props.theme[0].SecondaryLinear}}>
-                               <Typography variant={'caption'} style={{color:'white'}}><b>Edit</b></Typography>
-                             </Button>
-                           </Link>
-                           <Button style={{background:this.props.theme[0].PrimaryLinear, marginLeft:20}} onClick={() => this.renderModal()}><Typography variant={'caption'} style={{color:'white'}}><b>Run</b></Typography></Button>
-                             <Dialog
-                               fullScreen
-                               open={this.state.open}
-                               onClose={this.handleClose}
-                               TransitionComponent={Transition}
-                               style={{maxWidth:'63em',flexGrow:1, margin:"0 auto"}}
-                             >
+                <Grid container style={{ background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto", maxWidth:"63em", padding:15, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
+                  <Grid item xs>
+                    <div>
+                      <Link style={{textDecoration: 'none' }} to={""}>
+                        <b>creator</b>
+                      </Link>
+                      <b style={{color:this.props.theme[0].PostsTypographyTitle}}> / </b>
+                      <Link style={{textDecoration: 'none' }}to={""}>
+                      <b>{this.state.postTitle}</b>
+                      </Link>
+                    </div>
+                  </Grid>
 
-                             <div style={{padding:30}}>
-                               <Grid container alignItems={'flex-start'} justify={'space-between'} direction={'row'} >
-                                 <Grid item>
-                                   <Typography style={{color:this.props.theme[0].PostsTypographyTitle}} variant={'body2'}><b>Assign objectives to the appropriate users</b></Typography>
-                                 </Grid>
-                                 <Grid item>
-                                   {this.renderAssingAllObjectives()}
-                                   <Button style={{background:this.props.theme[0].SecondaryLinear}}><Typography variant={'caption'} style={{color:'white', textTransform:'none'}} onClick={() => this.renderModal()}><b>Close</b></Typography></Button>
-                                 </Grid>
-                               </Grid>
+                  <Grid item xs={12}>
+                    <div  style={{color:this.props.theme[0].PostsTypographyDescription}}>{this.state.postDescription}</div>
+                  </Grid>
+                    <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"flex-start"} direction={"row"} justify={"flex-start"}>
+                    {this.renderPostTags()}
+                  </Grid>
+                  {this.props.users.logged
+                    ?
+                    <Grid container style={{ flexGrow:1, height:"100%", width:"100%" }}  alignItems={"flex-start"} direction={"row"} justify={"flex-end"}>
+                    <Grid item  style={{paddingTop:5}}>
+                    <div>
+                      <Link style={{textDecoration: 'none' }} to={{ pathname: '/post/' + this.props.posts.id + '/'+this.findAndReplace(this.findAndReplace(this.state.postTitle,' ','-'),'\'','')+'/edit'}}>
+                       <Button style={{background:this.props.theme[0].SecondaryLinear}}>
+                         <div  style={{color:'white',textTransform:'none'}}><b>Edit</b></div>
+                       </Button>
+                     </Link>
+                     <Button style={{background:this.props.theme[0].PrimaryLinear, marginLeft:20}} onClick={() => this.renderModal()}><div  style={{color:'white',textTransform:'none'}}><b>Run</b></div></Button>
+                       <Dialog
+                         fullScreen
+                         open={this.state.open}
+                         onClose={this.handleClose}
+                         TransitionComponent={Transition}
+                         style={{maxWidth:'63em',flexGrow:1, margin:"0 auto"}}
+                       >
 
-                               <Table className={classes.table}>
-                                 <TableHead>
-                                   <TableRow>
-                                     <TableCell component="th" scope="row"><Typography style={{color:'black'}}><b>Objective</b></Typography></TableCell>
-                                     <TableCell><Typography style={{color:'black'}}><b>Assigned this User</b></Typography></TableCell>
-                                     <TableCell padding="checkbox"><Typography style={{color:'black'}}><b>Dept.</b></Typography></TableCell>
-                                     <TableCell padding="checkbox"><Typography style={{color:'black'}}><b>Action</b></Typography></TableCell>
-                                   </TableRow>
-                                 </TableHead>
-                                 <TableBody>
-                                    {this.renderAssignObjectives()}
-                                    <TableRow>
-                                    </TableRow>
-                                 </TableBody>
-                               </Table>
-                             </div>
+                       <div style={{padding:30}}>
+                         <Grid container alignItems={'flex-start'} justify={'space-between'} direction={'row'} >
+                           <Grid item>
+                             <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Assign objectives to the appropriate users</b></div>
+                           </Grid>
+                           <Grid item>
+                             {this.renderAssingAllObjectives()}
+                             <Button style={{background:this.props.theme[0].SecondaryLinear}}><div  style={{color:'white', textTransform:'none'}} onClick={() => this.renderModal()}><b>Close</b></div></Button>
+                           </Grid>
+                         </Grid>
+
+                         <Table className={classes.table}>
+                           <TableHead>
+                             <TableRow>
+                               <TableCell component="th" scope="row"><div style={{color:'black'}}><b>Objective</b></div></TableCell>
+                               <TableCell><div style={{color:'black'}}><b>Assigned this User</b></div></TableCell>
+                               <TableCell padding="checkbox"><div style={{color:'black'}}><b>Dept.</b></div></TableCell>
+                               <TableCell padding="checkbox"><div style={{color:'black'}}><b>Action</b></div></TableCell>
+                             </TableRow>
+                           </TableHead>
+                           <TableBody>
+                              {this.renderAssignObjectives()}
+                              <TableRow>
+                              </TableRow>
+                           </TableBody>
+                         </Table>
+                       </div>
 
 
-                           </Dialog>
-                          </div>
-                          :
-                          <div></div>
-                        }
-                      </Grid>
+                       </Dialog>
+                      </div>
                     </Grid>
+                  </Grid>
+                    :
+                    <div></div>
+                  }
+                </Grid>
 
+
+                        <Grid container style={{background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto",  marginTop:5,maxWidth:"63em", padding:15, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
+                          <Grid item xs style={{}}>
+                            <div  style={{color:this.props.theme[0].PostsTypographyDescription}}><b>{this.state.objectives.length}</b> objectives</div>
+                            <div  style={{color:this.props.theme[0].PostsTypographyDescription}}><b>0</b> comments</div>
+                          </Grid>
+                          <Grid item  style={{marginLeft:10}}>
+                            <InputGroup size="sm">
+                              {/*<InputGroupAddon addonType="prepend" style={{marginLeft:5}}>
+                                <Button style={{background:this.props.theme[0].PostActionBackgroundImage,borderRadius:'5px 0px 0px 5px', boxShadow:'0px 0px 0px 0px',  border:this.props.theme[0].PrimaryBorder, }}><div  style={{textTransform:'none', color:"#333333"}}><span aria-label="emoji" role="img">👁️</span><b>Watch</b></div></Button>
+                                <Button disabled style={{background:"white",borderRadius:'0px 5px 5px 0px', boxShadow:'0px 0px 0px 0px',  borderRight:this.props.theme[0].PrimaryBorder,  borderTop:this.props.theme[0].PrimaryBorder, borderBottom:this.props.theme[0].PrimaryBorder}}><div  style={{color:"#525f7f"}}><b>0</b></div></Button>
+                              </InputGroupAddon>
+                              <InputGroupAddon addonType="prepend" style={{marginLeft:5}}>
+                                <Button style={{background:this.props.theme[0].PostActionBackgroundImage,borderRadius:'5px 0px 0px 5px', boxShadow:'0px 0px 0px 0px',  border:this.props.theme[0].PrimaryBorder, }}><div  style={{textTransform:'none', color:"#333333"}}><span aria-label="emoji" role="img">😘️</span><b>Copy</b></div></Button>
+                                <Button disabled style={{background:"white",borderRadius:'0px 5px 5px 0px', boxShadow:'0px 0px 0px 0px',  borderRight:this.props.theme[0].PrimaryBorder,  borderTop:this.props.theme[0].PrimaryBorder, borderBottom:this.props.theme[0].PrimaryBorder}}><div  style={{color:"#525f7f"}}><b>0</b></div></Button>
+                              </InputGroupAddon>*/}
+                              <InputGroupAddon addonType="prepend" style={{marginLeft:5}}>
+                                <Button style={{background:this.props.theme[0].PostActionBackgroundImage,borderRadius:'5px 0px 0px 5px', boxShadow:'0px 0px 0px 0px',  border:this.props.theme[0].PrimaryBorder, }}><div  style={{textTransform:'none' , color:"#333333"}}><span aria-label="emoji" role="img">⭐</span><b>Stars</b></div></Button>
+                                <Button disabled style={{background:"white",borderRadius:'0px 5px 5px 0px', boxShadow:'0px 0px 0px 0px',  borderRight:this.props.theme[0].PrimaryBorder,  borderTop:this.props.theme[0].PrimaryBorder, borderBottom:this.props.theme[0].PrimaryBorder}}><div  style={{color:"#525f7f"}}><b>0</b></div></Button>
+                              </InputGroupAddon>
+
+                            </InputGroup>
+                          </Grid>
+                        </Grid>
                     {/* Bottom Section */}
                     <Grid container style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:100 }}  alignItems={'flex-start'} justify={'flex-start'} direction={'row'}  >
                       {this.renderObjectives()}

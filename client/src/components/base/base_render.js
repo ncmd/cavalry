@@ -7,7 +7,6 @@ import {
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import {Link} from "react-router-dom";
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
