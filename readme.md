@@ -245,6 +245,7 @@ PROJECT PATH
 - upvote downvote - 0%
 
 ## Low Priority
+- runbook stars
 - manage team - 10%
 - implement experience level
 - implement skills
