@@ -161,8 +161,6 @@ PROJECT PATH
 - files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
 
 # React Native Setup with Expo
-- Download Ubuntu from Windows Store
-- Powershell: Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Windows-Subsystem-Linux
 - Download and Install Android Studio
 - Download and Install latest version of Yarn
 - Confirm Nvidia performance is high for qemu-system-x86_x64.exe
@@ -170,12 +168,6 @@ PROJECT PATH
 - Create Android Virtual Device
 - Pixel 2 API 23
 - Cores 6, RAM 3536, VMHeap 1256
-- npm install -g expo-cli react-native-cli
-- expo init native
-- react-native upgrade
-- react-native link
-- cd native && npm start
-- Close app on virtual device, restart app in expo; press 'a'
 
 # Native packages
 - npm install react-navigation@2.0.4 react-native-swiper native-base --save
@@ -198,54 +190,99 @@ PROJECT PATH
 - C:\Users\f/.ngrok2/ngrok.yml
 - ./ngrok http 80
 
+# Main React Components
+- Components:
+- Material UI: https://material-ui.com/
+- Reactstrap (bootstrap): https://reactstrap.github.io/
+- Icons: https://material.io/tools/icons/
+- Animation: https://digital-flowers.github.io/react-animated-css.html
+
+
 # To Do ; Security
 - Fix dangerouslySetInnerHTML
+- Api scraping
 - rate limiting
 - confirm pages with JWT
 - session timeout
 - reset password
-- 2 factor
-
+- 2-factor
+- confirm redux clean
 
 # To Do
-## High Priority $$$
-- search bar
-- add history of when runbook is executed
-- add history when objectives are assigned
+- sending Invoices - 10%
+- bug: drawer button not responding (in mobile and tablet mode)
+- bug: activity should not require you to be in an organization
+- bug: forceupdate happening if banner typist is interrupted
+- bug: in /teams when you click on react-select dropdown, the overlay is hidden
+
+- header user drawer instead
+- search bar - 70% - USE REDUX-SEARCH bvaughn.github.io
+
+- stars - 85% - Use redux, then make update to firestore; must only done once per user
+- there needs to be a record of local user starring post
+
+- redux should contain this information
+- reducer action to add star on account store
+- reducer action to remove star on account store
+
+- inviting users - 70% - does not look nice, reference slack and github
+- assigning objectives - 70% - does not look nice, reference asana
+
+- assigning all objectives to all users once all selected - 5%
+
+- fix activity - presentation does not look nice
+
+- filter bar ; top
+- filter options
+
+- comments - 5%
+- add comment to firestore
+- delete comment in firestore
+- dispatch to redux add comment
+- dispatch to redux delete comment
+- dispatch to redux edit comment
+
+- ending subscription
+- request to join organization
+- public user profile
+
+## Low Priority
+
+- upgrade subscription - 0%
+- add attachments
+- category metrics
+- backend redundancy/failsafe - 5%
+- notification if backend goes down
 - survive reddit hug of death
 - survive producthunt
-- Hacker News
-- The Next Web
-- sending Invoices - 10%
-- assigning objectives - 70%
-- upgrade subscription - 0%
-- Make Account Management Look like Algolia's - 20%
-- Creator of Runbook information added - 0%
-- Assigning to all users once all selected - 20%
-- Send notifications to everyone when they are assigned objective - 0%
-- When objective is assigned, notify user in real-time - 0%
-- Closing Run (sometimes it closes) - 80%
-- Watch Runbook feature (see real-time progress) - 0%
-- Posts infinite scroll - 0%
-- Identify leaders - 0%
-- Identify member skills and project owners - 0%
-- enterprise grade - https://www.enterpriseready.io/#
-- github style contributions - 5%
-- Mobile notifications - 0%
-- Email notifications when assigned - 0%
+- survive Hacker News
+- survive The Next Web
 - save runbook before publish - 0%
 - Slack integration - 0%
-- revisions - 0%
-- versions - 0%
 - real-time collaboration - 0%
 - adding objectives from other runbooks - 0%
 - posts spam prevention - 0%
 - requests spam prevention - 0%
 - clone spam prevention - 0%
-- upvote downvote - 0%
-
-## Low Priority
+- Mobile notifications - 0%
+- Email notifications when assigned - 0%
+- Send notifications to everyone when they are assigned objective - 0%
+- When objective is assigned, notify user in real-time - 40%
+- Closing Run (sometimes it closes) - 80%
+- Watch Runbook feature (see real-time progress) - 0%
+- Posts infinite scroll pagination - 0%
+- Identify leaders - 0%
+- Identify member skills and project owners - 0%
+- enterprise grade - https://www.enterpriseready.io/#
+- Make Account Management Look like Algolia's - 20%
+- tree diagram creating runbook - 0%
+- tree diagram show progress - 0%
+- add history of when runbook is executed - 0%
+- add history when objectives are assigned - 0%
+- revisions - 0%
+- versions - 0%
 - runbook stars
+- github style contributions - 5%
 - manage team - 10%
 - implement experience level
 - implement skills
@@ -307,6 +344,9 @@ PROJECT PATH
 - websockets
 
 ## Complete
+- post need time posted - done
+- author of runbook - need a username - done
+- create a username- need regex and character limitation - done
 - cancel subscription - done
 - user management - done
 - add light theme - done
@@ -318,6 +358,9 @@ PROJECT PATH
 - preview - done
 - create organization - done
 - invite member to organization - done
+- there needs to be an array or values or objects containing a list of all users who starred post - done
+- reducer action to add star on post store - done
+- reducer action to remove star on post - done
 
 ## MISC
 - github friendly
@@ -348,12 +391,6 @@ PROJECT PATH
 # Common Issues
 -
 
-# Anki Setup
-- Website: https://ankiweb.net
-- Download Desktop app version 2.1 https://ankiweb.net
-- Addons:
-- Night Mode
-- Progress Bar
-- Speed Focus Mode auto-alert auto-reveal auto-fail
-- Syntax highlighting for Code
-- loadbalancer
+# Notes:
+- When signing up on local environment, use credit card #: 4242 4242 4242 4242
+- You can use anything for expiration date, cvc, and postal code

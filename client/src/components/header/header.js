@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 // import Button from '@material-ui/core/Button';
 import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    Nav,
-    NavItem,
+    // Collapse,
+    // Navbar,
+    // NavbarToggler,
+    // Nav,
+    // NavItem,
     Button,
     // Popover, PopoverHeader, PopoverBody,
 } from 'reactstrap';
@@ -39,18 +39,19 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import InputBase from '@material-ui/core/InputBase';
-import Badge from '@material-ui/core/Badge';
+// import InputBase from '@material-ui/core/InputBase';
+// import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
+// import MoreIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MailIcon from '@material-ui/icons/Mail';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import MoreIcon from '@material-ui/icons/MoreVert';
+import { Input,InputGroup, InputGroupText, InputGroupAddon } from 'reactstrap';
+// import Drawer from '@material-ui/core/Drawer';
+// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+// import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 ReactGA.initialize('UA-123951173-1',{
 debug: true,
@@ -59,8 +60,9 @@ debug: true,
 // const headerSignupButton = "linear-gradient(to right, #F44336, #ff1744";
 // const headerPostButton = "linear-gradient(to right, #f44336, #e91e63 ";
 // const headerRequestButton = "linear-gradient(to right, #2979ff, #03a9f4 ";
-const headerBlue = "#1a237e";
+// const headerBlue = "#1a237e";
 // const accountButton = "linear-gradient(to right, #304ffe, #2962ff)";
+const drawerWidth = 240;
 
 const styles = theme => ({
   root: {
@@ -130,6 +132,75 @@ const styles = theme => ({
       display: 'none',
     },
   },
+  appFrame: {
+    height: 430,
+    zIndex: 1,
+    overflow: 'hidden',
+    position: 'relative',
+    display: 'flex',
+    width: '100%',
+  },
+  appBar: {
+    position: 'absolute',
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  appBarShift: {
+    width: `calc(100% - ${drawerWidth}px)`,
+    transition: theme.transitions.create(['margin', 'width'], {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  'appBarShift-left': {
+    marginLeft: drawerWidth,
+  },
+  'appBarShift-right': {
+    marginRight: drawerWidth,
+  },
+  hide: {
+    display: 'none',
+  },
+  drawerPaper: {
+    position: 'relative',
+    width: drawerWidth,
+  },
+  drawerHeader: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: '0 8px',
+    ...theme.mixins.toolbar,
+  },
+  content: {
+    flexGrow: 1,
+    backgroundColor: theme.palette.background.default,
+    padding: theme.spacing.unit * 3,
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+  },
+  'content-left': {
+    marginLeft: -drawerWidth,
+  },
+  'content-right': {
+    marginRight: -drawerWidth,
+  },
+  contentShift: {
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.easeOut,
+      duration: theme.transitions.duration.enteringScreen,
+    }),
+  },
+  'contentShift-left': {
+    marginLeft: 0,
+  },
+  'contentShift-right': {
+    marginRight: 0,
+  },
 });
 
 class header extends Component {
@@ -148,8 +219,9 @@ class header extends Component {
             open: false,
             anchorEl: null,
             backgroundTheme:true,
-            anchorEl: null,
             mobileMoreAnchorEl: null,
+            openDrawer: false,
+            anchor: 'left',
 
         };
         this.toggle = this.toggle.bind(this);
@@ -168,6 +240,20 @@ class header extends Component {
       popoverOpen: !this.state.popoverOpen
     });
   }
+
+  handleDrawerOpen = () => {
+    this.setState({ openDrawer: true });
+  };
+
+  handleDrawerClose = () => {
+    this.setState({ openDrawer: false });
+  };
+
+  handleChangeAnchor = event => {
+    this.setState({
+      anchor: event.target.value,
+    });
+  };
 
   componentWillMount(){
 
@@ -244,7 +330,7 @@ class header extends Component {
               </Button>
             </Link>
             <Link to={{pathname:'/signup'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignupbutton()}>
-                  <Button raised="true" variant="raised" style={{border:'white',marginLeft:16, height:35, width:120, background:this.props.theme[0].PrimaryLinear, border:this.props.theme[0].PrimaryBorder, textTransform: 'none'}} >
+                  <Button raised="true" variant="raised" style={{marginLeft:16, height:35, width:120, background:this.props.theme[0].PrimaryLinear, border:this.props.theme[0].PrimaryBorder, textTransform: 'none'}} >
                       <div style={{color:'white',textTransform: 'none',  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}  >
                           <b>SIGN UP</b>
                       </div>
@@ -279,9 +365,9 @@ class header extends Component {
   };
 
     renderUserLoggedIn(){
+
       auth.getJWTVerifyToken()
 
-      const { anchorEl } = this.state;
       return (
         <div >
             {this.state.backgroundTheme
@@ -379,6 +465,7 @@ class header extends Component {
 
     handleMobileMenuOpen = event => {
       this.setState({ mobileMoreAnchorEl: event.currentTarget });
+      console.log(event.currentTarget)
     };
 
     handleMobileMenuClose = () => {
@@ -573,29 +660,39 @@ class header extends Component {
                         background:this.renderTheme(),
                     }}
                 >
-                <AppBar position="static" style={{background:this.props.theme[0].MainBackground,  boxShadow:'0px 0px 0px 0px', borderBottom:this.props.theme[0].PostsButtonBorder}}>
+                <AppBar position="static" style={{background:this.props.theme[0].HeaderBackground,position:'fixed', top: 0,boxShadow:'0px 0px 0px 0px', borderBottom:this.props.theme[0].PostsButtonBorder}}>
                   <Toolbar variant="dense">
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:'63em'}} direction="row" justify="space-between" alignItems="stretch" >
                       <Grid item xs>
                         <Link  style={{color:"#3d63ff",textDecoration: 'none' }} to={{pathname:'/'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedhomebutton()}>
-                          <div>
+
                             <div style={{textTransform:'none',fontSize:'25px', fontWeight:400, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
-                            <img src="/cavalry.svg" style={{width:35,height:35}}></img>
-                            <b style={{paddingLeft:8, height:24}}>Cavalry</b></div>
-                          </div>
+                            <img alt="cavalrysvg" src="/cavalry.svg" style={{width:35,height:35, verticalAlign:'bottom'}}></img>
+                            <b style={{paddingLeft:8, height:16}}>Cavalry</b></div>
+
                         </Link>
                       </Grid>
-                      {/*
-                        <Hidden smDown>
-                        <Grid item xs={6}>
-                          <div style={{background:'transparent'}}>
-                            {this.renderSearch()}
-                          </div>
-                        </Grid>
-                        </Hidden>
-                        */}
 
-                    <div className={classes.grow} />
+
+
+                    <div className={classes.grow}>
+                      <Hidden smDown>
+                      <Grid item >
+                        <div style={{background:'transparent'}}>
+                          {/*{this.renderSearch()}*/}
+                          <form>
+                          <InputGroup size="sm">
+                              <InputGroupAddon addonType="prepend">
+                                  <InputGroupText style={{background:'transparent',border: '1px solid #ced4da',paddingLeft:6,paddingRight:6, height:35}}><SearchIcon/></InputGroupText>
+                              </InputGroupAddon>
+                              <Input style={{background:'transparent',border: '1px solid #ced4da',  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"", color:this.props.theme[0].PostsTypographyTitle, height:35, boxShadow:'none'}} type="text" name="search" id="runbookSearch" placeholder="Search..."/>
+                          </InputGroup>
+                        </form>
+                        </div>
+                      </Grid>
+                      </Hidden>
+
+                        </div>
                       <div className={classes.sectionDesktop}>
                             {this.props.users.logged
                                 ?

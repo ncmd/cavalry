@@ -9,7 +9,6 @@ import {
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import { Form, FormGroup, Input } from 'reactstrap';
 // import { AlgoliaRequestsHits } from '../components/algolia/config';
 import { InstantSearch } from 'react-instantsearch-dom';
@@ -200,6 +199,7 @@ class Request extends Component {
                         flexGrow: 1,
                         background: this.props.theme[0].MainBackground,
                         height: this.state.height,
+                        marginTop:48,
                     }}
                 >
                     {/* Top Section */}

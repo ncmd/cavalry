@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {CardNumberElement, CardExpiryElement, CardCVCElement, PostalCodeElement, injectStripe} from 'react-stripe-elements';
 import './stripe.css'
-import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {

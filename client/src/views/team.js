@@ -19,19 +19,22 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 // import {Link} from "react-router-dom";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import { Form, FormGroup, Input, Badge } from 'reactstrap';
+// import Table from '@material-ui/core/Table';
+// import TableBody from '@material-ui/core/TableBody';
+// import TableCell from '@material-ui/core/TableCell';
+// import TableHead from '@material-ui/core/TableHead';
+// import TableRow from '@material-ui/core/TableRow';
+// import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
+import { Form, Input, Badge, InputGroupAddon, InputGroup, Table} from 'reactstrap';
 import Select from 'react-select';
+import ArrowForward from '@material-ui/icons/ArrowForward';
+import Send from '@material-ui/icons/Send';
+import './team.css'
 
-const bodyBlue = "linear-gradient(#1a237e, #121858)";
-const actionButton = "linear-gradient(to right, #ff1744, #F44336 ";
+// const bodyBlue = "linear-gradient(#1a237e, #121858)";
+// const actionButton = "linear-gradient(to right, #ff1744, #F44336 ";
 const styles = theme => ({
   root: {
     width: '100%',
@@ -91,7 +94,7 @@ class Team extends Component {
       // Current User Plan
       if(this.props.account.organizationname !== ""){
         this.props.loadOrganizationAll(this.props.account.organizationname).then(() => {
-          console.log("Organization Loaded")
+          // console.log("Organization Loaded")
           this.props.organization.organizationmembers.map((member) => {
             console.log("Member",member)
             var prevlistorganiztionmembers = this.state.groups
@@ -105,7 +108,7 @@ class Team extends Component {
             this.setState({
               groups: prevlistorganiztionmembers
             })
-
+            return null
           })
         })
       }
@@ -315,6 +318,7 @@ class Team extends Component {
               if (member.emailaddress.indexOf(email) > -1){
                   this.setState({validEmail:false})
               }
+              return null
             })
         } else {
             // Invalid phone number
@@ -325,19 +329,20 @@ class Team extends Component {
     }
 
     renderSetupGroups(){
-      var str = 'manage '+this.props.account.organizationname;
+      var str = this.props.account.organizationname;
       var res = str.toLowerCase();
 
       return(
-        <div>
+        <div >
+          <Form style={{width:'100%'}}>
+            <div style={{maxWidth:800, marginLeft:'auto', marginRight:'auto',borderRadius:'5px 5px 0px 0px', background:this.props.theme[0].HeaderBackground, color:this.props.theme[0].PostsTypographyTitle, verticalAlign:'bottom', padding:10}}>Manage <b>{res}</b></div>
+            <div style={{borderBottom:this.props.theme[0].PostsButtonBorder, width:'100%'}}></div>
+            <div style={{maxWidth:800, marginLeft:'auto', marginRight:'auto',color:this.props.theme[0].PostsTypographyDescription, padding:10}}>Invite others to join your workspace.</div>
+            <InputGroup style={{maxWidth:800, marginLeft:'auto', marginRight:'auto',paddingBottom:10,paddingLeft:10,paddingRight:10,width:'100%'}}>
+              <Input style={{boxShadow:'0px 0px 0px 0px'}} value={this.state.inputEmailaddress} onChange={this.handleInputEmailaddress('inputEmailaddress')} placeholder="name@company.com"/>
+              <InputGroupAddon addonType="append">{this.renderSetupButton()}</InputGroupAddon>
+            </InputGroup>
 
-          <Form style={{paddingTop:30, paddingBottom:30}}>
-            <div style={{color:this.props.theme[0].PostsTypographyTitle}} >{res}</div>
-            <FormGroup>
-              <div style={{color:this.props.theme[0].PostsTypographyDescription}}>Invite users to your team!</div>
-              <Input value={this.state.inputEmailaddress} onChange={this.handleInputEmailaddress('inputEmailaddress')} placeholder="name@company.com"/>
-            </FormGroup>
-            {this.renderSetupButton()}
           </Form>
         </div>
       )
@@ -346,11 +351,11 @@ class Team extends Component {
     renderSetupButton(){
       if(this.state.validEmail === true){
         return (
-          <Button style={{background:actionButton}} onClick={() => this.addGroup(this.state.inputEmailaddress,)}><div  style={{color:'white', textTransform: 'none'}}><b>Invite</b></div></Button>
+          <Button style={{border:this.props.theme[0].PostsButtonBorder, borderRadius:'0px 5px 5px 0px', textTransform:'none',background:this.props.theme[0].PrimaryLinear}} onClick={() => this.addGroup(this.state.inputEmailaddress,)}><div  style={{color:'white', textTransform: 'none'}}><b>Send Invitation<Send style={{fontSize:18,marginLeft:5}}/></b></div></Button>
         )
       } else {
         return (
-          <Button disabled style={{background:"grey"}} ><div  style={{color:'white', textTransform: 'none'}}><b>Invite</b></div></Button>
+          <Button style={{border:this.props.theme[0].PostsButtonBorder, borderRadius:'0px 5px 5px 0px', textTransform:'none', background:this.props.theme[0].DisabledBackground,color:this.props.theme[0].DisabledText}}>Send Invitation<Send style={{fontSize:18,marginLeft:5}}/></Button>
         )
       }
     }
@@ -358,12 +363,12 @@ class Team extends Component {
     renderOrganizationNameError(){
       if(this.state.validOrganization === false){
         return (
-            <div style={{color:this.props.theme[0].PostsTypographyTitle}} >Not a valid Organization name. At least 4 characters, max 30 characters, no special characters.</div>
+            <div style={{color:this.props.theme[0].PostsTypographyTitle, marginBottom:5, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >Not a valid Organization name. At least 4 characters, max 30 characters, no special characters.</div>
         )
       }
       if(this.props.organization.check === "exists"){
         return (
-            <div style={{color:this.props.theme[0].PostsTypographyTitle}} >This organization exists! Request to Join or Create a new Organization.</div>
+            <div style={{color:this.props.theme[0].PostsTypographyTitle,  marginBottom:5,letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >This organization exists! Request to Join or Create a new Organization.</div>
         )
       }
     }
@@ -394,12 +399,12 @@ class Team extends Component {
       if (this.state.validOrganization === true && this.props.organization.check === 'available'){
         return (
           <div>
-            <Button onClick={() => this.createAndJoinOrganization()} style={{background:this.props.theme[0].PrimaryLinear}}><div style={{textTransform:'none', color:'white'}} ><b>Create</b></div> </Button>
+            <Button onClick={() => this.createAndJoinOrganization()} style={{borderRadius:this.props.theme[0].BorderRadius,background:this.props.theme[0].PrimaryLinear}}><div style={{textTransform:'none', color:'white'}} ><b style={{verticalAlign:'middle'}}>Continue<ArrowForward style={{fontSize:18, verticalAlign:'middle'}}/></b></div> </Button>
           </div>
         )
       } else {
         return (
-          <Button disabled style={{background:'grey'}}><div style={{textTransform:'none', color:'white'}} ><b>Create</b></div> </Button>
+          <Button disabled style={{borderRadius:this.props.theme[0].BorderRadius,background:this.props.theme[0].DisabledBackground}}><div style={{textTransform:'none', color:this.props.theme[0].DisabledText}} ><b style={{verticalAlign:'middle'}}>Continue<ArrowForward style={{fontSize:18, verticalAlign:'middle'}}/></b></div> </Button>
         )
       }
     }
@@ -407,7 +412,7 @@ class Team extends Component {
     renderButtonValidOrgNameJoin(){
       if (this.state.validOrganizationJoin === true && this.props.organization.check === 'exists'){
         return (
-          <Button style={{background:actionButton}}><div style={{textTransform:'none', color:this.props.theme[0].PrimaryLinear}} ><b>Request</b></div> </Button>
+          <Button style={{background:this.props.theme[0].PrimaryLinear}}><div style={{textTransform:'none', color:this.props.theme[0].PrimaryLinear}} ><b>Request</b></div> </Button>
         )
       } else {
         return (
@@ -420,29 +425,33 @@ class Team extends Component {
       if (this.props.account.organizationmember === false){
         return (
           <div>
-            <Grid container style={{background:this.props.theme[0].PostsButtonBackground,border:this.props.theme[0].PostsButtonBorder, flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
+            <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
               <Grid item style={{padding:10, width:'100%'}} xs={12}>
                 <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                     <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                     <Grid item style={{width:'100%'}}>
-                      <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Create or Join an Organization to be able to manage a Team</b></div>
+                      <div style={{color:this.props.theme[0].PostsTypographyTitle, textTransform: 'none', fontSize:'45px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>What's the name of your company or group?</b></div>
+                    </Grid>
+                    <Grid item style={{width:'100%'}}>
+                      <div style={{fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>  We’ll use this to name your workspace, which you can always change later.
+                      </div>
                     </Grid>
                   </Grid>
                 </Form>
               </Grid>
             </Grid>
 
-              <Grid container style={{background:this.props.theme[0].PostsButtonBackground,border:this.props.theme[0].PostsButtonBorder, flexGrow:1, margin:"0 auto", maxWidth:"63em", marginTop:5}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
+              <Grid container style={{ flexGrow:1, margin:"0 auto", maxWidth:"63em", marginTop:5}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
                 <Grid item style={{padding:10, width:'100%'}} xs={12}>
-                  <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
+                  <Form style={{ flexGrow:1, maxWidth:800,marginLeft:'auto',marginRight:'auto', padding: 20,borderRadius:this.props.theme[0].BorderRadius, background:this.props.theme[0].PostsButtonBackground,border:this.props.theme[0].PostsButtonBorder}}>
                       <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                       <Grid item style={{width:'100%'}}>
-                      <div style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Create</b> an Organization</div>
+                      <div style={{color:this.props.theme[0].PostsTypographyDescription,  marginBottom:10}}>Company or group name</div>
                       {this.state.validOrganization
                         ?
-                        <Input valid value={this.state.organizationname} onChange={this.handleInputOrganizationName('organizationname')} placeholder="piedpiper"/>
+                        <Input style={{marginBottom:10}} valid value={this.state.organizationname} onChange={this.handleInputOrganizationName('organizationname')} placeholder="piedpiper"/>
                         :
-                        <Input invalid value={this.state.organizationname} onChange={this.handleInputOrganizationName('organizationname')} placeholder="piedpiper"/>
+                        <Input style={{marginBottom:10}} invalid value={this.state.organizationname} onChange={this.handleInputOrganizationName('organizationname')} placeholder="piedpiper"/>
                       }
                       {this.renderOrganizationNameError()}
                       {this.renderButtonValidOrgName()}
@@ -452,12 +461,12 @@ class Team extends Component {
                 </Grid>
               </Grid>
 
-              <Grid container style={{background:this.props.theme[0].PostsButtonBackground,border:this.props.theme[0].PostsButtonBorder, flexGrow:1, margin:"0 auto", maxWidth:"63em", marginTop:5}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
+              {/*<Grid container style={{background:this.props.theme[0].PostsButtonBackground,border:this.props.theme[0].PostsButtonBorder, flexGrow:1, margin:"0 auto", maxWidth:"63em", marginTop:5}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
                 <Grid item style={{padding:10, width:'100%'}} xs={12}>
                   <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
                       <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                       <Grid item style={{width:'100%'}}>
-                        <div style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Request</b> to join Organization</div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle}}><b>Request</b> to join a company or group</div>
                           {this.state.validOrganizationJoin
                             ?
                             <Input valid value={this.state.organizationnamejoin} onChange={this.handleInputOrganizationNameJoin('organizationnamejoin')} placeholder="piedpiper"/>
@@ -470,7 +479,7 @@ class Team extends Component {
                     </Grid>
                   </Form>
                 </Grid>
-              </Grid>
+              </Grid>*/}
           </div>
         )
       }
@@ -483,7 +492,7 @@ class Team extends Component {
           <Select
             name="department"
             options={this.state.selectValueOptions}
-            className="basic-single"
+            className="menu-outer-top"
             isClearable={false}
             classNamePrefix="select"
             value={valueDepartment}
@@ -493,19 +502,67 @@ class Team extends Component {
       }
     }
 
+    renderSelectActions(index, valueAction){
+
+    }
+
     renderManageTeamSetup(){
-      const { classes } = this.props;
+      // const { classes } = this.props;
 
       if (this.props.account.organizationmember === true && this.props.organization.organizationname !== ""){
         return (
-          <div >
+          <div style={{marginLeft:10, marginRight:10}}>
             <Grid container style={{ background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
-              <Grid item>{this.renderSetupGroups()}</Grid>
+              <Grid item style={{width:'100%'}}>{this.renderSetupGroups()}</Grid>
             </Grid>
             <Grid container style={{ background:this.props.theme[0].PostsButtonBackground , border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:30, marginTop:5}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
 
-              <Grid item>
-
+              <Grid item style={{width:'100%', overflowX:'scroll'}}>
+                <Table striped>
+                  <thead>
+                    <tr>
+                      <th><Checkbox/></th>
+                      <th style={{verticalAlign:'middle', color:this.props.theme[0].PostsTypographyTitle}}>Email Address</th>
+                      <th style={{verticalAlign:'middle', color:this.props.theme[0].PostsTypographyTitle}}>Department</th>
+                      <th style={{verticalAlign:'middle', color:this.props.theme[0].PostsTypographyTitle}}>Status</th>
+                      <th style={{verticalAlign:'middle', color:this.props.theme[0].PostsTypographyTitle}}>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.groups.map((g,index) => {
+                      if(g.status === "active"){
+                        return (
+                          <tr key={g.emailaddress}>
+                            <th scope="row"><Checkbox/></th>
+                            <td style={{verticalAlign:'middle'}}><div  style={{color:this.props.theme[0].PostsTypographyDescription}}>{g.emailaddress}</div></td>
+                            <td style={{verticalAlign:'middle'}}>{this.renderSelect(index,{value:g.department,label:g.department})}</td>
+                            <td style={{verticalAlign:'middle'}}><Badge style={{background:"green"}}>{g.status}</Badge></td>
+                          </tr>
+                        )
+                      } else if (g.status === "invited"){
+                        return (
+                          <tr key={g.emailaddress}>
+                            <th scope="row"><Checkbox/></th>
+                            <td style={{verticalAlign:'middle'}}><div  style={{color:this.props.theme[0].PostsTypographyDescription}}>{g.emailaddress}</div></td>
+                            <td style={{verticalAlign:'middle'}}>{this.renderSelect(index,{value:g.department,label:g.department})}</td>
+                            <td style={{verticalAlign:'middle'}}><Badge style={{background:"blue"}}>{g.status}</Badge></td>
+                          </tr>
+                        )
+                      }else if (g.status === "requested"){
+                        return (
+                          <tr key={g.emailaddress}>
+                            <th scope="row"><Checkbox/></th>
+                            <td style={{verticalAlign:'middle'}}><div  style={{color:this.props.theme[0].PostsTypographyDescription}}>{g.emailaddress}</div></td>
+                            <td style={{verticalAlign:'middle'}}>{this.renderSelect(index,{value:g.department,label:g.department})}</td>
+                            <td style={{verticalAlign:'middle'}}><Badge style={{background:"red"}}>{g.status}</Badge></td>
+                          </tr>
+                        )
+                      }
+                      return null
+                    })}
+                  </tbody>
+                </Table>
+                {/*
                   <Table className={classes.table}>
                     <TableHead>
                       <TableRow>
@@ -550,6 +607,8 @@ class Team extends Component {
                       })}
                     </TableBody>
                   </Table>
+                  */}
+
 
               </Grid>
             </Grid>
@@ -572,11 +631,12 @@ class Team extends Component {
                         justify: 'center',
                         background: this.props.theme[0].MainBackground,
                         height: this.state.height,
+                        marginTop:48,
                     }}
                 >
                     {/* Top Section */}
                       <Grid container style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em"}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
-                        <Grid item style={{width:'100%'}} >
+                        <Grid item style={{width:'100%', marginTop:5}} >
                           {this.renderOrganizationSetup()}
                         </Grid>
                       </Grid>

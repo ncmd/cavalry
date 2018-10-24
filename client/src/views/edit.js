@@ -15,7 +15,6 @@ import {
 import {auth} from '../components/firebase';
 import Grid from "@material-ui/core/Grid";
 import { Form, FormGroup, Input } from 'reactstrap';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ReactQuill, { Quill } from 'react-quill';
@@ -29,7 +28,7 @@ import Select from 'react-select';
 Quill.register('modules/ImageResize', ImageResize);
 
 
-const bodyBlue = "linear-gradient(#1a237e, #121858)";
+// const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const objectiveButton = "linear-gradient(to right, #304ffe, #2962ff)";
 const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
 
@@ -729,6 +728,7 @@ class Edit extends Component {
                         background: this.renderTheme(),
                         height:this.state.height+400+(300*this.state.objectives.length),
                         paddingTop:5,
+                        marginTop:48,
                     }}
                 >
                     {/* Top Section */}

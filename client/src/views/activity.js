@@ -11,7 +11,6 @@ import {
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import { Form, Input  } from 'reactstrap';
 import { InstantSearch } from 'react-instantsearch-dom';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
@@ -21,7 +20,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CompleteIcon from '@material-ui/icons/CheckCircle';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-import { fromJS, Seq, Map, List} from 'immutable';
+// import { fromJS, Seq, Map, List} from 'immutable';
 import Hidden from '@material-ui/core/Hidden';
 import {Link} from "react-router-dom";
 import Truncate from 'react-truncate';
@@ -33,7 +32,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Fade from '@material-ui/core/Fade';
+// import Fade from '@material-ui/core/Fade';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 
@@ -138,6 +137,7 @@ class Activity extends Component {
               if (this.props.account.accountid === act.runbookobjectives.objectiveassignedto.accountid){
                 prevAccountActivity.push({act})
               }
+              return null
             })
             this.setState({
               organizationactivity:prevActivityOrganization,
@@ -275,6 +275,7 @@ class Activity extends Component {
               </div>
             )
           }
+          return null
         })
       )
     }
@@ -298,6 +299,7 @@ class Activity extends Component {
                 </Grid>
               )
             }
+            return null
           })
         )
       } else if (this.state.tabValue === 1){
@@ -319,6 +321,7 @@ class Activity extends Component {
                 </Grid>
               )
             }
+            return null
           })
         )
       }
@@ -340,7 +343,7 @@ class Activity extends Component {
         this.state.activityorganization.map((act,index) => {
           // console.log(act,index)
             return (
-              <Grid item xs={12} key={act.act.runbooktitle+Math.random()+(Math.random())}  style={{padding:10, width:'100%',marginLeft:'auto',marginRight:'auto'}} xs={12}>
+              <Grid item xs={12} key={act.act.runbooktitle+Math.random()+(Math.random())}  style={{padding:10, width:'100%',marginLeft:'auto',marginRight:'auto'}}>
                 <ExpansionPanel >
                     <ExpansionPanelSummary style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder}} expandIcon={<ExpandMoreIcon style={{color:this.props.theme[0].PostsTypographyTitle}}/>}>
 
@@ -393,6 +396,7 @@ class Activity extends Component {
                                               </span>
                                           </Grid>)
                                         }
+                                        return null
                                       }
                                       )}
                                     </Grid>
@@ -425,7 +429,7 @@ class Activity extends Component {
     }
 
     renderOrganizationRunbookObjectiveStatus(runbookname,index){
-      const { classes } = this.props;
+      // const { classes } = this.props;
 
         if (this.state.open === true){
 
@@ -470,6 +474,7 @@ class Activity extends Component {
                         flexGrow: 1,
                         background: this.props.theme[0].MainBackground,
                         height: this.state.height,
+                        marginTop:48,
                     }}
                 >
                     {/* Top Section */}

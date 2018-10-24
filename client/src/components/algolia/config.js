@@ -19,7 +19,6 @@ import { Input,InputGroup, InputGroupText, InputGroupAddon } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import Truncate from 'react-truncate';
-import Typography from '@material-ui/core/Typography';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Button from '@material-ui/core/Button';
@@ -27,14 +26,15 @@ import {Link} from "react-router-dom";
 import { Badge } from 'reactstrap';
 import './algolia.css';
 import { googleanalytics } from '../analytics';
+import SearchIcon from '@material-ui/icons/Search';
 
 const MySearchBox = ({currentRefinement, refine}) =>
     <form>
     <InputGroup size="sm">
         <InputGroupAddon addonType="prepend">
-            <InputGroupText style={{background:'transparent',border: '1px solid #ced4da',paddingLeft:6,paddingRight:6, height:36}}><span aria-label="emoji" role="img">🔍</span></InputGroupText>
+            <InputGroupText style={{background:'transparent',border: '1px solid #ced4da',paddingLeft:6,paddingRight:6, height:35}}><SearchIcon/></InputGroupText>
         </InputGroupAddon>
-        <Input style={{background:'transparent',border: '1px solid #ced4da', color:'grey', height:36, boxShadow:'none'}} type="text" name="search" id="runbookSearch" placeholder="Search..." value={currentRefinement} onChange={e => refine(e.target.value)}/>
+        <Input style={{background:'transparent',border: '1px solid #ced4da', color:'grey', height:35, boxShadow:'none'}} type="text" name="search" id="runbookSearch" placeholder="Search..." value={currentRefinement} onChange={e => refine(e.target.value)}/>
     </InputGroup>
   </form>
 

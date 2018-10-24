@@ -30,7 +30,7 @@ export default function(state = [], action) {
                 }
             }
         case COMPLETE_ACTIVITY_ORGANIZATION:
-            const indexObjActivity = action.payloadindex;
+            // const indexObjActivity = action.payloadindex;
             console.log(state)
             return {...state
             }

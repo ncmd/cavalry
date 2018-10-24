@@ -1,8 +1,8 @@
 import firebase from 'firebase/app';
 import 'firebase';
-import 'firebase/auth';
-import 'firebase/firestore';
-import 'firebase/storage';
+import '@firebase/auth';
+import '@firebase/firestore';
+import '@firebase/storage';
 const keys = require('../../secrets/keys');
 
 

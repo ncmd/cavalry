@@ -16,7 +16,6 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 // import {Link} from "react-router-dom";
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -28,7 +27,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { Form, FormGroup, Input, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-const bodyBlue = "linear-gradient(#1a237e, #121858)";
+// const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const actionButton = "linear-gradient(to right, #ff1744, #F44336 ";
 const cancelButton = "linear-gradient(to right, #2979ff, #03a9f4 ";
 const styles = theme => ({
@@ -357,7 +356,7 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem1
               ?
-              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder, height:250, width:265, border:'8px solid #00e676'}}>
+              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder, height:250, width:265}}>
                 <div>
                   <div style={{color:'black',textTransform:'none'}} >1 Month</div>
                   <div style={{color:'black'}} ><b>$35.00</b></div>
@@ -381,7 +380,7 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem2
               ?
-              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder, height:250, width:265, border:'8px solid #00e676'}}>
+              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder, height:250, width:265}}>
                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                 <div>
                   <div style={{color:'black',textTransform:'none'}} >12 Months</div>
@@ -407,7 +406,7 @@ class Manage extends Component {
           <Grid item style={{marginTop:10}}>
             {this.state.selectItem3
               ?
-              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder,height:250, width:265, border:'8px solid #00e676'}}>
+              <Button disabled className="box" style={{background:'white', border:this.props.theme[0].PostsButtonBorder,height:250, width:265}}>
                    <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                 <div>
                   <div style={{color:'black',textTransform:'none'}} >Beta Test</div>
@@ -500,6 +499,7 @@ class Manage extends Component {
                         justify: 'center',
                         background: this.props.theme[0].MainBackground,
                         height:this.state.height,
+                        marginTop:48,
                     }}
                 >
                     {/* Top Section */}

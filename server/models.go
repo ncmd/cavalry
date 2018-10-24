@@ -55,6 +55,7 @@ type VerifyToken struct {
 
 type Account struct {
 	ID                     string `json:"accountid"`
+	Username               string `json:"username"`
 	Plan                   string `json:"plan"`
 	Email                  string `json:"email"`
 	OrganizationName       string `json:"organizationname"`
@@ -83,10 +84,13 @@ type Response struct {
 
 type Post struct {
 	Id          string        `json:"id"`
+	Author      string        `json:"author"`
 	Title       string        `json:"title"`
 	Description string        `json:"description"`
 	Tags        []interface{} `json:"tags"`
 	Objectives  []interface{} `json:"objectives"`
+	Stars       int           `json:"stars"`
+	Starred     []interface{} `json:"starred"`
 }
 
 type RequestRunbook struct {

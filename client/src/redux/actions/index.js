@@ -1,10 +1,11 @@
 import axios from 'axios';
-import {db} from '../../components/firebase/firebase'
+// import {db} from '../../components/firebase/firebase'
 import {auth} from '../../components/firebase'
 import {
     // GET_POSTS,
     GET_POST,
     ADD_POST,
+    STAR_POST,
     ADD_REQUEST,
     ADD_ACTIVITY,
     EDIT_REQUEST_TAGS,
@@ -72,7 +73,10 @@ export const lightThemeLoad = () => dispatch => {
     PostActionBackgroundImage:'linear-gradient(-180deg,#fafbfc,#eff3f6 90%)',
     Secondary:'#6772e5',
     MainBackground:'#e3e8ee',
-    HeaderBackground: '#e3e8ee',
+    HeaderBackground: 'white',
+    DisabledBackground: '#e8e8e8',
+    FormBackground:'#f6f8fa',
+    DisabledText:'rgba(44,45,48,.75)',
     PostsButtonBackground:"white",
     PostsButtonBorder:"1px solid #ced4da",
     PostsTypographyTitle:"#333333",
@@ -100,14 +104,17 @@ export const darkThemeLoad = () => dispatch => {
     PostActionBackgroundImage:'linear-gradient(-180deg,#fafbfc,#eff3f6 90%)',
     Secondary:'#6772e5',
     MainBackground:'#030303',
-    HeaderBackground: '#030303',
+    HeaderBackground: '#1A1A1B',
+    DisabledBackground: '#e8e8e8',
+    FormBackground:'#f6f8fa',
+    DisabledText:'rgba(44,45,48,.75)',
     PostsButtonBackground:"#1A1A1B",
     PostsButtonBorder:"1px solid #343536",
     PostsTypographyTitle:"white",
     PostsTypographyDescription:"#E0E0E0",
     PostsTypographyObjectives:"#E0E0E0",
-    PostsSectionBorder:'2px solid #424242',
-    PostsTagsBackground:"#343536",
+    PostsSectionBorder:'2px solid #343536',
+    PostsTagsBackground:"#3d63ff",
     PostsTagsText:"white",
     AlgoliaSearchText:"black",
   }]
@@ -126,7 +133,7 @@ export const filterPostByTagAction = (filtertagname) => async dispatch => {
 export const sendVerifyIdTokenToBackend = (token) => {
   // console.log("Received Token: ",token)
   let data = {token:token}
-  const res = axios.post(backend+'/api/verify',data);
+  axios.post(backend+'/api/verify',data);
   // console.log("Response from backend:",res)
 }
 
@@ -219,8 +226,8 @@ export const setAccount = (email,accountid,plan) => async dispatch => {
     dispatch({ type: ADD_ACCOUNT, payload: data });
 };
 
-export const createAccount = (email) => async dispatch => {
-  const data = {email:email}
+export const createAccount = (email,username) => async dispatch => {
+  const data = {email:email,username:username}
   await axios.post(backend+'/api/account/create',data)
   // // console.log(res)
 }
@@ -243,7 +250,7 @@ export const createOrganization = (organizationname,emailaddress,accountid) => a
   await axios.post(backend+'/api/organization/create',data).then(function(result){
     // console.log("Create Organization:",result)
       dispatch({ type: JOIN_ORGANIZATION, payload:organizationname})
-      const orgdata = auth.loadOrganization(organizationname)
+      auth.loadOrganization(organizationname)
       // console.log(orgdata)
   })
 }
@@ -289,7 +296,9 @@ export const getTags = () => async dispatch => {
       // // console.log("getPost",post.tags)
       post.tags.map((tag) => {
         allTags.push(tag)
+        return null
       })
+      return null
     })
     // console.log("allTags:",allTags)
     // console.log("resdata",res.data)
@@ -300,6 +309,7 @@ export const getTags = () => async dispatch => {
 // Action Creator, call Golang RestAPI, uses Dispatch Redux to send to store
 export const getPosts = () => async dispatch => {
     const res = await axios.get(backend+'/api/posts')
+    console.log(res.data)
     dispatch({ type: 'GET_POSTS', payload: res.data });
 };
 
@@ -308,6 +318,7 @@ export const getRequests = () => async dispatch => {
     const data = []
     res.data.map((req) => {
       data.push({description:req.description, tags:req.tags})
+      return null
     })
 
     // console.log("getRequests Data",data)
@@ -331,8 +342,8 @@ export const updateFirebaseAccountsWithStripeCustomerId = (accountid,customerid)
   await axios.post(backend+'/api/accounts/update',data)
 }
 
-export const addPost = (title,description,tags,objectives) => async dispatch =>{
-    const data = {title:title,description:description,tags:tags,objectives:objectives};
+export const addPost = (author,title,description,tags,objectives) => async dispatch =>{
+    const data = {author:author,title:title,description:description,tags:tags,objectives:objectives};
     await axios.post(backend+'/api/post/new',data);
     dispatch({ type: ADD_POST });
 };
@@ -388,13 +399,24 @@ export const getPost = (uri) => async dispatch => {
 
   const res = await axios.get(backend+`${uri}`);
   // console.log("RES",res)
-    dispatch({ type: GET_POST, payload: res.data });
+  dispatch({ type: GET_POST, payload: res.data });
+
+
 }
 
 export const editPost = (uri) => async dispatch => {
   // console.log("URI:",uri);
   const res = await axios.get(backend+`${uri}`);
     dispatch({ type: GET_POST, payload: res.data });
+}
+
+export const starPost = (postid,username,starred,action,index) => async dispatch => {
+  // action should either be 1 or -1
+  // let data = {id:postid, starred:starred, action:action}
+
+  auth.starRunbookFirestore(postid,username,action)
+  // await axios.post(backend+'/api/post/star',data);
+  dispatch({ type: STAR_POST, payloadindex:index, payloadaction:action, payloadusername:username});
 }
 
 export const addSubscriber = (email) => async dispatch =>{

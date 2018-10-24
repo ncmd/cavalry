@@ -1,6 +1,5 @@
 import { auth,db,storage } from './firebase';
 import axios from 'axios';
-
 const keys = require('../../secrets/keys');
 let backend = keys.heroku_backend_uri
 
@@ -17,6 +16,86 @@ export const testAdd = () => {
   .catch(function(error) {
       console.error("Error adding document: ", error);
   });
+}
+
+export const starsRunbookFirestoreRealTime = () => {
+    db.collection("aggregation").doc("posts").onSnapshot(function(querySnapshot) {
+      var prevRunbook = []
+      querySnapshot.forEach(function(doc) {
+          prevRunbook.push(doc.data());
+      });
+    })
+
+}
+
+export const starRunbookFirestore = (runbookid,username,action) => {
+  var aggRef = db.collection("aggregation").doc("posts")
+
+  var postRef = db.collection("posts").doc(runbookid)
+  if (action === 1){
+    postRef.get().then(function(doc) {
+      if (doc.exists){
+        var prevRunbook = doc.data()
+        prevRunbook.starred.push(username)
+        console.log("star",prevRunbook)
+        postRef.update({
+          starred: prevRunbook.starred,
+          stars: prevRunbook.stars + 1
+        })
+      }
+    })
+    aggRef.get().then(function(doc){
+      if(doc.exists){
+        var prevAggregation = doc.data()
+        prevAggregation.last100.map((post,index) => {
+          if(post.id === runbookid){
+            console.log("Match!",post.id,runbookid)
+            prevAggregation.last100[index].starred.push(username)
+            prevAggregation.last100[index].stars = prevAggregation.last100[index].stars+1
+            aggRef.update({
+              last100:prevAggregation.last100
+            })
+          }
+          return null
+        })
+
+      }
+    })
+    } else if (action === -1){
+      postRef.get().then(function(doc) {
+        if (doc.exists){
+          var prevRunbook = doc.data()
+          var index = prevRunbook.starred.indexOf(username);
+          if (index !== -1) prevRunbook.starred.splice(index, 1);
+          console.log("star",prevRunbook)
+          postRef.update({
+            starred: prevRunbook.starred,
+            stars: prevRunbook.stars - 1
+          })
+        }
+      })
+
+      aggRef.get().then(function(doc){
+        if(doc.exists){
+          var prevAggregation = doc.data()
+          prevAggregation.last100.map((post,ind) => {
+            if(post.id === runbookid){
+              console.log("Match!",post.id,runbookid)
+              var index = prevAggregation.last100[ind].starred.indexOf(username);
+              if (index !== -1) prevAggregation.last100[ind].starred.splice(index, 1);
+              prevAggregation.last100[ind].stars = prevAggregation.last100[ind].stars-1
+              aggRef.update({
+                last100:prevAggregation.last100
+              })
+            }
+            return null
+          })
+
+        }
+      })
+  }
+
+
 }
 
 
@@ -115,7 +194,6 @@ export const loadOrganization = (organizationname) => {
   // console.log(organizationname)
   if (organizationname !== ""){
     const postsRef = db.collection("organizations").doc(organizationname);
-    let foundAccount = []
     var promise = new Promise(function(resolve, reject) {
       resolve(postsRef.get().then(function(doc) {
         if (doc.exists) {
@@ -226,7 +304,7 @@ export const getAccountActivityFromOrganization =  (organizationname, accountid)
       if (doc.exists){
         var prevActivity = doc.data().organizationactivity
         prevActivity.map((act) => {
-
+          return null
         })
         }
     }).catch(function(error) {
@@ -306,7 +384,7 @@ export const completeOrganizationActivityFirestore = (organizationname, activity
               organizationactivity: prevActivity
             })
           }
-
+          return null
         })
       }
     }).catch(function(error) {
@@ -355,7 +433,7 @@ export const doCreateUserWithEmailAndPassword = (email, password) =>
         return null
     }).catch(function(error) {
         // Handle Errors here.
-        var errorCode = error.code;
+        // var errorCode = error.code;
         var errorMessage = error.message;
         // console.log("Error Message:",errorCode,errorMessage);
         return errorMessage
@@ -382,7 +460,7 @@ export const doSendSignInLinkToEmail = (email, actionCodeSettings) =>
 export const doSignInWithEmailAndPassword = (email, password) =>
     auth.signInWithEmailAndPassword(email, password).catch(function(error) {
         // Handle Errors here.
-        var errorCode = error.code;
+        // var errorCode = error.code;
         var errorMessage = error.message;
         // console.log("Error Message:",errorCode,errorMessage);
         return errorMessage
@@ -397,8 +475,8 @@ export const doSignInWithEmailAndPassword = (email, password) =>
 
       }).catch(function(error) {
         // Handle Errors here.
-        var errorCode = error.code;
-        var errorMessage = error.message;
+        // var errorCode = error.code;
+        // var errorMessage = error.message;
         // console.log(errorCode,errorMessage)
         });
 

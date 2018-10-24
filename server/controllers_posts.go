@@ -116,9 +116,13 @@ func controllers_posts_create_post_in_firestore(w http.ResponseWriter, r *http.R
 		_, err := ref.Set(context.Background(), map[string]interface{}{
 			"id":          ref.ID,
 			"title":       post.Title,
+			"author":      post.Author,
 			"description": post.Description,
 			"tags":        post.Tags,
 			"objectives":  post.Objectives,
+			"stars":       post.Stars,
+			"timestamp":   firestore.ServerTimestamp,
+			"starred":     []interface{}{},
 		})
 		if err != nil {
 			fmt.Println(err)
@@ -159,9 +163,12 @@ func controllers_posts_add_post_history_to_account_in_firestore(w http.ResponseW
 		batch.Set(ref, map[string]interface{}{
 			"id":          post.Id,
 			"title":       post.Title,
+			"author":      post.Author,
 			"description": post.Description,
 			"tags":        post.Tags,
 			"objectives":  post.Objectives,
+			"stars":       post.Stars,
+			"timestamp":   firestore.ServerTimestamp,
 		}, firestore.MergeAll)
 
 		// Commit the batch.
@@ -203,10 +210,62 @@ func controllers_posts_edit_post_in_firestore(w http.ResponseWriter, r *http.Req
 		ref := client.Collection("posts").Doc(post.Id)
 		batch.Set(ref, map[string]interface{}{
 			"id":          post.Id,
+			"author":      post.Author,
 			"title":       post.Title,
 			"description": post.Description,
 			"tags":        post.Tags,
 			"objectives":  post.Objectives,
+			"stars":       post.Stars,
+			"timestamp":   firestore.ServerTimestamp,
+		}, firestore.MergeAll)
+
+		// Commit the batch.
+		_, err := batch.Commit(context.Background())
+		if err != nil {
+			return
+		}
+		log.Println("Updated Post!")
+	}
+}
+
+func controllers_posts_star_post_in_firestore(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST,OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+	sa := option.WithCredentialsFile("./firestore.json")
+	app, err := firebase.NewApp(context.Background(), nil, sa)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	client, err := app.Firestore(context.Background())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	defer client.Close()
+
+	var post Post
+	decoder := json.NewDecoder(r.Body)
+	decoder.Decode(&post)
+	if err != nil {
+		panic(err)
+	}
+
+	if r.Method != "OPTIONS" {
+		// Get a new write batch.
+		batch := client.Batch()
+
+		// Set the value
+		ref := client.Collection("posts").Doc(post.Id)
+		batch.Set(ref, map[string]interface{}{
+			"id":          post.Id,
+			"author":      post.Author,
+			"title":       post.Title,
+			"description": post.Description,
+			"tags":        post.Tags,
+			"objectives":  post.Objectives,
+			"stars":       post.Stars,
+			"starred":     post.Starred,
+			"timestamp":   firestore.ServerTimestamp,
 		}, firestore.MergeAll)
 
 		// Commit the batch.

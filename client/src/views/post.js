@@ -10,7 +10,6 @@ import {
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import {Link} from "react-router-dom";
 import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
@@ -22,9 +21,11 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { InputGroup, InputGroupAddon, Input } from 'reactstrap';
+import { InputGroup, InputGroupAddon } from 'reactstrap';
+// import Star from '@material-ui/icons/Star';
+import StarBorder from '@material-ui/icons/StarBorder';
 
-const bodyBlue = "linear-gradient(#1a237e, #121858)";
+// const bodyBlue = "linear-gradient(#1a237e, #121858)";
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
@@ -112,7 +113,7 @@ class Post extends Component {
                 value: member.accountid,
                 label: member.emailaddress,
               })
-
+              return null
             })
           })
         // var prevOrganizationActivity = this.state.organizationActivity
@@ -301,7 +302,7 @@ class Post extends Component {
         return(
           <Button style={{background:this.props.theme[0].PrimaryLinear, marginRight:20}}><div  style={{color:'white', textTransform:'none'}}><b>Assign All Objectives</b></div></Button>
         )
-      } else if (2 === 2){
+      } else {
         return (
           <Button disabled style={{background:"grey", marginRight:20}}><div  style={{color:'white', textTransform:'none'}}><b>Assign All Objectives</b></div></Button>
         )
@@ -320,6 +321,7 @@ class Post extends Component {
                   </span>
               </Grid>)
             }
+            return null
           }
           )
         )
@@ -341,18 +343,17 @@ class Post extends Component {
                         background: this.renderTheme(),
                         minHeight:this.state.height,
                         paddingTop:5,
+                        marginTop:48,
                     }}
                 >
                 <Grid container style={{ background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto", maxWidth:"63em", padding:15, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                   <Grid item xs>
                     <div>
-                      <Link style={{textDecoration: 'none' }} to={""}>
-                        <b>creator</b>
+                      <Link style={{textDecoration: 'none' }} to={"users/"+this.props.posts.author}>
+                        <b>{this.props.posts.author}</b>
                       </Link>
                       <b style={{color:this.props.theme[0].PostsTypographyTitle}}> / </b>
-                      <Link style={{textDecoration: 'none' }}to={""}>
-                      <b>{this.state.postTitle}</b>
-                      </Link>
+                      <b style={{color:this.props.theme[0].PostsTypographyDescription}}>{this.state.postTitle}</b>
                     </div>
                   </Grid>
 
@@ -387,7 +388,7 @@ class Post extends Component {
                              <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Assign objectives to the appropriate users</b></div>
                            </Grid>
                            <Grid item>
-                             {this.renderAssingAllObjectives()}
+                            {/* {this.renderAssingAllObjectives()}*/}
                              <Button style={{background:this.props.theme[0].SecondaryLinear}}><div  style={{color:'white', textTransform:'none'}} onClick={() => this.renderModal()}><b>Close</b></div></Button>
                            </Grid>
                          </Grid>
@@ -421,11 +422,10 @@ class Post extends Component {
 
 
                         <Grid container style={{background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto",  marginTop:5,maxWidth:"63em", padding:15, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
-                          <Grid item xs style={{}}>
-                            <div  style={{color:this.props.theme[0].PostsTypographyDescription}}><b>{this.state.objectives.length}</b> objectives</div>
-                            <div  style={{color:this.props.theme[0].PostsTypographyDescription}}><b>0</b> comments</div>
+                          <Grid item xs >
+                            <div  style={{color:this.props.theme[0].PostsTypographyDescription,height:35}}><b>{this.state.objectives.length}</b> objectives</div>
                           </Grid>
-                          <Grid item  style={{marginLeft:10}}>
+                          <Grid item style={{marginLeft:10}}>
                             <InputGroup size="sm">
                               {/*<InputGroupAddon addonType="prepend" style={{marginLeft:5}}>
                                 <Button style={{background:this.props.theme[0].PostActionBackgroundImage,borderRadius:'5px 0px 0px 5px', boxShadow:'0px 0px 0px 0px',  border:this.props.theme[0].PrimaryBorder, }}><div  style={{textTransform:'none', color:"#333333"}}><span aria-label="emoji" role="img">👁️</span><b>Watch</b></div></Button>
@@ -435,9 +435,9 @@ class Post extends Component {
                                 <Button style={{background:this.props.theme[0].PostActionBackgroundImage,borderRadius:'5px 0px 0px 5px', boxShadow:'0px 0px 0px 0px',  border:this.props.theme[0].PrimaryBorder, }}><div  style={{textTransform:'none', color:"#333333"}}><span aria-label="emoji" role="img">😘️</span><b>Copy</b></div></Button>
                                 <Button disabled style={{background:"white",borderRadius:'0px 5px 5px 0px', boxShadow:'0px 0px 0px 0px',  borderRight:this.props.theme[0].PrimaryBorder,  borderTop:this.props.theme[0].PrimaryBorder, borderBottom:this.props.theme[0].PrimaryBorder}}><div  style={{color:"#525f7f"}}><b>0</b></div></Button>
                               </InputGroupAddon>*/}
-                              <InputGroupAddon addonType="prepend" style={{marginLeft:5}}>
-                                <Button style={{background:this.props.theme[0].PostActionBackgroundImage,borderRadius:'5px 0px 0px 5px', boxShadow:'0px 0px 0px 0px',  border:this.props.theme[0].PrimaryBorder, }}><div  style={{textTransform:'none' , color:"#333333"}}><span aria-label="emoji" role="img">⭐</span><b>Stars</b></div></Button>
-                                <Button disabled style={{background:"white",borderRadius:'0px 5px 5px 0px', boxShadow:'0px 0px 0px 0px',  borderRight:this.props.theme[0].PrimaryBorder,  borderTop:this.props.theme[0].PrimaryBorder, borderBottom:this.props.theme[0].PrimaryBorder}}><div  style={{color:"#525f7f"}}><b>0</b></div></Button>
+                              <InputGroupAddon addonType="prepend" style={{marginLeft:5,height:35}}>
+                                <Button style={{background:this.props.theme[0].PostActionBackgroundImage,borderRadius:'5px 0px 0px 5px', boxShadow:'0px 0px 0px 0px',  border:this.props.theme[0].PrimaryBorder, }}><div  style={{textTransform:'none', color:"#333333", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><StarBorder style={{verticalAlign:'bottom',fontSize:18}}/><b>Stars</b></div></Button>
+                                <Button disabled style={{background:"white",borderRadius:'0px 5px 5px 0px', boxShadow:'0px 0px 0px 0px',  borderRight:this.props.theme[0].PrimaryBorder,  borderTop:this.props.theme[0].PrimaryBorder, borderBottom:this.props.theme[0].PrimaryBorder}}><div style={{color:"#525f7f", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>0</b></div></Button>
                               </InputGroupAddon>
 
                             </InputGroup>

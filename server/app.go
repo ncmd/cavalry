@@ -92,6 +92,7 @@ func main() {
 	http.HandleFunc("/api/post/", controllers_posts_fetch_selected_post_from_firestore)
 	http.HandleFunc("/api/post/new", controllers_posts_create_post_in_firestore)
 	http.HandleFunc("/api/post/edit", controllers_posts_edit_post_in_firestore)
+	http.HandleFunc("/api/post/star", controllers_posts_star_post_in_firestore)
 
 	// add request
 	http.HandleFunc("/api/requests", c_requests_fetch_last_10_requests_from_firestore)

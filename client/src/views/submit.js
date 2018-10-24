@@ -15,7 +15,6 @@ import {
 import {auth} from '../components/firebase';
 import Grid from "@material-ui/core/Grid";
 import { Form, FormGroup, Input } from 'reactstrap';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ReactQuill, { Quill } from 'react-quill';
@@ -29,7 +28,7 @@ import Select from 'react-select';
 Quill.register('modules/ImageResize', ImageResize);
 
 
-const bodyBlue = "linear-gradient(#1a237e, #121858)";
+// const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const objectiveButton = "linear-gradient(to right, #304ffe, #2962ff)";
 const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
 
@@ -465,7 +464,7 @@ class Submit extends Component {
     if(this.state.tagsValid === true && this.state.postTitle !== '' && this.state.postDescription !== '' && this.state.objectives.length > 0){
       return (
         <Grid item >
-            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.submitPost(this.state.postTitle,this.state.postDescription, this.state.tags, this.state.objectives)}>SUBMIT</Button>
+            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.submitPost(this.props.account.username,this.state.postTitle,this.state.postDescription, this.state.tags, this.state.objectives)}>SUBMIT</Button>
         </Grid>
       )
     } else {
@@ -477,9 +476,9 @@ class Submit extends Component {
     }
   }
 
-    submitPost(title,description,tags,objectives){
+    submitPost(author,title,description,tags,objectives){
         // console.log("Clicked Once")
-        this.props.addPost(title,description,tags,objectives);
+        this.props.addPost(author,title,description,tags,objectives);
         this.setState({
           postPublished: true
         }, () => {
@@ -714,6 +713,7 @@ class Submit extends Component {
                         background: this.renderTheme(),
                         height:this.state.height+400+(300*this.state.objectives.length),
                         paddingTop:5,
+                        marginTop:48,
                     }}
                 >
                     {/* Top Section */}

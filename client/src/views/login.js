@@ -6,10 +6,8 @@ import { withRouter } from 'react-router-dom';
 import {
     loginUser,getAccount,loadOrganizationAll
 } from '../redux/actions';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import { InputGroup, InputGroupText, InputGroupAddon, Input, FormFeedback,  Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { InputGroup, Input, FormFeedback,  Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import * as auth from "../components/firebase/auth";
 import { googleanalytics } from '../components/analytics';
 import {Link} from "react-router-dom";
@@ -159,7 +157,7 @@ class Login extends Component {
     renderButton(){
       return (
         <Button style={{height:40, marginTop:20,width:'100%',border:'1px solid rgba(27,31,35,0.2)', background:'#28a745', backgroundImage:'linear-gradient(-180deg,#3d63ff,#5533ff 90%)'}}  onClick={() =>this.handleLogin(this.state.email,this.state.password)}>
-          <div  style={{ textTransform:'none', color:'white', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>Sign in</b></div></Button>
+          <div  style={{ textTransform:'none', color:'white', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>Log in</b></div></Button>
       )
 
     }
@@ -175,9 +173,10 @@ class Login extends Component {
             googleanalytics.Cavalry_Webapp_Login_Account_Usersignedin(email)
               this.props.loginUser(response.user.uid,email)
               this.props.getAccount(response.user.uid).then(() => {
-                this.props.loadOrganizationAll(this.props.account.organizationname)
+
                 if (this.props.account.stripeSubscriptionPlan === "1month" || this.props.account.stripeSubscriptionPlan === "12months" || this.props.account.stripeSubscriptionPlan === "beta" ){
                   this.props.history.push('/')
+                    this.props.loadOrganizationAll(this.props.account.organizationname)
                 } else {
                   this.props.history.push('/subscription')
                 }
@@ -246,15 +245,16 @@ class Login extends Component {
                         flexGrow: 1,
                         justify: 'center',
                         background: this.props.theme[0].MainBackground,
-                        height:this.state.height
+                        height:this.state.height,
+                        marginTop:48,
                     }}
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
                         <Grid style={{ height:480,width:400, marginTop:20, marginLeft:'auto', marginRight:'auto'}} container direction={'row'} justify={'center'} alignItems={'flex-start'}>
                                 <Grid item style={{ textAlign:'center', marginTop:20,marginLeft:'auto',marginRight:'auto', width:'75%'}}>
-                                  <img src="./cavalry.svg" style={{width:70,height:70}}></img>
+                                  <img alt="cavalrysvg" src="./cavalry.svg" style={{width:70,height:70}}></img>
                                     <div style={{color:this.props.theme[0].PostsTypographyTitle, margin:20, letterSpacing:'-0.5px', fontSize:'24px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
-                                        <b>Sign in to Cavalry</b>
+                                        <b>Log in to Cavalry</b>
                                     </div>
                                 </Grid>
                                 <Grid item style={{ textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'90%', background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, paddingLeft:20, paddingRight:20,paddingBottom:20}}>
