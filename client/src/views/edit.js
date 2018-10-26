@@ -82,6 +82,7 @@ class Edit extends Component {
             height: window.innerHeight,
             path:'',
             text: '',
+            postAuthor:'',
             postId:'',
             postTitle:'',
             postDescription:'',
@@ -164,6 +165,7 @@ class Edit extends Component {
         console.log("Props Posts",this.props.posts)
         this.setState({
           path:this.props.location.pathname,
+          postAuthor:this.props.posts.author,
           postId:this.props.posts.id,
           postTitle:this.props.posts.title,
           postDescription: this.props.posts.description,
@@ -479,7 +481,7 @@ class Edit extends Component {
     if(this.state.tagsValid === true && this.state.postTitle !== '' && this.state.postDescription !== '' && this.state.objectives.length > 0){
       return (
         <Grid item >
-            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.updatePost(this.state.postId,this.state.postTitle,this.state.postDescription, this.state.tags, this.state.objectives)}>SUBMIT</Button>
+            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.updatePost(this.state.postAuthor,this.state.postId,this.state.postTitle,this.state.postDescription, this.state.tags, this.state.objectives)}>SUBMIT</Button>
         </Grid>
       )
     } else {
@@ -491,9 +493,9 @@ class Edit extends Component {
     }
   }
 
-    updatePost(id,title,description,tags,objectives){
+    updatePost(author,id,title,description,tags,objectives){
         // console.log("Clicked Once")
-        this.props.updatePost(id,title,description,tags,objectives);
+        this.props.updatePost(author,id,title,description,tags,objectives);
         this.setState({
           postPublished: true
         }, () => {

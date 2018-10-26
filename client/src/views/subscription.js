@@ -342,15 +342,14 @@ class Subscription extends Component {
                   aria-labelledby="alert-dialog-title"
                   aria-describedby="alert-dialog-description"
                 >
-                <div style={{ letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
-                  <DialogTitle>{"Setting up your account..."}</DialogTitle>
+
+                  <DialogTitle><div style={{ letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>"Setting up your account..."</div></DialogTitle>
                   <DialogContent>
                     <DialogContentText>
-                      Setting up your subscription!
+                      <div style={{ letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>"Setting up your subscription!"</div>
                     </DialogContentText>
                     <Progress animated value={100} />
                   </DialogContent>
-                </div>
                 </Dialog>
             </div>
         );

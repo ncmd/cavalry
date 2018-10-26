@@ -391,13 +391,16 @@ class header extends Component {
                       </div>
                   </Button>
               </Link>
-              <Link to={{pathname:'/request'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedrequestbutton()}>
-                <Button size="sm" style={{ height:40, background:'transparent', marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
-                      <div style={{color:"#3d63ff", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
-                        <b>Request</b>
-                      </div>
-                  </Button>
-              </Link>
+              {/*
+                <Link to={{pathname:'/request'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedrequestbutton()}>
+                  <Button size="sm" style={{ height:40, background:'transparent', marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
+                        <div style={{color:"#3d63ff", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
+                          <b>Request</b>
+                        </div>
+                    </Button>
+                </Link>
+                */}
+
             <Link to={{pathname:'/submit'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedpostbutton()}>
               <Button size="sm" style={{ height:40, background:'transparent',marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
                     <div style={{color:"#3d63ff", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >

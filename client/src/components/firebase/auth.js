@@ -18,6 +18,19 @@ export const testAdd = () => {
   });
 }
 
+export const editRunbookFirestore = (postid) => {
+  let runbookRef = db.collection("aggregation")
+  // insecure; going to grab all posts;
+  // runbookRef.where("last100", "array-contains", 0)
+  runbookRef.update({
+    last100: db.FieldValue.arrayUnion({author:'charles'})
+});
+
+
+  console.log(runbookRef)
+
+}
+
 export const starsRunbookFirestoreRealTime = () => {
     db.collection("aggregation").doc("posts").onSnapshot(function(querySnapshot) {
       var prevRunbook = []

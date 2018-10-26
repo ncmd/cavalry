@@ -387,9 +387,10 @@ export const completeOrganizationActivity = (organizationname,activity) => async
   dispatch({ type: COMPLETE_ACTIVITY_ORGANIZATION, payload: activity, payloadindex: 0});
 };
 
-export const updatePost = (id,title,description,tags,objectives) => async dispatch =>{
-    const data = {id:id,title:title,description:description,tags:tags,objectives:objectives};
+export const updatePost = (author,id,title,description,tags,objectives) => async dispatch =>{
+    const data = {author:author,id:id,title:title,description:description,tags:tags,objectives:objectives};
     await axios.post(backend+'/api/post/edit',data);
+    auth.editRunbookFirestore(id)
     dispatch({ type: UPDATE_POST });
 };
 

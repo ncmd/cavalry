@@ -417,7 +417,7 @@ class Signup extends Component {
           <div>
             <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
               <Grid item style={{marginBottom:30}}>
-                <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'45px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'39px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                     <b>Join Cavalry</b>
                 </div>
                 <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
@@ -438,7 +438,7 @@ class Signup extends Component {
                     {this.renderUsername()}
                   </Grid>
                   <Grid item xs style={{marginLeft: 5}}>
-                    <div style={{ textAlign:'left',letterSpacing:'-0.5px', fontSize:'14px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                    <div style={{ color:this.props.theme[0].PostsTypographyTitle, textAlign:'left',letterSpacing:'-0.5px', fontSize:'14px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                       {this.state.username.length}/20
                     </div>
                   </Grid>
@@ -488,6 +488,7 @@ class Signup extends Component {
                         paddingRight:10,
                         height:this.state.height+363,
                         marginTop:48,
+                        paddingTop:24,
                     }}
                 >
                     {this.renderSignup()}

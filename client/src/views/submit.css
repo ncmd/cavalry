@@ -1,11 +1,27 @@
 div.ql-container.ql-snow {
-  height:30vh;
+  height:14vh;
   border-color: "#ced4da";
   border-width: 1px;
   border-style: solid;
 }
 div.ql-container.ql-blank {
-  height:30vh;
+  height:14vh;
+}
+
+div.ql-toolbar.ql-snow {
+  border-top:0;
+  border-left:0;
+  border-right:0;
+  background-color: "#f1f8ff";
+  border-color: "#c8e1ff";
+  border: "1px solid #c8e1ff";
+  height: 37px;
+  padding: 4px;
+}
+
+button.ql-fullscreen:after {
+  content: "fullscreen";
+  vertical-align: "middle"
 }
 
 div.quill.quillFullScreen div.ql-container.ql-blank {
@@ -19,4 +35,8 @@ div.quill.quillFullScreen div.ql-container.ql-snow {
 div#toolbar.fullToolbar {
   height: 50px;
   padding-top: 5px;
+}
+
+div.position-relative.form-group {
+  margin-bottom: 8px
 }

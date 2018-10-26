@@ -228,7 +228,7 @@ class Team extends Component {
             [organizationname]: event.target.value,
             organizationnamechanged: true,
         }, () => {
-          const organizationNameRegex = /^[a-zA-Z0-9]{4,10}$/
+          const organizationNameRegex = /^[a-zA-Z0-9]{4,30}$/
           if (organizationNameRegex.test(organizationname)) {
           } else {
               this.setState({validOrganization:false})
@@ -259,7 +259,7 @@ class Team extends Component {
             organizationnamejoinchanged: true,
         }, () => {
 
-          const organizationNameRegex = /^[a-zA-Z0-9]{4,10}$/
+          const organizationNameRegex = /^[a-zA-Z0-9]{4,30}$/
           if (organizationNameRegex.test(organizationnamejoin)) {
           } else {
               this.setState({validOrganizationJoin:false})
@@ -282,7 +282,7 @@ class Team extends Component {
     };
 
     validateOrganizationName(organizationname){
-        const organizationNameRegex = /^[a-zA-Z0-9]{4,10}$/
+        const organizationNameRegex = /^[a-zA-Z0-9]{4,30}$/
         if (organizationNameRegex.test(organizationname)) {
             // // console.log("Valid Email Address:",email);
             this.setState({validOrganization:true});
@@ -295,7 +295,7 @@ class Team extends Component {
     }
 
     validateOrganizationNameJoin(organizationnamejoin){
-        const organizationNameRegex = /^[a-zA-Z0-9]{4,10}$/
+        const organizationNameRegex = /^[a-zA-Z0-9]{4,30}$/
         if (organizationNameRegex.test(organizationnamejoin)) {
             // // console.log("Valid Email Address:",email);
             this.setState({validOrganizationJoin:true});
@@ -426,14 +426,14 @@ class Team extends Component {
         return (
           <div>
             <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
-              <Grid item style={{padding:10, width:'100%'}} xs={12}>
-                <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
+              <Grid item style={{ width:'100%'}} xs={12}>
+                <Form style={{ flexGrow:1, maxWidth:800 ,marginLeft:'auto',marginRight:'auto'}}>
                     <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                     <Grid item style={{width:'100%'}}>
-                      <div style={{color:this.props.theme[0].PostsTypographyTitle, textTransform: 'none', fontSize:'45px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>What's the name of your company or group?</b></div>
+                      <div style={{color:this.props.theme[0].PostsTypographyTitle, textTransform: 'none', fontSize:'39px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>What's the name of your company or group?</b></div>
                     </Grid>
                     <Grid item style={{width:'100%'}}>
-                      <div style={{fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>  We’ll use this to name your workspace, which you can always change later.
+                      <div style={{color:this.props.theme[0].PostsTypographyTitle, fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>  We’ll use this to name your workspace, which you can always change later.
                       </div>
                     </Grid>
                   </Grid>
@@ -442,11 +442,11 @@ class Team extends Component {
             </Grid>
 
               <Grid container style={{ flexGrow:1, margin:"0 auto", maxWidth:"63em", marginTop:5}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
-                <Grid item style={{padding:10, width:'100%'}} xs={12}>
+                <Grid item style={{width:'100%'}} xs={12}>
                   <Form style={{ flexGrow:1, maxWidth:800,marginLeft:'auto',marginRight:'auto', padding: 20,borderRadius:this.props.theme[0].BorderRadius, background:this.props.theme[0].PostsButtonBackground,border:this.props.theme[0].PostsButtonBorder}}>
                       <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                       <Grid item style={{width:'100%'}}>
-                      <div style={{color:this.props.theme[0].PostsTypographyDescription,  marginBottom:10}}>Company or group name</div>
+                      <div style={{color:this.props.theme[0].PostsTypographyDescription, marginBottom:10}}>Company or group name</div>
                       {this.state.validOrganization
                         ?
                         <Input style={{marginBottom:10}} valid value={this.state.organizationname} onChange={this.handleInputOrganizationName('organizationname')} placeholder="piedpiper"/>
@@ -517,8 +517,8 @@ class Team extends Component {
             </Grid>
             <Grid container style={{ background:this.props.theme[0].PostsButtonBackground , border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:30, marginTop:5}}  alignItems={'center'} justify={'flex-start'} direction={'column'}  >
 
-              <Grid item style={{width:'100%', overflowX:'scroll'}}>
-                <Table striped>
+              <Grid item style={{width:'100%', overflowX:'scroll', padding:20}}>
+                <Table striped style={{ border:this.props.theme[0].PostsButtonBorder}}>
                   <thead>
                     <tr>
                       <th><Checkbox/></th>
@@ -632,6 +632,9 @@ class Team extends Component {
                         background: this.props.theme[0].MainBackground,
                         height: this.state.height,
                         marginTop:48,
+                        paddingLeft:10,
+                        paddingRight:10,
+                        paddingTop:24,
                     }}
                 >
                     {/* Top Section */}

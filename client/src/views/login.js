@@ -247,17 +247,20 @@ class Login extends Component {
                         background: this.props.theme[0].MainBackground,
                         height:this.state.height,
                         marginTop:48,
+                        paddingLeft:10,
+                        paddingRight:10,
+                        paddingTop:24,
                     }}
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
-                        <Grid style={{ height:480,width:400, marginTop:20, marginLeft:'auto', marginRight:'auto'}} container direction={'row'} justify={'center'} alignItems={'flex-start'}>
-                                <Grid item style={{ textAlign:'center', marginTop:20,marginLeft:'auto',marginRight:'auto', width:'75%'}}>
+                        <Grid style={{ height:480,width:400, marginLeft:'auto', marginRight:'auto'}} container direction={'row'} justify={'center'} alignItems={'flex-start'}>
+                                <Grid item style={{ textAlign:'center', marginTop:20, width:'75%'}}>
                                   <img alt="cavalrysvg" src="./cavalry.svg" style={{width:70,height:70}}></img>
                                     <div style={{color:this.props.theme[0].PostsTypographyTitle, margin:20, letterSpacing:'-0.5px', fontSize:'24px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                         <b>Log in to Cavalry</b>
                                     </div>
                                 </Grid>
-                                <Grid item style={{ textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'90%', background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, paddingLeft:20, paddingRight:20,paddingBottom:20}}>
+                                <Grid item style={{ textAlign:'center', width:'100%', background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, paddingLeft:20, paddingRight:20,paddingBottom:20}}>
                                   <div  style={{marginTop:20, marginBottom:10, textAlign:'left', color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'20px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>Email address</b></div>
                                   <InputGroup >
                                       <Input style={{ border:this.props.theme[0].PostsButtonBorder, boxShadow:'0px 0px 0px 0px',letterSpacing:'-0.5px', fontSize:'20px', fontWeight:400, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} placeholder="" onChange={this.handleEmail('email')}/>
@@ -274,7 +277,7 @@ class Login extends Component {
                                   {this.renderLoginError()}
                                   {this.renderButton()}
                                 </Grid>
-                                <Grid item style={{ marginTop:20,textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'90%', background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, padding:20}}>
+                                <Grid item style={{ marginTop:20,textAlign:'center',width:'100%', background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius, padding:20}}>
                                   <div style={{color:this.props.theme[0].PostsTypographyTitle, margin:10, letterSpacing:'-0.5px', fontSize:'18px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                       <b>New to Cavalry? <Link style={{textDecoration: 'none' }} to={{ pathname: '/signup'}}>Create an account.</Link></b>
                                   </div>

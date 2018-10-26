@@ -96,31 +96,34 @@ class Landing extends Component {
     loadPostsGetTags = () => {
       this.props.getPosts().then(() => {
         let prevPosts = this.state.posts
+        if (this.props.posts.length > 0 ){
+          this.props.posts.map((post) => {
+            console.log(post)
 
-        this.props.posts.map((post) => {
-          console.log(post)
-
-          prevPosts.push({
-            author: post.author,
-            description: post.description,
-            id: post.id,
-            objectives: post.objectives,
-            stars: post.stars,
-            starred: post.starred,
-            tags: post.tags,
-            timestamp: post.timestamp,
-            title: post.title,
+            prevPosts.push({
+              author: post.author,
+              description: post.description,
+              id: post.id,
+              objectives: post.objectives,
+              stars: post.stars,
+              starred: post.starred,
+              tags: post.tags,
+              timestamp: post.timestamp,
+              title: post.title,
+            })
+            return null
           })
-          return null
-        })
-        this.setState({
-          posts: prevPosts
-        })
-        this.props.getTags().then(() => {
-          this.getTagsReady()
-          console.log("getTagsReady")
-        })
-        console.log("Got tags!",this.props.tags)
+          this.setState({
+            posts: prevPosts
+          })
+          this.props.getTags().then(() => {
+            this.getTagsReady()
+            console.log("getTagsReady")
+          })
+          console.log("Got tags!",this.props.tags)
+        }
+
+
       })
       console.log("Got posts!")
     }

@@ -91,11 +91,18 @@ exports.aggregate100Posts = functions.firestore.document('posts/{postId}').onCre
         // set this variable to = the 'data' of aggDoc json response
         const aggData = aggDoc.data();
 
+        console.log("post",post)
+        const obj = post
+        obj.postid = obj.post
+        delete obj.post
+        console.log("obj",obj)
+        console.log("postid",post.id)
+        console.log("aggData",aggData)
         // Aggregate New Data
         const next = {
-            count: aggData.count + 1,
-            last100: [post, ...aggData.last100.slice(0, 99)]
+            last100: {post,aggData},
         };
+        console.log("next",next)
         return aggRef.set(next);
 });
 

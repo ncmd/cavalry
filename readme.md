@@ -1,6 +1,6 @@
 ## Day 2 Day
 # Running app locally
-- npm run locally
+- npm run local
 # Deployment
 - npm run deploy-all-x
 # Backup
@@ -8,13 +8,23 @@
 
 ## Dev Environment
 
+# 🔥🔥🔥 Important 🔥🔥🔥
+- You will need to get the local,dev, and prod keys
+- normal locations:
+- client/src/secrets/keys_dev.js
+- client/src/secrets/keys_local.js
+- client/src/secrets/keys_prod.js
+- server/config/config.toml
+- server-dev/config/config.toml
+- server-prod/config/config.toml
+- serverless/config/config.toml
+
 # Install:
 - heroku cli
 - git 2.18.0 (windows)
 - github desktop
 - golang 1.11.windows (windows)
-- nodejs 8.11.4 LTS (windows)
-- nodejs v10.10.0 (windows) 9/18/18
+- nodejs v8.12.0 LTS (windows)
 - yarn 1.10.x (windows)
 
 # Node -g packages
@@ -27,7 +37,7 @@
 - go-plus
 - react
 - platformio-ide-terminal
---Default Shell: C:\Windows\System32\cmd.exe
+--platformio-ide-terminal settings - Default Shell: C:\Windows\System32\cmd.exe
 
 # Setup Paths:
 - GIT PATH
@@ -48,6 +58,18 @@ PROJECT PATH
 - firebase login
 - firebase init; build, yes, no
 - setup all the keys client/secrets/keys_dev.js
+
+# Main React Components
+- Components:
+- Prime React: https://www.primefaces.org/primereact/#/organizationchart
+- Fabric: https://developer.microsoft.com/en-us/fabric
+- Blueprint: https://github.com/palantir/blueprint
+- Carbon: https://github.com/IBM/carbon-components-react
+- Material UI: https://material-ui.com/
+- React-Virtualized: https://github.com/bvaughn/react-virtualized
+- Reactstrap (bootstrap): https://reactstrap.github.io/
+- Icons: https://material.io/tools/icons/
+- Animation: https://digital-flowers.github.io/react-animated-css.html
 
 # Redux Setup
 - Todo
@@ -97,7 +119,7 @@ PROJECT PATH
 - heroku git:remote -a cavalry-app
 - cd server/functions npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
 
-# Travis setup
+# Travis setup (not setup properly; will do later)
 - Signin and Activate on cavalry repository
 - https://github.com/travis-ci/travis.rb#windows
 - Download Ruby https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-2.4.4-2/rubyinstaller-devkit-2.4.4-2-x64.exe
@@ -114,7 +136,7 @@ PROJECT PATH
 - Deploy only from ncmd/cavalry? |yes|
 - Encrypt API key? |yes|
 
-# Server Email Setup:
+# Server Email Setup (depreciated; using sendgrid)
 - Email: enable less secure app access https://myaccount.google.com/lesssecureapps
 - and display unlock captcha http://www.google.com/accounts/DisplayUnlockCaptcha
 
@@ -160,7 +182,7 @@ PROJECT PATH
 - backup & Restore: utilities/index.js
 - files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
 
-# React Native Setup with Expo
+# React Native Setup
 - Download and Install Android Studio
 - Download and Install latest version of Yarn
 - Confirm Nvidia performance is high for qemu-system-x86_x64.exe
@@ -174,7 +196,7 @@ PROJECT PATH
 - npm install
 - npm audit fix
 
-# Slack Setup
+# Slack Setup (not in use)
 - create bot: Bot Users page > cavalry-bot
 - token used: OAuth & permissions page > Bot User OAuth Access Token
 - Scopes:
@@ -185,18 +207,16 @@ PROJECT PATH
 - get workspace_name
 - https://[workspace_name].slack.com/oauth/authorize?client_id=[client_id]&scope=client&redirect_uri=[redirect_url]
 
-# Ngrok Setup
+# Ngrok Setup (not in use)
 - Ngrok File location:
 - C:\Users\f/.ngrok2/ngrok.yml
 - ./ngrok http 80
 
-# Main React Components
-- Components:
-- Material UI: https://material-ui.com/
-- Reactstrap (bootstrap): https://reactstrap.github.io/
-- Icons: https://material.io/tools/icons/
-- Animation: https://digital-flowers.github.io/react-animated-css.html
-
+# Firebase Firestore Notes:
+- All client based functions for Firestore is in client/src/components/firebase/auth.js
+- All serverless functions are in serverless/functions/index.js
+- All utilities to backup data are in utilities/index.js
+- All server side functions are in server/controllers_(posts/accounts/posts/requests/etc.)
 
 # To Do ; Security
 - Fix dangerouslySetInnerHTML
@@ -209,12 +229,16 @@ PROJECT PATH
 - confirm redux clean
 
 # To Do
+- editing posts in firebase - aggregation/posts
+- serverless sync posts with aggregation
 - sending Invoices - 10%
 - bug: drawer button not responding (in mobile and tablet mode)
 - bug: activity should not require you to be in an organization
 - bug: forceupdate happening if banner typist is interrupted
 - bug: in /teams when you click on react-select dropdown, the overlay is hidden
 
+- change URL scheme to be: .com/username/post-title
+- change react-quill editor to primereact version
 - header user drawer instead
 - search bar - 70% - USE REDUX-SEARCH bvaughn.github.io
 
@@ -247,7 +271,7 @@ PROJECT PATH
 - public user profile
 
 ## Low Priority
-
+- Add 404 page if it does not exist
 - upgrade subscription - 0%
 - add attachments
 - category metrics
