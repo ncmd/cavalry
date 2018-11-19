@@ -53,7 +53,8 @@ import {
     CHANGE_DEPARTMENT_ORGANIZATION,
     EDIT_SUBMIT_DEPARTMENT,
     ADD_ACTIVITY_ORGANIZATION,
-    COMPLETE_ACTIVITY_ORGANIZATION
+    COMPLETE_ACTIVITY_ORGANIZATION,
+    STAR_POST_LOCAL,
 } from './types';
 
 const keys = require('../../secrets/keys');
@@ -62,6 +63,7 @@ let backend = keys.heroku_backend_uri
 export const lightThemeLoad = () => dispatch => {
   const theme = [{
     theme:'light',
+    PrimaryOutlineBorder: '1px solid #3d63ff',
     PrimaryDark:'#5533ff',
     PrimaryLight:'#3d63ff',
     PrimaryLinear:'linear-gradient(#3d63ff, #5533ff)',
@@ -75,6 +77,7 @@ export const lightThemeLoad = () => dispatch => {
     MainBackground:'#e3e8ee',
     HeaderBackground: 'white',
     DisabledBackground: '#e8e8e8',
+    DisabledButton: '#829bff',
     FormBackground:'#f6f8fa',
     DisabledText:'rgba(44,45,48,.75)',
     PostsButtonBackground:"white",
@@ -93,6 +96,7 @@ export const lightThemeLoad = () => dispatch => {
 export const darkThemeLoad = () => dispatch => {
   const theme = [{
     theme:'dark',
+    PrimaryOutlineBorder: '1px solid #3d63ff',
     PrimaryDark:'#5533ff',
     PrimaryLight:'#3d63ff',
     PrimaryLinear:'linear-gradient(#3d63ff, #5533ff)',
@@ -106,6 +110,7 @@ export const darkThemeLoad = () => dispatch => {
     MainBackground:'#030303',
     HeaderBackground: '#1A1A1B',
     DisabledBackground: '#e8e8e8',
+    DisabledButton: '#829bff',
     FormBackground:'#f6f8fa',
     DisabledText:'rgba(44,45,48,.75)',
     PostsButtonBackground:"#1A1A1B",
@@ -390,7 +395,7 @@ export const completeOrganizationActivity = (organizationname,activity) => async
 export const updatePost = (author,id,title,description,tags,objectives) => async dispatch =>{
     const data = {author:author,id:id,title:title,description:description,tags:tags,objectives:objectives};
     await axios.post(backend+'/api/post/edit',data);
-    auth.editRunbookFirestore(id)
+    // auth.editRunbookFirestore(id)
     dispatch({ type: UPDATE_POST });
 };
 
@@ -414,10 +419,15 @@ export const editPost = (uri) => async dispatch => {
 export const starPost = (postid,username,starred,action,index) => async dispatch => {
   // action should either be 1 or -1
   // let data = {id:postid, starred:starred, action:action}
-
   auth.starRunbookFirestore(postid,username,action)
   // await axios.post(backend+'/api/post/star',data);
-  dispatch({ type: STAR_POST, payloadindex:index, payloadaction:action, payloadusername:username});
+
+  if (index !== null){
+    dispatch({ type: STAR_POST, payloadindex:index, payloadaction:action, payloadusername:username});
+  } else if (index === null ){
+    dispatch({ type: STAR_POST_LOCAL, payloadaction:action, payloadusername:username});
+  }
+
 }
 
 export const addSubscriber = (email) => async dispatch =>{

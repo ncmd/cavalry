@@ -12,8 +12,3 @@ div.quill.quillFullScreen div.ql-container.ql-blank {
 div.quill.quillFullScreen div.ql-container.ql-snow {
   height:100vh;
 }
-
-button.ql-omega {
-  content: "Ω";
-  color: "black";
-}

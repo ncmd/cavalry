@@ -1,3 +1,64 @@
+﻿## New Computer Setup (Windows)
+
+# Install Chocolately: 
+- cmd.exe - run as administrator
+- @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+
+# Install All Programs with Choco
+- choco install googlechrome golang heroku-cli nodejs yarn vscode sublimetext3 keepass -y
+
+# Install Git 2.19
+- https://github.com/git-for-windows/git/releases/download/v2.19.1.windows.1/Git-2.19.1-64-bit.exe
+- This adds git to PATH
+
+# Install Python 3.7.1
+- https://www.python.org/ftp/python/3.7.1/python-3.7.1.exe
+- Remember to add Python to PATH; otherwise you need to reinstall
+
+# Install FreeFileSync 10.6
+- https://freefilesync.org/download/FreeFileSync_10.6_Windows_Setup.exe
+
+# Install Dropbox 61.4
+- https://www.dropbox.com/download?os=win
+- Location: C:\Users\test\Documents\Dropbox
+
+# Install Google Drive Backup 3.43
+- https://www.google.com/drive/download/
+
+# Install Github Desktop 1.5
+- https://central.github.com/deployments/desktop/desktop/latest/win32?format=msi
+
+# Clone Cavalry Repo
+- (Needs to be shared to Github Account as a Collaborator)
+- Repository: ncmd\cavalry
+- Location: C:\Users\test\Documents\GitHub\cavalry
+
+# Install Node -g packages
+- npm install -g concurrently cross-var cross-env firebase-tools npm-run-all
+
+# Install Go Packages
+- cd server/
+- go get -v golang.org/x/tools/cmd/goimports
+- go get -v github.com/tools/godep
+- go get -v golang.org/x/sys/unix
+- go get -v firebase.google.com/go
+- go get -v google.golang.org/api/option
+- go get -v github.com/stripe/stripe-go
+- go get -v github.com/BurntSushi/toml
+- go get -v github.com/sendgrid/sendgrid-go
+
+# Install Client (Frontend) Packages
+- cd client/
+- npm install --no-optional --no-shrinkwrap --no-package-lock
+- yarn add semantic-ui-react
+- yarn build
+- npm audit fix
+- firebase login
+- firebase init > Hosting > cavalry-app > build > no
+- Confirm all the keys client/secrets/keys*
+
+
+
 ## Day 2 Day
 # Running app locally
 - npm run local
@@ -9,7 +70,7 @@
 ## Dev Environment
 
 # 🔥🔥🔥 Important 🔥🔥🔥
-- You will need to get the local,dev, and prod keys
+- You will need to get the local ,dev, and prod keys
 - normal locations:
 - client/src/secrets/keys_dev.js
 - client/src/secrets/keys_local.js
@@ -19,45 +80,23 @@
 - server-prod/config/config.toml
 - serverless/config/config.toml
 
-# Install:
-- heroku cli
-- git 2.18.0 (windows)
-- github desktop
-- golang 1.11.windows (windows)
-- nodejs v8.12.0 LTS (windows)
-- yarn 1.10.x (windows)
-
-# Node -g packages
-- npm install -g concurrently
-- npm install -g cross-var
-- npm install -g firebase-tools
-- npm install -g npm-run-all
-
-# Atom Packages:
-- go-plus
-- react
-- platformio-ide-terminal
---platformio-ide-terminal settings - Default Shell: C:\Windows\System32\cmd.exe
+# VSCode Settings & Packages:
+- Python
+- Go
+- ES7 React/Redux/GraphQL/React-Native snippets
 
 # Setup Paths:
 - GIT PATH
 - NODE PATH
 - YARN PATH
-- HEROKU PATH
+- HEROKU PATH:
 - C:\Program Files\Heroku\bin
-GO PATH
+- GO PATH:
 - C:\Users\username\go
-GOROOT
+- GOROOT:
 - C:\go
-PROJECT PATH
+- PROJECT PATH:
 - C:\Users\username\go\src\cavalry
-
-# Client Setup:
-- cd client/
-- npm install eslint@^4.1.1 && npm install --no-optional --no-shrinkwrap --no-package-lock
-- firebase login
-- firebase init; build, yes, no
-- setup all the keys client/secrets/keys_dev.js
 
 # Main React Components
 - Components:
@@ -74,7 +113,7 @@ PROJECT PATH
 # Redux Setup
 - Todo
 
-# Algolia setup
+# Algolia setup (Depricated)
 - You need to create an Indicies first before being able to add data to it
 - Relies on serverless/
 - https://firebase.google.com/docs/firestore/solutions/search

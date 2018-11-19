@@ -1,8 +1,27 @@
+p {
+  font-size: 13px;
+  line-height: 18.46px;
+}
+
+div.ql-editor p {
+  font-size: 13px;
+  line-height: 18.46px;
+}
+
+
+div.ql-editor h1 {
+  font-size: 26px;
+  line-height: 31.2px;
+}
+
+div.ql-editor h2 {
+  font-size: 19.5px;
+  line-height: 23.4px;
+}
+
 div.ql-container.ql-snow {
   height:14vh;
-  border-color: "#ced4da";
-  border-width: 1px;
-  border-style: solid;
+
 }
 div.ql-container.ql-blank {
   height:14vh;
@@ -10,18 +29,22 @@ div.ql-container.ql-blank {
 
 div.ql-toolbar.ql-snow {
   border-top:0;
+  border-bottom:0;
   border-left:0;
   border-right:0;
-  background-color: "#f1f8ff";
-  border-color: "#c8e1ff";
-  border: "1px solid #c8e1ff";
   height: 37px;
   padding: 4px;
 }
 
-button.ql-fullscreen:after {
-  content: "fullscreen";
-  vertical-align: "middle"
+div.position-relative.form-group {
+  height:auto !important,
+}
+textarea.form-control {
+  height:auto !important,
+}
+
+div.position-relative.form-group textarea.form-control {
+  height:auto !important,
 }
 
 div.quill.quillFullScreen div.ql-container.ql-blank {

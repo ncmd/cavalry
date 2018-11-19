@@ -24,13 +24,71 @@ import { googleanalytics } from '../components/analytics';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
 import Select from 'react-select';
+import Octicon, {ScreenFull} from '@githubprimer/octicons-react'
+import {Panel} from 'primereact/panel';
+import 'primereact/resources/themes/nova-light/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 Quill.register('modules/ImageResize', ImageResize);
 
 
 // const bodyBlue = "linear-gradient(#1a237e, #121858)";
-const objectiveButton = "linear-gradient(to right, #304ffe, #2962ff)";
-const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
+// const objectiveButton = "linear-gradient(to right, #304ffe, #2962ff)";
+// const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
+const CustomButton = () => <Octicon icon={ScreenFull}/>
+
+
+// function imageHandler(image, callback){
+//   var range = this.quillRef.getEditor().getSelection();
+//   var value = prompt('What is the image URL');
+//   if(value) {
+//       this.quillRef.getEditor().insertEmbed(range.index, 'image', value, "user");
+//   }
+// }
+//
+//
+// function insertToEditor(url){
+//   const range = this.quillRef.getEditor().getSelection();
+//   this.quillRef.getEditor().insertEmbed(range.index, 'image', url);
+// }
+
+// function selectLocalImage(){
+//   const input = document.createElement('input');
+//   input.setAttribute('type', 'file');
+//   input.click();
+//
+//   // Listen upload local image and save to server
+//   input.onchange = () => {
+//     const file = input.files[0];
+//
+//     // file type is only image.
+//     if (/^image\//.test(file.type)) {
+//       // this.saveToServer(file);
+//       console.log("file",file)
+//
+//       var promise = new Promise(function(resolve, reject) {
+//         resolve( auth.uploadImageForPost(file,"/posts/submit/"+file.name));
+//       })
+//
+//       promise.then(() => {
+//       console.log("Completed uploadImageForPost")
+//         var promise = new Promise(function(resolve, reject) {
+//             resolve( auth.getImageUrl("/posts/submit/"+file.name));
+//         })
+//           promise.then((url) => {
+//             console.log("Completed getImageUrl",url)
+//             this.insertToEditor(url)
+//           })
+//
+//       })
+//     } else {
+//       console.warn('You could only upload images.');
+//     }
+//   };
+// }
+
+
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -89,6 +147,7 @@ class Edit extends Component {
             objectives: [],
             tasks: [],
             tags:'',
+            taglength:0,
             postPublished: false,
             tagsValid:false,
             titleValid:false,
@@ -108,6 +167,7 @@ class Edit extends Component {
             open:false,
             selectValueOptions:[{value:"any",label:"any"},{value:"legal",label:"legal"},{value:"security",label:"security"}],
             selectValue:[],
+            panelCollapsed:false,
         };
         this.onDragEnd = this.onDragEnd.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
@@ -144,6 +204,25 @@ class Edit extends Component {
       this.setState({ open: false });
     };
 
+    CustomToolbar(){
+      return (
+        <div id="toolbar" style={{background:this.props.theme[0].PostsButtonBackground}}>
+          <select className="ql-header" defaultValue={""} onChange={e => e.persist()} >
+            <option value="1"></option>
+            <option value="2"></option>
+            <option value=""></option>
+          </select>
+          <button className="ql-bold"></button>
+          <button className="ql-list" value="bullet" />
+          <button className="ql-list" value="ordered" />
+          <button className="ql-link" />
+          <button className="ql-image" />
+          <button className="ql-fullscreen" style={{float:'right', color:this.props.theme[0].PrimaryLight}}>
+            <CustomButton />
+          </button>
+        </div>
+      )
+    }
 
   handleChangeEditor(value) {
     this.setState({ text: value })
@@ -310,9 +389,6 @@ class Edit extends Component {
   handleChangeObjectiveDescription (value) {
     this.setState({
         objectiveDescription: value,
-    },() => {
-        this.validateObjectiveDescription(this.state.objectiveDescription);
-
     });
   };
 
@@ -420,11 +496,15 @@ class Edit extends Component {
       console.log(tags)
       if (tagRegex.test(tags)) {
           // // console.log("Valid Email Address:",email);
-          this.setState({tagsValid:true});
           var myArray = tags.split(',');
+          this.setState({taglength:myArray.length})
+          if (myArray.length <= 5){
+              this.setState({tagsValid:true});
           this.setState({
             tags: myArray
           })
+          }
+
 
           this.props.editSubmitTags(myArray)
 
@@ -436,7 +516,7 @@ class Edit extends Component {
   }
 
   validateTitle(title){
-      if (this.state.postTitle !=='') {
+      if (this.state.postTitle !=='' && this.state.postTitle.length <= 55 ) {
           // // console.log("Valid Email Address:",email);
           this.setState({titleValid:true});
           // console.log("Title is valid!")
@@ -467,7 +547,7 @@ class Edit extends Component {
   }
 
   validateDescription(description){
-      if (this.state.postDescription !=='') {
+      if (this.state.postDescription !=='' && this.state.postDescription.length <= 75) {
           // // console.log("Valid Email Address:",email);
           this.setState({descriptionValid:true});
           // console.log("Description is valid!")
@@ -481,16 +561,31 @@ class Edit extends Component {
     if(this.state.tagsValid === true && this.state.postTitle !== '' && this.state.postDescription !== '' && this.state.objectives.length > 0){
       return (
         <Grid item >
-            <Button style={{background:submitButton, color:'white'}} onClick={()=> this.updatePost(this.state.postAuthor,this.state.postId,this.state.postTitle,this.state.postDescription, this.state.tags, this.state.objectives)}>SUBMIT</Button>
+          <Button style={{background:this.props.theme[0].PrimaryLinear, textTransform:'none',color:'white', float:'right', height:35, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} onClick={()=>
+            this.updatePost(
+              this.state.postAuthor,
+              this.state.postId,
+              this.state.postTitle,
+              this.state.postDescription,
+              this.state.tags,
+              this.state.objectives)}><b>Submit</b>
+            </Button>
         </Grid>
       )
-    } else {
+    } else if (  this.state.tagsValid === true && this.state.postTitle !== '' && this.state.postDescription !== '' && this.state.objectives.length === 0){
       return (
         <Grid item >
-            <Button disabled style={{background:'grey', textTransform: 'none',  color:'white'}} >Review</Button>
+            <Button disabled style={{background:this.props.theme[0].DisabledBackground, textTransform: 'none', color:this.props.theme[0].DisabledText, float:'right', height:35, letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><div style={{verticalAlign:'middle'}}><b>Add at least 1 Objective</b></div></Button>
         </Grid>
       )
     }
+    else {
+      return (
+        <Grid item >
+            <Button disabled style={{background:this.props.theme[0].DisabledBackground, textTransform: 'none', color:this.props.theme[0].DisabledText, float:'right', height:35, letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><div style={{verticalAlign:'middle'}}><b>Fill out Runbook Details</b></div></Button>
+        </Grid>
+      )
+  }
   }
 
     updatePost(author,id,title,description,tags,objectives){
@@ -542,25 +637,25 @@ class Edit extends Component {
                         provided.draggableProps.style
                       )}
                     >
-                    <div  style={{color:this.props.theme[0].PostsTypographyTitle}}>
-                      <div  style={{background:this.props.theme[0].PrimaryLinear, width:26,height:26, borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>{index+1}</div><b>{obj.title}</b>
-                    </div>
-                      <div >
-                        <div dangerouslySetInnerHTML={{__html: obj.description}} />
-                        </div>
-                      <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" >
+                    <Panel key={obj.title} header={<b>{obj.title}</b>} toggleable={true} collapsed={this.state.panelCollapsed} onToggle={(e) => this.setState({panelCollapsed: e.value})}>
+                        <div  className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: obj.description}} />
+                          <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" style={{paddingTop:5}}>
                           <Grid key={obj.department+Math.random()+(Math.random())} item >
-                            <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
+                              <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:5,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
                               <div style={{color:'white',  letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{obj.department}</b></div>
                             </span>
                         </Grid>
                         </Grid>
-                      <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" >
+                      </Panel>
+                      <Grid container alignItems="center" direction="row" justify="space-between" style={{marginTop:8}}>
                         <Grid item >
-                          <Button style={{background:submitButton}} onClick={() => this.removeObjective(index)}><div  style={{color:'white', textTransform:'none'}}><b>Remove</b></div></Button>
+                          <Button style={{background:'transparent', border: '1px solid #3d63ff'}} onClick={() => this.removeObjective(index)}>
+                            <div style={{color:"#3d63ff", textTransform:'none',  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
+                              <b>Remove</b>
+                          </div></Button>
                         </Grid>
                         <Grid item >
-                          <Button style={{background:this.props.theme[0].PrimaryLinear}} onClick={() => this.editObjective(index)}><div  style={{color:'white', textTransform:'none'}}><b>Edit</b></div></Button>
+                          <Button style={{background:this.props.theme[0].PrimaryLinear,border:this.props.theme[0].PrimaryBorder}} onClick={() => this.editObjective(index)}><div  style={{color:'white', textTransform:'none', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>Edit</b></div></Button>
                         </Grid>
                         </Grid>
                     </div>
@@ -576,31 +671,19 @@ class Edit extends Component {
     }
 
     renderAddObjectiveButton(){
-      if (this.state.objectiveTitleValid === true && this.state.objectiveDescriptionValid === true && this.state.objectiveDescription.length !== 0 && this.state.objectiveTitle.length !== 0){
+      if (this.state.objectiveTitleValid === true && this.state.objectiveTitle.length !== 0){
         return (
-          <Button style={{ height:30, background:objectiveButton, textTransform: 'none', color:'white', marginBottom:20}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex,this.state.objectiveDepartment)} >Add Objective</Button>
-        )
-      } else if (this.state.objectiveTitleValid === false && this.state.objectiveDescriptionValid === false){
-        return (
-          <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Title & Description</Button>
-        )
-      } else if (this.state.objectiveTitleValid === false && this.state.objectiveDescriptionValid === true){
-        return (
-          <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Title</Button>
-        )
-      } else if (this.state.objectiveTitleValid === true && this.state.objectiveDescriptionValid === false){
-        return (
-          <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Description</Button>
+          <Button style={{ height:30, background:this.props.theme[0].PrimaryLinear, textTransform: 'none', color:'white', letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex,this.state.objectiveDepartment)}><b>Add Objective</b></Button>
         )
       } else {
         return (
-          <Button disabled style={{ height:30, background:'grey', textTransform: 'none', color:'white', marginBottom:20}}>Add Objective Title & Description</Button>
+          <Button disabled style={{ height:30, background:this.props.theme[0].DisabledBackground, textTransform: 'none', color:this.props.theme[0].DisabledText, letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>Add Objective Title</b></Button>
         )
       }
     }
 
     imageHandler = (image, callback) => {
-    var range = this.quillRef.getEditor().getSelection();
+    var range = this.quillRef.getSelection().index;
     var value = prompt('What is the image URL');
     if(value) {
         this.quillRef.getEditor().insertEmbed(range.index, 'image', value, "user");
@@ -648,6 +731,10 @@ class Edit extends Component {
           console.warn('You could only upload images.');
         }
       };
+    }
+
+    selectFullScreen= () => {
+      this.setState({open: !this.state.open})
     }
 
 
@@ -702,19 +789,43 @@ class Edit extends Component {
 
    }
 
+   modules={
+       ImageResize: {
+             parchment: Quill.import('parchment')
+         },
+         toolbar: {
+             container: "#toolbar",
+          handlers: {
+              'image': this.selectLocalImage,
+              "fullscreen": this.selectFullScreen,
+         }
+     },
+   }
+
+   modulesorg={
+       ImageResize: {
+             parchment: Quill.import('parchment')
+         },
+         toolbar: {
+             container:  [['bold', 'italic', 'underline', 'blockquote'],
+                 [{'list': 'ordered'}, {'list': 'bullet'}],
+                 ['link', 'image'],
+                 ['clean'],
+                 ['fullscreen']],
+          handlers: {
+              'image': this.selectLocalImage,
+              "fullscreen": this.selectFullScreen,
+         }
+     },
+   }
+
+
+
+
 
     render() {
 
-      const CustomToolbar = () => (
-        <div id="toolbar" className="fullToolbar">
-          <Grid container style={{background:'transparent', flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="flex-start" direction="row" justify="flex-end" >
-              <Grid item>
-                <Button style={{border:this.props.theme[0].PostsButtonBorder, marginRight:10}} className="ql-bold" onClick={() => this.omegafullscreen()}><div  style={{textTransform:'none', color:'black'}}><b>Exit Fullscreen</b></div></Button>
-              </Grid>
-            </Grid>
 
-        </div>
-      )
         return (
             <div>
               <Prompt
@@ -728,118 +839,167 @@ class Edit extends Component {
                         flexGrow: 1,
                         justify: 'center',
                         background: this.renderTheme(),
-                        height:this.state.height+400+(300*this.state.objectives.length),
-                        paddingTop:5,
+                        height:this.state.height+(206*this.state.objectives.length),
+                        paddingTop:24,
                         marginTop:48,
+                        paddingLeft:10,
+                        paddingRight:10,
                     }}
                 >
                     {/* Top Section */}
-                    <Grid container style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius,flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="row" justify="center" >
+                    <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:300, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                      <Grid container style={{background:"transparent",flexGrow:1, margin:"0 auto", maxWidth:800}} alignItems="center" direction="row" justify="center" >
                         <Grid item style={{width:'100%'}} xs>
-                            <Form style={{ flexGrow:1, maxWidth:800, padding:5 ,marginLeft:'auto',marginRight:'auto'}}>
+                            <b>Editing playbook</b>
+                          </Grid>
+                        </Grid>
+                    </div>
+                    <div style={{marginBottom:20, marginTop:20}}>
+                    <Grid container style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius,flexGrow:1, margin:"0 auto", maxWidth:800}} alignItems="center" direction="row" justify="center" >
+                        <Grid item style={{width:'100%', margin:16}} xs>
+                          <Form style={{ flexGrow:1, maxWidth:800 ,marginLeft:'auto',marginRight:'auto'}}>
+                              <Grid container style={{flexGrow:1, margin:"0 auto"}} direction={'row'} justify={'flex-start'} alignItems={'center'}>
+                                  <Grid item xs={10}>
                                 <FormGroup>
-                                    <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Title</b></div>
                                       {this.state.titleValid
                                       ?
-                                      <Input valid placeholder="Subject of a problem or process" value={this.state.postTitle} onChange={this.handlePostTitle('postTitle')}/>
+                                          <Input style={{height:35, boxShadow:'none'}} placeholder="Title" value={this.state.postTitle} onChange={this.handlePostTitle('postTitle')}/>
                                       :
-                                      <Input invalid placeholder="Subject of a problem or process" value={this.state.postTitle}  onChange={this.handlePostTitle('postTitle')}/>
+                                          <Input style={{height:35, boxShadow:'none'}} invalid placeholder="Title" value={this.state.postTitle}  onChange={this.handlePostTitle('postTitle')}/>
                                       }
                                 </FormGroup>
-                                <FormGroup>
-                                    <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Description</b></div>
-
+                                  </Grid>
+                                <Grid item xs style={{marginLeft: 5}}>
+                                  <div style={{ color:this.props.theme[0].PostsTypographyTitle, textAlign:'right',float:'right',verticalAlign:'middle', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                                    {this.state.postTitle.length}/55
+                                  </div>
+                                </Grid>
+                              </Grid>
+                                <Grid container style={{flexGrow:1, margin:"0 auto", marginBottom:8}} direction={'row'} justify={'flex-start'} alignItems={'center'}>
+                                    <Grid item xs={10}>
+                                      <FormGroup style={{margin:0}}>
                                       {this.state.descriptionValid
                                       ?
-                                      <Input valid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know"  value={this.state.postDescription}  onChange={this.handlePostDescription('postDescription')}/>
+                                            <Input  type="textarea" style={{height:38, boxShadow:'none'}} placeholder="Description"  value={this.state.postDescription}  onChange={this.handlePostDescription('postDescription')}/>
                                       :
-                                      <Input invalid type="textarea" style={{height:100}} placeholder="Why this problem or process is important to know" value={this.props.postDescription} onChange={this.handlePostDescription('postDescription')}/>
+                                            <Input invalid type="textarea" style={{height:38, boxShadow:'none'}} placeholder="Description" value={this.props.postDescription} onChange={this.handlePostDescription('postDescription')}/>
                                       }
+
                                 </FormGroup>
-                                <FormGroup>
-                                    <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Runbook Tags</b></div>
+                                    </Grid>
+                                  <Grid item xs style={{marginLeft: 5}}>
+                                    <div style={{ color:this.props.theme[0].PostsTypographyTitle, textAlign:'right',float:'right',verticalAlign:'middle', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                                      {this.state.postDescription.length}/75
+                                    </div>
+                                  </Grid>
+                                </Grid>
+
+                              <FormGroup style={{margin:0}}>
+                                <Grid container style={{flexGrow:1, margin:"0 auto"}} direction={'row'} justify={'flex-start'} alignItems={'center'}>
+                                  <Grid item xs={10}>
                                       {this.state.tagsValid
                                       ?
-                                      <Input valid placeholder={"Separate each tag with ',' (comma"} value={this.state.tags} onChange={this.handlePostTags('tags')}/>
+                                    <Input style={{height:35, boxShadow:'none'}} placeholder={"Tags"} value={this.state.tags} onChange={this.handlePostTags('tags')}/>
                                       :
-                                      <Input invalid placeholder={"Separate each tag with ',' (comma)"} value={this.state.tags} onChange={this.handlePostTags('tags')}/>
+                                    <Input style={{height:35, boxShadow:'none'}} invalid placeholder={"Tags"} value={this.state.tags} onChange={this.handlePostTags('tags')}/>
                                       }
-                                </FormGroup>
 
-                                  <FormGroup>
-                                      <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Title</b></div>
+                                  </Grid>
+                                  <Grid item xs style={{marginLeft: 5}}>
+                                    <div style={{ color:this.props.theme[0].PostsTypographyTitle, ttextAlign:'right',float:'right',verticalAlign:'middle', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                                      {this.state.taglength}/5
+                                    </div>
+                                  </Grid>
+                                </Grid>
+                                <div  style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>Separate each Tag with a comma ( Ex. security,legal )</div>
+                              </FormGroup>
+                            </Form>
+                        </Grid>
+                    </Grid>
+                    </div>
+                    <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:300, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                      <Grid container style={{background:"transparent",flexGrow:1, margin:"0 auto", maxWidth:800}} alignItems="center" direction="row" justify="center" >
+                          <Grid item style={{width:'100%'}} xs>
+                            <b>Objectives</b>
+                          </Grid>
+                        </Grid>
+                    </div>
+                    <div style={{paddingTop:20}}>
+                    <Grid container style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius,flexGrow:1, margin:"0 auto", maxWidth:800}} alignItems="center" direction="row" justify="center" >
+                        <Grid item style={{width:'100%', margin:16}} xs>
+                            <Form style={{ flexGrow:1, maxWidth:800 ,marginLeft:'auto',marginRight:'auto'}}>
+                              <FormGroup >
                                         {this.state.objectiveTitleValid
                                         ?
-                                        <Input valid placeholder="Step 1 on how to solve the problem or process" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
+                                    <Input style={{height:35, boxShadow:'none'}} placeholder="Objective Title" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
                                         :
-                                        <Input invalid placeholder="Step 1 on how to solve the problem or process" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
+                                    <Input style={{height:35, boxShadow:'none'}} invalid placeholder="Objective Title" value={this.state.objectiveTitle} onChange={this.handleChangeObjectiveTitle('objectiveTitle')}/>
                                         }
                                   </FormGroup>
                                   <FormGroup>
                                       <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Assigned Department</b></div>
                                         {this.renderSelect()}
+                                    <div  style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>This is the ideal department you want to assign this objective.</div>
                                   </FormGroup>
                                   <FormGroup>
-                                    <Grid container style={{background:this.props.theme[0].PostsButtonBackground, flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="center" direction="row" justify="center" >
-                                        <Grid item style={{width:'100%'}} xs>
-                                          <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Description</b> </div>
-                                      </Grid>
-                                      <Grid><Button style={{ border:this.props.theme[0].PostsButtonBorder}} onClick={()=> this.omegafullscreen()}><div   style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Fullscreen</b></div></Button></Grid>
-                                    </Grid>
-                                        <ReactQuill ref={(el) => this.quillRef = el} modules={{
-
-                                        ImageResize: {
-                                              parchment: Quill.import('parchment')
-                                          },
-
-                                            toolbar: {
-                                                container:  [['bold', 'italic', 'underline', 'blockquote'],
-                                        [{'list': 'ordered'}, {'list': 'bullet'}],
-                                                    ['link', 'image'],
-                                                    ['clean']],
-
-                                             handlers: {
-                                                 'image': this.selectLocalImage,
-                                            }
-                                        }
-                                      }} style={{background:'white',  border:this.props.theme[0].PostsButtonBorder, height:500}} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
-                                        <Dialog
-                                          fullScreen
-                                          open={this.state.open}
-                                          onClose={this.handleClose}
-                                          TransitionComponent={Transition}
-                                          style={{maxWidth:'800px',flexGrow:1, margin:"0 auto"}}
-                                        >
-                                        <CustomToolbar />
-                                      <ReactQuill ref={(el) => this.quillRef = el} modules={{
-
-                                        ImageResize: {
-                                              parchment: Quill.import('parchment')
-                                          },
-                                          toolbar: {
-                                              container:  [['bold', 'italic', 'underline', 'blockquote'],
-                                                  [{'list': 'ordered'}, {'list': 'bullet'}],
-                                                  ['link', 'image'],
-                                                  ['clean']],
-
-                                           handlers: {
-                                               'image': this.selectLocalImage,
-                                          }
-                                      }
-                                    }} style={{background:'white', height:500 }} className={'quillFullScreen'} value={this.state.objectiveDescription} onChange={this.handleChangeObjectiveDescription} />
-                                </Dialog>
+                                {this.state.open ?
+                                  <Dialog
+                                    fullScreen
+                                    open={this.state.open}
+                                    onClose={this.handleClose}
+                                    TransitionComponent={Transition}
+                                    style={{maxWidth:800,flexGrow:1, margin:"0 auto"}}
+                                  >
+                                  <div className="text-editor">
+                                    {this.CustomToolbar()}
+                                      <ReactQuill
+                                        className={'quillFullScreen'}
+                                        ref={(el) => this.quillRef = el}
+                                        placeholder={"Text (optional)"}
+                                        modules={this.modules}
+                                        style={{background:'white'}}
+                                        value={this.state.objectiveDescription}
+                                        onChange={this.handleChangeObjectiveDescription}
+                                      />
+                                  </div>
+                                  </Dialog>
+                                  :
+                                  <div className="text-editor">
+                                    {this.CustomToolbar()}
+                                    <ReactQuill
+                                      ref={(el) => this.quillRef = el}
+                                      placeholder={"Text (optional)"}
+                                      modules={this.modules}
+                                      style={{background:'white'}}
+                                      value={this.state.objectiveDescription}
+                                      onChange={this.handleChangeObjectiveDescription}
+                                    />
+                                  </div>
+                                  }
                                   </FormGroup>
-                                  <FormGroup>
+                              <FormGroup style={{marginBottom:0}}>
+                                <Grid container style={{background:this.props.theme[0].PostsButtonBackground, flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="flex-start" direction="row" justify="space-between" >
+                                    <Grid item style={{width:'100%'}} xs>
                                         {this.renderAddObjectiveButton()}
-                                  </FormGroup>
-                                  <FormGroup>
+                                  </Grid>
+                                  <Grid item style={{width:'100%'}} xs>
                                         {this.renderReviewButton()}
+                                </Grid>
+                                </Grid>
                                   </FormGroup>
                             </Form>
                                     </Grid>
                                 </Grid>
-                    <Grid container alignItems="center" direction="row" justify="space-between" style={{ flexGrow:1, margin:"0 auto", maxWidth:"63em", paddingTop:20}}>
-                      <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Preview:</b> You can sort the objectives by dragging and dropping the objects</div>
+                    </div>
+                    <Grid container alignItems="center" direction="row" justify="space-between" style={{ flexGrow:1, margin:"0 auto", maxWidth:800, paddingTop:20}}>
+                      <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', marginBottom:20, fontWeight:300, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                        <Grid container style={{background:"transparent",flexGrow:1, margin:"0 auto", maxWidth:800}} alignItems="center" direction="row" justify="center" >
+                            <Grid item style={{width:'100%'}} xs>
+                              <b>Preview:</b> You can sort the order by dragging and dropping the objective
+                            </Grid>
+                          </Grid>
+                      </div>
+
                                 {this.renderObjectives()}
                                 </Grid>
                 </div>
@@ -847,6 +1007,7 @@ class Edit extends Component {
         );
     }
 }
+
 function mapStateToProps({ users,posts, account, path,submit,theme}) {
     return { users,posts, account,path, submit,theme };
 }

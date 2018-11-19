@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
 	firebase "firebase.google.com/go"
@@ -20,11 +19,11 @@ func c_requests_fetch_last_10_requests_from_firestore(w http.ResponseWriter, r *
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	client, err := app.Firestore(context.Background())
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	defer client.Close()
 

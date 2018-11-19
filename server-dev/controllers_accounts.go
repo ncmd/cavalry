@@ -20,11 +20,11 @@ func c_accounts_add_activity_objectives_to_user_in_firestore(w http.ResponseWrit
 	sa := option.WithCredentialsFile("./firestore.json")
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	client, err := app.Firestore(context.Background())
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	defer client.Close()
 
@@ -53,7 +53,7 @@ func c_accounts_add_activity_objectives_to_user_in_firestore(w http.ResponseWrit
 			},
 		}, firestore.MergeAll)
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 
 	}
@@ -66,13 +66,13 @@ func c_accounts_invite_user_create_account_in_firebase(w http.ResponseWriter, r 
 	sa := option.WithCredentialsFile("./firestore.json")
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 
 	if r.Method != "OPTIONS" {
 		client, err := app.Auth(context.Background())
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 
 		var account Account
@@ -88,7 +88,7 @@ func c_accounts_invite_user_create_account_in_firebase(w http.ResponseWriter, r 
 		params := (&auth.UserToCreate{}).Email(account.Email).EmailVerified(false).Password(password).Disabled(false)
 		u, err := client.CreateUser(context.Background(), params)
 		if err != nil {
-			log.Fatalf("error creating user: %v\n", err)
+			fmt.Println("error creating user:", err)
 		}
 		log.Printf("Successfully created user: %v\n", u.UID)
 		c_accounts_create_account_in_firebase(u.UID, account.Email, account.Username, account.OrganizationName)
@@ -110,13 +110,13 @@ func c_accounts_create_user_account_in_firebase(w http.ResponseWriter, r *http.R
 	sa := option.WithCredentialsFile("./firestore.json")
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 
 	if r.Method != "OPTIONS" {
 		client, err := app.Auth(context.Background())
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 
 		var account Account
@@ -134,7 +134,7 @@ func c_accounts_create_user_account_in_firebase(w http.ResponseWriter, r *http.R
 		params := (&auth.UserToCreate{}).Email(account.Email).EmailVerified(false).Password(password).Disabled(false)
 		u, err := client.CreateUser(context.Background(), params)
 		if err != nil {
-			log.Fatalf("error creating user: %v\n", err)
+			fmt.Println("error creating user:", err)
 		}
 		log.Printf("Successfully created user: %v\n", u.UID)
 
@@ -147,11 +147,11 @@ func c_accounts_create_account_in_firebase(userid string, useremail string, user
 	sa := option.WithCredentialsFile("./firestore.json")
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	client, err := app.Firestore(context.Background())
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	if organizationname != "" {
 		client.Collection("accounts").Doc(userid).Set(context.Background(), map[string]interface{}{
@@ -183,11 +183,11 @@ func c_accounts_get_user_account_information_in_firestore(w http.ResponseWriter,
 	sa := option.WithCredentialsFile("./firestore.json")
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	client, err := app.Firestore(context.Background())
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	defer client.Close()
 
@@ -225,11 +225,11 @@ func c_accounts_create_account_with_email_in_firestore(w http.ResponseWriter, r 
 	sa := option.WithCredentialsFile("./firestore.json")
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	client, err := app.Firestore(context.Background())
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	defer client.Close()
 	var account Account
@@ -256,11 +256,11 @@ func controllers_accounts_create_user_account_in_firestore(w http.ResponseWriter
 	sa := option.WithCredentialsFile("./firestore.json")
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	client, err := app.Firestore(context.Background())
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	defer client.Close()
 

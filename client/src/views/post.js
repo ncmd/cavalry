@@ -6,10 +6,12 @@ import {
     addActivity,
     addActivityToOrganization,
     loadOrganizationAll,
+    starPost
 } from '../redux/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Button from '@material-ui/core/Button';
+// import Button from '@material-ui/core/Button';
+// import Hidden from '@material-ui/core/Hidden';
 import {Link} from "react-router-dom";
 import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
@@ -21,18 +23,28 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { InputGroup, InputGroupAddon } from 'reactstrap';
-// import Star from '@material-ui/icons/Star';
+import { InputGroup, InputGroupAddon,Button } from 'reactstrap';
+import Star from '@material-ui/icons/Star';
 import StarBorder from '@material-ui/icons/StarBorder';
-import {Panel} from 'primereact/panel';
+import {Accordion,AccordionTab} from 'primereact/accordion';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-
+import './post.css';
+// import Octicon, {ScreenFull} from '@githubprimer/octicons-react'
+import ReactQuill from 'react-quill';
+import { Comment} from 'semantic-ui-react'
+// import 'semantic-ui-css/semantic.min.css';
+import JavascriptTimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+import ReactTimeAgo from 'react-time-ago/no-tooltip'
+// import 'react-time-ago/Tooltip.css'
+// import update from 'immutability-helper';
 // const bodyBlue = "linear-gradient(#1a237e, #121858)";
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
+// const CustomButton = () => <Octicon icon={ScreenFull}/>
 
 const styles = theme => ({
   root: {
@@ -44,6 +56,140 @@ const styles = theme => ({
 
   },
 });
+
+const CommentData = [
+  {
+    id: 1,
+    avatar:'/cavalry.svg',
+    user:'Bob',
+    timestamp:'1540779924491',
+    comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+    collapse:false,
+    showCommentBox:false,
+    replies: [
+      {
+        id: 2,
+        parentid:1,
+        avatar:'/cavalry.svg',
+        user:'Charles',
+        timestamp: '1540779924492',
+        comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+        collapse:false,
+        showCommentBox:false,
+        replies: [
+          {
+            id: 3,
+            parentid:2,
+            avatar:'/cavalry.svg',
+            user:'Monkey',
+            timestamp: '1540779924421',
+            comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+            collapse:false,
+            showCommentBox:false,
+            replies: [
+              {
+                id: 4,
+                parentid:3,
+                avatar:'/cavalry.svg',
+                user:'jido',
+                timestamp: '1540779924221',
+                comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+                collapse:false,
+                showCommentBox:false,
+              }
+            ]
+          },{
+            id: 5,
+            parentid:2,
+            avatar:'/cavalry.svg',
+            user:'Hangry',
+            timestamp: '1540779922221',
+            comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+            collapse:false,
+            showCommentBox:false,
+            replies: [
+              {
+                id: 6,
+                parentid: 5,
+                avatar:'/cavalry.svg',
+                user:'Robddddert',
+                timestamp: '1521114227834',
+                comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+                collapse:false,
+                showCommentBox:false,
+              }
+            ]
+          }
+        ]
+      },
+      {
+        id: 7,
+        parentid:1,
+        avatar:'/cavalry.svg',
+        user:'Nate',
+        timestamp: '1540722924491',
+        comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+        collapse:false,
+        showCommentBox:false,
+        replies: [
+          {
+            id: 8,
+            parentid:7,
+            avatar:'/cavalry.svg',
+            user:'Robfffert',
+            timestamp: '1529224447834',
+            comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+            collapse:false,
+            showCommentBox:false,
+            replies: [
+              {
+                id: 9,
+                parentid:8,
+                avatar:'/cavalry.svg',
+                user:'Rofdabert',
+                timestamp: '1542279924491',
+                comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+                collapse:false,
+                showCommentBox:false,
+                replies: [
+                  {
+                    id: 10,
+                    parentid:9,
+                    avatar:'/cavalry.svg',
+                    user:'adsf',
+                    timestamp: '1522279924491',
+                    comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+                    collapse:false,
+                    showCommentBox:false,
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            id: 11,
+            parentid:7,
+            avatar:'/cavalry.svg',
+            user:'Nate',
+            timestamp: '1522779924491',
+            comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+            collapse:false,
+            showCommentBox:false,
+          },
+        ]
+      },
+    ]
+  },{
+    id: 12,
+    avatar:'/cavalry.svg',
+    user:'Alex',
+    timestamp: '1542222924491',
+    comment:'the quick brown fox jumped over the lazy dog and got eaten!',
+    collapse:false,
+    showCommentBox:false,
+  }
+]
+
 
 class Post extends Component {
 
@@ -61,17 +207,63 @@ class Post extends Component {
             runObjectives:[],
             logged:false,
             open:false,
-            panelCollapsed:false,
+            panelCollapsed:true,
             selectValueOptions:[],
             selectValue:[],
             organizationActivity:[],
+            postAuthor:'',
+            postId:'',
+            postStars:'',
+            postTimestamp:'',
+            postStarred:[],
+            postComments:[],
+            comment:"",
+            reply:"",
+            rawcomment:"",
+            rawcommentlength:0,
+            rawreplylength:0,
+            collapsed: true,
+            openFullscreen:false,
+            editing: false,
+            originalComment:"",
+            originalReply:"",
 
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
+        this.handleChangeComment = this.handleChangeComment.bind(this);
     }
+     handleCheckbox = (e, { checked }) => this.setState({ collapsed: checked })
+
+    CustomToolbar(){
+      return (
+        <div id="toolbar" style={{background:this.props.theme[0].PostsButtonBackground}}>
+          <button className="ql-bold"></button>
+          <button className="ql-list" value="bullet" />
+          <button className="ql-list" value="ordered" />
+          <button className="ql-link" />
+        </div>
+      )
+    }
+
+    CustomToolbarReply(){
+      return (
+        <div id="toolbarReply" style={{background:this.props.theme[0].PostsButtonBackground}}>
+          <button className="ql-bold"></button>
+          <button className="ql-list" value="bullet" />
+          <button className="ql-list" value="ordered" />
+          <button className="ql-link" />
+        </div>
+      )
+    }
+
+
 
     handleClose = () => {
       this.setState({ open: false });
+    };
+
+    handleCloseFullscreen = () => {
+      this.setState({ openFullscreen: false });
     };
 
     renderSelect(index,selectOption){
@@ -107,35 +299,31 @@ class Post extends Component {
 
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
+      JavascriptTimeAgo.locale(en)
+      let prevPostComments = this.state.postComments
+      CommentData.map((comment) => {
+        prevPostComments.push(comment)
+        return null
+      })
+      this.setState({
+        postComments: prevPostComments
+      })
+      console.log(this.state.postComments)
 
       // Load select options if user is logged in
       if (this.props.users.logged === true && this.props.account.organizationmember !== false){
         var prevSelectOptions = this.state.selectValueOptions
-          this.props.loadOrganizationAll(this.props.account.organizationname).then(()=>{
-            this.props.organization.organizationmembers.map((member)=>{
-              // console.log("member",member)
-              // add each member to selectValueOptions
-              prevSelectOptions.push({
-                value: member.accountid,
-                label: member.emailaddress,
-              })
-              return null
-            })
-          })
-        // var prevOrganizationActivity = this.state.organizationActivity
-
-        // this.props.organization.organizationactivity.map((activity)=>{
-          // console.log(member)
-        //   // add each member to selectValueOptions
-        //   prevOrganizationActivity.push({
-        //     runbookid: activity.runbookid,
-        //     runbooktitle: activity.runbooktitle,
-        //     runbookdescription: activity.runbookdescription,
-        //     runbooktags: activity.runbooktags,
-        //     runbookobjectives: activity.runbookobjectives,
-        //   })
-        //
-        // })
+          // this.props.loadOrganizationAll(this.props.account.organizationname).then(()=>{
+          //   this.props.organization.organizationmembers.map((member)=>{
+          //     // console.log("member",member)
+          //     // add each member to selectValueOptions
+          //     prevSelectOptions.push({
+          //       value: member.accountid,
+          //       label: member.emailaddress,
+          //     })
+          //     return null
+          //   })
+          // })
         this.setState({
           selectValueOptions: prevSelectOptions,
           // organizationActivity: prevOrganizationActivity,
@@ -153,6 +341,11 @@ class Post extends Component {
                 postTitle:this.props.posts.title,
                 postDescription:this.props.posts.description,
                 postTags:this.props.posts.tags,
+                postAuthor:this.props.posts.author,
+                postId:this.props.posts.id,
+                postStars:this.props.posts.stars,
+                postTimestamp:this.props.posts.timestamp,
+                postStarred:this.props.posts.starred,
               })
 
               if( this.props.posts.objectives !== null) {
@@ -188,29 +381,23 @@ class Post extends Component {
       return(
         this.state.objectives.map( (obj,index) => {
           return(
-            <Panel key={obj.title} header={obj.title} toggleable={true} collapsed={this.state.panelCollapsed} onToggle={(e) => this.setState({panelCollapsed: e.value})} style={{marginTop:5}}>
-                  <div  style={{color:this.props.theme[0].PostsTypographyTitle,marginBottom:5, padding:5 }} >
-                    <div  style={{background:this.props.theme[0].PrimaryLinear,width:22,height:22,borderRadius:'50%',textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold'}}>{index+1}</div> <b>{obj.title}</b>
-                  </div>
-                  <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" style={{paddingTop:5}}>
-                    <Grid key={obj.department+Math.random()+(Math.random())} item >
-                      <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
-                        <div style={{color:'white',  letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{obj.department}</b></div>
-                      </span>
-                  </Grid>
-                  </Grid>
-                  <div style={{color:this.props.theme[0].PostsTypographyTitle}} >
-                    <div style={{color:this.props.theme[0].PostsTypographyTitle}}  dangerouslySetInnerHTML={{__html: obj.description}} />
-                  </div>
-
-              </Panel>
+            <AccordionTab key={obj.title} header={obj.title}>
+              <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: obj.description}} />
+                <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" style={{paddingTop:5}}>
+                  <Grid key={obj.department+Math.random()+(Math.random())} item >
+                    <span style={{background:this.props.theme[0].PostsTagsBackground, borderRadius:5,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
+                      <div style={{color:'white',  letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{obj.department}</b></div>
+                    </span>
+                </Grid>
+                </Grid>
+           </AccordionTab>
               )
         })
       )
 
     }
 
-     findAndReplace(string, target, replacement) {
+    findAndReplace(string, target, replacement) {
      var i = 0, length = string.length;
      for (i; i < length; i++) {
       string = string.replace(target, replacement);
@@ -297,9 +484,20 @@ class Post extends Component {
 
     }
 
-    renderDialog(){
-      // if user not in organization, render modal asking to join team first
-      // else show runbook launch dialog
+    renderObjectiveLength(objectivelength){
+      if (objectivelength === 1){
+        return (
+        <div  style={{color:this.props.theme[0].PostsTypographyDescription,height:28, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+          <b style={{verticalAlign:'middle'}}>{objectivelength} objective</b>
+        </div>
+        )
+      } else {
+        return (
+          <div  style={{color:this.props.theme[0].PostsTypographyDescription,height:28, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+            <b style={{verticalAlign:'middle'}}>{objectivelength} objectives</b>
+          </div>
+        )
+      }
     }
 
     renderAssingAllObjectives(){
@@ -320,9 +518,11 @@ class Post extends Component {
           this.state.postTags.map((value) => {
             if (value !== " "){
               return(
-                <Grid key={value+Math.random()+(Math.random())} item >
-                  <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:16,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
-                    <div style={{color:'white',  letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{value}</b></div>
+                <Grid key={value+Math.random()+(Math.random())} item>
+                  <span style={{verticalAlign:'middle',background:this.props.theme[0].PostsTagsBackground,borderRadius:5,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
+                    <div style={{verticalAlign:'middle',color:'white', letterSpacing:'1px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                      <b>{value}</b>
+                    </div>
                   </span>
               </Grid>)
             }
@@ -330,9 +530,743 @@ class Post extends Component {
           }
           )
         )
-
       }
+    }
 
+    renderEditIfOwnedByUser(currentUser){
+      if (this.state.postAuthor === currentUser){
+        return (
+          <Link style={{textDecoration: 'none',float:'right',height:25 }} to={{ pathname: '/post/' + this.props.posts.id + '/'+this.findAndReplace(this.findAndReplace(this.state.postTitle,' ','-'),'\'','')+'/edit'}}>
+            <Button size="sm" style={{height:25, background:'transparent', width:55, border: '1px solid #3d63ff',  boxShadow:'none'}} onClick={() => this.props.history.push("/signup")}>
+                <div style={{color:"#3d63ff", textTransform:'none',  letterSpacing:'-0.5px', fontSize:'10px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
+                    <b>EDIT</b>
+                </div>
+            </Button>
+         </Link>
+        )
+      }
+    }
+
+    renderClickStar(postid,starred,index){
+      // console.log( this.state.posts[index].starred)
+      if (this.props.account.username !== undefined && this.props.posts.length > 0){
+        var ind = this.state.postStarred.indexOf(this.props.account.username);
+        console.log(this.state.postStarred);
+        if (ind === -1){
+          return (
+            <Button style={{paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3,height:28,verticalAlign: 'middle',background:this.props.theme[0].PostActionBackgroundImage,borderRadius:'5px 0px 0px 5px', boxShadow:'0px 0px 0px 0px',  border:this.props.theme[0].PrimaryBorder}} >
+              <div  style={{verticalAlign: 'middle',textTransform:'none', color:"#333333", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                <StarBorder style={{verticalAlign:'bottom',fontSize:18}}/><b>Stars</b>
+              </div>
+            </Button>
+          )
+        } else if (ind !== -1){
+          return (
+            <Button style={{paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3,height:28,verticalAlign: 'middle',background:this.props.theme[0].PostActionBackgroundImage,borderRadius:'5px 0px 0px 5px', boxShadow:'0px 0px 0px 0px',  border:this.props.theme[0].PrimaryBorder}}>
+              <div  style={{verticalAlign: 'middle',textTransform:'none', color:"#333333", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                <Star style={{verticalAlign:'bottom',fontSize:18,color:this.props.theme[0].PrimaryLight}}/><b>Stars</b>
+              </div>
+            </Button>
+          )
+        }
+      } else {
+        return (
+          <Button style={{paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3,height:28,verticalAlign: 'middle',background:this.props.theme[0].PostActionBackgroundImage,borderRadius:'5px 0px 0px 5px', boxShadow:'0px 0px 0px 0px',  border:this.props.theme[0].PrimaryBorder}}>
+            <div  style={{verticalAlign: 'middle',textTransform:'none', color:"#333333", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+              <Star style={{verticalAlign:'bottom',fontSize:18,color:this.props.theme[0].PrimaryLight}}/><b>Stars</b>
+            </div>
+          </Button>
+        )
+      }
+    }
+
+    selectFullScreen= () => {
+      this.setState({openFullscreen: !this.state.openFullscreen})
+    }
+
+    handleClickStar(postid,index){
+      if (this.props.account.username !== undefined){
+        console.log(this.state.postStarred)
+        let prevStarred = this.state.postStarred
+        var ind = this.state.postStarred.indexOf(this.props.account.username);
+        // does not exist; add
+        if (ind === -1 ){
+          prevStarred.push(this.props.account.username)
+          this.setState({
+            postStarred: prevStarred
+          })
+          this.props.starPost(postid,this.props.account.username,prevStarred.starred,1,null)
+        } else if (ind !== -1){
+            var i = prevStarred.indexOf(this.props.account.username);
+            if (i !== -1) prevStarred.splice(i, 1)
+            this.setState({
+              postStarred: prevStarred
+            })
+          this.props.starPost(postid,this.props.account.username,this.state.postStarred,-1,null)
+        }
+      }
+    }
+
+    modules={
+          toolbar: {
+              container: "#toolbar",
+           handlers: {
+               "fullscreen": this.selectFullScreen,
+          }
+      },
+    }
+    modulesReply={
+          toolbar: {
+              container: "#toolbarReply",
+           handlers: {
+               "fullscreen": this.selectFullScreen,
+          }
+      },
+    }
+
+    collapseRootComment(index){
+      let prevPostComments = this.state.postComments
+      prevPostComments[index].replies.map((reply,ind) => {
+          prevPostComments[index].replies[ind].collapse = !this.state.postComments[index].replies[ind].collapse
+          return null
+      })
+      this.setState({
+        postComments: prevPostComments
+      })
+    }
+
+    collapseNestedComment(rootComment,index){
+      let prevPostComments = this.state.postComments
+      prevPostComments[rootComment].replies[index].replies.map((reply,ind) => {
+        prevPostComments[rootComment].replies[index].replies[ind].collapse = !prevPostComments[rootComment].replies[index].replies[ind].collapse
+        return null
+      })
+      this.setState({
+        postComments: prevPostComments
+      })
+    }
+
+    renderCommentReplies(rootComment,replies){
+      return (
+        replies.map((nestedComment,index) => {
+          if (nestedComment.replies === undefined){
+              if(this.props.account.username !== undefined && nestedComment.user === this.props.account.username){
+                return (
+                  <Comment.Group key={nestedComment.timestamp} size='mini'  collapsed={nestedComment.collapse}  >
+                    <Comment style={{border:this.props.theme[0].PrimaryOutlineBorder, borderRadius:this.props.theme[0].BorderRadius}}>
+                      <Comment.Avatar as='a' src={nestedComment.avatar}/>
+                      <Comment.Content>
+                        <Comment.Author as='a'><span style={{color:this.props.theme[0].PostsTypographyTitle}}>{nestedComment.user}</span></Comment.Author>
+                        <Comment.Metadata>
+                          <span style={{color:this.props.theme[0].PostsTypographyObjectives}}>{this.renderTime(nestedComment.timestamp)}</span>
+                        </Comment.Metadata>
+                        <Comment.Text>
+                          <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: nestedComment.comment}} />
+                        </Comment.Text>
+                        <Comment.Actions>
+                          <Button onClick={() => this.editReplyComment(nestedComment.parentid,nestedComment.id,nestedComment.comment)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                            <b>Edit</b>
+                          </Button>
+                          <Button onClick={() => this.deleteComment(nestedComment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                            <b>Delete</b>
+                          </Button>
+                        </Comment.Actions>
+                      </Comment.Content>
+                    </Comment>
+                </Comment.Group>
+                )
+              } else {
+                return (
+                  <Comment.Group key={nestedComment.timestamp} size='mini'  collapsed={nestedComment.collapse}>
+                    <Comment>
+                      <Comment.Avatar as='a' src={nestedComment.avatar}/>
+                      <Comment.Content>
+                        <Comment.Author as='a'><span style={{color:this.props.theme[0].PostsTypographyTitle}}>{nestedComment.user}</span></Comment.Author>
+                        <Comment.Metadata>
+                          <span style={{color:this.props.theme[0].PostsTypographyObjectives}}>{this.renderTime(nestedComment.timestamp)}</span>
+                        </Comment.Metadata>
+                        <Comment.Text>
+                          <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: nestedComment.comment}} />
+                        </Comment.Text>
+                        <Comment.Actions>
+                          <Button onClick={() => this.openReplyCommentBox(nestedComment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                            <b>Reply</b>
+                          </Button>
+                        </Comment.Actions>
+                      </Comment.Content>
+                    </Comment>
+                </Comment.Group>
+                )
+              }
+          } else if (nestedComment.replies !== undefined){
+            // get this current state
+            if(this.props.account.username !== undefined && nestedComment.user === this.props.account.username){
+              return (
+                <Comment.Group key={nestedComment.timestamp} size='mini' collapsed={nestedComment.collapse} >
+                  <Comment style={{border:this.props.theme[0].PrimaryOutlineBorder, borderRadius:this.props.theme[0].BorderRadius}}>
+                    <Comment.Avatar as='a' src={nestedComment.avatar} onClick={() => this.collapseNestedComment(rootComment,index)} />
+                    <Comment.Content>
+                      <Comment.Author as='a'><span style={{color:this.props.theme[0].PostsTypographyTitle}}>{nestedComment.user}</span></Comment.Author>
+                      <Comment.Metadata>
+                        <span style={{color:this.props.theme[0].PostsTypographyObjectives}}>{this.renderTime(nestedComment.timestamp)}</span>
+                      </Comment.Metadata>
+                      <Comment.Text>
+                        <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: nestedComment.comment}} />
+                      </Comment.Text>
+                      <Comment.Actions>
+                        <Button onclick={() => this.editReplyComment(nestedComment.parentid,nestedComment.id,nestedComment.comment)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                          <b>Edit</b>
+                        </Button>
+                        <Button onClick={() => this.deleteComment(nestedComment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                          <b>Delete</b>
+                        </Button>
+                      </Comment.Actions>
+                    </Comment.Content>
+                    {this.renderCommentReplies(rootComment,nestedComment.replies)}
+                  </Comment>
+              </Comment.Group>
+              )
+            } else {
+              return (
+                <Comment.Group key={nestedComment.timestamp} size='mini' collapsed={nestedComment.collapse}>
+                  <Comment>
+                    <Comment.Avatar as='a' src={nestedComment.avatar} onClick={() => this.collapseNestedComment(rootComment,index)} />
+                    <Comment.Content>
+                      <Comment.Author as='a'><span style={{color:this.props.theme[0].PostsTypographyTitle}}>{nestedComment.user}</span></Comment.Author>
+                      <Comment.Metadata>
+                        <span style={{color:this.props.theme[0].PostsTypographyObjectives}}>{this.renderTime(nestedComment.timestamp)}</span>
+                      </Comment.Metadata>
+                      <Comment.Text>
+                        <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: nestedComment.comment}} />
+                      </Comment.Text>
+                      <Comment.Actions>
+                        <Button  onClick={() => this.openReplyCommentBox(nestedComment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                          <b>Reply</b>
+                        </Button>
+                      </Comment.Actions>
+                    </Comment.Content>
+                    {this.renderCommentReplies(rootComment,nestedComment.replies)}
+                  </Comment>
+              </Comment.Group>
+              )
+            }
+          }
+          return null
+        })
+      )
+    }
+
+    renderAllComments(){
+      return (
+        this.state.postComments.map((comment,index) => {
+          // console.log(comment)
+          if (comment.replies === undefined){
+            if(this.props.account.username !== undefined && comment.user === this.props.account.username){
+              return (
+                <Comment key={comment.timestamp} style={{border:this.props.theme[0].PrimaryOutlineBorder, borderRadius:this.props.theme[0].BorderRadius}}>
+                  <Comment.Avatar as='a' src={comment.avatar} />
+                  <Comment.Content>
+                    <Comment.Author as='a'><span style={{color:this.props.theme[0].PostsTypographyTitle}}>{comment.user}</span></Comment.Author>
+                    <Comment.Metadata>
+                      <span style={{color:this.props.theme[0].PostsTypographyObjectives}}>{this.renderTime(comment.timestamp)}</span>
+                    </Comment.Metadata>
+                    <Comment.Text>
+                      <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: comment.comment}} />
+                    </Comment.Text>
+                    <Comment.Actions>
+                      <Button onClick={() => this.editComment(comment.id,comment.comment)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                        <b>Edit</b>
+                      </Button>
+                      <Button onClick={() => this.deleteComment(comment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                        <b>Delete</b>
+                      </Button>
+                    </Comment.Actions>
+                  </Comment.Content>
+                </Comment>
+              )
+            } else {
+              if(this.props.account.username !== undefined && comment.user === this.props.account.username){
+                return (
+                  <Comment key={comment.timestamp} style={{border:this.props.theme[0].PrimaryBorder, borderRadius:this.props.theme[0].BorderRadius}}>
+                    <Comment.Avatar as='a' src={comment.avatar} />
+                    <Comment.Content>
+                      <Comment.Author as='a'><span style={{color:this.props.theme[0].PostsTypographyTitle}}>{comment.user}</span></Comment.Author>
+                      <Comment.Metadata>
+                        <span style={{color:this.props.theme[0].PostsTypographyObjectives}}>{this.renderTime(comment.timestamp)}</span>
+                      </Comment.Metadata>
+                      <Comment.Text>
+                        <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: comment.comment}} />
+                      </Comment.Text>
+                      <Comment.Actions>
+                        <Button  onClick={() => this.openReplyCommentBox(comment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                          <b>Reply</b>
+                        </Button>
+                      </Comment.Actions>
+                    </Comment.Content>
+                  </Comment>
+                )
+              } else {
+                return (
+                  <Comment key={comment.timestamp}>
+                    <Comment.Avatar as='a' src={comment.avatar} />
+                    <Comment.Content>
+                      <Comment.Author as='a'><span style={{color:this.props.theme[0].PostsTypographyTitle}}>{comment.user}</span></Comment.Author>
+                      <Comment.Metadata>
+                        <span style={{color:this.props.theme[0].PostsTypographyObjectives}}>{this.renderTime(comment.timestamp)}</span>
+                      </Comment.Metadata>
+                      <Comment.Text>
+                        <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: comment.comment}} />
+                      </Comment.Text>
+                    </Comment.Content>
+                  </Comment>
+                )
+              }
+            }
+
+          } else if (comment.replies !== undefined){
+            // console.log(comment)
+            return (
+              <Comment.Group threaded key={comment.timestamp} size='mini' >
+                <Comment >
+                  <Comment.Avatar as='a' src={comment.avatar} onClick={() => this.collapseRootComment(index)} />
+                  <Comment.Content>
+                    <Comment.Author as='a'><span style={{color:this.props.theme[0].PostsTypographyTitle}}>{comment.user}</span></Comment.Author>
+                    <Comment.Metadata>
+                      <span style={{color:this.props.theme[0].PostsTypographyObjectives}}>{this.renderTime(comment.timestamp)}</span>
+                    </Comment.Metadata>
+                    <Comment.Text>
+                        <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: comment.comment}} />
+                    </Comment.Text>
+                    <Comment.Actions>
+                      <Button onClick={() => this.openReplyCommentBox(comment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                        <b>Reply</b>
+                      </Button>
+                    </Comment.Actions>
+                  </Comment.Content>
+                  {comment.showCommentBox
+                    ?
+                    <Grid container style={{background:this.props.theme[0].PostsButtonBackground,  margin:"0 auto",  marginTop:5,marginBottom:5,maxWidth:"63em"}} alignItems={'flex-start'} justify={'center'} direction={'row'}>
+                      <Grid item xs={12} style={{maxWidth:640}}>
+                        <div className="text-editor-reply">
+                          {this.CustomToolbarReply()}
+                          <ReactQuill
+                            ref={(el) => this.quillRefReply = el}
+                            placeholder={"What are your thoughts?"}
+                            modules={this.modulesReply}
+                            value={this.state.reply}
+                            style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, color:this.props.theme[0].PostsTypographyTitle}}
+                            onChange={this.handleChangeReply}
+                          />
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} style={{maxWidth:640}}>
+                        {this.renderReplyButton(comment.id,comment.id,comment.comment,comment)}
+                      </Grid>
+                    </Grid>
+                    :
+                    <div></div>
+                  }
+                  {this.renderCommentReplies(index,this.state.postComments[index].replies)}
+              </Comment>
+            </Comment.Group>
+            )
+
+          }
+          return null
+        })
+      )
+    }
+
+    renderTime(time){
+      if (this.state.postComments.length > 0){
+        return (
+          <ReactTimeAgo locale="en">
+            {Date.now()}
+          </ReactTimeAgo>
+        )
+      }
+    }
+
+    addComment(comment,parentid){
+      let prevPostComments = this.state.postComments
+      let commentData = {
+        id: 23,
+        parentid:parentid,
+        avatar:'/cavalry.svg',
+        user:this.props.account.username,
+        timestamp: Date.now(),
+        comment:this.findAndReplace(comment,'<p><br></p><p><br></p><p><br></p><p><br></p>',''),
+        collapse:false,
+      }
+      prevPostComments.unshift(commentData)
+      this.setState({
+        postComments: prevPostComments,
+        comment:"",
+        rawcommentlength:0,
+      })
+    }
+
+    closeReplyCommentBox(postid){
+      // showCommentBox:true
+      let prevPostComments = this.state.postComments
+      prevPostComments.map((comment,index) => {
+        if (comment.id === postid){
+          prevPostComments[index].showCommentBox = false
+            this.setState({
+              postComments: prevPostComments,
+              reply:"",
+              rawreplylength:0,
+            })
+        }
+        return null
+      })
+    }
+
+    openReplyCommentBox(postid){
+      // showCommentBox:true
+      let prevPostComments = this.state.postComments
+      prevPostComments.map((comment,index) => {
+        if (comment.id === postid){
+          prevPostComments[index].showCommentBox = true
+            this.setState({
+              postComments: prevPostComments,
+            })
+        }
+        return null
+      })
+    }
+
+    editComment(postid,thiscomment){
+      // get existing comment value
+      this.setState({
+        comment: thiscomment
+      })
+      // delete selected comment
+      let prevPostComments = this.state.postComments
+      prevPostComments.map((comment,index) => {
+        if (comment.id === postid){
+          prevPostComments.splice(index, 1);
+          this.setState({
+            postComments: prevPostComments,
+          })
+        }
+        return null
+      })
+      // opencomment box for parent
+      prevPostComments.map((comment,index) => {
+        if (comment.id === postid){
+          prevPostComments[index].showCommentBox = true
+            this.setState({
+              postComments: prevPostComments,
+            })
+        }
+        return null
+      })
+
+    }
+
+    editReplyComment(parentpostid,userpostid,thiscomment){
+      console.log("parent",parentpostid,"postid",userpostid,thiscomment)
+      // get existing comment value
+      this.setState({
+        reply: thiscomment,
+        originalReply: thiscomment,
+      })
+      // delete selected comment
+      let prevPostComments = this.state.postComments
+      this.deleteComment(userpostid)
+      // opencomment box for parent
+      prevPostComments.map((comment,index) => {
+        if (comment.id === parentpostid){
+          prevPostComments[index].showCommentBox = true
+            this.setState({
+              postComments: prevPostComments,
+            })
+        }
+        return null
+      })
+    }
+
+    editReplyCommentCancel(parentpostid,userpostid,thiscomment,replydata){
+      console.log("parent",parentpostid,"postid",userpostid,thiscomment,"replydata",replydata)
+
+      // let prevPostComments = this.state.postComments
+      // let commentData = {
+      //   id: replydata.id,
+      //   parentid: replydata.parentid,
+      //   avatar:'/cavalry.svg',
+      //   user:replydata.user,
+      //   timestamp: replydata.timestamp,
+      //   comment:replydata.comment,
+      //   collapse:false,
+      // }
+      //
+      // prevPostComments.map((comment,index) => {
+      //   if (comment.id === parentpostid){
+      //     prevPostComments[index].showCommentBox = false
+      //     prevPostComments[index].replies.map((reply,ind) => {
+      //       if (reply.id === replydata.id){
+      //         console.log("Found match",reply.id,replydata.id)
+      //       }
+      //     })
+      //
+      //
+      //   }
+      // })
+    }
+
+    replyComment(postid,thiscomment,parentid){
+      let prevPostComments = this.state.postComments
+      let commentData = {
+        id: 99,
+        parentid: parentid,
+        avatar:'/cavalry.svg',
+        user:this.props.account.username,
+        timestamp: Date.now(),
+        comment:this.findAndReplace(thiscomment,'<p><br></p><p><br></p><p><br></p><p><br></p>',''),
+        collapse:false,
+      }
+      console.log(commentData)
+      prevPostComments.map((comment,index) => {
+        if (comment.id === postid){
+          prevPostComments[index].replies.unshift(commentData)
+            this.setState({
+              postComments: prevPostComments,
+            })
+
+            this.closeReplyCommentBox(postid)
+        }
+        return null
+      })
+    }
+
+    deleteComment(postid){
+      let prevPostComments = this.state.postComments
+      prevPostComments.map((comment,index) => {
+        if (comment.id === postid){
+          prevPostComments.splice(index, 1);
+            this.setState({
+              postComments: prevPostComments,
+            })
+        } else if (comment.replies !== undefined){
+          prevPostComments[index].replies.map((reply,ind) => {
+            if (reply.id === postid){
+              prevPostComments[index].replies.splice(ind, 1);
+                this.setState({
+                  postComments: prevPostComments,
+                })
+            } else if (reply.replies !== undefined){
+              prevPostComments[index].replies[ind].replies.map((r,i) => {
+                if (r.id === postid){
+                  prevPostComments[index].replies[ind].replies.splice(i, 1);
+                    this.setState({
+                      postComments: prevPostComments,
+                    })
+                } else if (r.replies !== undefined){
+                  prevPostComments[index].replies[ind].replies[i].replies.map((r1,i1) => {
+                    if (r1.id === postid){
+                      prevPostComments[index].replies[ind].replies[i].replies.splice(i1, 1);
+                        this.setState({
+                          postComments: prevPostComments,
+                        })
+                    }
+                    return null
+                  })
+                }
+                return null
+              })
+            }
+            return null
+          })
+        }
+        return null
+      })
+    }
+
+
+    renderReplyCommentBox(){
+
+    }
+
+    handleChangeComment = (value) => {
+
+      let editor = this.quillRef.getEditor();
+      let unprivilegedEditor = this.quillRef.makeUnprivilegedEditor(editor);
+      // You may now use the unprivilegedEditor proxy methods
+      this.setState({
+          comment: value,
+          rawcommentlength: unprivilegedEditor.getLength(),
+      }, () => {
+        console.log(this.state.rawcommentlength)
+      });
+    };
+
+    handleChangeReply = (value) => {
+
+      let editor = this.quillRefReply.getEditor();
+      let unprivilegedEditor = this.quillRefReply.makeUnprivilegedEditor(editor);
+      // You may now use the unprivilegedEditor proxy methods
+      this.setState({
+          reply: value,
+          rawreplylength: unprivilegedEditor.getLength(),
+      }, () => {
+        console.log(this.state.rawreplylength)
+      });
+    };
+
+    renderCommentButton(parentid){
+      if ((this.state.rawcommentlength-1) > 0 && this.state.comment !== "<p><br></p>" && (this.state.rawcommentlength-1) <= 1000){
+        return (
+          <div style={{float:'right'}}>
+            {this.render0()}
+          <Button style={{ float:'right',marginLeft:16,height:35, marginTop:5, background:this.props.theme[0].PrimaryLinear}} onClick={() => this.addComment(this.state.comment,parentid)}>
+            <div style={{verticalAlign: 'middle', letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+              <b>Comment</b>
+            </div>
+          </Button>
+          </div>
+        )
+      } else {
+        return (
+          <div style={{float:'right'}}>
+            {this.render0()}
+            <Button disabled style={{float:'right',marginLeft:16, height:35, marginTop:5, border:0 ,background:this.props.theme[0].DisabledBackground}} onClick={() => this.addComment(this.state.comment,parentid)}>
+              <div style={{color:this.props.theme[0].DisabledText,verticalAlign: 'middle', letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                <b>Comment</b>
+              </div>
+            </Button>
+          </div>
+        )
+      }
+    }
+
+    renderReplyButton(postid,parentid,reply,replydata){
+      if ((this.state.rawreplylength-1) > 0 && this.state.reply !== "<p><br></p>" && (this.state.rawreplylength-1) <= 1000){
+        return (
+          <div style={{float:'right'}}>
+            {this.render0Reply()}
+          <Button style={{ float:'right',marginLeft:16,height:35, marginTop:5, background:this.props.theme[0].PrimaryLinear}} onClick={() => this.replyComment(postid,this.state.reply,parentid)}>
+            <div style={{verticalAlign: 'middle', letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+              <b>Reply</b>
+            </div>
+          </Button>
+          <Button onClick={() => this.editReplyCommentCancel(parentid,postid,reply,replydata)} style={{ float:'right',marginLeft:16,height:35, marginTop:5,border:0,background:"transparent"}}>
+            <div style={{color:this.props.theme[0].PrimaryLight, verticalAlign: 'middle', letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+              <b>Cancel</b>
+            </div>
+          </Button>
+          </div>
+        )
+      } else {
+        return (
+          <div style={{float:'right'}}>
+            {this.render0Reply()}
+            <Button disabled style={{float:'right',marginLeft:16, height:35, marginTop:5, border:0 ,background:this.props.theme[0].DisabledBackground}}>
+              <div style={{color:this.props.theme[0].DisabledText,verticalAlign: 'middle', letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                <b>Reply</b>
+              </div>
+            </Button>
+            <Button onClick={() => this.editReplyCommentCancel(parentid,postid,reply)}  style={{float:'right',marginLeft:16, height:35, marginTop:5, border:0 ,background:"transparent", color:this.props.theme[0].PrimaryLight}}>
+              <div style={{color:this.props.theme[0].PrimaryLight, verticalAlign: 'middle', letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                <b>Cancel</b>
+              </div>
+            </Button>
+          </div>
+        )
+      }
+    }
+
+    render0(){
+      if (this.state.rawcommentlength > 0){
+        return (
+          <div style={{color:this.props.theme[0].PostsTypographyObjectives,float:'left',marginTop:5, padding:5, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+            <b>{this.state.rawcommentlength-1}/1000</b>
+          </div>
+        )
+      } else {
+        return (
+          <div style={{color:this.props.theme[0].PostsTypographyObjectives,float:'left',marginTop:5, padding:5, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+            <b>0/1000</b>
+          </div>
+        )
+      }
+    }
+
+    render0Reply(){
+      if (this.state.rawreplylength > 0){
+        return (
+          <div style={{color:this.props.theme[0].PostsTypographyObjectives,float:'left',marginTop:5, padding:5, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+            <b>{this.state.rawreplylength-1}/1000</b>
+          </div>
+        )
+      } else {
+        return (
+          <div style={{color:this.props.theme[0].PostsTypographyObjectives,float:'left',marginTop:5, padding:5, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+            <b>0/1000</b>
+          </div>
+        )
+      }
+    }
+
+    renderCommentBox(){
+      if(this.props.account.username !== undefined){
+        return (
+          <Grid container style={{background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto",  marginTop:5,marginBottom:5,maxWidth:"63em", padding:15, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'center'} direction={'row'}>
+            <Grid item xs={12} style={{maxWidth:640}}>
+              <div style={{verticalAlign: 'middle',color:"#525f7f", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                Comment as <b>{this.props.account.username}</b>
+            </div>
+            </Grid>
+            <Grid item xs={12} style={{maxWidth:640}}>
+              <div className="text-editor">
+                {this.CustomToolbar()}
+                <ReactQuill
+                  ref={(el) => this.quillRef = el}
+                  placeholder={"What are your thoughts?"}
+                  modules={this.modules}
+                  value={this.state.comment}
+                  style={{background:this.props.theme[0].PostsButtonBackground, border:this.props.theme[0].PostsButtonBorder, color:this.props.theme[0].PostsTypographyTitle}}
+                  onChange={this.handleChangeComment}
+                />
+              </div>
+            </Grid>
+            <Grid item xs={12} style={{maxWidth:640}}>
+              {this.renderCommentButton(0)}
+            </Grid>
+            <Grid item xs={12} style={{maxWidth:640,borderTop:this.props.theme[0].PostsButtonBorder, marginTop:16}}>
+              <Comment.Group threaded style={{marginTop:16}} size='mini'>
+                {this.renderAllComments()}
+              </Comment.Group>
+            </Grid>
+          </Grid>
+        )
+      } else {
+        return (
+          <Grid container style={{background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto",  marginTop:5,marginBottom:5,maxWidth:"63em", padding:15, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'center'} direction={'row'}>
+            <Grid item style={{maxWidth:"63em"}}>
+              <div style={{verticalAlign: 'middle',color:"#525f7f", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                <Button size="sm" style={{ marginRight:5,height:25, background:'transparent', width:55, border: '1px solid #3d63ff',  boxShadow:'none'}} onClick={() => this.props.history.push("/login")}>
+                    <div style={{color:"#3d63ff", textTransform:'none',  letterSpacing:'-0.5px', fontSize:'10px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
+                        <b>LOG IN</b>
+                    </div>
+                </Button>
+                 or
+                 <Button size="sm" style={{ marginRight:5,marginLeft:5,height:25, background:'transparent', width:55, border: '1px solid #3d63ff',  boxShadow:'none'}} onClick={() => this.props.history.push("/signup")}>
+                     <div style={{color:"#3d63ff", textTransform:'none',  letterSpacing:'-0.5px', fontSize:'10px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
+                         <b>SIGN UP</b>
+                     </div>
+                 </Button>
+                to write your thoughts.
+            </div>
+            </Grid>
+            <Grid item xs={12} style={{borderTop:this.props.theme[0].PostsButtonBorder, marginTop:16}}>
+              <Comment.Group threaded style={{marginTop:16}} size='mini'>
+                {this.renderAllComments()}
+              </Comment.Group>
+            </Grid>
+          </Grid>
+        )
+      }
     }
 
     render() {
@@ -351,39 +1285,42 @@ class Post extends Component {
                         marginTop:48,
                         paddingLeft:10,
                         paddingRight:10,
+                        paddingBottom:100,
                     }}
                 >
-
-                <Grid container style={{ background:"transparent",  margin:"0 auto", maxWidth:"63em", padding:15}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
-                  <Grid item xs>
+                <Grid container style={{ background:"transparent",  margin:"0 auto", maxWidth:"63em", paddingTop:15,paddingBottom:15}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
+                  <Grid item xs={12}>
                     <div>
-                      <Link style={{textDecoration: 'none' }} to={"users/"+this.props.posts.author}>
-                        <b>{this.props.posts.author}</b>
-                      </Link>
-                      <b style={{color:this.props.theme[0].PostsTypographyTitle}}> / </b>
+                      <b style={{color:this.props.theme[0].PostsTypographyDescription}}> {this.props.posts.author} </b>
+                      {/*
+                        <Link style={{textDecoration: 'none' }} to={"users/"+this.props.posts.author}>
+                          <b>{this.props.posts.author}</b>
+                        </Link>
+                        */}
+                      <b style={{color:this.props.theme[0].PostsTypographyDescription}}> / </b>
                       <b style={{color:this.props.theme[0].PostsTypographyDescription}}>{this.state.postTitle}</b>
+                      {this.renderEditIfOwnedByUser(this.props.account.username)}
                     </div>
                   </Grid>
                 </Grid>
-                <Grid container style={{ background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto", maxWidth:"63em", padding:15, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
-
+                <Grid container style={{ background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto", maxWidth:"63em", padding:15, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'flex-start'} direction={'row'}>
                   <Grid item xs={12}>
-                    <div  style={{color:this.props.theme[0].PostsTypographyDescription}}>{this.state.postDescription}</div>
+                    <div style={{color:this.props.theme[0].PostsTypographyDescription}}>{this.state.postDescription}</div>
                   </Grid>
-                    <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"flex-start"} direction={"row"} justify={"flex-start"}>
-                    {this.renderPostTags()}
+                  <Grid item xs={12}>
+                    <Grid container style={{ flexGrow:1, width:"100%", verticalAlign:'top'}}  alignItems={"flex-start"} direction={"row"} justify={"flex-start"}>
+                      {this.renderPostTags()}
+                    </Grid>
                   </Grid>
                   {this.props.users.logged
                     ?
                     <Grid container style={{ flexGrow:1, height:"100%", width:"100%" }}  alignItems={"flex-start"} direction={"row"} justify={"flex-end"}>
                     <Grid item  style={{paddingTop:5}}>
                     <div>
-                      <Link style={{textDecoration: 'none' }} to={{ pathname: '/post/' + this.props.posts.id + '/'+this.findAndReplace(this.findAndReplace(this.state.postTitle,' ','-'),'\'','')+'/edit'}}>
-                       <Button style={{background:this.props.theme[0].SecondaryLinear}}>
-                         <div  style={{color:'white',textTransform:'none'}}><b>Edit</b></div>
-                       </Button>
-                     </Link>
-                     <Button style={{background:this.props.theme[0].PrimaryLinear, marginLeft:20}} onClick={() => this.renderModal()}><div  style={{color:'white',textTransform:'none'}}><b>Run</b></div></Button>
+
+                     {/*
+                       <Button style={{background:this.props.theme[0].PrimaryLinear, marginLeft:20}} onClick={() => this.renderModal()}><div  style={{color:'white',textTransform:'none'}}><b>Run</b></div></Button>
+                       */}
                        <Dialog
                          fullScreen
                          open={this.state.open}
@@ -401,7 +1338,6 @@ class Post extends Component {
                              <Button style={{background:this.props.theme[0].SecondaryLinear}}><div  style={{color:'white', textTransform:'none'}} onClick={() => this.renderModal()}><b>Close</b></div></Button>
                            </Grid>
                          </Grid>
-
                          <Table className={classes.table}>
                            <TableHead>
                              <TableRow>
@@ -426,27 +1362,32 @@ class Post extends Component {
                     <div></div>
                   }
                 </Grid>
-                        <Grid container style={{background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto",  marginTop:5,maxWidth:"63em", padding:15, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
+                        <Grid container style={{background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto",  marginTop:5,marginBottom:5,maxWidth:"63em", paddingLeft:15,paddingRight:15,paddingTop:10,paddingBottom:10, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
                           <Grid item xs >
-                            <div  style={{color:this.props.theme[0].PostsTypographyDescription,height:35}}><b>{this.state.objectives.length}</b> objectives</div>
+                            {this.renderObjectiveLength(this.state.objectives.length)}
                           </Grid>
                           <Grid item style={{marginLeft:10}}>
                             <InputGroup size="sm">
-                              <InputGroupAddon addonType="prepend" style={{marginLeft:5,height:35}}>
-                                <Button style={{verticalAlign: 'middle',background:this.props.theme[0].PostActionBackgroundImage,borderRadius:'5px 0px 0px 5px', boxShadow:'0px 0px 0px 0px',  border:this.props.theme[0].PrimaryBorder, }}><div  style={{verticalAlign: 'middle',textTransform:'none', color:"#333333", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><StarBorder style={{verticalAlign:'middle',fontSize:18}}/><b>Stars</b></div></Button>
-                                <Button disabled style={{verticalAlign: 'middle',background:"white",borderRadius:'0px 5px 5px 0px', boxShadow:'0px 0px 0px 0px',  borderRight:this.props.theme[0].PrimaryBorder,  borderTop:this.props.theme[0].PrimaryBorder, borderBottom:this.props.theme[0].PrimaryBorder}}><div style={{verticalAlign: 'middle',color:"#525f7f", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>0</b></div></Button>
+                              <InputGroupAddon addonType="prepend" style={{marginLeft:5,height:28}}>
+                              {this.renderClickStar(this.state.postId,this.state.postsStarred,null)}
+                                <Button style={{paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3, height:28,verticalAlign: 'middle',background:"white",borderRadius:'0px 5px 5px 0px', boxShadow:'0px 0px 0px 0px',  borderRight:this.props.theme[0].PrimaryBorder,  borderTop:this.props.theme[0].PrimaryBorder, borderBottom:this.props.theme[0].PrimaryBorder}}>
+                                  <div style={{verticalAlign: 'middle',color:"#525f7f", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{this.state.postStars}</b>
+                                </div>
+                              </Button>
                               </InputGroupAddon>
-
                             </InputGroup>
                           </Grid>
                         </Grid>
-                    {/* Bottom Section */}
-                    <Grid container style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em", paddingBottom:100 }}  alignItems={'flex-start'} justify={'flex-start'} direction={'row'}  >
-                      <Grid item xs style={{width:'100%'}}>
-                          {this.renderObjectives()}
 
+                    {/* Bottom Section */}
+                    <Grid container style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em" }}  alignItems={'flex-start'} justify={'flex-start'} direction={'row'}  >
+                      <Grid item xs style={{width:'100%'}}>
+                        <Accordion multiple={true}>
+                          {this.renderObjectives()}
+                        </Accordion>
                       </Grid>
                     </Grid>
+                    {this.renderCommentBox()}
                 </div>
             </div>
         )
@@ -466,4 +1407,5 @@ export default connect(mapStateToProps, {
   addActivity,
   addActivityToOrganization,
   loadOrganizationAll,
+  starPost,
 })(withRouter(withStyles(styles)(Post)));

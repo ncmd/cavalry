@@ -32,7 +32,7 @@ class Subscription extends Component {
             elementFontSize: window.innerWidth < 450 ? '14px' : '18px',
             stripe:null,
             email:'',
-            password:'ChangePass@123',
+            password:'',
             confirmpassword:'',
             error:null,
             emailExists:false,
@@ -210,6 +210,7 @@ class Subscription extends Component {
                         paddingRight:10,
                         height:this.state.height,
                         marginTop:48,
+                        paddingTop:24,
                     }}
                 >
                         <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"50em"}} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
@@ -217,7 +218,7 @@ class Subscription extends Component {
                             <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'45px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                 <b>Welcome to Cavalry</b>
                             </div>
-                            <div style={{color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                            <div style={{marginTop:16,color:this.props.theme[0].PostsTypographyTitle, letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                 You've taken your first step into a <span aria-label="emoji" role="img" style={{fontSize:30}}>🌎</span> global community.
                             </div>
                           </Grid>
@@ -233,21 +234,17 @@ class Subscription extends Component {
                               ?
                               <Button className="box" style={{background:this.props.theme[0].PostsButtonBackground, height:250, width:265, border:'8px solid #3d63ff'}} onClick={()=> {this.handleClickItem1()}}>
                                 <div style={{color:this.props.theme[0].PostsTypographyTitle}}>
-                                  <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >1 Month</div>
-                                  <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$35</b></div>
-                                  <div style={{textTransform:'none'}} >per month</div>
-                                  <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$35</b> billed every month</div>
-                                  <div style={{textTransform:'none'}} >(<b>$420</b> per year)</div>
+                                  <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>1 Month</b></div>
+                                  <div style={{textTransform:'none', marginTop:20,width:'100%', borderTop: this.props.theme[0].PostsButtonBorder, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$7</b> billed every month</div>
+                                  <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >(<b>$84</b> per year)</div>
                                 </div>
                               </Button>
                               :
                               <Button className="box" style={{background:this.props.theme[0].PostsButtonBackground, height:230, width:230 ,border:this.props.theme[0].PostsButtonBorder}} onClick={()=> {this.handleClickItem1()}}>
                                 <div style={{color:this.props.theme[0].PostsTypographyTitle}}>
-                                  <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >1 Month</div>
-                                  <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$35</b></div>
-                                  <div style={{textTransform:'none'}} >per month</div>
-                                  <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$35</b> billed every month</div>
-                                  <div style={{textTransform:'none'}} >(<b>$420</b> per year)</div>
+                                  <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>1 Month</b></div>
+                                  <div style={{textTransform:'none', marginTop:20,width:'100%', borderTop: this.props.theme[0].PostsButtonBorder, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$7</b> billed every month</div>
+                                  <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >(<b>$84</b> per year)</div>
                                 </div>
                               </Button>
                             }
@@ -258,22 +255,18 @@ class Subscription extends Component {
                               <Button className="box" style={{background:this.props.theme[0].PostsButtonBackground, height:280, width:265, border:'8px solid #3d63ff'}} onClick={()=> {this.handleClickItem2()}}>
                                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                                   <div style={{color:this.props.theme[0].PostsTypographyTitle}}>
-                                    <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >12 Months</div>
-                                    <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$25</b></div>
-                                    <div style={{textTransform:'none'}} >per month</div>
-                                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$35</b> billed every month</div>
-                                    <div style={{textTransform:'none'}} >(<b>$300</b> per year)</div>
+                                    <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>12 Months</b></div>
+                                    <div style={{textTransform:'none', marginTop:20, width:'100%',borderTop: this.props.theme[0].PostsButtonBorder, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$60</b> billed annually</div>
+                                    <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >(<b>$60</b> per year)</div>
                                   </div>
                               </Button>
                               :
                               <Button className="box" style={{background:this.props.theme[0].PostsButtonBackground, height:280, width:230,border:this.props.theme[0].PostsButtonBorder}} onClick={()=> {this.handleClickItem2()}}>
                                 <div className="ribbonred"><span aria-label="emoji" role="img">🔥Hot🔥</span></div>
                                   <div style={{color:this.props.theme[0].PostsTypographyTitle}}>
-                                    <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >12 Months</div>
-                                    <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$25</b></div>
-                                    <div style={{textTransform:'none'}} >per month</div>
-                                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$35</b> billed every month</div>
-                                    <div style={{textTransform:'none'}} >(<b>$300</b> per year)</div>
+                                    <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>12 Months</b></div>
+                                    <div style={{textTransform:'none', marginTop:20,width:'100%', borderTop: this.props.theme[0].PostsButtonBorder, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$60</b> billed annually</div>
+                                    <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >(<b>$60</b> per year)</div>
                                   </div>
                               </Button>
                             }
@@ -284,28 +277,25 @@ class Subscription extends Component {
                               <Button className="box" style={{background:this.props.theme[0].PostsButtonBackground, height:250, width:265, border:'8px solid #3d63ff'}} onClick={()=> {this.handleClickItem3()}}>
                                  <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                                    <div style={{color:this.props.theme[0].PostsTypographyTitle}}>
-                                     <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >Beta</div>
-                                     <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$1</b></div>
-                                     <div style={{textTransform:'none'}} >for now...</div>
-                                     <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$1</b> billed every month</div>
-                                     <div style={{textTransform:'none'}} >(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</div>
+                                     <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>Beta</b></div>
+                                     <div style={{textTransform:'none', marginTop:20,width:'100%', borderTop: this.props.theme[0].PostsButtonBorder, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$1</b> billed every month</div>
+                                     <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</div>
                                  </div>
                               </Button>
                               :
                               <Button className="box" style={{background:this.props.theme[0].PostsButtonBackground, height:230, width:230,border:this.props.theme[0].PostsButtonBorder}} onClick={()=> {this.handleClickItem3()}}>
                                 <div className="ribbongreen"><span aria-label="emoji" role="img">😎Beta😎</span></div>
                                   <div style={{color:this.props.theme[0].PostsTypographyTitle}}>
-                                    <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >Beta</div>
-                                    <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'21px', fontWeight:100, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$1</b></div>
-                                    <div style={{textTransform:'none'}} >for now...</div>
-                                    <div style={{textTransform:'none', marginTop:20, borderTop: '2px solid rgba(0, 0, 0, 0.12)'}} ><b>$1</b> billed every month</div>
+                                    <div style={{textTransform:'none', letterSpacing:'-0.5px', fontSize:'24px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>Beta</b></div>
+                                    <div style={{textTransform:'none', marginTop:20, width:'100%', borderTop: this.props.theme[0].PostsButtonBorder, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>$1</b> billed every month</div>
                                     <div style={{textTransform:'none'}} >(<b><span aria-label="emoji" role="img">Limited time only 😎</span></b>)</div>
                                 </div>
                               </Button>
                             }
                           </Grid>
                           <Grid item xs={12}>
-                            <div  style={{color:this.props.theme[0].PostsTypographyDescription, textAlign:'center'}}>All amounts are shown in <b>USD</b></div>
+                            <div style={{ textAlign:'center', marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>All amounts are shown in <b>USD</b>.</div>
+                            <div style={{ textAlign:'center', marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>Subscriptions can be <b>canceled</b> anytime.</div>
                           </Grid>
                         </Grid>
 
@@ -326,11 +316,11 @@ class Subscription extends Component {
                           </div>
                         <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">🚫</span> No Advertisements</div>
                         <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> 24/7 support by <span aria-label="emoji" role="img">📧</span> email</div>
-                        <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> <span aria-label="emoji" role="img">📚</span> Unlimited runbook access</div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> Create unlimited <span aria-label="emoji" role="img">🔒</span> <b>private</b> runbooks</div>
                         <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> Able to request for <span aria-label="emoji" role="img">📕</span> runbooks</div>
                         <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> Able to request new <span aria-label="emoji" role="img">😍</span> features</div>
                         <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> Create & edit your <span aria-label="emoji" role="img">📖</span> runbooks</div>
-                        <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> 95.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</div>
+                        <div style={{color:this.props.theme[0].PostsTypographyTitle,padding:5}} ><Check style={{color:'#00e676'}}/> 99.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</div>
                       </Grid>
                     </Grid>
                 </div>

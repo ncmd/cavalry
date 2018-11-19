@@ -176,7 +176,7 @@ class Login extends Component {
 
                 if (this.props.account.stripeSubscriptionPlan === "1month" || this.props.account.stripeSubscriptionPlan === "12months" || this.props.account.stripeSubscriptionPlan === "beta" ){
                   this.props.history.push('/')
-                    this.props.loadOrganizationAll(this.props.account.organizationname)
+                    // this.props.loadOrganizationAll(this.props.account.organizationname)
                 } else {
                   this.props.history.push('/subscription')
                 }
@@ -221,7 +221,7 @@ class Login extends Component {
           <div>
             <div style={{color:this.props.theme[0].PostsTypographyDescription, letterSpacing:'-0.5px', fontSize:'12px', fontWeight:400, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >{this.state.loginError}</div>
             <Button style={{background:resetPasswordButton}} onClick={() => this.passwordResetSetup()}><div style={{color:'white', textTransform:'none', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} ><b>Reset password</b></div></Button>
-              <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+              <Modal style={{marginTop:60}} isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                 <ModalHeader toggle={this.toggle}>Reset link sent!</ModalHeader>
                 <ModalBody>
                   Please check your Email for your password reset link.

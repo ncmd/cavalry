@@ -1,0 +1,68 @@
+p {
+  font-size: 13px;
+  line-height: 18.46px;
+}
+
+div.ui.mini.threaded.comments div.comment div.ui.mini.comments {
+  padding-left: auto !important;
+  margin-left: auto !important;
+}
+div.comment div.ui.mini.comments {
+  padding-left: auto !important;
+  margin-left: auto !important;
+}
+
+div.ql-editor p {
+  font-size: 13px;
+  line-height: 18.46px;
+}
+
+div.ql-editor.ql-blank {
+  min-height:10vh;
+  height:auto !important;
+}
+
+div.ql-container.ql-snow {
+  border: 0px;
+}
+
+div.ql-container.ql-snow div.ql-editor{
+  min-height:10vh;
+  height:auto !important;
+}
+
+div.ql-editor h1 {
+  font-size: 26px;
+  line-height: 31.2px;
+}
+
+div.ql-editor h2 {
+  font-size: 19.5px;
+  line-height: 23.4px;
+}
+
+div.text-editor div#toolbar.ql-toolbar.ql-snow {
+  background: white;
+}
+
+div.text-editor-reply div#toolbar.ql-toolbar.ql-snow {
+  background: white;
+}
+
+
+div.ql-container.ql-snow {
+  min-height: 10vh;
+  height:auto !important;
+}
+div.ql-container.ql-blank {
+  min-height: 10vh;
+  height:auto !important;
+}
+
+div.quill.quillFullScreen div.ql-container.ql-blank {
+  height:100vh;
+}
+
+div.quill.quillFullScreen div.ql-container.ql-snow {
+  height:100vh;
+}

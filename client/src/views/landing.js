@@ -21,7 +21,7 @@ import {Link} from "react-router-dom";
 import Truncate from 'react-truncate';
 // import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
-// import Star from '@material-ui/icons/Star';
+import Star from '@material-ui/icons/Star';
 import StarBorder from '@material-ui/icons/StarBorder';
 import Objectives from '@material-ui/icons/ListAlt';
 import Commments from '@material-ui/icons/ModeComment';
@@ -171,13 +171,13 @@ class Landing extends Component {
       if (objectivelength === 1){
         return (
           <div  style={{color: this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
-          <Objectives style={{verticalAlign:'bottom',fontSize:18,color:this.props.theme[0].PostsTypographyDescription}}/> {objectivelength} Objective
+          <Objectives style={{verticalAlign:'middle',fontSize:18,color:this.props.theme[0].PostsTypographyDescription}}/> {objectivelength} Objective
         </div>
         )
       } else {
         return (
           <div  style={{color: this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
-          <Objectives style={{verticalAlign:'bottom',fontSize:18,color:this.props.theme[0].PostsTypographyDescription}}/> {objectivelength} Objectives
+          <Objectives style={{verticalAlign:'middle',fontSize:18,color:this.props.theme[0].PostsTypographyDescription}}/> {objectivelength} Objectives
         </div>
         )
       }
@@ -223,7 +223,7 @@ class Landing extends Component {
             <Hidden mdDown>
             <Grid item xs={1} style={{textAlign:'center', paddingRight:16}} onClick={() => this.handleClickStar(postid,index)}>
               <div style={{borderRadius:'16px', textTransform: 'none',paddingTop:10}} >
-                <span aria-label="emoji" role="img" style={{verticalAlign:'bottom',fontSize:26}}>⭐</span>
+              <Star style={{verticalAlign:'bottom',fontSize:38,color:this.props.theme[0].PrimaryLight}}/>
               </div>
               <div style={{borderRadius:'16px', textTransform: 'none', color:this.props.theme[0].PostsTypographyDescription, paddingBottom:10,   letterSpacing:'-0.5px', fontSize:'14px', fontWeight:500, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >
                 {this.props.posts[index].stars}
@@ -237,7 +237,7 @@ class Landing extends Component {
           <Hidden mdDown>
           <Grid item xs={1} style={{textAlign:'center', paddingRight:16}}>
             <div style={{borderRadius:'16px', textTransform: 'none',paddingTop:10}} >
-              <span aria-label="emoji" role="img" style={{verticalAlign:'bottom',fontSize:26}}>⭐</span>
+              <Star style={{verticalAlign:'bottom',fontSize:38,color:this.props.theme[0].PrimaryLight}}/>
             </div>
             <div style={{borderRadius:'16px', textTransform: 'none', color:this.props.theme[0].PostsTypographyDescription, paddingBottom:10,   letterSpacing:'-0.5px', fontSize:'14px', fontWeight:500, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >
               {this.props.posts[index].stars}
@@ -246,9 +246,6 @@ class Landing extends Component {
         </Hidden>
         )
       }
-
-
-
     }
 
     handleClickStar(postid,index){
@@ -289,7 +286,7 @@ class Landing extends Component {
       if (this.state.posts !== null && this.state.posts.length > 0 ){
       return (this.props.posts.map((hit,index) => {
           return (
-          <Grid item xs={12} key={hit.title+Math.random()+(Math.random())} style={{ marginBottom:5, maxWidth:'100%', marginLeft:10, marginRight:10}}>
+          <Grid item xs={12} key={hit.title+Math.random()+(Math.random())} style={{ marginBottom:5, maxWidth:'100%', marginLeft:10, marginRight:10, paddingTop:5}}>
 
               <Button variant="contained" style={{ border: this.props.theme[0].PostsButtonBorder, background:this.props.theme[0].PostsButtonBackground, textTransform: 'none',  minWidth:'100%'}}>
                 {/*}<Button variant="contained" style={{ height:100,background:'linear-gradient(#5533ff, #3d63ff)',borderColor:'#474f97', textTransform: 'none',  minWidth:'100%'}}>*/}
@@ -299,14 +296,14 @@ class Landing extends Component {
                           <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'flex-start'} direction={'column'} >
                             <Link style={{textDecoration: 'none',width:'100%' }} to={{ pathname: '/post/' + hit.id + '/'+findAndReplace(findAndReplace(findAndReplace(findAndReplace(hit.title,' ','-'),'\'',''),'/','-'),'\\','-').toLowerCase()}} onClick={() => googleanalytics.Cavalry_Webapp_Landing_Runbook_Userclickedonrunbook(hit.title)}>
                               <Grid item zeroMinWidth >
-                                  <div style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden',  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:500, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                                  <div style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:500, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                     <Hidden mdDown>
                                     <Truncate width={600} lines={1} ellipsis={<span>...</span>}>
                                       {hit.title}
                                    </Truncate>
                                  </Hidden>
                                   </div>
-                                  <div  style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:440, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                                  <div  style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:440, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                     <Hidden mdDown>
                                     <Truncate width={600} lines={1} ellipsis={<span>...</span>}>
                                        {hit.description}
@@ -314,14 +311,14 @@ class Landing extends Component {
                                    </Hidden>
                                  </div>
 
-                                <div style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1, overflowX:'hidden',  letterSpacing:'-0.5px', fontSize:'15px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                                <div style={{color:this.props.theme[0].PostsTypographyTitle, minWidth:0, flexGrow:1,   letterSpacing:'-0.5px', fontSize:'15px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                  <Hidden smUp >
                                  <Truncate width={321} lines={1} ellipsis={<span>...</span>}>
                                     {hit.title}
                                 </Truncate>
                               </Hidden>
                                </div>
-                               <div  style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1, overflowX:'hidden' ,letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                               <div  style={{color:this.props.theme[0].PostsTypographyDescription, marginTop:5, minWidth:0, flexGrow:1 ,letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                                  <Hidden smUp>
                                  <Truncate width={321} lines={1} ellipsis={<span>...</span>}>
                                     {hit.description}
@@ -336,7 +333,7 @@ class Landing extends Component {
                                     <Hidden smUp>
                                       <Grid item style={{height:20}}>
                                           <div style={{color: this.props.theme[0].PostsTypographyObjectives, marginRight:10, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
-                                           <StarBorder style={{verticalAlign:'bottom',fontSize:18,color:this.props.theme[0].PostsTypographyDescription}}/> 0 Stars
+                                           <StarBorder style={{verticalAlign:'middle',fontSize:18,color:this.props.theme[0].PostsTypographyDescription}}/> 0 Stars
                                          </div>
                                       </Grid>
                                     </Hidden>
@@ -345,16 +342,18 @@ class Landing extends Component {
                                   </Grid>
                                   <Grid item style={{marginRight:10, height:20}}>
                                     <div  style={{color: this.props.theme[0].PostsTypographyObjectives, marginLeft:10, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
-                                     <Commments style={{verticalAlign:'bottom',fontSize:18,color:this.props.theme[0].PostsTypographyDescription}}/> 0 Comments
+                                     <Commments style={{verticalAlign:'middle',fontSize:18,color:this.props.theme[0].PostsTypographyDescription}}/> 0 Comments
                                    </div>
                                   </Grid>
                                   <Hidden mdDown>
                                   {hit.tags.slice(0, 3).map((value) => {
                                     if (value !== " " && value.length < 12){
                                       return(
-                                        <Grid key={value+Math.random()+(Math.random())} item style={{height:20,verticalAlign:'top'}}>
-                                          <span style={{verticalAlign:'top',background:this.props.theme[0].PostsTagsBackground,borderRadius:5,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5,height:20}}>
-                                            <div style={{verticalAlign:'top',color:'white', letterSpacing:'1px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{value}</b></div>
+                                        <Grid key={value+Math.random()+(Math.random())} item style={{height:20,verticalAlign:'middle'}}>
+                                          <span style={{verticalAlign:'middle',background:this.props.theme[0].PostsTagsBackground,borderRadius:5,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5,height:17}}>
+                                            <div style={{verticalAlign:'middle',color:'white', letterSpacing:'1px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                                              <b>{value}</b>
+                                            </div>
                                           </span>
                                       </Grid>)
                                     }

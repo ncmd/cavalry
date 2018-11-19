@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -131,13 +130,13 @@ func main() {
 	if port == "" {
 		port = "8000" // Setting a Default port to 8000 to be used locally
 	}
-	log.Fatal(http.ListenAndServe(":"+port, nil))
+	fmt.Println(http.ListenAndServe(":"+port, nil))
 	http.ListenAndServe(":"+port, nil)
 
 }
 func (c *Config) Read() {
 	if _, err := toml.DecodeFile("./config/config.toml", &c); err != nil {
-		log.Fatal(err)
+		fmt.Println(err)
 	}
 }
 

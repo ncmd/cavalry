@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 
 	"cloud.google.com/go/firestore"
@@ -21,18 +20,18 @@ func c_organizations_account_leave_organization_in_firebase(w http.ResponseWrite
 		sa := option.WithCredentialsFile("./firestore.json")
 		app, err := firebase.NewApp(context.Background(), nil, sa)
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 		client, err := app.Firestore(context.Background())
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 
 		var organization Organization
 		decoder := json.NewDecoder(r.Body)
 		decoder.Decode(&organization)
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 
 		_, err = client.Collection("accounts").Doc(organization.AccountId).Set(context.Background(), map[string]interface{}{
@@ -40,7 +39,7 @@ func c_organizations_account_leave_organization_in_firebase(w http.ResponseWrite
 			"organizationmember": false,
 		}, firestore.MergeAll)
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 	}
 }
@@ -54,18 +53,18 @@ func c_organizations_account_add_organization_in_firebase(w http.ResponseWriter,
 		sa := option.WithCredentialsFile("./firestore.json")
 		app, err := firebase.NewApp(context.Background(), nil, sa)
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 		client, err := app.Firestore(context.Background())
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 
 		var organization Organization
 		decoder := json.NewDecoder(r.Body)
 		decoder.Decode(&organization)
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 
 		_, err = client.Collection("accounts").Doc(organization.AccountId).Set(context.Background(), map[string]interface{}{
@@ -73,7 +72,7 @@ func c_organizations_account_add_organization_in_firebase(w http.ResponseWriter,
 			"organizationmember": true,
 		}, firestore.MergeAll)
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 
 		// get existing members in organization
@@ -101,11 +100,11 @@ func c_organizations_check_if_organization_exists_in_firebase(w http.ResponseWri
 		sa := option.WithCredentialsFile("./firestore.json")
 		app, err := firebase.NewApp(context.Background(), nil, sa)
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 		client, err := app.Firestore(context.Background())
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 
 		var organization Organization
@@ -149,11 +148,11 @@ func c_organizations_create_orgnaization_in_firebase(w http.ResponseWriter, r *h
 		sa := option.WithCredentialsFile("./firestore.json")
 		app, err := firebase.NewApp(context.Background(), nil, sa)
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 		client, err := app.Firestore(context.Background())
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 
 		var organization Organization
@@ -178,7 +177,7 @@ func c_organizations_create_orgnaization_in_firebase(w http.ResponseWriter, r *h
 			"organizationactivity": []interface{}{},
 		})
 		if err != nil {
-			log.Fatalln(err)
+			fmt.Println(err)
 		}
 
 	}

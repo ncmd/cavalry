@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -18,11 +19,11 @@ func controllers_subscriptions_create_document_to_subscribers_collection_in_fire
 	sa := option.WithCredentialsFile("./firestore.json")
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	client, err := app.Firestore(context.Background())
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 	defer client.Close()
 

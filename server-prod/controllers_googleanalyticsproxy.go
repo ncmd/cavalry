@@ -2,8 +2,8 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"os"
@@ -26,12 +26,6 @@ func controllers_googleanalyticsproxy_handle_google_analytics_requests(w http.Re
 	ipadddress := thisipaddress[0]
 	v := url.Values{}
 	v.Set("uip", ipadddress)
-	// log.Printf("zzzz Target %s", destinationhost+r.RequestURI+"?"+v.Encode())
-	// log.Printf("zzzz Request Method %s", r.Method)
-	// log.Printf("zzzz Request URI %s", r.RequestURI)
-	// log.Printf("zzzz Request Body %s", r.Body)
-	// fmt.Println("zzzz Request Target IP: ", url.QueryEscape(ipadddress))
-	// fmt.Println("zzzz Encode IP: " + v.Encode())
 
 	if r.Method == "GET" {
 		// log.Printf("Request is GET----")
@@ -39,12 +33,12 @@ func controllers_googleanalyticsproxy_handle_google_analytics_requests(w http.Re
 			// fmt.Println("?")
 			resp, err := http.Get(destinationhost + r.RequestURI + "?" + v.Encode())
 			if err != nil {
-				log.Fatal(err.Error())
+				fmt.Println(err.Error())
 			}
 			defer resp.Body.Close()
 			body, err := ioutil.ReadAll(resp.Body)
 			if err != nil {
-				log.Fatal(err.Error())
+				fmt.Println(err.Error())
 			}
 			// log.Printf("Response Body: " + string(body))
 			w.Write(body)
@@ -52,12 +46,12 @@ func controllers_googleanalyticsproxy_handle_google_analytics_requests(w http.Re
 			// fmt.Println("&")
 			resp, err := http.Get(destinationhost + r.RequestURI + "&" + v.Encode())
 			if err != nil {
-				log.Fatal(err.Error())
+				fmt.Println(err.Error())
 			}
 			defer resp.Body.Close()
 			body, err := ioutil.ReadAll(resp.Body)
 			if err != nil {
-				log.Fatal(err.Error())
+				fmt.Println(err.Error())
 			}
 			// log.Printf("Response Body: " + string(body))
 			w.Write(body)
@@ -66,17 +60,16 @@ func controllers_googleanalyticsproxy_handle_google_analytics_requests(w http.Re
 
 	} else if r.Method == "POST" {
 		// log.Printf("Request is POST----")
-		var jsonStr = []byte(`{"title":"Buy cheese and bread for breakfast."}`)
+		var jsonStr = []byte(`{"but":"wut wut in da"}`)
 		resp, err := http.Post(destinationhost+r.RequestURI, "application/json", bytes.NewBuffer(jsonStr))
 		if err != nil {
-			log.Fatal(err.Error())
+			fmt.Println(err.Error())
 		}
 		defer resp.Body.Close()
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
-			log.Fatal(err.Error())
+			fmt.Println(err.Error())
 		}
-		// log.Printf("Response Body: " + string(body))
 		w.Write(body)
 	}
 

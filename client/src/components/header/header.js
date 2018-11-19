@@ -323,14 +323,14 @@ class header extends Component {
             }
 
             <Link to={{pathname:'/login'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
-              <Button size="sm" style={{ marginLeft:16,height:35, background:'transparent', width:120, border: '1px solid #3d63ff',  boxShadow:'none'}}>
+              <Button size="sm" style={{ marginLeft:16,height:40, background:'transparent', width:120, border: '1px solid #3d63ff',  boxShadow:'none'}}>
                   <div style={{color:"#3d63ff", textTransform:'none',  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
                       <b>LOG IN</b>
                   </div>
               </Button>
             </Link>
             <Link to={{pathname:'/signup'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignupbutton()}>
-                  <Button raised="true" variant="raised" style={{marginLeft:16, height:35, width:120, background:this.props.theme[0].PrimaryLinear, border:this.props.theme[0].PrimaryBorder, textTransform: 'none'}} >
+                  <Button raised="true" variant="raised" style={{marginLeft:16, height:40, width:120, background:this.props.theme[0].PrimaryLinear, border:this.props.theme[0].PrimaryBorder, textTransform: 'none'}} >
                       <div style={{color:'white',textTransform: 'none',  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}  >
                           <b>SIGN UP</b>
                       </div>
@@ -384,6 +384,7 @@ class header extends Component {
                   </div>
               </Button>
             }
+            {/*
               <Link to={{pathname:'/activity'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedactivitybutton()}>
                 <Button size="sm" style={{ height:40, background:'transparent', marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
                       <div style={{color:"#3d63ff", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
@@ -391,6 +392,8 @@ class header extends Component {
                       </div>
                   </Button>
               </Link>
+              */}
+
               {/*
                 <Link to={{pathname:'/request'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedrequestbutton()}>
                   <Button size="sm" style={{ height:40, background:'transparent', marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
@@ -408,13 +411,16 @@ class header extends Component {
                     </div>
                 </Button>
             </Link>
-            <Link to={{pathname:'/team'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedteambutton()}>
-              <Button size="sm" style={{ height:35, background:'transparent',marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
-                    <div style={{color:"#3d63ff", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
-                      <b>Team</b>
-                    </div>
-                </Button>
-            </Link>
+            {/*
+              <Link to={{pathname:'/team'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedteambutton()}>
+                <Button size="sm" style={{ height:35, background:'transparent',marginRight:10, border: '0px solid #3d63ff',  boxShadow:'none'}}>
+                      <div style={{color:"#3d63ff", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
+                        <b>Team</b>
+                      </div>
+                  </Button>
+              </Link>
+              */}
+
             <Button raised="true" variant="raised" style={{border:this.props.theme[0].PrimaryBorder, height:35,background:this.props.theme[0].PrimaryLinear, textTransform: 'none'}} onClick={this.handleClick}>
               <div style={{color:"white", textTransform:'none', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}   >
                   <b>Account</b>
@@ -474,6 +480,14 @@ class header extends Component {
     handleMobileMenuClose = () => {
       this.setState({ mobileMoreAnchorEl: null });
     };
+
+    pushHome(){
+      this.props.history.push('/')
+      window.location.reload()
+      googleanalytics.Cavalry_Webapp_Header_Header_Userclickedhomebutton()
+
+
+    }
 
     render() {
        const { anchorEl, mobileMoreAnchorEl } = this.state;
@@ -667,28 +681,23 @@ class header extends Component {
                   <Toolbar variant="dense">
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:'63em'}} direction="row" justify="space-between" alignItems="stretch" >
                       <Grid item xs>
-                        <Link  style={{color:"#3d63ff",textDecoration: 'none' }} to={{pathname:'/'}} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedhomebutton()}>
-
+                        <Button style={{background:"transparent",color:"#3d63ff",textDecoration: 'none' , height:40, padding:0, border:0, boxShadow:'none'}} onClick={() => this.pushHome()}>
                             <div style={{textTransform:'none',fontSize:'25px', fontWeight:400, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                             <img alt="cavalrysvg" src="/cavalry.svg" style={{width:35,height:35, verticalAlign:'bottom'}}></img>
                             <b style={{paddingLeft:8, height:16}}>Cavalry</b></div>
-
-                        </Link>
+                        </Button>
                       </Grid>
-
-
-
                     <div className={classes.grow}>
                       <Hidden smDown>
-                      <Grid item >
+                      <Grid item style={{verticalAlign:'middle'}}>
                         <div style={{background:'transparent'}}>
                           {/*{this.renderSearch()}*/}
                           <form>
                           <InputGroup size="sm">
                               <InputGroupAddon addonType="prepend">
-                                  <InputGroupText style={{background:'transparent',border: '1px solid #ced4da',paddingLeft:6,paddingRight:6, height:35}}><SearchIcon/></InputGroupText>
+                                  <InputGroupText style={{background:'transparent',border:this.props.theme[0].PostsButtonBorder,paddingLeft:6,paddingRight:6, height:40}}><SearchIcon/></InputGroupText>
                               </InputGroupAddon>
-                              <Input style={{background:'transparent',border: '1px solid #ced4da',  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"", color:this.props.theme[0].PostsTypographyTitle, height:35, boxShadow:'none'}} type="text" name="search" id="runbookSearch" placeholder="Search..."/>
+                              <Input style={{background:'transparent',border: this.props.theme[0].PostsButtonBorder,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"", color:this.props.theme[0].PostsTypographyTitle, height:40, boxShadow:'none'}} type="text" name="search" id="runbookSearch" placeholder="Search..."/>
                           </InputGroup>
                         </form>
                         </div>

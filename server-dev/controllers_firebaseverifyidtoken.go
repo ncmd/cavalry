@@ -3,7 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"log"
+	"fmt"
 	"net/http"
 
 	firebase "firebase.google.com/go"
@@ -18,12 +18,12 @@ func controllers_firebaseverifyidtoken_handle_verify_token_with_firebase(w http.
 	sa := option.WithCredentialsFile("./firestore.json")
 	app, err := firebase.NewApp(context.Background(), nil, sa)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
 
 	client, err := app.Auth(context.Background())
 	if err != nil {
-		log.Fatalf("error getting Auth client: %v\n", err)
+		fmt.Println("error getting Auth client:", err)
 	}
 
 	if r.Method != "OPTIONS" {
@@ -34,11 +34,12 @@ func controllers_firebaseverifyidtoken_handle_verify_token_with_firebase(w http.
 		// fmt.Println("VerifyToken =", verifytoken)
 		token, err := client.VerifyIDToken(context.Background(), verifytoken.Token)
 		if err != nil {
-			log.Fatalf("error verifying ID token: %v\n", err)
+			// fmt.Println("Token:", verifytoken.Token)
+			fmt.Println("error verifying ID token:", err)
 			response := FailedToken{"failed"}
 			js, err := json.Marshal(response)
 			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+				fmt.Println(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
 			w.Write(js)

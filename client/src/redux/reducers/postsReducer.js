@@ -6,6 +6,7 @@ import {
     REMOVE_POST,
     GET_POST,
     FILTERED_POSTS,
+    STAR_POST_LOCAL,
 } from '../actions/types';
 
 export default function(state = [], action) {
@@ -24,6 +25,11 @@ export default function(state = [], action) {
                stars: state[indexPost].stars + action.payloadaction },
              ...state.slice(indexPost + 1),
            ];
+       case STAR_POST_LOCAL:
+         return {
+           ...state,
+             stars: state.stars + action.payloadaction
+           }
         case ADD_POST:
             return state;
         case UPDATE_POST:

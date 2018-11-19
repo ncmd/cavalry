@@ -31,7 +31,7 @@
     "restore-all-dev": "cd utilities && npm run restore-dev-x",
     "restore-firestore-prod": "cd utilities && npm run restore-prod",
     "backup-all-x": "run-s backup-firestore-prod backup-firestore-dev",
-    "restore-all-x" :"run-s restore-all-local restore-all-dev",
+    "restore-all-x": "run-s restore-all-local restore-all-dev",
     "heroku-logs": "cd server-prod && heroku logs -a cavalry-app-prod --tail",
     "go-get-all-x": "run-s go-get-local go-get-dev go-get-prod",
     "DEPLOY-ALL------------------------------------------------------------": "",
@@ -53,7 +53,7 @@
     "deploy-frontend-local": "run-s deploy-frontend-local-1 deploy-frontend-local-2",
     "deploy-frontend-local-1": "cd client & echo 'yarn build' & yarn build",
     "deploy-frontend-local-2": "cd client & echo 'firebase use cavalry-app firebase deploy' & firebase use local && firebase deploy",
-    "deploy-backend-local":"run-s -c deploy-backend-local-1 deploy-backend-local-2",
+    "deploy-backend-local": "run-s -c deploy-backend-local-1 deploy-backend-local-2",
     "deploy-backend-local-1": "cd server & echo 'godep save ./...' & godep save ./...",
     "deploy-backend-local-2": "cd server & heroku git:remote -a cavalry-app & heroku config:set APP_ENV=local & git add . & git commit -m \"Deploy\" & git push heroku master",
     "deploy-backend-local-3": "cd server & echo 'heroku logs -a cavalry-app' & heroku logs -a cavalry-app --tail",
@@ -63,7 +63,7 @@
     "deploy-frontend-dev": "run-s deploy-frontend-dev-1 deploy-frontend-dev-2",
     "deploy-frontend-dev-1": "cd client & echo 'yarn build' & yarn build",
     "deploy-frontend-dev-2": "cd client & echo 'firebase use cavalry-app-dev firebase deploy' & firebase use dev && firebase deploy",
-    "deploy-backend-dev":"run-s -c deploy-backend-dev-1 deploy-backend-dev-2",
+    "deploy-backend-dev": "run-s -c deploy-backend-dev-1 deploy-backend-dev-2",
     "deploy-backend-dev-1": "cd server-dev & echo 'godep save ./...' & godep save ./...",
     "deploy-backend-dev-2": "cd server-dev & heroku git:remote -a cavalry-app-dev & heroku config:set APP_ENV=dev & git add . & git commit -m \"Deploy\" & git push heroku master",
     "deploy-backend-dev-3": "cd server-dev & echo 'heroku logs -a cavalry-app-dev' & heroku logs -a cavalry-app-dev --tail",
@@ -73,18 +73,20 @@
     "deploy-frontend-prod": "run-s deploy-frontend-prod-1 deploy-frontend-prod-2",
     "deploy-frontend-prod-1": "cd client & echo 'yarn build' & yarn build",
     "deploy-frontend-prod-2": "cd client & echo 'firebase use cavalry-app-prod firebase deploy' & firebase use prod && firebase deploy",
-    "deploy-backend-prod":"run-s -c deploy-backend-prod-1 deploy-backend-prod-2",
+    "deploy-backend-prod": "run-s -c deploy-backend-prod-1 deploy-backend-prod-2",
     "deploy-backend-prod-1": "cd server-prod & echo 'godep save ./...' & godep save ./...",
     "deploy-backend-prod-2": "cd server-prod & heroku git:remote -a cavalry-app-prod & heroku config:set APP_ENV=prod & git add . & git commit -m \"Deploy\" & git push heroku master",
     "deploy-backend-prod-3": "cd server-prod & echo 'heroku logs -a cavalry-app-prod' & heroku logs -a cavalry-app-prod --tail",
     "heroku-backend-refresh-prod": "cross-var \"cd server-prod & heroku git:remote -a cavalry-app-prod & heroku apps:destroy --app $npm_package_config_servernameprod --confirm $npm_package_config_servernameprod & git init & git add . & heroku create $npm_package_config_servernameprod & cd ..\"",
     "SERVERLESS------------------------------------------------------------": "",
-    "deploy-serverless-all-x":"run-s -c deploy-serverless-local deploy-serverless-dev deploy-serverless-prod",
+    "deploy-serverless-all-x": "run-s -c deploy-serverless-local deploy-serverless-dev deploy-serverless-prod",
     "deploy-serverless-local": "cd serverless/functions/ && npm run setup && firebase use local && firebase deploy --only functions --debug",
     "deploy-serverless-dev": "cd serverless/functions/ && npm run setup && firebase use dev && firebase deploy --only functions --debug",
     "deploy-serverless-prod": "cd serverless/functions/ && npm run setup && firebase use prod && firebase deploy --only functions --debug"
   },
-  "dependencies": {},
+  "dependencies": {
+    "immutability-helper": "^2.8.1"
+  },
   "devDependencies": {
     "npm-run-all": "^4.1.3"
   }

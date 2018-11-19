@@ -361,12 +361,11 @@ class Team extends Component {
     }
 
     renderOrganizationNameError(){
-      if(this.state.validOrganization === false){
+      if(this.state.validOrganization === false && this.props.organization.check !== "exists"){
         return (
             <div style={{color:this.props.theme[0].PostsTypographyTitle, marginBottom:5, letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >Not a valid Organization name. At least 4 characters, max 30 characters, no special characters.</div>
         )
-      }
-      if(this.props.organization.check === "exists"){
+      } else if (this.props.organization.check === "exists"){
         return (
             <div style={{color:this.props.theme[0].PostsTypographyTitle,  marginBottom:5,letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} >This organization exists! Request to Join or Create a new Organization.</div>
         )
