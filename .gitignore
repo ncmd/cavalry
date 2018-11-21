@@ -18,3 +18,6 @@ firestore_prod_data.json
 keys_dev.js
 keys_prod.js
 keys_local.js
+/server/vendor/*
+/server-dev/vendor/*
+/server-prod/vendor/*
