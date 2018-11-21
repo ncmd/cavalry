@@ -30,11 +30,31 @@ type OrderItemType string
 
 // List of values that OrderItemType can take.
 const (
+	OrderItemTypeCoupon   OrderItemType = "coupon"
 	OrderItemTypeDiscount OrderItemType = "discount"
-	OrderItemTypeShipping OrderItemType = "shipping"
 	OrderItemTypeSKU      OrderItemType = "sku"
+	OrderItemTypeShipping OrderItemType = "shipping"
 	OrderItemTypeTax      OrderItemType = "tax"
 )
+
+// OrderItemParentType represents the type of order item parent
+type OrderItemParentType string
+
+// List of values that OrderItemParentType can take.
+const (
+	OrderItemParentTypeCoupon   OrderItemParentType = "coupon"
+	OrderItemParentTypeDiscount OrderItemParentType = "discount"
+	OrderItemParentTypeSKU      OrderItemParentType = "sku"
+	OrderItemParentTypeShipping OrderItemParentType = "shipping"
+	OrderItemParentTypeTax      OrderItemParentType = "tax"
+)
+
+// OrderItemParent describes the parent of an order item.
+type OrderItemParent struct {
+	ID   string              `json:"id"`
+	SKU  *SKU                `json:"-"`
+	Type OrderItemParentType `json:"object"`
+}
 
 // OrderParams is the set of parameters that can be used when creating an order.
 type OrderParams struct {
@@ -139,12 +159,25 @@ type OrderList struct {
 
 // OrderListParams is the set of parameters that can be used when listing orders.
 type OrderListParams struct {
-	ListParams   `form:"*"`
-	Created      *int64            `form:"created"`
-	CreatedRange *RangeQueryParams `form:"created"`
-	Customer     *string           `form:"customer"`
-	IDs          []*string         `form:"ids"`
-	Status       *string           `form:"status"`
+	ListParams        `form:"*"`
+	Created           *int64                         `form:"created"`
+	CreatedRange      *RangeQueryParams              `form:"created"`
+	Customer          *string                        `form:"customer"`
+	IDs               []*string                      `form:"ids"`
+	Status            *string                        `form:"status"`
+	StatusTransitions *StatusTransitionsFilterParams `form:"status_transitions"`
+}
+
+// StatusTransitionsFilterParams are parameters that can used to filter on status_transition when listing orders.
+type StatusTransitionsFilterParams struct {
+	Canceled       *int64            `form:"canceled"`
+	CanceledRange  *RangeQueryParams `form:"canceled"`
+	Fulfilled      *int64            `form:"fulfilled"`
+	FulfilledRange *RangeQueryParams `form:"fulfilled"`
+	Paid           *int64            `form:"paid"`
+	PaidRange      *RangeQueryParams `form:"paid"`
+	Returned       *int64            `form:"returned"`
+	ReturnedRange  *RangeQueryParams `form:"returned"`
 }
 
 // StatusTransitions are the timestamps at which the order status was updated.
@@ -176,12 +209,12 @@ type OrderItemParams struct {
 
 // OrderItem is the resource representing an order item.
 type OrderItem struct {
-	Amount      int64         `json:"amount"`
-	Currency    Currency      `json:"currency"`
-	Description string        `json:"description"`
-	Parent      string        `json:"parent"`
-	Quantity    int64         `json:"quantity"`
-	Type        OrderItemType `json:"type"`
+	Amount      int64            `json:"amount"`
+	Currency    Currency         `json:"currency"`
+	Description string           `json:"description"`
+	Parent      *OrderItemParent `json:"parent"`
+	Quantity    int64            `json:"quantity"`
+	Type        OrderItemType    `json:"type"`
 }
 
 // SetSource adds valid sources to a OrderParams object,
@@ -190,6 +223,37 @@ func (op *OrderPayParams) SetSource(sp interface{}) error {
 	source, err := SourceParamsFor(sp)
 	op.Source = source
 	return err
+}
+
+// UnmarshalJSON handles deserialization of an OrderItemParent.
+// This custom unmarshaling is needed because the resulting
+// property may be an id or a full SKU struct if it was expanded.
+func (p *OrderItemParent) UnmarshalJSON(data []byte) error {
+	if id, ok := ParseID(data); ok {
+		p.ID = id
+		return nil
+	}
+
+	type orderItemParent OrderItemParent
+	var v orderItemParent
+	if err := json.Unmarshal(data, &v); err != nil {
+		return err
+	}
+
+	var err error
+	*p = OrderItemParent(v)
+
+	switch p.Type {
+	case OrderItemParentTypeSKU:
+		// Currently only SKUs `parent` is returned as an object when expanded.
+		// For other items only IDs are returned.
+		if err = json.Unmarshal(data, &p.SKU); err != nil {
+			return err
+		}
+		p.ID = p.SKU.ID
+	}
+
+	return nil
 }
 
 // UnmarshalJSON handles deserialization of an Order.

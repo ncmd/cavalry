@@ -42,7 +42,7 @@ const (
 	UploadsBackend SupportedBackend = "uploads"
 
 	// UploadsURL is the URL of the uploads service backend.
-	UploadsURL string = "https://uploads.stripe.com/v1"
+	UploadsURL string = "https://files.stripe.com/v1"
 )
 
 //
@@ -324,6 +324,18 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			reader := bytes.NewReader(body.Bytes())
 
 			req.Body = nopReadCloser{reader}
+
+			// And also add the same thing to `Request.GetBody`, which allows
+			// `net/http` to get a new body in cases like a redirect. This is
+			// usually not used, but it doesn't hurt to set it in case it's
+			// needed. See:
+			//
+			//     https://github.com/stripe/stripe-go/issues/710
+			//
+			req.GetBody = func() (io.ReadCloser, error) {
+				reader := bytes.NewReader(body.Bytes())
+				return nopReadCloser{reader}, nil
+			}
 		}
 
 		res, err = s.HTTPClient.Do(req)
@@ -339,17 +351,22 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 			break
 		}
 
-		resBody, err := ioutil.ReadAll(res.Body)
-		res.Body.Close()
 		if err != nil {
 			if s.LogLevel > 0 {
-				s.Logger.Printf("Cannot read response: %v\n", err)
+				s.Logger.Printf("Request failed with error: %v\n", err)
 			}
-			return err
-		}
-
-		if s.LogLevel > 0 {
-			s.Logger.Printf("Request failed with: %s (error: %v)\n", string(resBody), err)
+		} else {
+			resBody, err := ioutil.ReadAll(res.Body)
+			res.Body.Close()
+			if err != nil {
+				if s.LogLevel > 0 {
+					s.Logger.Printf("Cannot read response: %v\n", err)
+				}
+			} else {
+				if s.LogLevel > 0 {
+					s.Logger.Printf("Request failed with body: %s (status: %v)\n", string(resBody), res.StatusCode)
+				}
+			}
 		}
 
 		sleepDuration := s.sleepTime(retry)
@@ -369,6 +386,7 @@ func (s *BackendImplementation) Do(req *http.Request, body *bytes.Buffer, v inte
 		}
 		return err
 	}
+
 	defer res.Body.Close()
 
 	resBody, err := ioutil.ReadAll(res.Body)
@@ -782,10 +800,10 @@ func StringValue(v *string) string {
 const apiURL = "https://api.stripe.com"
 
 // apiversion is the currently supported API version
-const apiversion = "2018-08-23"
+const apiversion = "2018-11-08"
 
 // clientversion is the binding version
-const clientversion = "43.0.0"
+const clientversion = "53.1.0"
 
 // defaultHTTPTimeout is the default timeout on the http.Client used by the library.
 // This is chosen to be consistent with the other Stripe language libraries and

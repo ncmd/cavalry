@@ -17,5 +17,5 @@ package opencensus
 
 // Version is the current release version of OpenCensus in use.
 func Version() string {
-	return "0.16.0"
+	return "0.19.0"
 }

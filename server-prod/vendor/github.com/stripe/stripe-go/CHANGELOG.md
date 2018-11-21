@@ -1,5 +1,96 @@
 # Changelog
 
+## 53.1.0 - 2018-11-15
+* [#723](https://github.com/stripe/stripe-go/pull/723) Add support for `last_payment_error` on `PaymentIntent`.
+* [#724](https://github.com/stripe/stripe-go/pull/724) Add support for `transfer_data[destination]` on `PaymentIntent`.
+
+## 53.0.1 - 2018-11-12
+* [#714](https://github.com/stripe/stripe-go/pull/714) Fix bug in retry logic that would cause the client to panic
+
+## 53.0.0 - 2018-11-08
+* [#716](https://github.com/stripe/stripe-go/pull/716) Drop support for Go 1.8.
+* [#715](https://github.com/stripe/stripe-go/pull/715) Ship changes to the `PaymentIntent` resource to match the final layout.
+* [#717](https://github.com/stripe/stripe-go/pull/717) Add support for `flat_amount` on `Plan` tiers.
+* [#718](https://github.com/stripe/stripe-go/pull/718) Add support for `supported_transfer_countries` on `CountrySpec`.
+* [#720](https://github.com/stripe/stripe-go/pull/720) Add support for `review` on `PaymentIntent`.
+* [#707](https://github.com/stripe/stripe-go/pull/707) Add new invoice methods and fixes to the Issuing Cardholder resource (multiple breaking changes)
+    * Move to API version 2018-11-08.
+    * Add support for new API methods, properties and parameters for `Invoice`.
+    * Add support for `default_source` on `Subscription` and `Invoice`.
+
+## 52.1.0 - 2018-10-31
+* [#705](https://github.com/stripe/stripe-go/pull/705) Add support for the `Person` resource
+* [#706](https://github.com/stripe/stripe-go/pull/706) Add support for the `WebhookEndpoint` resource
+
+## 52.0.0 - 2018-10-29
+* [#711](https://github.com/stripe/stripe-go/pull/711) Set `Request.GetBody` when making requests
+* [#711](https://github.com/stripe/stripe-go/pull/711) Drop support for Go 1.7 (hasn't been supported by Go core since the release of Go 1.9 in August 2017)
+
+## 51.4.0 - 2018-10-19
+* [#708](https://github.com/stripe/stripe-go/pull/708) Add Stripe Terminal endpoints to master to `client.API` 
+
+## 51.3.0 - 2018-10-09
+* [#704](https://github.com/stripe/stripe-go/pull/704) Add support for `subscription_cancel_at_period_end` on the Upcoming Invoice API.
+
+## 51.2.0 - 2018-10-09
+* [#702](https://github.com/stripe/stripe-go/pull/702) Add support for `delivery_success` filter when listing Events.
+
+## 51.1.0 - 2018-10-03
+* [#700](https://github.com/stripe/stripe-go/pull/700) Add support for `on_behalf_of` on Subscription and Charge resources.
+
+## 51.0.0 - 2018-09-27
+* [#698](https://github.com/stripe/stripe-go/pull/698) Move to API version 2018-09-24
+    * Rename `FileUpload` to `File` (and all `FileUpload*` structs to `File*`)
+	* Fix file links client
+
+## 50.0.0 - 2018-09-24
+* [#695](https://github.com/stripe/stripe-go/pull/695) Rename `Transaction` to `DisputedTransaction` in `IssuingDisputeParams` (minor breaking change)
+* [#695](https://github.com/stripe/stripe-go/pull/695) Add support for Stripe Terminal
+
+## 49.2.0 - 2018-09-24
+* [#697](https://github.com/stripe/stripe-go/pull/697) Fix `number` JSON tag on the `IssuingCardDetails` resource.
+
+## 49.1.0 - 2018-09-11
+* [#694](https://github.com/stripe/stripe-go/pull/694) Add `ErrorCodeResourceMissing` error code constant
+
+## 49.0.0 - 2018-09-11
+* [#693](https://github.com/stripe/stripe-go/pull/693) Change `Product` under `Plan` from a string to a full `Product` struct pointer (this is a minor breaking change -- upgrade by changing to `plan.Product.ID`)
+
+## 48.3.0 - 2018-09-06
+* [#691](https://github.com/stripe/stripe-go/pull/691) Add `InvoicePrefix` to `Customer` and `CustomerParams`
+
+## 48.2.0 - 2018-09-05
+* [#690](https://github.com/stripe/stripe-go/pull/690) Add support for reporting resources
+
+## 48.1.0 - 2018-09-05
+* [#683](https://github.com/stripe/stripe-go/pull/683) Add `StatusTransitions` filter parameters to `OrderListParams`
+
+## 48.0.0 - 2018-09-05
+* [#681](https://github.com/stripe/stripe-go/pull/681) Handle deserialization of `OrderItem` parent into an object if expanded (minor breaking change)
+
+## 47.0.0 - 2018-09-04
+* New major version for better compatibility with Go's new module system (no breaking changes)
+
+## 46.1.0 - 2018-09-04
+* [#688](https://github.com/stripe/stripe-go/pull/688) Encode `Params` in `AppendToAsSourceOrExternalAccount` (bug fix)
+* [#689](https://github.com/stripe/stripe-go/pull/689) Add `go.mod` for the new module system
+
+## 46.0.0 - 2018-09-04
+* [#686](https://github.com/stripe/stripe-go/pull/686) Add `Mandate` and `Receiver` to `SourceObjectParams` and change `Date` on `SourceMandateAcceptance` to `int64` (minor breaking change)
+
+## 45.0.0 - 2018-08-30
+* [#680](https://github.com/stripe/stripe-go/pull/680) Change `SubscriptionTaxPercent` on `Invoice` from `int64` to `float64` (minor breaking change)
+
+## 44.0.0 - 2018-08-28
+* [#678](https://github.com/stripe/stripe-go/pull/678) Allow payment intent capture to take its own parameters
+
+## 43.1.1 - 2018-08-28
+* [#675](https://github.com/stripe/stripe-go/pull/675) Fix incorrectly encoded parameter in `UsageRecordSummaryListParams`
+
+## 43.1.0 - 2018-08-28
+* [#669](https://github.com/stripe/stripe-go/pull/669) Add `AuthorizationCode` to `Charge`
+* [#671](https://github.com/stripe/stripe-go/pull/671) Fix deserialization of `TaxID` on `CustomerTaxInfo`
+
 ## 43.0.0 - 2018-08-23
 * [#668](https://github.com/stripe/stripe-go/pull/668) Move to API version 2018-08-23
     * Add `TaxInfo` and `TaxInfoVerification` to `Customer`

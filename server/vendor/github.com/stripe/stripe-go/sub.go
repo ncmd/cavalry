@@ -42,6 +42,7 @@ type SubscriptionParams struct {
 	Coupon                      *string                    `form:"coupon"`
 	Customer                    *string                    `form:"customer"`
 	DaysUntilDue                *int64                     `form:"days_until_due"`
+	DefaultSource               *string                    `form:"default_source"`
 	Items                       []*SubscriptionItemsParams `form:"items"`
 	OnBehalfOf                  *string                    `form:"on_behalf_of"`
 	Plan                        *string                    `form:"plan"`
@@ -113,12 +114,14 @@ type Subscription struct {
 	CurrentPeriodStart    int64                 `json:"current_period_start"`
 	Customer              *Customer             `json:"customer"`
 	DaysUntilDue          int64                 `json:"days_until_due"`
+	DefaultSource         *PaymentSource        `json:"default_source"`
 	Discount              *Discount             `json:"discount"`
 	CancelAtPeriodEnd     bool                  `json:"cancel_at_period_end"`
 	EndedAt               int64                 `json:"ended_at"`
 	ID                    string                `json:"id"`
 	Items                 *SubscriptionItemList `json:"items"`
 	Metadata              map[string]string     `json:"metadata"`
+	OnBehalfOf            *Account              `json:"on_behalf_of"`
 	Plan                  *Plan                 `json:"plan"`
 	Quantity              int64                 `json:"quantity"`
 	Start                 int64                 `json:"start"`

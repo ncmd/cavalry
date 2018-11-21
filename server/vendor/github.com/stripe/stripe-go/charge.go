@@ -138,6 +138,7 @@ type Charge struct {
 	AmountRefunded      int64               `json:"amount_refunded"`
 	Application         *Application        `json:"application"`
 	ApplicationFee      *ApplicationFee     `json:"application_fee"`
+	AuthorizationCode   string              `json:"authorization_code"`
 	BalanceTransaction  *BalanceTransaction `json:"balance_transaction"`
 	Captured            bool                `json:"captured"`
 	Created             int64               `json:"created"`
@@ -154,6 +155,7 @@ type Charge struct {
 	Level3              ChargeLevel3        `json:"level3"`
 	Livemode            bool                `json:"livemode"`
 	Metadata            map[string]string   `json:"metadata"`
+	OnBehalfOf          *Account            `json:"on_behalf_of"`
 	Outcome             *ChargeOutcome      `json:"outcome"`
 	Paid                bool                `json:"paid"`
 	ReceiptEmail        string              `json:"receipt_email"`
