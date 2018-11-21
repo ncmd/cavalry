@@ -15,15 +15,41 @@
 - https://www.python.org/ftp/python/3.7.1/python-3.7.1.exe
 - Remember to add Python to PATH; otherwise you need to reinstall
 
-# Install FreeFileSync 10.6
-- https://freefilesync.org/download/FreeFileSync_10.6_Windows_Setup.exe
-
 # Install Dropbox 61.4
 - https://www.dropbox.com/download?os=win
 - Location: C:\Users\test\Documents\Dropbox
 
 # Install Google Drive Backup 3.43
 - https://www.google.com/drive/download/
+
+# Install FreeFileSync 10.6
+- https://freefilesync.org/download/FreeFileSync_10.6_Windows_Setup.exe
+- C:\Users\test\Documents\GitHub\cavalry > C:\Users\test\Documents\Dropbox\cavalry
+- C:\Users\test\Documents\GitHub\cavalry > C:\Users\test\Documents\Dropbox\cavalry
+- Ignore Files: 
+\System Volume Information\
+\$Recycle.Bin\
+\RECYCLER\
+\RECYCLED\
+*\desktop.ini
+*\thumbs.db
+node_modules
+*\node_modules\
+*\vendor\
+*\.dropbox.cache\
+\.dropbox
+\package-lock.json
+*\google.golang.org\
+*\firebase.google.com\
+*\go.opencensus.io\
+*\contrib.go.opencensus.io\
+*\cloud.google.com\
+*\.git\
+.driveupload
+*\.temp.drivedownload
+*\.tmp.drivedownload
+*\*.driveupload
+*\client\build\
 
 # Install Github Desktop 1.5
 - https://central.github.com/deployments/desktop/desktop/latest/win32?format=msi
@@ -36,30 +62,22 @@
 # Install Node -g packages
 - npm install -g concurrently cross-var cross-env firebase-tools npm-run-all
 
-# Install Go Packages
-- cd server/
-- go get -v golang.org/x/tools/cmd/goimports
-- go get -v github.com/tools/godep
-- go get -v golang.org/x/sys/unix
-- go get -v firebase.google.com/go
-- go get -v google.golang.org/api/option
-- go get -v github.com/stripe/stripe-go
-- go get -v github.com/BurntSushi/toml
-- go get -v github.com/sendgrid/sendgrid-go
+# Install Server (Backend) Go Packages
+- npm run first-setup-go-all-x
 
 # Install Client (Frontend) Packages
-- cd client/
-- npm install --no-optional --no-shrinkwrap --no-package-lock
-- yarn add semantic-ui-react
-- yarn build
-- npm audit fix
+- npm run first-setup-react-all-x
 - firebase login
 - firebase init > Hosting > cavalry-app > build > no
 - Confirm all the keys client/secrets/keys*
 
+# Install Serverless Packages
+- npm run first-setup-serverless-all-x
 
 
-## Day 2 Day
+## Day-to-Day
+# Run Real-time Sync
+- BatchRun.ffs_batch
 # Running app locally
 - npm run local
 # Deployment
@@ -81,6 +99,7 @@
 - serverless/config/config.toml
 
 # VSCode Settings & Packages:
+- File > Preferences > Color Theme > Install Additional Color Theme > Monokai ST3 0.1.2
 - Python
 - Go
 - ES7 React/Redux/GraphQL/React-Native snippets
@@ -91,11 +110,11 @@
 - YARN PATH
 - HEROKU PATH:
 - C:\Program Files\Heroku\bin
-- GO PATH:
+- GO PATH: setx GOPATH %USERPROFILE%\go
 - C:\Users\username\go
 - GOROOT:
 - C:\go
-- PROJECT PATH:
+- MAIN PROJECT PATH:
 - C:\Users\username\go\src\cavalry
 
 # Main React Components
@@ -146,17 +165,11 @@
 - https://console.firebase.google.com/u/1/project/cavalry-app-prod/authentication/providers
 
 # Server Setup:
-- cd server/
-- go get -v golang.org/x/tools/cmd/goimports
-- go get github.com/tools/godep
-- go get golang.org/x/sys/unix
-- go get firebase.google.com/go
-- go get google.golang.org/api/option
-- go get github.com/stripe/stripe-go
-- go get github.com/BurntSushi/toml
-- heroku login
+- npm run first-setup-go-all-x
+- User: jidokaus@gmail | C%
+- heroku login 
 - heroku git:remote -a cavalry-app
-- cd server/functions npm install firebase-functions@latest firebase-admin@latest algolia-firebase-functions --save
+- cd serverless/functions && npm install
 
 # Travis setup (not setup properly; will do later)
 - Signin and Activate on cavalry repository

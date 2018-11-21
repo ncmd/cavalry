@@ -34,7 +34,6 @@ import './post.css';
 // import Octicon, {ScreenFull} from '@githubprimer/octicons-react'
 import ReactQuill from 'react-quill';
 import { Comment} from 'semantic-ui-react'
-// import 'semantic-ui-css/semantic.min.css';
 import JavascriptTimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import ReactTimeAgo from 'react-time-ago/no-tooltip'

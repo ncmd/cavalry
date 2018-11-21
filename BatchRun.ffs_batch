@@ -21,7 +21,7 @@
     </Synchronize>
     <Filter>
         <Include>
-            <Item>*\cavalry\</Item>
+            <Item>*</Item>
         </Include>
         <Exclude>
             <Item>\System Volume Information\</Item>
@@ -46,6 +46,7 @@
             <Item>*\.temp.drivedownload</Item>
             <Item>*\.tmp.drivedownload</Item>
             <Item>*\*.driveupload</Item>
+            <Item>*\client\build\</Item>
         </Exclude>
         <TimeSpan Type="None">0</TimeSpan>
         <SizeMin Unit="None">0</SizeMin>
@@ -53,8 +54,8 @@
     </Filter>
     <FolderPairs>
         <Pair>
-            <Left>C:\Users\f\go\src</Left>
-            <Right>C:\Users\f\Documents\Dropbox</Right>
+            <Left>C:\Users\test\Documents\GitHub\cavalry</Left>
+            <Right>C:\Users\test\Documents\Dropbox\cavalry</Right>
         </Pair>
     </FolderPairs>
     <Errors Ignore="true" Retry="0" Delay="5"/>
