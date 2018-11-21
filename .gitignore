@@ -19,5 +19,8 @@ keys_dev.js
 keys_prod.js
 keys_local.js
 /server/vendor/*
+/server/Godeps/*
 /server-dev/vendor/*
+/server-dev/Godeps/*
 /server-prod/vendor/*
+/server-prod/Godeps/*
