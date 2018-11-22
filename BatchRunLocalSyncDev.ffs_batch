@@ -39,8 +39,8 @@
     </Filter>
     <FolderPairs>
         <Pair>
-            <Left>C:\Users\f\go\src\cavalry\server</Left>
-            <Right>C:\Users\f\go\src\cavalry\server-dev</Right>
+            <Left>C:\Users\test\go\src\cavalry\server</Left>
+            <Right>C:\Users\test\go\src\cavalry\server-dev</Right>
         </Pair>
     </FolderPairs>
     <Errors Ignore="true" Retry="0" Delay="5"/>

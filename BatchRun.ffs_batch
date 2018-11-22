@@ -54,7 +54,7 @@
     </Filter>
     <FolderPairs>
         <Pair>
-            <Left>C:\Users\test\Documents\GitHub\cavalry</Left>
+            <Left>C:\Users\test\go\src\cavalry</Left>
             <Right>C:\Users\test\Documents\Dropbox\cavalry</Right>
         </Pair>
     </FolderPairs>

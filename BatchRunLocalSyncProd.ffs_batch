@@ -22,16 +22,27 @@
             <Item>\RECYCLED\</Item>
             <Item>*\desktop.ini</Item>
             <Item>*\thumbs.db</Item>
-            <Item>.git\</Item>
+            <Item>node_modules</Item>
+            <Item>*\node_modules\</Item>
             <Item>*\vendor\</Item>
-            <Item>*\server.exe</Item>
-            <Item>*\godep.exe</Item>
-            <Item>.gitignore</Item>
-            <Item>firestore.json</Item>
-            <Item>Gopkg.lock</Item>
-            <Item>Gopkg.toml</Item>
-            <Item>*\Godeps.json</Item>
-            <Item>*\Procfile</Item>
+            <Item>*\.dropbox.cache\</Item>
+            <Item>\.dropbox</Item>
+            <Item>\package-lock.json</Item>
+            <Item>*\google.golang.org\</Item>
+            <Item>*\firebase.google.com\</Item>
+            <Item>*\go.opencensus.io\</Item>
+            <Item>*\contrib.go.opencensus.io\</Item>
+            <Item>*\cloud.google.com\</Item>
+            <Item>*\.git\</Item>
+            <Item>.driveupload</Item>
+            <Item>*\.temp.drivedownload</Item>
+            <Item>*\.tmp.drivedownload</Item>
+            <Item>*\*.driveupload</Item>
+            <Item>*\client\build\</Item>
+            <Item>*\client\.firebase\</Item>
+            <Item>*\server\Godeps\</Item>
+            <Item>*\server-dev\Godeps\</Item>
+            <Item>*\server-prod\Godeps\</Item>
         </Exclude>
         <TimeSpan Type="None">0</TimeSpan>
         <SizeMin Unit="None">0</SizeMin>
@@ -39,8 +50,8 @@
     </Filter>
     <FolderPairs>
         <Pair>
-            <Left>C:\Users\f\go\src\cavalry\server</Left>
-            <Right>C:\Users\f\go\src\cavalry\server-prod</Right>
+            <Left>C:\Users\test\go\src\cavalry\server</Left>
+            <Right>C:\Users\test\go\src\cavalry\server-prod</Right>
         </Pair>
     </FolderPairs>
     <Errors Ignore="true" Retry="0" Delay="5"/>
