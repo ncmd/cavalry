@@ -24,7 +24,7 @@ def main():
     # print("Hello World")
 
 def github_clone():
-    path = "C:\\Users\\test\\go\\test_src2"
+    path = "C:\\Users\\test\\go\\test_src3"
     try:
         os.mkdir(path)
         os.chdir(path)
