@@ -36,7 +36,7 @@
     "heroku-logs": "cd server-prod && heroku logs -a cavalry-app-prod --tail",
     "go-get-all-x": "run-s go-get-local go-get-dev go-get-prod",
     "first-setup-x":"run-s first-setup-react-all-x first-setup-go-all-x first-setup-serverless-all-x",
-    "first-setup-react-all-x": "cd client/ && npm install --no-optional --no-shrinkwrap --no-package-lock &&  npm audit fix && yarn add semantic-ui-react && yarn build",
+    "first-setup-react-all-x": "cd client/ && npm install && npm audit fix && yarn add semantic-ui-react && yarn build",
     "first-setup-go-all-x": "run-s go-first-setup-local go-first-setup-dev go-first-setup-prod" ,
     "first-setup-serverless-all-x":"cd serverless/functions && npm install",
     "DEPLOY-ALL------------------------------------------------------------": "",

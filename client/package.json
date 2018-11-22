@@ -1,7 +1,7 @@
 {
   "name": "cavalry-client",
   "version": "0.1.0",
-  "homepage": "https://cavalry-app.firebaseapp.com",
+  "homepage": "https://cavalrytactics.com",
   "private": true,
   "dependencies": {
     "@githubprimer/octicons-react": "^8.1.0",
