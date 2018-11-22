@@ -24,13 +24,20 @@ def main():
     # print("Hello World")
 
 def github_clone():
-    path = "C:\\Users\\test\\go\\test_src3"
+    path = "C:\\Users\\test\\go\\test_src5"
     try:
         os.mkdir(path)
-        os.chdir(path)
+        try:
+            os.chdir(path)
+        except  OSError:
+            pass
+    except OSError:
+        pass
+    
+    try:
         subprocess.call(['git','clone','https://github.com/ncmd/cavalry.git'])
     except OSError:
-        print("Creation of the directory %s failed" % path)
+        print("Git Clone failed")
         return False
     else:
         return True

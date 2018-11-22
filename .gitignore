@@ -16,8 +16,9 @@ client/package-lock.json
 client\package-lock.json
 utilities/package-lock.json
 utilities\package-lock.json
+serverless/functions/package-lock.json
+serverless\functions\package-lock.json
 config.toml
-
 config_orig.toml
 firestore.json
 .tmp.drivedownload/*
@@ -56,3 +57,9 @@ server\server.exe
 \server-prod\server.exe
 server/bin
 server/bin/
+\server\Gopkg.lock
+server/Gopkg.lock
+\server-dev\Gopkg.lock
+server-dev/Gopkg.lock
+\server-prod\Gopkg.lock
+server-prod/Gopkg.lock
