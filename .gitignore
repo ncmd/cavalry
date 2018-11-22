@@ -37,6 +37,10 @@ server-prod/vendor/
 server-prod/Godeps/
 *.exe
 server.exe
+godep.exe
+\server\bin\godep.exe
+\server-dev\bin\godep.exe
+\server-prod\bin\godep.exe
 server\server.exe
 \server\server.exe
 \server-dev\server.exe
