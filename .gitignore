@@ -35,3 +35,11 @@ server-dev/vendor/
 server-dev/Godeps/
 server-prod/vendor/
 server-prod/Godeps/
+*.exe
+server.exe
+server\server.exe
+\server\server.exe
+\server-dev\server.exe
+\server-prod\server.exe
+server/bin
+server/bin/
