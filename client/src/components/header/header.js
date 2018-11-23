@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-// import Button from '@material-ui/core/Button';
 import {
-    // Collapse,
-    // Navbar,
-    // NavbarToggler,
-    // Nav,
-    // NavItem,
     Button,
-    // Popover, PopoverHeader, PopoverBody,
 } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -31,7 +24,6 @@ import {
 } from '../../redux/actions';
 import {Link} from "react-router-dom";
 import {AlgoliaSearch} from '../../components/algolia/config';
-// import Hidden from '@material-ui/core/Hidden';
 import './header.css';
 import ReactGA from 'react-ga';
 import Hidden from '@material-ui/core/Hidden';
@@ -39,29 +31,17 @@ import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-// import InputBase from '@material-ui/core/InputBase';
-// import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { fade } from '@material-ui/core/styles/colorManipulator';
 import { withStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-// import MoreIcon from '@material-ui/icons/MoreVert';
 import SearchIcon from '@material-ui/icons/Search';
 import { Input,InputGroup, InputGroupText, InputGroupAddon } from 'reactstrap';
-// import Drawer from '@material-ui/core/Drawer';
-// import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-// import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 
 ReactGA.initialize('UA-123951173-1',{
-debug: true,
+debug: false,
 });
-//
-// const headerSignupButton = "linear-gradient(to right, #F44336, #ff1744";
-// const headerPostButton = "linear-gradient(to right, #f44336, #e91e63 ";
-// const headerRequestButton = "linear-gradient(to right, #2979ff, #03a9f4 ";
-// const headerBlue = "#1a237e";
-// const accountButton = "linear-gradient(to right, #304ffe, #2962ff)";
 const drawerWidth = 240;
 
 const styles = theme => ({

@@ -21,10 +21,7 @@ import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
 import './submit.css';
 import { googleanalytics } from '../components/analytics';
-// import Dialog from '@material-ui/core/Dialog';
-// import Slide from '@material-ui/core/Slide';
 import Select from 'react-select';
-// import Octicon, {ScreenFull} from '@githubprimer/octicons-react'
 import {Accordion,AccordionTab} from 'primereact/accordion';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -69,11 +66,6 @@ const getListStyle = isDraggingOver => ({
   border:'1px solid #ced4da',
 });
 
-
-// function Transition(props) {
-//   return <Slide direction="up" {...props} />;
-// }
-
 class Submit extends Component {
 
     constructor(props) {
@@ -87,6 +79,7 @@ class Submit extends Component {
             postId:'',
             postTitle:'',
             postDescription:'',
+            postDescriptionKeyHandler: false,
             objectives: [],
             tasks: [],
             tags:'',
@@ -234,19 +227,19 @@ class Submit extends Component {
         },() => {
           this.validateTitle(this.state.postTitle)
           this.props.editSubmitTitle(this.state.postTitle);
-          // console.log("PROPS SUBMIT",this.props.submit)
         });
 
     };
 
     handlePostDescription = postDescription => event => {
-        this.setState({
-            [postDescription]: event.target.value,
-        }, ()=> {
-          this.validateDescription(this.state.postDescription);
-          this.props.editSubmitDescription(this.state.postDescription);
-        });
-
+      console.log(event.target.value)
+      this.setState({
+        [postDescription]: event.target.value,
+      }, ()=> {
+        this.validateDescription(this.state.postDescription);
+        this.props.editSubmitDescription(this.state.postDescription);
+      });
+    
     };
 
     handlePostTags = tags => event => {
@@ -307,7 +300,6 @@ class Submit extends Component {
   };
 
   handleChangeObjectiveDescription (value) {
-
     this.setState({
         objectiveDescription: value,
     });
@@ -405,7 +397,7 @@ class Submit extends Component {
           </FormGroup>
           <FormGroup>
               <div  style={{color:'white'}}>Objective {index+1} Description</div>
-              <Input type="textarea" style={{height:200}} placeholder={t.description} onChange={this.handlePostDescription('postDescription')}/>
+              <Input type="textarea" style={{height:200}} placeholder={t.description} onChange={this.handlePostDescription('postDescription')} />
           </FormGroup>
         </Grid>
       );
@@ -425,24 +417,16 @@ class Submit extends Component {
                 tags: myArray
               })
           }
-
-
           this.props.editSubmitTags(myArray)
-
-          // console.log("Tags are valid!")
       } else {
-          // console.log("Still invalid...")
           this.setState({tagsValid:false})
       }
   }
 
   validateTitle(title){
       if (this.state.postTitle !=='' && this.state.postTitle.length <= 55 ) {
-          // // console.log("Valid Email Address:",email);
           this.setState({titleValid:true});
-          // console.log("Title is valid!")
       } else {
-          // console.log("Still invalid...")
           this.setState({titleValid:false})
       }
   }
@@ -618,6 +602,20 @@ class Submit extends Component {
     string = string.replace(target, replacement);
    }
    return string;
+  }
+
+  keyPress(event){
+    if(event.key === 'Enter'){
+      console.log("Enter")
+      // this.setState({
+      //   postDescriptionKeyHandler: true
+      // })
+    } else {
+      // this.setState({
+      //   postDescriptionKeyHandler: false
+      // })
+      console.log("Not Enter")
+    }
   }
 
   selectLocalImage = () => {
@@ -802,9 +800,9 @@ class Submit extends Component {
                                       <FormGroup style={{margin:0, height:"auto !important"}}>
                                             {this.state.descriptionValid
                                             ?
-                                            <Input  type="textarea" style={{minHeight:40, height:"auto !important", boxShadow:'none', overflow:'hidden'}} placeholder="Description" value={this.state.postDescription}  onChange={this.handlePostDescription('postDescription')}/>
+                                            <Input  type="textarea" style={{minHeight:40, height:"auto !important", boxShadow:'none', overflow:'hidden'}} placeholder="Description" value={this.state.postDescription} onChange={this.handlePostDescription('postDescription')} onKeyPress={this.keyPress}/>
                                             :
-                                            <Input invalid type="textarea" style={{minHeight:40,height:"auto !important", boxShadow:'none', overflow:'hidden'}} placeholder="Description" value={this.props.postDescription} onChange={this.handlePostDescription('postDescription')}/>
+                                            <Input invalid type="textarea" style={{minHeight:40,height:"auto !important", boxShadow:'none', overflow:'hidden'}} placeholder="Description" value={this.props.postDescription} onChange={this.handlePostDescription('postDescription')} onKeyPress={this.keyPress}/>
                                             }
                                       </FormGroup>
                                     </Grid>
@@ -832,7 +830,7 @@ class Submit extends Component {
                                     </div>
                                   </Grid>
                                 </Grid>
-                                <div  style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>Separate each Tag with a comma ( Ex. security,legal )</div>
+                                <div  style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>Separate each Tag with a comma ( Ex. security,legal ); no trailing commas ( Ex. security,legal, )</div>
                               </FormGroup>
                             </Form>
                         </Grid>

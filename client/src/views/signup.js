@@ -14,7 +14,6 @@ import '../components/ribbon/ribbon.css';
 import {Link} from "react-router-dom";
 import { googleanalytics } from '../components/analytics';
 
-// const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const keys = require('../secrets/keys');
 
 class Signup extends Component {

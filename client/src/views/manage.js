@@ -480,8 +480,6 @@ class Manage extends Component {
       })
     }
 
-
-
     handleChangeTab = (event, tabValue) => {
       this.setState({ tabValue });
     };
@@ -500,6 +498,7 @@ class Manage extends Component {
                         background: this.props.theme[0].MainBackground,
                         height:this.state.height,
                         marginTop:48,
+                        padding:5,
                     }}
                 >
                     {/* Top Section */}

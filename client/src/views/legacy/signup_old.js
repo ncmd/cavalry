@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 import {
     pingBackend,setUserEmail,emailJidoka,applySecurity
 } from '../redux/actions';
-import Typography from '@material-ui/core/Typography';
+// import div from '@material-ui/core/div';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { InputGroup, InputGroupText, InputGroupAddon, Input ,FormFeedback } from 'reactstrap';
@@ -370,9 +370,9 @@ class Signup extends Component {
             <Grid style={{background:'transparent'}} container direction={'column'} justify={'center'} alignItems={'center'}>
                 <Paper square={false} style={{background:'#283593', width:428,maxWidth:"100%", marginTop:20}}>
                     <Grid item style={{margin:50, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
-                        <Typography variant="headline" style={{color:'white', marginTop:40}}>
+                        <div variant="headline" style={{color:'white', marginTop:40}}>
                             <b>Create your account</b>
-                        </Typography>
+                        </div>
 
                         <InputGroup style={{marginTop:40}}>
                             <InputGroupAddon addonType="prepend">
@@ -427,16 +427,16 @@ class Signup extends Component {
       return (
           <Grid container style={{ background:'transparent'}} alignItems="center" direction="column" justify="center" >
             <Paper square={false} style={{background:'#283593',width:628,maxWidth:"100%", marginTop:20}}>
-              <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}><b>Select Plan</b></Typography><br/>
+              <div variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}><b>Select Plan</b></div><br/>
               <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:50, marginTop:0}} >
                   <Grid container style={{ background:'transparent'}} alignItems="center" direction="column" justify="center" spacing={8}>
-                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>Free</Typography></Button></Grid>
-                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>1 Month Pro</Typography></Button></Grid>
-                    <Grid item ><Button style={{background:'white',width:290, height:130}}><Typography style={{ textTransform:'none'}}>12 Months Business</Typography></Button></Grid>
+                    <Grid item ><Button style={{background:'white',width:290, height:130}}><div style={{ textTransform:'none'}}>Free</div></Button></Grid>
+                    <Grid item ><Button style={{background:'white',width:290, height:130}}><div style={{ textTransform:'none'}}>1 Month Pro</div></Button></Grid>
+                    <Grid item ><Button style={{background:'white',width:290, height:130}}><div style={{ textTransform:'none'}}>12 Months Business</div></Button></Grid>
                     <Grid item ><Button raised="true" variant="raised" style={{marginLeft:'auto',marginRight:'auto',height:40, background:'#F44336', marginTop: 20,width:290}} onClick={() =>this.handleSelectPlan()}>
-                        <Typography style={{color:'white'}} variant={"body2"} >
+                        <div style={{color:'white'}} variant={"body2"} >
                             Next
-                        </Typography>
+                        </div>
                     </Button></Grid>
                   </Grid>
 
@@ -453,28 +453,28 @@ class Signup extends Component {
         return (
             <Grid container style={{ background:'transparent'}} alignItems="center" direction="column" justify="center" >
               <Paper square={false} style={{background:'#283593',width:628,maxWidth:"100%", marginTop:20}}>
-                <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}><b>Cavalry subscription</b></Typography><br/>
+                <div variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}><b>Cavalry subscription</b></div><br/>
                 <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:50, marginTop:0}} >
                     <StripeProvider stripe={this.state.stripe}>
                         <div className="Checkout" >
-                          <Typography variant="caption" style={{color:'#b2b9e1'}}>
+                          <div variant="caption" style={{color:'#b2b9e1'}}>
                             You're about to set up an ongoing, autorenewing subscription to Cavalry for your email:
-                          </Typography>
-                            <Typography variant="caption" style={{color:'#b2b9e1', marginBottom:20 }}>
-                                 <Typography style={{color:'white'}}>{this.state.email}</Typography><br/>
+                          </div>
+                            <div variant="caption" style={{color:'#b2b9e1', marginBottom:20 }}>
+                                 <div style={{color:'white'}}>{this.state.email}</div><br/>
                                 You'll pay USD $10.00 for this, monthly.<br/><br/>
                                 This subscription will renew automatically each month until you cancel. You may cancel at any time. If you cancel, you will not be billed for any additional months of service, and service will continue until the end of the billing period. If you cancel, you will not receive a refund for any service already paid for. Receipts will be delivered via email.
                                 By purchasing Cavalry Subscription, you agree to the Cavalry User Agreement.
-                            </Typography>
+                            </div>
                             <Elements >
                                 <SplitForm fontSize={elementFontSize} />
                             </Elements>
                         </div>
                     </StripeProvider>
                     <Button raised="true" variant="raised" style={{marginLeft:'auto',marginRight:'auto',height:40, background:'#F44336', marginTop: 20,width:'100%'}} onClick={() =>this.handleCancel()}>
-                        <Typography style={{color:'white'}} variant={"body2"} >
+                        <div style={{color:'white'}} variant={"body2"} >
                             cancel
-                        </Typography>
+                        </div>
                     </Button>
                 </Grid>
               </Paper>
@@ -485,9 +485,9 @@ class Signup extends Component {
     renderThankYou(){
       return (
         <Grid container style={{ background:'#283593',borderColor:'#474f97', flexGrow:1, margin:"0 auto", maxWidth:"30em"}} alignItems="center" direction="column" justify="center" >
-            <Typography variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}>Thank you for your Subscription!</Typography>
+            <div variant="headline" style={{textAlign:'center',color:'white',marginTop:40}}>Thank you for your Subscription!</div>
             <Grid item style={{marginLeft:'auto',marginRight:'auto', width:'75%',maxWidth:500, marginBottom:40}} >
-                <Typography variant="body2" style={{textAlign:'center',color:'white',marginTop:40}}>We will send you an Invoice to your email address: {this.state.email}</Typography>
+                <div variant="body2" style={{textAlign:'center',color:'white',marginTop:40}}>We will send you an Invoice to your email address: {this.state.email}</div>
             </Grid>
         </Grid>
       )
@@ -528,7 +528,7 @@ class Signup extends Component {
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
                         <Grid style={{background:'transparent', width:'100%',height:105, marginTop:20}} container direction={'row'} justify={'center'} alignItems={'center'}>
                             <Paper style={{height:105, paddingLeft:20,paddingRight:20, background: "linear-gradient(to right, #ff1744, #F44336 "}}>
-                                <Typography variant="display3"  style={{color:'white',textAlign:"center", marginTop:'auto',marginBottom:'auto', padding:'10px 0'}}>CAVALRY</Typography>
+                                <div variant="display3"  style={{color:'white',textAlign:"center", marginTop:'auto',marginBottom:'auto', padding:'10px 0'}}>CAVALRY</div>
                             </Paper>
                         </Grid>
                         {content}

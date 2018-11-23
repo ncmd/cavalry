@@ -12,14 +12,11 @@ import {
     darkThemeLoad,
 } from '../redux/actions';
 import Hidden from '@material-ui/core/Hidden';
-// import { AlgoliaPostsHits,AlgoliaConnectedCheckBoxRefinementList } from '../components/algolia/config';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { googleanalytics } from '../components/analytics';
 import Button from '@material-ui/core/Button';
 import {Link} from "react-router-dom";
-// import { Badge } from 'reactstrap';
 import Truncate from 'react-truncate';
-// import Typography from '@material-ui/core/Typography';
 import Select from 'react-select';
 import Star from '@material-ui/icons/Star';
 import StarBorder from '@material-ui/icons/StarBorder';

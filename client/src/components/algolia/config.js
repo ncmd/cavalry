@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
 import {
-  // InstantSearch,
   Hits,
-  // SearchBox,
   Highlight,
   RefinementList,
-  // Pagination,
-  // CurrentRefinements,
-  // ClearRefinements,
   connectSearchBox,
   connectHits,
-  // connectCurrentRefinements,
   connectRefinementList
 } from 'react-instantsearch-dom';
-// import Grid from '@material-ui/core/Grid';
-// import Hidden from '@material-ui/core/Hidden';
 import { Input,InputGroup, InputGroupText, InputGroupAddon } from 'reactstrap';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';

@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import { Form, FormGroup,Input } from 'reactstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {

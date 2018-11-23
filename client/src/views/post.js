@@ -330,7 +330,6 @@ class Post extends Component {
         // console.log("State Organization Activity:",this.state.organizationActivity)
       }
 
-
         this.updateWindowDimensions();
         window.addEventListener('resize', this.updateWindowDimensions);
         // console.log(this.props.location);

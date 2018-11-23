@@ -10,7 +10,6 @@ if (process.env.REACT_APP_HOST_ENV === 'local' && process.env.NODE_ENV !== 'prod
   });
 }
 
-
 export const Cavalry_Webapp_Submit_Runbook_Userpublishedrunbook = (runbooktitle) => {
   ReactGA.event(
       {

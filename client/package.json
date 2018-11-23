@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "@githubprimer/octicons-react": "^8.1.0",
-    "@material-ui/core": "^3.2.0",
+    "@material-ui/core": "^3.5.1",
     "@material-ui/icons": "^2.0.0",
     "ajv": "^6.5.4",
     "axios": "^0.18.0",

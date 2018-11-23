@@ -6,7 +6,7 @@ import { withRouter } from 'react-router-dom';
 import {
     pingBackend,
 } from '../redux/actions';
-import Typography from '@material-ui/core/Typography';
+// import Typography from '@material-ui/core/Typography';
 import axios from "axios/index";
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
@@ -102,8 +102,8 @@ class Status extends Component {
                 >
                     <Grid container style={{flexGrow:1, margin:"0 auto", maxWidth:"63em"}} >
                         <Grid item style={{height:800, borderColor:'#474f97', textTransform: 'none', marginRight:20}}>
-                            <Typography style={{color:'white'}}>/api/ping Status: {this.state.statusPing}</Typography><br/>
-                            <Typography style={{color:'white'}}>/api/posts Status: {this.state.statusPosts}</Typography><br/>
+                            {/* <Typography style={{color:'white'}}>/api/ping Status: {this.state.statusPing}</Typography><br/>
+                            <Typography style={{color:'white'}}>/api/posts Status: {this.state.statusPosts}</Typography><br/> */}
                         </Grid>
                     </Grid>
                 </div>

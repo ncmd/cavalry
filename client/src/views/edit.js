@@ -21,74 +21,16 @@ import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from 'quill-image-resize-module-react';
 import './edit.css';
 import { googleanalytics } from '../components/analytics';
-import Dialog from '@material-ui/core/Dialog';
-import Slide from '@material-ui/core/Slide';
+// import Dialog from '@material-ui/core/Dialog';
+// import Slide from '@material-ui/core/Slide';
 import Select from 'react-select';
-import Octicon, {ScreenFull} from '@githubprimer/octicons-react'
-import {Panel} from 'primereact/panel';
+// import Octicon, {ScreenFull} from '@githubprimer/octicons-react'
+import {Accordion,AccordionTab} from 'primereact/accordion';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 
 Quill.register('modules/ImageResize', ImageResize);
-
-
-// const bodyBlue = "linear-gradient(#1a237e, #121858)";
-// const objectiveButton = "linear-gradient(to right, #304ffe, #2962ff)";
-// const submitButton = "linear-gradient(to right, #ff1744, #F44336 ";
-const CustomButton = () => <Octicon icon={ScreenFull}/>
-
-
-// function imageHandler(image, callback){
-//   var range = this.quillRef.getEditor().getSelection();
-//   var value = prompt('What is the image URL');
-//   if(value) {
-//       this.quillRef.getEditor().insertEmbed(range.index, 'image', value, "user");
-//   }
-// }
-//
-//
-// function insertToEditor(url){
-//   const range = this.quillRef.getEditor().getSelection();
-//   this.quillRef.getEditor().insertEmbed(range.index, 'image', url);
-// }
-
-// function selectLocalImage(){
-//   const input = document.createElement('input');
-//   input.setAttribute('type', 'file');
-//   input.click();
-//
-//   // Listen upload local image and save to server
-//   input.onchange = () => {
-//     const file = input.files[0];
-//
-//     // file type is only image.
-//     if (/^image\//.test(file.type)) {
-//       // this.saveToServer(file);
-//       console.log("file",file)
-//
-//       var promise = new Promise(function(resolve, reject) {
-//         resolve( auth.uploadImageForPost(file,"/posts/submit/"+file.name));
-//       })
-//
-//       promise.then(() => {
-//       console.log("Completed uploadImageForPost")
-//         var promise = new Promise(function(resolve, reject) {
-//             resolve( auth.getImageUrl("/posts/submit/"+file.name));
-//         })
-//           promise.then((url) => {
-//             console.log("Completed getImageUrl",url)
-//             this.insertToEditor(url)
-//           })
-//
-//       })
-//     } else {
-//       console.warn('You could only upload images.');
-//     }
-//   };
-// }
-
-
 
 // a little function to help us with reordering the result
 const reorder = (list, startIndex, endIndex) => {
@@ -124,11 +66,6 @@ const getListStyle = isDraggingOver => ({
   borderRadius: '5px 5px 5px 5px',
   border:'1px solid #ced4da',
 });
-
-
-function Transition(props) {
-  return <Slide direction="up" {...props} />;
-}
 
 class Edit extends Component {
 
@@ -217,9 +154,6 @@ class Edit extends Component {
           <button className="ql-list" value="ordered" />
           <button className="ql-link" />
           <button className="ql-image" />
-          <button className="ql-fullscreen" style={{float:'right', color:this.props.theme[0].PrimaryLight}}>
-            <CustomButton />
-          </button>
         </div>
       )
     }
@@ -270,7 +204,7 @@ class Edit extends Component {
     }
 
     clickEvent(){
-      console.log("Clicked")
+      // console.log("Clicked")
       if (this.state.contentClicked === false){
         this.setState({
           contentPlaceholder: '',
@@ -310,7 +244,6 @@ class Edit extends Component {
         },() => {
           this.validateTitle(this.state.postTitle)
           this.props.editSubmitTitle(this.state.postTitle);
-          console.log("PROPS SUBMIT",this.props.submit)
         });
 
     };
@@ -321,7 +254,6 @@ class Edit extends Component {
         }, ()=> {
           this.validateDescription(this.state.postDescription);
           this.props.editSubmitDescription(this.state.postDescription);
-          console.log("PROPS SUBMIT",this.props.submit)
         });
 
     };
@@ -330,7 +262,7 @@ class Edit extends Component {
         this.setState({
             [tags]: event.target.value,
         }, () => {
-          console.log("Validating...")
+          // console.log("Validating...")
           this.validateTags(this.state.tags)
         });
     };
@@ -380,9 +312,6 @@ class Edit extends Component {
         [objectiveTitle]: event.target.value,
     },() => {
       this.validateObjectiveTitle(this.state.objectiveTitle);
-
-
-
     });
   };
 
@@ -398,7 +327,7 @@ class Edit extends Component {
   }
 
   removeObjective(objectiveIndex) {
-    console.log("this state objectives:",this.state.objectives)
+    // console.log("this state objectives:",this.state.objectives)
     // Get static state of 'objectives'
     let prevObjectives = this.state.objectives;
 
@@ -459,7 +388,7 @@ class Edit extends Component {
       objectiveIndex: this.state.objectiveIndex + 1,
     }, () => {
       this.props.editSubmitObjectives(this.state.objectives)
-      console.log(this.props.submit)
+      // console.log(this.props.submit)
       this.setState({
         objectiveTitle: '',
         objectiveTitleValid:false,
@@ -484,7 +413,7 @@ class Edit extends Component {
           </FormGroup>
           <FormGroup>
               <div  style={{color:'white'}}>Objective {index+1} Description</div>
-              <Input type="textarea" style={{height:200}} placeholder={t.description} onChange={this.handlePostDescription('postDescription')}/>
+              <Input type="textarea" style={{height:200}} placeholder={t.description} onChange={this.handlePostDescription('postDescription')} />
           </FormGroup>
         </Grid>
       );
@@ -493,7 +422,7 @@ class Edit extends Component {
 
   validateTags(tags){
       const tagRegex = /^.*[^,]$/
-      console.log(tags)
+      // console.log(tags)
       if (tagRegex.test(tags)) {
           // // console.log("Valid Email Address:",email);
           var myArray = tags.split(',');
@@ -504,24 +433,16 @@ class Edit extends Component {
             tags: myArray
           })
           }
-
-
           this.props.editSubmitTags(myArray)
-
-          // console.log("Tags are valid!")
       } else {
-          // console.log("Still invalid...")
           this.setState({tagsValid:false})
       }
   }
 
   validateTitle(title){
       if (this.state.postTitle !=='' && this.state.postTitle.length <= 55 ) {
-          // // console.log("Valid Email Address:",email);
           this.setState({titleValid:true});
-          // console.log("Title is valid!")
       } else {
-          // console.log("Still invalid...")
           this.setState({titleValid:false})
       }
   }
@@ -547,7 +468,7 @@ class Edit extends Component {
   }
 
   validateDescription(description){
-      if (this.state.postDescription !=='' && this.state.postDescription.length <= 75) {
+      if (this.state.postDescription !=='' && this.state.postDescription.length <= 140) {
           // // console.log("Valid Email Address:",email);
           this.setState({descriptionValid:true});
           // console.log("Description is valid!")
@@ -568,7 +489,7 @@ class Edit extends Component {
               this.state.postTitle,
               this.state.postDescription,
               this.state.tags,
-              this.state.objectives)}><b>Submit</b>
+              this.state.objectives)}><b>Publish</b>
             </Button>
         </Grid>
       )
@@ -626,7 +547,7 @@ class Edit extends Component {
               style={getListStyle(snapshot.isDraggingOver)}
             >
               {this.state.objectives.map((obj, index) => (
-                <Draggable key={obj.title} draggableId={obj.title+1} index={index}>
+                <Draggable key={obj.title+Math.random()+(Math.random())} draggableId={obj.title+1} index={index}>
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
@@ -637,16 +558,18 @@ class Edit extends Component {
                         provided.draggableProps.style
                       )}
                     >
-                    <Panel key={obj.title} header={<b>{obj.title}</b>} toggleable={true} collapsed={this.state.panelCollapsed} onToggle={(e) => this.setState({panelCollapsed: e.value})}>
+                    <Accordion multiple={true}>
+                    <AccordionTab key={obj.title} header={obj.title}>
                         <div  className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: obj.description}} />
                           <Grid container spacing={8} alignItems="center" direction="row" justify="space-between" style={{paddingTop:5}}>
                           <Grid key={obj.department+Math.random()+(Math.random())} item >
-                              <span style={{background:this.props.theme[0].PostsTagsBackground,height:20, borderRadius:5,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
+                          <span style={{background:this.props.theme[0].PostsTagsBackground, borderRadius:5,textAlign:'center',color:'white',display:'inline-block', fontWeight:'bold', paddingLeft:10, paddingRight:10, marginRight:5}}>
                               <div style={{color:'white',  letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{obj.department}</b></div>
                             </span>
                         </Grid>
                         </Grid>
-                      </Panel>
+                        </AccordionTab>
+                    </Accordion>
                       <Grid container alignItems="center" direction="row" justify="space-between" style={{marginTop:8}}>
                         <Grid item >
                           <Button style={{background:'transparent', border: '1px solid #3d63ff'}} onClick={() => this.removeObjective(index)}>
@@ -673,7 +596,7 @@ class Edit extends Component {
     renderAddObjectiveButton(){
       if (this.state.objectiveTitleValid === true && this.state.objectiveTitle.length !== 0){
         return (
-          <Button style={{ height:30, background:this.props.theme[0].PrimaryLinear, textTransform: 'none', color:'white', letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex,this.state.objectiveDepartment)}><b>Add Objective</b></Button>
+          <Button style={{ border:this.props.theme[0].PrimaryBorder, height:30, background:this.props.theme[0].PrimaryLinear, textTransform: 'none', color:'white', letterSpacing:'-0.5px', fontSize:'12px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}} onClick={()=> this.addObjective(this.state.objectiveTitle,this.state.objectiveDescription,this.state.objectiveIndex,this.state.objectiveDepartment)}><b>Add Objective</b></Button>
         )
       } else {
         return (
@@ -782,8 +705,8 @@ class Edit extends Component {
       this.setState({
           [objectiveDepartment]: event.value,
       }, () => {
-        console.log("Selected:",event.value)
-        console.log(this.state.objectiveDepartment)
+        // console.log("Selected:",event.value)
+        // console.log(this.state.objectiveDepartment)
         this.props.editSubmitDepartment(event.value)
       })
 
@@ -875,9 +798,9 @@ class Edit extends Component {
                                   </div>
                                 </Grid>
                               </Grid>
-                                <Grid container style={{flexGrow:1, margin:"0 auto", marginBottom:8}} direction={'row'} justify={'flex-start'} alignItems={'center'}>
-                                    <Grid item xs={10}>
-                                      <FormGroup style={{margin:0}}>
+                              <Grid container style={{flexGrow:1, margin:"0 auto", marginBottom:8, height:"auto !important"}} direction={'row'} justify={'flex-start'} alignItems={'center'}>
+                                    <Grid item xs={10} style={{height:"auto !important"}}>
+                                      <FormGroup style={{margin:0, height:"auto !important"}}>
                                       {this.state.descriptionValid
                                       ?
                                             <Input  type="textarea" style={{height:38, boxShadow:'none'}} placeholder="Description"  value={this.state.postDescription}  onChange={this.handlePostDescription('postDescription')}/>
@@ -889,7 +812,7 @@ class Edit extends Component {
                                     </Grid>
                                   <Grid item xs style={{marginLeft: 5}}>
                                     <div style={{ color:this.props.theme[0].PostsTypographyTitle, textAlign:'right',float:'right',verticalAlign:'middle', letterSpacing:'-0.5px', fontSize:'14px', fontWeight:340, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
-                                      {this.state.postDescription.length}/75
+                                      {this.state.postDescription.length}/140
                                     </div>
                                   </Grid>
                                 </Grid>
@@ -911,7 +834,7 @@ class Edit extends Component {
                                     </div>
                                   </Grid>
                                 </Grid>
-                                <div  style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>Separate each Tag with a comma ( Ex. security,legal )</div>
+                                <div  style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>Separate each Tag with a comma ( Ex. security,legal ); no trailing commas ( Ex. security,legal, )</div>
                               </FormGroup>
                             </Form>
                         </Grid>
@@ -937,33 +860,10 @@ class Edit extends Component {
                                         }
                                   </FormGroup>
                                   <FormGroup>
-                                      <div  style={{color:this.props.theme[0].PostsTypographyTitle, textTransform:'none'}}><b>Objective Assigned Department</b></div>
-                                        {this.renderSelect()}
+                                    {this.renderSelect()}
                                     <div  style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>This is the ideal department you want to assign this objective.</div>
                                   </FormGroup>
                                   <FormGroup>
-                                {this.state.open ?
-                                  <Dialog
-                                    fullScreen
-                                    open={this.state.open}
-                                    onClose={this.handleClose}
-                                    TransitionComponent={Transition}
-                                    style={{maxWidth:800,flexGrow:1, margin:"0 auto"}}
-                                  >
-                                  <div className="text-editor">
-                                    {this.CustomToolbar()}
-                                      <ReactQuill
-                                        className={'quillFullScreen'}
-                                        ref={(el) => this.quillRef = el}
-                                        placeholder={"Text (optional)"}
-                                        modules={this.modules}
-                                        style={{background:'white'}}
-                                        value={this.state.objectiveDescription}
-                                        onChange={this.handleChangeObjectiveDescription}
-                                      />
-                                  </div>
-                                  </Dialog>
-                                  :
                                   <div className="text-editor">
                                     {this.CustomToolbar()}
                                     <ReactQuill
@@ -975,7 +875,6 @@ class Edit extends Component {
                                       onChange={this.handleChangeObjectiveDescription}
                                     />
                                   </div>
-                                  }
                                   </FormGroup>
                               <FormGroup style={{marginBottom:0}}>
                                 <Grid container style={{background:this.props.theme[0].PostsButtonBackground, flexGrow:1, margin:"0 auto", maxWidth:"63em"}} alignItems="flex-start" direction="row" justify="space-between" >

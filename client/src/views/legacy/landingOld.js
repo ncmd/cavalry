@@ -3,7 +3,7 @@ import Header from '../components/header/header';
 import Banner from '../components/banner/banner';
 import Subscribe from '../components/subscribe/subscribe';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
+// import div from '@material-ui/core/div';
 import Button from '@material-ui/core/Button';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -230,8 +230,8 @@ class Landing extends Component {
                             style={listItemStyle}
                         >
                             <ListItemText
-                                primary={<Typography style={{color:'white'}} variant="button">{value}</Typography>}
-                                secondary={<Typography style={{color:'#939ed5'}} variant="caption">{this.state.filterOptions[this.state.selectedIndex]}</Typography>}
+                                primary={<div style={{color:'white'}} variant="button">{value}</div>}
+                                secondary={<div style={{color:'#939ed5'}} variant="caption">{this.state.filterOptions[this.state.selectedIndex]}</div>}
                             />
                         </ListItem>
                     </List>
@@ -248,9 +248,9 @@ class Landing extends Component {
                                 onClick={event => this.handleMenuItemClick(event, index)}
                                 style={{width:188, background:'#283593', color:'white' , margin:'-8px 0 -8px 0'}}
                             >
-                                <Typography variant="caption" style={{color:'white'}}>
+                                <div variant="caption" style={{color:'white'}}>
                                     {option}
-                                </Typography>
+                                </div>
                             </MenuItem>
                         ))}
                     </Menu>
@@ -300,37 +300,37 @@ class Landing extends Component {
                                 <Grid item xs={9} style={{textAlign:'left'}}>
                                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                                         <Grid item zeroMinWidth>
-                                            <Typography variant="title" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                            <div variant="title" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                               <Hidden mdDown>
                                               <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
                                                  {value.title}
                                              </Truncate>
                                            </Hidden>
-                                            </Typography>
+                                            </div>
 
-                                            <Typography variant="subheading" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                            <div variant="subheading" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                               <Hidden mdDown>
                                               <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
                                                  {value.description}
                                              </Truncate>
                                              </Hidden>
-                                           </Typography>
+                                           </div>
 
-                                          <Typography variant="body2" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                          <div variant="body2" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                            <Hidden smUp>
                                            <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                                               {value.title}
                                           </Truncate>
                                         </Hidden>
-                                         </Typography>
-                                         <Typography variant="caption" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                         </div>
+                                         <div variant="caption" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                            <Hidden smUp>
                                            <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                                               {value.description}
                                           </Truncate>
                                         </Hidden>
 
-                                            </Typography>
+                                            </div>
                                         </Grid>
                                         <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
                                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
@@ -343,9 +343,9 @@ class Landing extends Component {
                                 <Grid item style={{ textAlign:'left',borderLeft: '2px solid rgba(0, 0, 0, 0.12)'}}>
                                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                                         <Grid item>
-                                            <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
+                                            <div variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
                                                 {value.objectives.length} Objectives
-                                            </Typography>
+                                            </div>
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -371,37 +371,37 @@ class Landing extends Component {
                                 <Grid item xs={9} style={{textAlign:'left'}}>
                                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                                         <Grid item zeroMinWidth>
-                                            <Typography variant="title" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                            <div variant="title" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                               <Hidden mdDown>
                                               <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
                                                  {value.title}
                                              </Truncate>
                                            </Hidden>
-                                            </Typography>
+                                            </div>
 
-                                            <Typography variant="subheading" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                            <div variant="subheading" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                               <Hidden mdDown>
                                               <Truncate width={580} lines={1} ellipsis={<span>...</span>}>
                                                  {value.description}
                                              </Truncate>
                                              </Hidden>
-                                           </Typography>
+                                           </div>
 
-                                          <Typography variant="body2" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                          <div variant="body2" style={{color:'white', minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                            <Hidden smUp>
                                            <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                                               {value.title}
                                           </Truncate>
                                         </Hidden>
-                                         </Typography>
-                                         <Typography variant="caption" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
+                                         </div>
+                                         <div variant="caption" style={{color:'#939ed5', marginTop:10, minWidth:0, flexGrow:1, overflowX:'hidden'}}>
                                            <Hidden smUp>
                                            <Truncate width={275} lines={1} ellipsis={<span>...</span>}>
                                               {value.description}
                                           </Truncate>
                                         </Hidden>
 
-                                            </Typography>
+                                            </div>
                                         </Grid>
                                         <Grid item style={{marginTop:10 ,marginRight:5, overflow:"hidden"}}>
                                           <Grid container style={{ flexGrow:1, height:"100%", width:"100%", }}  alignItems={"center"} direction={"row"} justify={"space-between"}>
@@ -414,9 +414,9 @@ class Landing extends Component {
                                 <Grid item style={{ textAlign:'left',borderLeft: '2px solid rgba(0, 0, 0, 0.12)'}}>
                                     <Grid container style={{flexGrow:1}} alignItems={'flex-start'} justify={'space-between'} direction={'column'} >
                                         <Grid item>
-                                            <Typography variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
+                                            <div variant="subheading" style={{color:'#939ed5', marginLeft:20, marginTop:10}}>
                                                 {value.objectives.length} Objectives
-                                            </Typography>
+                                            </div>
                                         </Grid>
                                     </Grid>
                                 </Grid>

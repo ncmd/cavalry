@@ -35,6 +35,7 @@
             <Item>*\cloud.google.com\</Item>
             <Item>*\.git\</Item>
             <Item>.driveupload</Item>
+            <Item>firestore.json</Item>
             <Item>*\.temp.drivedownload</Item>
             <Item>*\.tmp.drivedownload</Item>
             <Item>*\*.driveupload</Item>

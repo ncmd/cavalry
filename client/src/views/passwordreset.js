@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom';
 import {
     loginUser,
 } from '../redux/actions';
-import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { InputGroup, InputGroupText, InputGroupAddon, Input, FormFeedback } from 'reactstrap';
@@ -212,8 +211,8 @@ class PasswordReset extends Component {
       } else {
         return (
           <div>
-            <Typography style={{color:'white'}} variant={'caption'}>{this.state.loginError}</Typography>
-            <Button style={{background:resetPasswordButton}} onClick={() => auth.doPasswordReset(this.state.email)}><Typography style={{color:'white'}} variant={'caption'}><b>Reset password</b></Typography></Button>
+            <div style={{color:'white'}} variant={'caption'}>{this.state.loginError}</div>
+            <Button style={{background:resetPasswordButton}} onClick={() => auth.doPasswordReset(this.state.email)}><div style={{color:'white'}} variant={'caption'}><b>Reset password</b></div></Button>
           </div>
         )
       }
@@ -236,9 +235,9 @@ class PasswordReset extends Component {
                         <Grid style={{background:'transparent'}} container direction={'row'} justify={'center'} alignItems={'center'}>
                             <Paper square={false} style={{background:'#283593', height:425,width:428,maxWidth:"95%", marginTop:20}}>
                                 <Grid item style={{margin:20, textAlign:'center', marginLeft:'auto',marginRight:'auto', width:'75%'}}>
-                                    <Typography variant="headline" style={{color:'white', marginTop:40}}>
+                                    <div variant="headline" style={{color:'white', marginTop:40}}>
                                         <b>Create a new password</b>
-                                    </Typography>
+                                    </div>
                                     <InputGroup style={{marginTop:40}}>
                                         <InputGroupAddon addonType="prepend">
                                             <InputGroupText style={{background:'white'}}><span aria-label="emoji" role="img">🔑</span></InputGroupText>

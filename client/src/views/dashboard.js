@@ -7,7 +7,6 @@ import {
 } from '../redux/actions';
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 
-
 class Dashboard extends Component {
 
     constructor(props) {

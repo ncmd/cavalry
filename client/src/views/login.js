@@ -6,12 +6,10 @@ import { withRouter } from 'react-router-dom';
 import {
     loginUser,getAccount,loadOrganizationAll
 } from '../redux/actions';
-import Button from '@material-ui/core/Button';
-import { InputGroup, Input, FormFeedback,  Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Button, InputGroup, Input, FormFeedback,  Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import * as auth from "../components/firebase/auth";
 import { googleanalytics } from '../components/analytics';
 import {Link} from "react-router-dom";
-// const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const resetPasswordButton = "linear-gradient(#F44336, #ff1744 ";
 
 class Login extends Component {

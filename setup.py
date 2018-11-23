@@ -18,8 +18,8 @@ def main():
     # print("Hello World")
 
 def github_clone():
-    path = "C:\\Users\\test\\go\\src"
-    project_path = "C:\\Users\\test\\go\\src\\cavalry"
+    path = "C:\\Users\\test\\go\\src_test"
+    project_path = "C:\\Users\\test\\go\\src_test\\cavalry"
     try:
         os.mkdir(path)
         os.makedirs(path)
@@ -56,7 +56,7 @@ def python_setup():
     # Checking Python Version 3.7.1 as default version
     try:
         pythonVersion = os.popen('python --version').read()
-        if pythonVersion == 'Python 3.7.1\n':
+        if "Python 3" in pythonVersion:
             print("System is using correct Python Version 3.7.1")
             # Install pytlint package  
             subprocess.call(['python','-m','pip','install','-U','pylint',\
@@ -67,7 +67,6 @@ def python_setup():
     else:
         return True
     
-
 def git_setup():
     try:
         subprocess.call(['git','config','--global','core.autocrlf','false'])
@@ -75,12 +74,11 @@ def git_setup():
         return False
     else:
         return True
-    
 
 def nodejs_setup():
     try:
         subprocess.call(['npm','install','-g','concurrently','cross-var',\
-        'cross-env','firebase-tools','npm-run-all'], shell=True)
+        'cross-env','firebase-tools','npm-run-all','gnomon'], shell=True)
     except OSError:
         return False
     else:
@@ -94,7 +92,6 @@ def react_setup():
     else:
         return True
     
-
 def go_setup():
     try:
         subprocess.call(['npm','run','first-setup-go-all-x'], shell=True)
@@ -113,7 +110,5 @@ def freefilesync_setup():
     else:
         return True
     
-    
-
 if __name__ == '__main__':
     main()

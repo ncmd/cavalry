@@ -20,7 +20,6 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CompleteIcon from '@material-ui/icons/CheckCircle';
 import ExpansionPanelActions from '@material-ui/core/ExpansionPanelActions';
-// import { fromJS, Seq, Map, List} from 'immutable';
 import Hidden from '@material-ui/core/Hidden';
 import {Link} from "react-router-dom";
 import Truncate from 'react-truncate';
@@ -32,7 +31,6 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-// import Fade from '@material-ui/core/Fade';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 

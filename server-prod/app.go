@@ -22,7 +22,7 @@ func main() {
 	for _, element := range os.Environ() {
 		variable := strings.Split(element, "=")
 		if variable[0] == "APP_ENV" {
-			fmt.Println(len(variable[1]))
+			fmt.Println((variable[1]))
 			if variable[1] == "local " {
 				stripesecretkey = config.StripeLocalSecretKey
 				stripeproduct = config.StripeTestProduct
@@ -134,6 +134,8 @@ func main() {
 	http.ListenAndServe(":"+port, nil)
 
 }
+
+// Setting up Credentials from config.toml file
 func (c *Config) Read() {
 	if _, err := toml.DecodeFile("./config/config.toml", &c); err != nil {
 		fmt.Println(err)
