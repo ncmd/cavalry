@@ -10,8 +10,6 @@ import {
 } from '../redux/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-// import Button from '@material-ui/core/Button';
-// import Hidden from '@material-ui/core/Hidden';
 import {Link} from "react-router-dom";
 import Slide from '@material-ui/core/Slide';
 import Dialog from '@material-ui/core/Dialog';
@@ -23,175 +21,36 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
-import { InputGroup, InputGroupAddon,Button } from 'reactstrap';
+import { InputGroup, InputGroupAddon, Button } from 'reactstrap';
 import Star from '@material-ui/icons/Star';
 import StarBorder from '@material-ui/icons/StarBorder';
-import {Accordion,AccordionTab} from 'primereact/accordion';
+import { Accordion,AccordionTab } from 'primereact/accordion';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import './post.css';
-// import Octicon, {ScreenFull} from '@githubprimer/octicons-react'
 import ReactQuill from 'react-quill';
-import { Comment} from 'semantic-ui-react'
+import { Comment } from 'semantic-ui-react'
 import JavascriptTimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import ReactTimeAgo from 'react-time-ago/no-tooltip'
-// import 'react-time-ago/Tooltip.css'
-// import update from 'immutability-helper';
-// const bodyBlue = "linear-gradient(#1a237e, #121858)";
+
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
-// const CustomButton = () => <Octicon icon={ScreenFull}/>
 
 const styles = theme => ({
   root: {
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
-  },
-  table: {
-
-  },
+  }
 });
 
-const CommentData = [
-  {
-    id: 1,
-    avatar:'/cavalry.svg',
-    user:'Bob',
-    timestamp:'1540779924491',
-    comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-    collapse:false,
-    showCommentBox:false,
-    replies: [
-      {
-        id: 2,
-        parentid:1,
-        avatar:'/cavalry.svg',
-        user:'Charles',
-        timestamp: '1540779924492',
-        comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-        collapse:false,
-        showCommentBox:false,
-        replies: [
-          {
-            id: 3,
-            parentid:2,
-            avatar:'/cavalry.svg',
-            user:'Monkey',
-            timestamp: '1540779924421',
-            comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-            collapse:false,
-            showCommentBox:false,
-            replies: [
-              {
-                id: 4,
-                parentid:3,
-                avatar:'/cavalry.svg',
-                user:'jido',
-                timestamp: '1540779924221',
-                comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-                collapse:false,
-                showCommentBox:false,
-              }
-            ]
-          },{
-            id: 5,
-            parentid:2,
-            avatar:'/cavalry.svg',
-            user:'Hangry',
-            timestamp: '1540779922221',
-            comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-            collapse:false,
-            showCommentBox:false,
-            replies: [
-              {
-                id: 6,
-                parentid: 5,
-                avatar:'/cavalry.svg',
-                user:'Robddddert',
-                timestamp: '1521114227834',
-                comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-                collapse:false,
-                showCommentBox:false,
-              }
-            ]
-          }
-        ]
-      },
-      {
-        id: 7,
-        parentid:1,
-        avatar:'/cavalry.svg',
-        user:'Nate',
-        timestamp: '1540722924491',
-        comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-        collapse:false,
-        showCommentBox:false,
-        replies: [
-          {
-            id: 8,
-            parentid:7,
-            avatar:'/cavalry.svg',
-            user:'Robfffert',
-            timestamp: '1529224447834',
-            comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-            collapse:false,
-            showCommentBox:false,
-            replies: [
-              {
-                id: 9,
-                parentid:8,
-                avatar:'/cavalry.svg',
-                user:'Rofdabert',
-                timestamp: '1542279924491',
-                comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-                collapse:false,
-                showCommentBox:false,
-                replies: [
-                  {
-                    id: 10,
-                    parentid:9,
-                    avatar:'/cavalry.svg',
-                    user:'adsf',
-                    timestamp: '1522279924491',
-                    comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-                    collapse:false,
-                    showCommentBox:false,
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            id: 11,
-            parentid:7,
-            avatar:'/cavalry.svg',
-            user:'Nate',
-            timestamp: '1522779924491',
-            comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-            collapse:false,
-            showCommentBox:false,
-          },
-        ]
-      },
-    ]
-  },{
-    id: 12,
-    avatar:'/cavalry.svg',
-    user:'Alex',
-    timestamp: '1542222924491',
-    comment:'the quick brown fox jumped over the lazy dog and got eaten!',
-    collapse:false,
-    showCommentBox:false,
-  }
-]
-
+const CommentData = require('../components/comments/CommentData.json')
+const CommentDataFlat = require('../components/comments/CommentDataFlat.json')
 
 class Post extends Component {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -216,6 +75,7 @@ class Post extends Component {
             postTimestamp:'',
             postStarred:[],
             postComments:[],
+            postCommentsFlat:[],
             comment:"",
             reply:"",
             rawcomment:"",
@@ -231,7 +91,6 @@ class Post extends Component {
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.handleChangeComment = this.handleChangeComment.bind(this);
     }
-     handleCheckbox = (e, { checked }) => this.setState({ collapsed: checked })
 
     CustomToolbar(){
       return (
@@ -255,8 +114,6 @@ class Post extends Component {
       )
     }
 
-
-
     handleClose = () => {
       this.setState({ open: false });
     };
@@ -279,7 +136,6 @@ class Post extends Component {
           />
         )
       }
-      // if task was assigned, disable / or just be to reassign task
     }
 
     handleChangeSelect = (index,selectValue) => (event) =>  {
@@ -287,42 +143,29 @@ class Post extends Component {
       prevObjectives[index].selectOption = event.value
       prevObjectives[index].selectEmail = event.label
       this.forceUpdate();
-      // this.props.changeOrgMemberDepartment(this.props.account.organizationname,index,event.value)
-      // console.log("You selected:",event)
-      // console.log("Objectives:",this.state.objectives)
-      // this.setState({
-      //   objectives:prevObjectives
-      // })
-
    }
 
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
       JavascriptTimeAgo.locale(en)
       let prevPostComments = this.state.postComments
+      let prevPostCommentsFlat = this.state.postCommentsFlat
       CommentData.map((comment) => {
         prevPostComments.push(comment)
         return null
       })
-      this.setState({
-        postComments: prevPostComments
+      CommentDataFlat.map((comment) => {
+        prevPostCommentsFlat.push(comment)
+        return null
       })
-      console.log(this.state.postComments)
-
+      this.setState({
+        postComments: prevPostComments,
+        postCommentsFlat: prevPostCommentsFlat
+      })
+      console.log(this.state.postCommentsFlat)
       // Load select options if user is logged in
       if (this.props.users.logged === true && this.props.account.organizationmember !== false){
         var prevSelectOptions = this.state.selectValueOptions
-          // this.props.loadOrganizationAll(this.props.account.organizationname).then(()=>{
-          //   this.props.organization.organizationmembers.map((member)=>{
-          //     // console.log("member",member)
-          //     // add each member to selectValueOptions
-          //     prevSelectOptions.push({
-          //       value: member.accountid,
-          //       label: member.emailaddress,
-          //     })
-          //     return null
-          //   })
-          // })
         this.setState({
           selectValueOptions: prevSelectOptions,
           // organizationActivity: prevOrganizationActivity,
@@ -687,7 +530,7 @@ class Post extends Component {
                           <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: nestedComment.comment}} />
                         </Comment.Text>
                         <Comment.Actions>
-                          <Button onClick={() => this.openReplyCommentBox(nestedComment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                          <Button onClick={() => this.toggleReplyCommentBox(nestedComment.id, nestedComment.index)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                             <b>Reply</b>
                           </Button>
                         </Comment.Actions>
@@ -738,7 +581,7 @@ class Post extends Component {
                         <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: nestedComment.comment}} />
                       </Comment.Text>
                       <Comment.Actions>
-                        <Button  onClick={() => this.openReplyCommentBox(nestedComment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                        <Button  onClick={() => this.toggleReplyCommentBox(nestedComment.id, nestedComment.index)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                           <b>Reply</b>
                         </Button>
                       </Comment.Actions>
@@ -755,6 +598,7 @@ class Post extends Component {
     }
 
     renderAllComments(){
+
       return (
         this.state.postComments.map((comment,index) => {
           // console.log(comment)
@@ -796,7 +640,7 @@ class Post extends Component {
                         <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: comment.comment}} />
                       </Comment.Text>
                       <Comment.Actions>
-                        <Button  onClick={() => this.openReplyCommentBox(comment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                        <Button onClick={() => this.toggleReplyCommentBox(comment.id, comment.index)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                           <b>Reply</b>
                         </Button>
                       </Comment.Actions>
@@ -836,7 +680,7 @@ class Post extends Component {
                         <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: comment.comment}} />
                     </Comment.Text>
                     <Comment.Actions>
-                      <Button onClick={() => this.openReplyCommentBox(comment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                      <Button onClick={() => this.toggleReplyCommentBox(comment.id,comment.index)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                         <b>Reply</b>
                       </Button>
                     </Comment.Actions>
@@ -904,32 +748,47 @@ class Post extends Component {
       })
     }
 
-    closeReplyCommentBox(postid){
-      // showCommentBox:true
-      let prevPostComments = this.state.postComments
-      prevPostComments.map((comment,index) => {
-        if (comment.id === postid){
-          prevPostComments[index].showCommentBox = false
-            this.setState({
-              postComments: prevPostComments,
-              reply:"",
-              rawreplylength:0,
-            })
-        }
-        return null
-      })
-    }
+ 
 
-    openReplyCommentBox(postid){
+    toggleReplyCommentBox(postid,postindex){
       // showCommentBox:true
       let prevPostComments = this.state.postComments
+      let targetPostTarget = prevPostComments[postindex[0]]
+      let targetPath = JSON.stringify(prevPostComments[postindex[0]], null, 2)
+      // console.log(postindex)
+      postindex.slice(1).map((v,i) => {
+        targetPostTarget = targetPostTarget.replies[v]
+        // targetPath += JSON.stringify(targetPostTarget.replies[v], null, 2)
+        // console.log("value:",v,"index:",i,"length:",postindex.length)
+        if (i === (postindex.length-2)){
+          // console.log(targetPostTarget)
+          // targetPostTarget.showCommentBox = !targetPostTarget.showCommentBox 
+          // this.setState({
+          //   postComments: targetPostTarget
+          // })
+        }
+      })
+      console.log(targetPostTarget,targetPath)
       prevPostComments.map((comment,index) => {
         if (comment.id === postid){
-          prevPostComments[index].showCommentBox = true
-            this.setState({
-              postComments: prevPostComments,
-            })
+          prevPostComments[index].showCommentBox = !prevPostComments[index].showCommentBox
+          this.setState({
+            postComments: prevPostComments,
+            reply:"",
+            rawreplylength:0,
+          })
         }
+        // if (postindex.length > 1){
+          
+        //   targetPost [postindex[0]] .replies[postindex[1]] .showCommentBox = true
+        //   postindex.map((v,i) => {   
+        //     targetPost = targetPost[postindex[0]].replies[v]
+        //     if ((i+1) === postindex.length ){    ``
+        //       console.log(targetPost)
+        //     }
+        //   })
+        // }
+        
         return null
       })
     }
@@ -939,20 +798,12 @@ class Post extends Component {
       this.setState({
         comment: thiscomment
       })
-      // delete selected comment
       let prevPostComments = this.state.postComments
       prevPostComments.map((comment,index) => {
         if (comment.id === postid){
+          // delete selected comment
           prevPostComments.splice(index, 1);
-          this.setState({
-            postComments: prevPostComments,
-          })
-        }
-        return null
-      })
-      // opencomment box for parent
-      prevPostComments.map((comment,index) => {
-        if (comment.id === postid){
+          // opencomment box for parent
           prevPostComments[index].showCommentBox = true
             this.setState({
               postComments: prevPostComments,
@@ -960,7 +811,6 @@ class Post extends Component {
         }
         return null
       })
-
     }
 
     editReplyComment(parentpostid,userpostid,thiscomment){
@@ -985,34 +835,6 @@ class Post extends Component {
       })
     }
 
-    editReplyCommentCancel(parentpostid,userpostid,thiscomment,replydata){
-      console.log("parent",parentpostid,"postid",userpostid,thiscomment,"replydata",replydata)
-
-      // let prevPostComments = this.state.postComments
-      // let commentData = {
-      //   id: replydata.id,
-      //   parentid: replydata.parentid,
-      //   avatar:'/cavalry.svg',
-      //   user:replydata.user,
-      //   timestamp: replydata.timestamp,
-      //   comment:replydata.comment,
-      //   collapse:false,
-      // }
-      //
-      // prevPostComments.map((comment,index) => {
-      //   if (comment.id === parentpostid){
-      //     prevPostComments[index].showCommentBox = false
-      //     prevPostComments[index].replies.map((reply,ind) => {
-      //       if (reply.id === replydata.id){
-      //         console.log("Found match",reply.id,replydata.id)
-      //       }
-      //     })
-      //
-      //
-      //   }
-      // })
-    }
-
     replyComment(postid,thiscomment,parentid){
       let prevPostComments = this.state.postComments
       let commentData = {
@@ -1032,7 +854,7 @@ class Post extends Component {
               postComments: prevPostComments,
             })
 
-            this.closeReplyCommentBox(postid)
+            this.toggleReplyCommentBox(postid)
         }
         return null
       })
@@ -1081,11 +903,6 @@ class Post extends Component {
       })
     }
 
-
-    renderReplyCommentBox(){
-
-    }
-
     handleChangeComment = (value) => {
 
       let editor = this.quillRef.getEditor();
@@ -1112,6 +929,7 @@ class Post extends Component {
       });
     };
 
+    // This is for replying to the post; not to a comment
     renderCommentButton(parentid){
       if ((this.state.rawcommentlength-1) > 0 && this.state.comment !== "<p><br></p>" && (this.state.rawcommentlength-1) <= 1000){
         return (
@@ -1148,7 +966,7 @@ class Post extends Component {
               <b>Reply</b>
             </div>
           </Button>
-          <Button onClick={() => this.editReplyCommentCancel(parentid,postid,reply,replydata)} style={{ float:'right',marginLeft:16,height:35, marginTop:5,border:0,background:"transparent"}}>
+          <Button onClick={() => this.toggleReplyCommentBox(postid)} style={{ float:'right',marginLeft:16,height:35, marginTop:5,border:0,background:"transparent"}}>
             <div style={{color:this.props.theme[0].PrimaryLight, verticalAlign: 'middle', letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
               <b>Cancel</b>
             </div>
@@ -1164,7 +982,7 @@ class Post extends Component {
                 <b>Reply</b>
               </div>
             </Button>
-            <Button onClick={() => this.editReplyCommentCancel(parentid,postid,reply)}  style={{float:'right',marginLeft:16, height:35, marginTop:5, border:0 ,background:"transparent", color:this.props.theme[0].PrimaryLight}}>
+            <Button onClick={() => this.toggleReplyCommentBox(postid)}  style={{float:'right',marginLeft:16, height:35, marginTop:5, border:0 ,background:"transparent", color:this.props.theme[0].PrimaryLight}}>
               <div style={{color:this.props.theme[0].PrimaryLight, verticalAlign: 'middle', letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                 <b>Cancel</b>
               </div>
@@ -1290,11 +1108,6 @@ class Post extends Component {
                   <Grid item xs={12}>
                     <div>
                       <b style={{color:this.props.theme[0].PostsTypographyDescription}}> {this.props.posts.author} </b>
-                      {/*
-                        <Link style={{textDecoration: 'none' }} to={"users/"+this.props.posts.author}>
-                          <b>{this.props.posts.author}</b>
-                        </Link>
-                        */}
                       <b style={{color:this.props.theme[0].PostsTypographyDescription}}> / </b>
                       <b style={{color:this.props.theme[0].PostsTypographyDescription}}>{this.state.postTitle}</b>
                       {this.renderEditIfOwnedByUser(this.props.account.username)}
@@ -1315,10 +1128,6 @@ class Post extends Component {
                     <Grid container style={{ flexGrow:1, height:"100%", width:"100%" }}  alignItems={"flex-start"} direction={"row"} justify={"flex-end"}>
                     <Grid item  style={{paddingTop:5}}>
                     <div>
-
-                     {/*
-                       <Button style={{background:this.props.theme[0].PrimaryLinear, marginLeft:20}} onClick={() => this.renderModal()}><div  style={{color:'white',textTransform:'none'}}><b>Run</b></div></Button>
-                       */}
                        <Dialog
                          fullScreen
                          open={this.state.open}
@@ -1332,7 +1141,6 @@ class Post extends Component {
                              <div style={{color:this.props.theme[0].PostsTypographyTitle}} ><b>Assign objectives to the appropriate users</b></div>
                            </Grid>
                            <Grid item>
-                            {/* {this.renderAssingAllObjectives()}*/}
                              <Button style={{background:this.props.theme[0].SecondaryLinear}}><div  style={{color:'white', textTransform:'none'}} onClick={() => this.renderModal()}><b>Close</b></div></Button>
                            </Grid>
                          </Grid>
@@ -1360,32 +1168,31 @@ class Post extends Component {
                     <div></div>
                   }
                 </Grid>
-                        <Grid container style={{background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto",  marginTop:5,marginBottom:5,maxWidth:"63em", paddingLeft:15,paddingRight:15,paddingTop:10,paddingBottom:10, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
-                          <Grid item xs >
-                            {this.renderObjectiveLength(this.state.objectives.length)}
-                          </Grid>
-                          <Grid item style={{marginLeft:10}}>
-                            <InputGroup size="sm">
-                              <InputGroupAddon addonType="prepend" style={{marginLeft:5,height:28}}>
-                              {this.renderClickStar(this.state.postId,this.state.postsStarred,null)}
-                                <Button style={{paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3, height:28,verticalAlign: 'middle',background:"white",borderRadius:'0px 5px 5px 0px', boxShadow:'0px 0px 0px 0px',  borderRight:this.props.theme[0].PrimaryBorder,  borderTop:this.props.theme[0].PrimaryBorder, borderBottom:this.props.theme[0].PrimaryBorder}}>
-                                  <div style={{verticalAlign: 'middle',color:"#525f7f", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{this.state.postStars}</b>
-                                </div>
-                              </Button>
-                              </InputGroupAddon>
-                            </InputGroup>
-                          </Grid>
-                        </Grid>
-
-                    {/* Bottom Section */}
-                    <Grid container style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em" }}  alignItems={'flex-start'} justify={'flex-start'} direction={'row'}  >
-                      <Grid item xs style={{width:'100%'}}>
-                        <Accordion multiple={true}>
-                          {this.renderObjectives()}
-                        </Accordion>
-                      </Grid>
+                  <Grid container style={{background:this.props.theme[0].PostsButtonBackground ,border:this.props.theme[0].PostsButtonBorder,  margin:"0 auto",  marginTop:5,marginBottom:5,maxWidth:"63em", paddingLeft:15,paddingRight:15,paddingTop:10,paddingBottom:10, borderRadius:'5px 5px 5px 5px'}} alignItems={'flex-start'} justify={'space-between'} direction={'row'}>
+                    <Grid item xs >
+                      {this.renderObjectiveLength(this.state.objectives.length)}
                     </Grid>
-                    {this.renderCommentBox()}
+                    <Grid item style={{marginLeft:10}}>
+                      <InputGroup size="sm">
+                        <InputGroupAddon addonType="prepend" style={{marginLeft:5,height:28}}>
+                        {this.renderClickStar(this.state.postId,this.state.postsStarred,null)}
+                          <Button style={{paddingLeft:10,paddingRight:10,paddingTop:3,paddingBottom:3, height:28,verticalAlign: 'middle',background:"white",borderRadius:'0px 5px 5px 0px', boxShadow:'0px 0px 0px 0px',  borderRight:this.props.theme[0].PrimaryBorder,  borderTop:this.props.theme[0].PrimaryBorder, borderBottom:this.props.theme[0].PrimaryBorder}}>
+                            <div style={{verticalAlign: 'middle',color:"#525f7f", letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}><b>{this.state.postStars}</b>
+                          </div>
+                        </Button>
+                        </InputGroupAddon>
+                      </InputGroup>
+                    </Grid>
+                  </Grid>
+                  {/* Bottom Section */}
+                  <Grid container style={{ flexGrow:1, marginLeft:'auto', marginRight:'auto', maxWidth:"63em" }}  alignItems={'flex-start'} justify={'flex-start'} direction={'row'}  >
+                    <Grid item xs style={{width:'100%'}}>
+                      <Accordion multiple={true}>
+                        {this.renderObjectives()}
+                      </Accordion>
+                    </Grid>
+                  </Grid>
+                  {this.renderCommentBox()}
                 </div>
             </div>
         )
@@ -1395,7 +1202,6 @@ class Post extends Component {
 Post.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-
 
 function mapStateToProps({ posts,users,theme, organization,account, activity}) {
     return { posts,users,theme,organization,account, activity };

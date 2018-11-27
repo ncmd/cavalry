@@ -63,3 +63,4 @@ server/Gopkg.lock
 server-dev/Gopkg.lock
 \server-prod\Gopkg.lock
 server-prod/Gopkg.lock
+__pycache__

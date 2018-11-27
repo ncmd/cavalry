@@ -75,7 +75,9 @@ node_modules
 - npm run first-setup-serverless-all-x
 
 
-## Day-to-Day
+## 🔥🔥🔥 Day-to-Day 🔥🔥🔥
+# Removing Git Files
+- git rm --cached file1.txt
 # Run Real-time Sync
 - BatchRun.ffs_batch
 # Running app locally

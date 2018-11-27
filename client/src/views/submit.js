@@ -530,7 +530,7 @@ class Submit extends Component {
               style={getListStyle(snapshot.isDraggingOver)}
             >
               {this.state.objectives.map((obj, index) => (
-                <Draggable key={obj.title+Math.random()+(Math.random())} draggableId={obj.title+1} index={index}>
+                <Draggable key={obj.title} draggableId={obj.title+1} index={index}>
                   {(provided, snapshot) => (
                     <div
                       ref={provided.innerRef}
@@ -866,7 +866,7 @@ class Submit extends Component {
                                     ref={(el) => this.quillRef = el}
                                     placeholder={"Text (optional)"}
                                     modules={this.modules}
-                                    style={{background:'white'}}
+                                    style={{background:'white',  border:this.props.theme[0].PostsButtonBorder, borderRadius:this.props.theme[0].BorderRadius}}
                                     value={this.state.objectiveDescription}
                                     onChange={this.handleChangeObjectiveDescription}
                                   />

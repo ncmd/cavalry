@@ -24,7 +24,7 @@
     "quill-image-resize-module-react": "github:ncmd/quill-image-resize-module-react",
     "react": "^16.4.2",
     "react-animated-css": "^1.0.4",
-    "react-beautiful-dnd": "^9.0.0",
+    "react-beautiful-dnd": "^10.0.2",
     "react-dom": "^16.4.2",
     "react-ga": "github:ncmd/react-ga",
     "react-google-recaptcha": "^0.14.0",
@@ -62,5 +62,8 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "json-loader": "^0.5.7"
+  }
 }
