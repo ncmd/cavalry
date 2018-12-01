@@ -44,7 +44,8 @@
                 "timestamp": "1540779924221",
                 "comment":"the quick brown fox jumped over the lazy dog and got eaten!",
                 "collapse":false,
-                "showCommentBox":false
+                "showCommentBox":false,
+                "replies":[]
             }
             ]
         },{
@@ -69,7 +70,8 @@
                 "timestamp": "1521114227834",
                 "comment": "the quick brown fox jumped over the lazy dog and got eaten!",
                 "collapse": false,
-                "showCommentBox": false
+                "showCommentBox": false,
+                "replies":[]
             }
             ]
         }
@@ -121,7 +123,8 @@
                     "timestamp": "1522279924491",
                     "comment":"the quick brown fox jumped over the lazy dog and got eaten!",
                     "collapse":false,
-                    "showCommentBox":false
+                    "showCommentBox":false,
+                    "replies":[]
                 }
                 ]
             }
@@ -137,7 +140,8 @@
             "timestamp": "1522779924491",
             "comment":"the quick brown fox jumped over the lazy dog and got eaten!",
             "collapse": false,
-            "showCommentBox": false
+            "showCommentBox": false,
+            "replies":[]
         }]
     }]
 }]
