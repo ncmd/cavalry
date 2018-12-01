@@ -88,7 +88,6 @@ class Post extends Component {
             editing: false,
             originalComment:"",
             originalReply:"",
-
         };
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.handleChangeComment = this.handleChangeComment.bind(this);
@@ -827,7 +826,7 @@ class Post extends Component {
 
     toggleReplyCommentBox(postid, cancel=false){
       let prevPostComments = this.state.postComments
-      let foundPost = findFirst( prevPostComments[0], 'replies', { id: postid} )
+      let foundPost = findFirst( prevPostComments[0], 'replies', { id: postid } )
       if (cancel === false){
         foundPost.showCommentBox = !foundPost.showCommentBox
         this.setState({
@@ -835,12 +834,11 @@ class Post extends Component {
           reply:"",
           rawreplylength:0,
         })
-      } else {
+      } else if (cancel === true)  {
+        console.log("Cancel false")
         foundPost.showCommentBox = false
         this.setState({
-          postComments: prevPostComments,
-          reply:"",
-          rawreplylength:0,
+          postComments: prevPostComments
         })
       }
     }
@@ -873,14 +871,14 @@ class Post extends Component {
       })
       // delete selected comment
       let prevPostComments = this.state.postComments
-      this.deleteComment(postid)
+      // this.deleteComment(postid)
       // opencomment box for parent
       prevPostComments.map((comment,index) => {
         if (comment.id === parentpostid){
           prevPostComments[index].showCommentBox = true
-            this.setState({
-              postComments: prevPostComments,
-            })
+          this.setState({
+            postComments: prevPostComments,
+          })
         } else if (comment.replies !== undefined){ 
           let foundPost = findFirst( prevPostComments[0], 'replies', { id: parentpostid} )
           foundPost.showCommentBox = true
@@ -903,7 +901,6 @@ class Post extends Component {
         comment:this.findAndReplace(thiscomment,'<p><br></p><p><br></p><p><br></p><p><br></p>',''),
         collapse:false,
       }
-      // console.log(commentData)
       
       let foundPost = findFirst( prevPostComments[0], 'replies', { id: postid} )
       if (typeof foundPost.replies === 'undefined'){
@@ -911,6 +908,7 @@ class Post extends Component {
         this.setState({
           postComments: prevPostComments,
         })
+
         this.toggleReplyCommentBox(postid)
       } else {
         foundPost.replies.unshift(commentData)
@@ -923,7 +921,6 @@ class Post extends Component {
 
     deleteComment(postid){
       let prevPostComments = this.state.postComments
-      
       prevPostComments.map((comment,index) => {
         if (comment.id === postid){
           prevPostComments.splice(index, 1);
@@ -941,7 +938,6 @@ class Post extends Component {
     }
 
     handleChangeComment = (value) => {
-
       let editor = this.quillRef.getEditor();
       let unprivilegedEditor = this.quillRef.makeUnprivilegedEditor(editor);
       // You may now use the unprivilegedEditor proxy methods
@@ -954,7 +950,6 @@ class Post extends Component {
     };
 
     handleChangeReply = (value) => {
-
       let editor = this.quillRefReply.getEditor();
       let unprivilegedEditor = this.quillRefReply.makeUnprivilegedEditor(editor);
       // You may now use the unprivilegedEditor proxy methods
@@ -1124,7 +1119,6 @@ class Post extends Component {
 
     render() {
       const { classes } = this.props;
-
         return (
             <div>
                 <Header/>
