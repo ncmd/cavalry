@@ -1,31 +1,50 @@
-﻿## New Computer Setup (Windows)
+﻿## New Computer Setup (Windows) (eta 30-minutes)
 
-# Install Chocolately: 
+1. Install Chocolately (eta 1-minute)
 - cmd.exe - run as administrator
-- @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+```
+@"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+```
 
-# Install All Programs with Choco
-- choco install googlechrome golang heroku-cli nodejs yarn vscode sublimetext3 keepass -y
+2. Install Python 3.x and Git (eta 1-minute)
+```
+choco install python3 git.install -y
+refreshenv
+```
 
-# Install Git 2.19
-- https://github.com/git-for-windows/git/releases/download/v2.19.1.windows.1/Git-2.19.1-64-bit.exe
-- This adds git to PATH
+3. Run Python TEST Script and Setup Script as Administrator (eta 10-minutes)
+- cmd.exe - run as administrator
+- Confirm Test Script passes all test with 'OK'
+```
+cd cavalry
+python test_setup.py
+python setup.py
+```
 
-# Install Python 3.7.1
-- https://www.python.org/ftp/python/3.7.1/python-3.7.1.exe
-- Remember to add Python to PATH; otherwise you need to reinstall
+4. Start VSCode, Setup VSCode Theme, and Install Extensions (eta 1-minute)
+- File > Preferences > Color Theme > Install Additional Color Theme > Monokai ST3 0.1.2
+- === Extensions:
+- Monokai ST3
+- Python
+- Go
+- ES7 React/Redux/GraphQL/React-Native snippets
+- === Current Workspace Path:
+- C:\Users\test\go\src\cavalry
 
-# Install Dropbox 61.4
+5. Install Dropbox 61.4 (eta 1-minute)
+- User: Main Email
 - https://www.dropbox.com/download?os=win
 - Location: C:\Users\test\Documents\Dropbox
+- Backup Target: C:\Users\test\go\src\cavalry
 
-# Install Google Drive Backup 3.43
+6. Install Google Drive Backup 3.43 (eta 1-minute)
+- User: Main Email
 - https://www.google.com/drive/download/
+- Backup Target: C:\Users\test\Documents\Dropbox\cavalry
 
-# Install FreeFileSync 10.6
+7. Install FreeFileSync 10.6  (eta 1-minute)
 - https://freefilesync.org/download/FreeFileSync_10.6_Windows_Setup.exe
-- C:\Users\test\Documents\GitHub\cavalry > C:\Users\test\Documents\Dropbox\cavalry
-- C:\Users\test\Documents\GitHub\cavalry > C:\Users\test\Documents\Dropbox\cavalry
+- Sync Target: C:\Users\test\go\src\cavalry > C:\Users\test\Documents\Dropbox\cavalry
 - Ignore Files: 
 \System Volume Information\
 \$Recycle.Bin\
@@ -50,86 +69,142 @@ node_modules
 *\.tmp.drivedownload
 *\*.driveupload
 *\client\build\
+*\client\.firebase\
+*\server\Godeps\
+*\server-dev\Godeps\
+*\server-prod\Godeps\
+*package-lock.json
+*.exe
+*\server\vendor
+*\server\Godeps
+*\server-dev\vendor
+*\server-dev\Godeps
+*\server-prod\vendor
+*\server-prod/Godeps
+*\server\vendor
+*\server\Godeps\
+*\server-dev\vendor\
+*\server-dev\Godeps\
+*\server-prod\vendor\
+*\server-prod\Godeps\
 
-# Install Github Desktop 1.5
-- https://central.github.com/deployments/desktop/desktop/latest/win32?format=msi
+9. Sync Keys from Dropbox/GoogleDrive (eta 1-minute)
+- Download 'cavalry' from Dropbox or GoogleDrive
+- Sync Target: C:\Users\test\Documents\Dropbox\cavalry > C:\Users\test\go\src\cavalry
+```
 
-# Clone Cavalry Repo
-- (Needs to be shared to Github Account as a Collaborator)
-- Repository: ncmd\cavalry
-- Location: C:\Users\test\Documents\GitHub\cavalry
+```
+- Important Files:
+- client/src/secrets/keys_dev.js
+- client/src/secrets/keys_local.js
+- client/src/secrets/keys_prod.js
+- server/config/config.toml
+- server-dev/config/config.toml
+- server-prod/config/config.toml
+- serverless/config/config.toml
+- server/firestore.json
+- server-dev/firestore.json
+- server-prod/firestore.json
 
-# Install Node -g packages
-- npm install -g concurrently cross-var cross-env firebase-tools npm-run-all
+10.  You need to do a refresh of all Servers (eta 2-minutes)
+```
+cd server
+heroku login
+run-s heroku-backend-refresh-local heroku-backend-refresh-dev heroku-backend-refresh-prod
+```
 
-# Install Server (Backend) Go Packages
-- npm run first-setup-go-all-x
-
-# Install Client (Frontend) Packages
-- npm run first-setup-react-all-x
-- firebase login
+11. Login to Firebase with Google Auth (eta 1-minute)
+```
+cd client
+firebase login
+```
 - firebase init > Hosting > cavalry-app > build > no
 - Confirm all the keys client/secrets/keys*
 
-# Install Serverless Packages
-- npm run first-setup-serverless-all-x
 
+12. Test Deploy Frontend (eta 5-minutes)
+- You should be already authenticated to Firebase
+```
+cd client
+firebase login
+npm run deploy-frontend-local
+```
 
-## 🔥🔥🔥 Day-to-Day 🔥🔥🔥
-# Removing Git Files
-- git rm --cached file1.txt
-# Run Real-time Sync
+13. Test Deploy Backend (eta 5-minutes)
+- You should be already authenticated to Heroku
+```
+cd server
+heroku login
+npm run deploy-backend-local
+```
+
+## Day-to-Day
+# Work on ToDo List
+npm run local-frontend  | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --ignore-blank --realtime=false
+npm run local-backend | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --ignore-blank --realtime=false
+# Commiting code to Github
+- npm run commit
+# Automated Real-time Sync with Dropbox
 - BatchRun.ffs_batch
-# Running app locally
-- npm run local
+# Automated Real-time Sync with server/server-dev/server-prod
+- BatchRunLocalSyncDev.ffs_batch
+- BatchRunLocalSyncProd.ffs_batch
+# Removing Files from Git
+```
+git rm -r --cached C:\Users\test\go\src\cavalry\<file_or_directory_name>
+```
+# Configure Nodejs Script (cavalry/package.json)
+- Edit cavalry/package.json
+- Automate as much as possible
+# Running App locally
+```
+npm run local | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --ignore-blank --realtime=false
+```
 # Deployment
-- npm run deploy-all-x
+```
+npm run deploy-frontend-prod  | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --ignore-blank --realtime=false
+npm run deploy-backend-prod  | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --ignore-blank --realtime=false
+```
 # Backup
-- npm run backup-all-x
+```
+npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --ignore-blank --realtime=false
+```
 
 ## MVP Goals
-- comments
-- posts
-- account management
-- payments
-- vote system
-- community
+# Web
+- User Accounts
+- Posts
+- Search
+- Payments
+- Subscriptions
+- JWT Authenticated Pages
+- Filtering by Tag
+- Vote System
+- Comments
+# Mobile
+- Notifications
+- Comments
+- Vote Systems
 
-# To Do
-- font color theme not right for objectives
-- editing posts in firebase - aggregation/posts
-- serverless sync posts with aggregation
+## To Do
+# Bugs
+- Frontend - cancel reply; not working in general
+- Backend - error verifying ID token: ID token issued at future timestamp: 1543020011
+- Frontend - drawer button not responding (in mobile and tablet mode)
+- Frontend - Frontend - activity should not require you to be in an organization
+- Frontend - forceupdate happening if banner typist is interrupted
+- Frontend - in /teams when you click on react-select dropdown, the overlay is hidden
+
+# Payments & Subscriptions
 - sending Invoices - 10%
-- bug: drawer button not responding (in mobile and tablet mode)
-- bug: activity should not require you to be in an organization
-- bug: forceupdate happening if banner typist is interrupted
-- bug: in /teams when you click on react-select dropdown, the overlay is hidden
-- bug: creating a new comment messes up replies
-- bug: creating a reply in root also messes up replies
-- bug: when editing a reply, remove the old reply
+- ending subscription
 
-- change URL scheme to be: .com/username/post-title
-- change react-quill editor to primereact version
-- header user drawer instead
-- search bar - 70% - USE REDUX-SEARCH bvaughn.github.io
+# Posts
+- change URL scheme to be: 
+- Personal cavalry.com/username/post-title
+- Category cavalry.com/category-name/post-title
 
-- stars - 85% - Use redux, then make update to firestore; must only done once per user
-- there needs to be a record of local user starring post
-
-- redux should contain this information
-- reducer action to add star on account store
-- reducer action to remove star on account store
-
-- inviting users - 70% - does not look nice, reference slack and github
-- assigning objectives - 70% - does not look nice, reference asana
-
-- assigning all objectives to all users once all selected - 5%
-
-- fix activity - presentation does not look nice
-
-- filter bar ; top
-- filter options
-
+# Comments
 - comments - 15%
 - add comment to firestore
 - delete comment in firestore
@@ -137,7 +212,26 @@ node_modules
 - dispatch to redux delete comment
 - dispatch to redux edit comment
 
-- ending subscription
+# UI/UX
+- header user drawer instead
+
+# Search
+- search bar - 70% - USE REDUX-SEARCH bvaughn.github.io
+- filter bar ; top
+- filter options
+
+# Voting System
+- stars - 85% - Use redux, then make update to firestore; must only done once per user
+- there needs to be a record of local user starring post
+- redux should contain this information
+- reducer action to add star on account store
+- reducer action to remove star on account store
+
+# Collaboration
+- inviting users - 70% - does not look nice, reference slack and github
+- assigning objectives - 70% - does not look nice, reference asana
+- assigning all objectives to all users once all selected - 5%
+- fix activity - presentation does not look nice
 - request to join organization
 - public user profile
 
@@ -152,6 +246,7 @@ node_modules
 - confirm redux clean
 
 ## Low Priority
+- Cookie tracking
 - Add 404 page if it does not exist
 - upgrade subscription - 0%
 - add attachments
@@ -279,6 +374,11 @@ node_modules
 - Roadmap https://cavalrytactics.rikko.io/
 - Digitalocean credits: https://www.digitalocean.com/hatch/
 
+## Setup
+
+## Notes
+- When signing up on local environment, use credit card #: 4242 4242 4242 4242
+- You can use anything for expiration date, cvc, and postal code
 # Metrics
 - https://analytics.google.com/analytics/web/#/savedreport/fuVSPoQYQJG5vOkiQ_KSOw/a123951173w182313602p180023379/_.advseg=&_.useg=&_.sectionId=&_r.dsa=1&metric.type=5/
 - recaptcha: https://www.google.com/recaptcha/admin#site/342465358
@@ -288,51 +388,6 @@ node_modules
 - firebase:
 - firestore:
 - algolia: https://www.algolia.com/apps/43JRRJRQRC/explorer/stats/posts
-
-# Community
-- slack: https://cavalry-tactics.slack.com/messages/CCKFY87FV/
-- google groups: https://groups.google.com/forum/#!forum/cavalry-tactics
-
-# Common Issues
--
-
-# Notes:
-- When signing up on local environment, use credit card #: 4242 4242 4242 4242
-- You can use anything for expiration date, cvc, and postal code
-
-
-## Dev Environment
-
-# 🔥🔥🔥 Important 🔥🔥🔥
-- You will need to get the local ,dev, and prod keys
-- normal locations:
-- client/src/secrets/keys_dev.js
-- client/src/secrets/keys_local.js
-- client/src/secrets/keys_prod.js
-- server/config/config.toml
-- server-dev/config/config.toml
-- server-prod/config/config.toml
-- serverless/config/config.toml
-
-# VSCode Settings & Packages:
-- File > Preferences > Color Theme > Install Additional Color Theme > Monokai ST3 0.1.2
-- Python
-- Go
-- ES7 React/Redux/GraphQL/React-Native snippets
-
-# Setup Paths:
-- GIT PATH
-- NODE PATH
-- YARN PATH
-- HEROKU PATH:
-- C:\Program Files\Heroku\bin
-- GO PATH: setx GOPATH %USERPROFILE%\go
-- C:\Users\username\go
-- GOROOT:
-- C:\go
-- MAIN PROJECT PATH:
-- C:\Users\username\go\src\cavalry
-
 # Main React Components
 - Components:
 - Prime React: https://www.primefaces.org/primereact/#/organizationchart
@@ -347,13 +402,6 @@ node_modules
 
 # Redux Setup
 - Todo
-
-# Algolia setup (Depricated)
-- You need to create an Indicies first before being able to add data to it
-- Relies on serverless/
-- https://firebase.google.com/docs/firestore/solutions/search
-- when a record is written in firestore, create it in algolia database
-- when creating functions, be sure to reduce the memory allocated and timeout
 
 # Google Analytics Proxy
 - https://medium.freecodecamp.org/save-your-analytics-from-content-blockers-7ee08c6ec7ee
@@ -387,31 +435,9 @@ node_modules
 - heroku git:remote -a cavalry-app
 - cd serverless/functions && npm install
 
-# Travis setup (not setup properly; will do later)
-- Signin and Activate on cavalry repository
-- https://github.com/travis-ci/travis.rb#windows
-- Download Ruby https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-2.4.4-2/rubyinstaller-devkit-2.4.4-2-x64.exe
-- Install module 1 only
-- gem install travis -v 1.8.9 --no-rdoc --no-ri
-- travis login --pro
-- use github creds + 2-factor
-- cd cavalry/
-- heroku auth:token
-- copy this token
-- travis setup heroku --force
-- Heroku API token: ************************************
-- Heroku application name: |cavalry| cavalry-app-travis
-- Deploy only from ncmd/cavalry? |yes|
-- Encrypt API key? |yes|
-
-# Server Email Setup (depreciated; using sendgrid)
-- Email: enable less secure app access https://myaccount.google.com/lesssecureapps
-- and display unlock captcha http://www.google.com/accounts/DisplayUnlockCaptcha
-
 # Server Heroku Config:
 - Gopkg.toml = root-package = "cavalry/server-prod"
 - Procfile = web: server-prod
-
 
 # Recaptcha Configuration
 - https://www.google.com/recaptcha/admin#site/342465358
@@ -450,6 +476,27 @@ node_modules
 - backup & Restore: utilities/index.js
 - files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
 
+# Firebase Firestore Notes:
+- All client based functions for Firestore is in client/src/components/firebase/auth.js
+- All serverless functions are in serverless/functions/index.js
+- All utilities to backup data are in utilities/index.js
+- All server side functions are in server/controllers_(posts/accounts/posts/requests/etc.)
+
+
+# Community
+- slack: https://cavalry-tactics.slack.com/messages/CCKFY87FV/
+- google groups: https://groups.google.com/forum/#!forum/cavalry-tactics
+
+## Depricated | Not in Use
+
+# Algolia setup (Depricated)
+- You need to create an Indicies first before being able to add data to it
+- Relies on serverless/
+- https://firebase.google.com/docs/firestore/solutions/search
+- when a record is written in firestore, create it in algolia database
+- when creating functions, be sure to reduce the memory allocated and timeout
+
+
 # React Native Setup
 - Download and Install Android Studio
 - Download and Install latest version of Yarn
@@ -477,11 +524,26 @@ node_modules
 
 # Ngrok Setup (not in use)
 - Ngrok File location:
-- C:\Users\f/.ngrok2/ngrok.yml
+- C:\Users\test/.ngrok2/ngrok.yml
 - ./ngrok http 80
 
-# Firebase Firestore Notes:
-- All client based functions for Firestore is in client/src/components/firebase/auth.js
-- All serverless functions are in serverless/functions/index.js
-- All utilities to backup data are in utilities/index.js
-- All server side functions are in server/controllers_(posts/accounts/posts/requests/etc.)
+# Server Email Setup (depreciated; using sendgrid)
+- Email: enable less secure app access https://myaccount.google.com/lesssecureapps
+- and display unlock captcha http://www.google.com/accounts/DisplayUnlockCaptcha
+
+# Travis setup (not setup properly; will do later)
+- Signin and Activate on cavalry repository
+- https://github.com/travis-ci/travis.rb#windows
+- Download Ruby https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-2.4.4-2/rubyinstaller-devkit-2.4.4-2-x64.exe
+- Install module 1 only
+- gem install travis -v 1.8.9 --no-rdoc --no-ri
+- travis login --pro
+- use github creds + 2-factor
+- cd cavalry/
+- heroku auth:token
+- copy this token
+- travis setup heroku --force
+- Heroku API token: ************************************
+- Heroku application name: |cavalry| cavalry-app-travis
+- Deploy only from ncmd/cavalry? |yes|
+- Encrypt API key? |yes|
