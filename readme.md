@@ -45,7 +45,8 @@ python setup.py
 7. Install FreeFileSync 10.6  (eta 1-minute)
 - https://freefilesync.org/download/FreeFileSync_10.6_Windows_Setup.exe
 - Sync Target: C:\Users\test\go\src\cavalry > C:\Users\test\Documents\Dropbox\cavalry
-- Ignore Files: 
+- Ignore Files:
+``` 
 \System Volume Information\
 \$Recycle.Bin\
 \RECYCLER\
@@ -87,25 +88,23 @@ node_modules
 *\server-dev\Godeps\
 *\server-prod\vendor\
 *\server-prod\Godeps\
-
+```
 9. Sync Keys from Dropbox/GoogleDrive (eta 1-minute)
 - Download 'cavalry' from Dropbox or GoogleDrive
 - Sync Target: C:\Users\test\Documents\Dropbox\cavalry > C:\Users\test\go\src\cavalry
-```
-
-```
 - Important Files:
-- client/src/secrets/keys_dev.js
-- client/src/secrets/keys_local.js
-- client/src/secrets/keys_prod.js
-- server/config/config.toml
-- server-dev/config/config.toml
-- server-prod/config/config.toml
-- serverless/config/config.toml
-- server/firestore.json
-- server-dev/firestore.json
-- server-prod/firestore.json
-
+```
+client/src/secrets/keys_dev.js
+client/src/secrets/keys_local.js
+client/src/secrets/keys_prod.js
+server/config/config.toml
+server-dev/config/config.toml
+server-prod/config/config.toml
+serverless/config/config.toml
+server/firestore.json
+server-dev/firestore.json
+server-prod/firestore.json
+```
 10.  You need to do a refresh of all Servers (eta 2-minutes)
 ```
 cd server
@@ -138,25 +137,29 @@ heroku login
 npm run deploy-backend-local
 ```
 
-## Day-to-Day
-# Work on ToDo List
+# Day-to-Day
+## Work on ToDo List
+```
 npm run local-frontend  | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --ignore-blank --realtime=false
 npm run local-backend | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --ignore-blank --realtime=false
-# Commiting code to Github
-- npm run commit
-# Automated Real-time Sync with Dropbox
+```
+## Commiting code to Github
+```
+npm run commit
+```
+## Automated Real-time Sync with Dropbox
 - BatchRun.ffs_batch
-# Automated Real-time Sync with server/server-dev/server-prod
+## Automated Real-time Sync with server/server-dev/server-prod
 - BatchRunLocalSyncDev.ffs_batch
 - BatchRunLocalSyncProd.ffs_batch
-# Removing Files from Git
+## Removing Files from Git
 ```
 git rm -r --cached C:\Users\test\go\src\cavalry\<file_or_directory_name>
 ```
-# Configure Nodejs Script (cavalry/package.json)
+## Configure Nodejs Script (cavalry/package.json)
 - Edit cavalry/package.json
 - Automate as much as possible
-# Running App locally
+## Running App locally
 ```
 npm run local | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --ignore-blank --realtime=false
 ```
@@ -170,8 +173,9 @@ npm run deploy-backend-prod  | gnomon --type=elapsed-total --medium=20.0 --high=
 npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --ignore-blank --realtime=false
 ```
 
-## MVP Goals
-# Web
+# MVP Goals
+
+## Web
 - User Accounts
 - Posts
 - Search
@@ -181,13 +185,14 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - Filtering by Tag
 - Vote System
 - Comments
-# Mobile
+## Mobile
 - Notifications
 - Comments
 - Vote Systems
 
-## To Do
-# Bugs
+# To Do
+
+## Bugs
 - Frontend - cancel reply; not working in general
 - Backend - error verifying ID token: ID token issued at future timestamp: 1543020011
 - Frontend - drawer button not responding (in mobile and tablet mode)
@@ -195,16 +200,16 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - Frontend - forceupdate happening if banner typist is interrupted
 - Frontend - in /teams when you click on react-select dropdown, the overlay is hidden
 
-# Payments & Subscriptions
+## Payments & Subscriptions
 - sending Invoices - 10%
 - ending subscription
 
-# Posts
+## Posts
 - change URL scheme to be: 
 - Personal cavalry.com/username/post-title
 - Category cavalry.com/category-name/post-title
 
-# Comments
+## Comments
 - comments - 15%
 - add comment to firestore
 - delete comment in firestore
@@ -212,22 +217,22 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - dispatch to redux delete comment
 - dispatch to redux edit comment
 
-# UI/UX
+## UI/UX
 - header user drawer instead
 
-# Search
+## Search
 - search bar - 70% - USE REDUX-SEARCH bvaughn.github.io
 - filter bar ; top
 - filter options
 
-# Voting System
+## Voting System
 - stars - 85% - Use redux, then make update to firestore; must only done once per user
 - there needs to be a record of local user starring post
 - redux should contain this information
 - reducer action to add star on account store
 - reducer action to remove star on account store
 
-# Collaboration
+## Collaboration
 - inviting users - 70% - does not look nice, reference slack and github
 - assigning objectives - 70% - does not look nice, reference asana
 - assigning all objectives to all users once all selected - 5%
@@ -245,7 +250,7 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - 2-factor
 - confirm redux clean
 
-## Low Priority
+# Low Priority
 - Cookie tracking
 - Add 404 page if it does not exist
 - upgrade subscription - 0%
@@ -362,7 +367,7 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - reducer action to add star on post store - done
 - reducer action to remove star on post - done
 
-## MISC
+# MISC
 - github friendly
 - websockets - gorilla
 - Reference Resilient IBM
@@ -374,12 +379,12 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - Roadmap https://cavalrytactics.rikko.io/
 - Digitalocean credits: https://www.digitalocean.com/hatch/
 
-## Setup
+# Setup
 
 ## Notes
 - When signing up on local environment, use credit card #: 4242 4242 4242 4242
 - You can use anything for expiration date, cvc, and postal code
-# Metrics
+## Metrics
 - https://analytics.google.com/analytics/web/#/savedreport/fuVSPoQYQJG5vOkiQ_KSOw/a123951173w182313602p180023379/_.advseg=&_.useg=&_.sectionId=&_r.dsa=1&metric.type=5/
 - recaptcha: https://www.google.com/recaptcha/admin#site/342465358
 - google analytics: https://analytics.google.com/analytics/web/
@@ -388,7 +393,7 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - firebase:
 - firestore:
 - algolia: https://www.algolia.com/apps/43JRRJRQRC/explorer/stats/posts
-# Main React Components
+## Main React Components
 - Components:
 - Prime React: https://www.primefaces.org/primereact/#/organizationchart
 - Fabric: https://developer.microsoft.com/en-us/fabric
@@ -400,10 +405,10 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - Icons: https://material.io/tools/icons/
 - Animation: https://digital-flowers.github.io/react-animated-css.html
 
-# Redux Setup
+## Redux Setup
 - Todo
 
-# Google Analytics Proxy
+## Google Analytics Proxy
 - https://medium.freecodecamp.org/save-your-analytics-from-content-blockers-7ee08c6ec7ee
 - Edit node_modules source:
 - cd client & npm install ncmd/react-ga
@@ -412,44 +417,46 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - create analytics.js, replace all www.google-analytics.com with "+location.host+"/analytics
 - put analytics.js in public/ directory
 - setup firebase client to rewrite to a function: redirectHeroku for production
-- "rewrites": [
--  {
--    "source": "!/api/\**",
--    "destination": "/index.html"
--  },{
--    "source": "/api/analytics/\**",
--    "function": "redirectHeroku"
--  }
-- ]
-
-# Firebase Authentication Setup
+```
+ "rewrites": [
+  {
+    "source": "!/api/\**",
+    "destination": "/index.html"
+  },{
+    "source": "/api/analytics/\**",
+    "function": "redirectHeroku"
+  }
+]
+```
+## Firebase Authentication Setup
 - Enable email sign-in method
 - Add authorized domain: cavalry-app.herokuapp.com
 - Remember to limit the signup quota
 - https://console.firebase.google.com/u/1/project/cavalry-app-prod/authentication/providers
 
-# Server Setup:
-- npm run first-setup-go-all-x
-- User: jidokaus@gmail | C%
-- heroku login 
-- heroku git:remote -a cavalry-app
-- cd serverless/functions && npm install
-
-# Server Heroku Config:
+## Server Setup:
+```
+npm run first-setup-go-all-x
+User: jidokaus@gmail | C%
+heroku login 
+heroku git:remote -a cavalry-app
+cd serverless/functions && npm install
+```
+## Server Heroku Config:
 - Gopkg.toml = root-package = "cavalry/server-prod"
 - Procfile = web: server-prod
 
-# Recaptcha Configuration
+## Recaptcha Configuration
 - https://www.google.com/recaptcha/admin#site/342465358
 - Source backend server changes, be sure to update to the list of allowed domains
 - Also add owners
 - Adjust to easiest for users
 
-# Recover from Heroku Server
+## Recover from Heroku Server
 - server/config/config.toml
 - server/firestore.json
 
-# Serverless Setup:
+## Serverless Setup:
 - npm install -g firebase-tools
 - cd serverless/
 - firebase login
@@ -460,10 +467,10 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - Confirm Algolia Keys (algolia.txt)
 - when creating functions, be sure to reduce the memory allocated and timeout
 
-# Edit function Timeout
+## Edit function Timeout
 - https://console.cloud.google.com/functions/list
 
-# Project Cost
+## Project Cost
 - Firebase Hosting (app size and data transferred)
 - Firebase Firestore (reads and writes)
 - Firebase Functions (runtime and memory)
@@ -472,24 +479,24 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - Authentication
 - Stripe (limit $10, payment processing)
 
-# Backup Setup
+## Backup Setup
 - backup & Restore: utilities/index.js
 - files: utilities/firestore_dev_data.json & utilities/firestore_prod_data.json
 
-# Firebase Firestore Notes:
+## Firebase Firestore Notes:
 - All client based functions for Firestore is in client/src/components/firebase/auth.js
 - All serverless functions are in serverless/functions/index.js
 - All utilities to backup data are in utilities/index.js
 - All server side functions are in server/controllers_(posts/accounts/posts/requests/etc.)
 
 
-# Community
+## Community
 - slack: https://cavalry-tactics.slack.com/messages/CCKFY87FV/
 - google groups: https://groups.google.com/forum/#!forum/cavalry-tactics
 
-## Depricated | Not in Use
+# Depricated | Not in Use
 
-# Algolia setup (Depricated)
+## Algolia setup (Depricated)
 - You need to create an Indicies first before being able to add data to it
 - Relies on serverless/
 - https://firebase.google.com/docs/firestore/solutions/search
@@ -497,7 +504,7 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - when creating functions, be sure to reduce the memory allocated and timeout
 
 
-# React Native Setup
+## React Native Setup
 - Download and Install Android Studio
 - Download and Install latest version of Yarn
 - Confirm Nvidia performance is high for qemu-system-x86_x64.exe
@@ -506,12 +513,12 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - Pixel 2 API 23
 - Cores 6, RAM 3536, VMHeap 1256
 
-# Native packages
+## Native packages
 - npm install react-navigation@2.0.4 react-native-swiper native-base --save
 - npm install
 - npm audit fix
 
-# Slack Setup (not in use)
+## Slack Setup (not in use)
 - create bot: Bot Users page > cavalry-bot
 - token used: OAuth & permissions page > Bot User OAuth Access Token
 - Scopes:
@@ -522,16 +529,16 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - get workspace_name
 - https://[workspace_name].slack.com/oauth/authorize?client_id=[client_id]&scope=client&redirect_uri=[redirect_url]
 
-# Ngrok Setup (not in use)
+## Ngrok Setup (not in use)
 - Ngrok File location:
 - C:\Users\test/.ngrok2/ngrok.yml
 - ./ngrok http 80
 
-# Server Email Setup (depreciated; using sendgrid)
+## Server Email Setup (depreciated; using sendgrid)
 - Email: enable less secure app access https://myaccount.google.com/lesssecureapps
 - and display unlock captcha http://www.google.com/accounts/DisplayUnlockCaptcha
 
-# Travis setup (not setup properly; will do later)
+## Travis setup (not setup properly; will do later)
 - Signin and Activate on cavalry repository
 - https://github.com/travis-ci/travis.rb#windows
 - Download Ruby https://github.com/oneclick/rubyinstaller2/releases/download/rubyinstaller-2.4.4-2/rubyinstaller-devkit-2.4.4-2-x64.exe
