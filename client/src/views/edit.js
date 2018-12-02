@@ -834,7 +834,7 @@ class Edit extends Component {
                                     </div>
                                   </Grid>
                                 </Grid>
-                                <div  style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>Separate each Tag with a comma ( Ex. security,legal ); no trailing commas ( Ex. security,legal, )</div>
+                                <div  style={{marginTop:5,color:this.props.theme[0].PostsTypographyTitle,  letterSpacing:'-0.5px', fontSize:'14px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>Separate each Tag with a comma ( Ex. security,legal <span aria-label="emoji" role="img">✔️</span> ); no trailing commas ( Ex. security,legal, <span aria-label="emoji" role="img">❌</span> )</div>
                               </FormGroup>
                             </Form>
                         </Grid>

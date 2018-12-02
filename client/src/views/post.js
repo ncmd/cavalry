@@ -226,7 +226,7 @@ class Post extends Component {
                 </Grid>
                 </Grid>
            </AccordionTab>
-              )
+          )
         })
       )
     }
@@ -453,13 +453,20 @@ class Post extends Component {
 
     collapseNestedCommentNew(postid){
       let prevPostComments = this.state.postComments
-      let foundPost = findFirst( prevPostComments[0], 'replies', { id: postid } )
-      // foundPost.collapse = !foundPost.collapse
-      foundPost.replies.map((r,i) => {
-        r.collapse = !r.collapse
-      })
-      this.setState({
-        postComments: prevPostComments,
+      prevPostComments.map((post,index) => {
+        let foundPost = findFirst( prevPostComments[index], 'replies', { id: postid } )
+        if (foundPost !== false){
+          if (typeof foundPost.replies === 'undefined'){
+            
+          } else {
+            foundPost.replies.map((r,i) => {
+              r.collapse = !r.collapse
+            })
+            this.setState({
+              postComments: prevPostComments,
+            })
+          }
+        }
       })
     }
 
@@ -588,7 +595,7 @@ class Post extends Component {
                         <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: nestedComment.comment}} />
                       </Comment.Text>
                       <Comment.Actions>
-                        <Button onclick={() => this.editReplyComment(nestedComment.parentid,nestedComment.id,nestedComment.comment)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                        <Button onClick={() => this.editReplyComment(nestedComment.parentid,nestedComment.id,nestedComment.comment)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                           <b>Edit</b>
                         </Button>
                         <Button onClick={() => this.deleteComment(nestedComment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
@@ -742,7 +749,8 @@ class Post extends Component {
               }
             }
 
-          } else if (comment.replies !== undefined){
+          } else if (comment.replies !== undefined ){
+            if(this.props.account.username !== undefined && comment.user !== this.props.account.username){
             return (
               <Comment.Group threaded key={comment.timestamp} size='mini' >
                 <Comment >
@@ -788,6 +796,31 @@ class Post extends Component {
               </Comment>
             </Comment.Group>
             )
+                } if(this.props.account.username !== undefined && comment.user === this.props.account.username){
+                  return (
+                    <Comment key={comment.timestamp} style={{border:this.props.theme[0].PrimaryOutlineBorder, borderRadius:this.props.theme[0].BorderRadius}}>
+                      <Comment.Avatar as='a' src={comment.avatar} />
+                      <Comment.Content>
+                        <Comment.Author as='a'><span style={{color:this.props.theme[0].PostsTypographyTitle}}>{comment.user}</span></Comment.Author>
+                        <Comment.Metadata>
+                          <span style={{color:this.props.theme[0].PostsTypographyObjectives}}>{this.renderTime(comment.timestamp)}</span>
+                        </Comment.Metadata>
+                        <Comment.Text>
+                          <div className="ql-editor" style={{color:this.props.theme[0].PostsTypographyTitle,padding:0 }}  dangerouslySetInnerHTML={{__html: comment.comment}} />
+                        </Comment.Text>
+                        <Comment.Actions>
+                          <Button onClick={() => this.editComment(comment.id,comment.comment)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                            <b>Edit</b>
+                          </Button>
+                          <Button onClick={() => this.deleteComment(comment.id)} style={{paddingTop:3, paddingBottom:3,paddingLeft:6, paddingRight:6, border:0, background:'transparent', color:this.props.theme[0].PostsTypographyObjectives, letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
+                            <b>Delete</b>
+                          </Button>
+                        </Comment.Actions>
+                      </Comment.Content>
+                    </Comment>
+                  )
+                }
+
           }
           return null
         })
@@ -804,16 +837,19 @@ class Post extends Component {
       }
     }
 
-    addComment(comment,parentid){
+    addComment(comment){
       let prevPostComments = this.state.postComments
       let commentData = {
         id: 23,
-        parentid:parentid,
+        index:[0],
+        parentDepth:[0],
+        parentid:0,
         avatar:'/cavalry.svg',
         user:this.props.account.username,
         timestamp: Date.now(),
         comment:this.findAndReplace(comment,'<p><br></p><p><br></p><p><br></p><p><br></p>',''),
         collapse:false,
+        showCommentBox:false,
         replies:[]
       }
       prevPostComments.unshift(commentData)
@@ -826,21 +862,31 @@ class Post extends Component {
 
     toggleReplyCommentBox(postid, cancel=false){
       let prevPostComments = this.state.postComments
-      let foundPost = findFirst( prevPostComments[0], 'replies', { id: postid } )
-      if (cancel === false){
-        foundPost.showCommentBox = !foundPost.showCommentBox
-        this.setState({
-          postComments: prevPostComments,
-          reply:"",
-          rawreplylength:0,
-        })
-      } else if (cancel === true)  {
-        console.log("Cancel false")
-        foundPost.showCommentBox = false
-        this.setState({
-          postComments: prevPostComments
-        })
-      }
+
+      // loop through index of prevpost
+      prevPostComments.map((post,index) => {
+        let foundPost = findFirst( prevPostComments[index], 'replies', { id: postid } )
+        if (foundPost !== false){
+          if (typeof foundPost.replies === 'undefined'){
+
+          } else {
+            if (cancel === false){
+              foundPost.showCommentBox = !foundPost.showCommentBox
+              this.setState({
+                postComments: prevPostComments,
+                reply:"",
+                rawreplylength:0,
+              })
+            } else if (cancel === true)  {
+              console.log("Cancel false")
+              foundPost.showCommentBox = false
+              this.setState({
+                postComments: prevPostComments
+              })
+            }
+          }
+        }
+      })
     }
 
     editComment(postid,thiscomment){
@@ -871,22 +917,25 @@ class Post extends Component {
       })
       // delete selected comment
       let prevPostComments = this.state.postComments
-      // this.deleteComment(postid)
-      // opencomment box for parent
-      prevPostComments.map((comment,index) => {
-        if (comment.id === parentpostid){
-          prevPostComments[index].showCommentBox = true
-          this.setState({
-            postComments: prevPostComments,
-          })
-        } else if (comment.replies !== undefined){ 
-          let foundPost = findFirst( prevPostComments[0], 'replies', { id: parentpostid} )
-          foundPost.showCommentBox = true
-          this.setState({
-            postComments: prevPostComments,
-          })
+
+      prevPostComments.map((post,index) => {
+        if (typeof post.replies === 'undefined'){
+          let foundPost = findFirst( prevPostComments[index], 'replies', { id: postid } )
+          if (foundPost !== false){
+            foundPost.showCommentBox = true
+            this.setState({
+              postComments: prevPostComments,
+            })
+          }
+        } else {
+          let foundPost = findFirst( prevPostComments[index], 'replies', { id: parentpostid } )
+          if (foundPost !== false){
+            foundPost.showCommentBox = true
+            this.setState({
+              postComments: prevPostComments,
+            })
+          }
         }
-        return null
       })
     }
 
@@ -894,29 +943,40 @@ class Post extends Component {
       let prevPostComments = this.state.postComments
       let commentData = {
         id: 99,
+        index: [0],
+        parentDepth: [0],
         parentid: parentid,
         avatar:'/cavalry.svg',
         user:this.props.account.username,
         timestamp: Date.now(),
         comment:this.findAndReplace(thiscomment,'<p><br></p><p><br></p><p><br></p><p><br></p>',''),
         collapse:false,
+        showCommentBox: false,
+        replies:[]
       }
       
-      let foundPost = findFirst( prevPostComments[0], 'replies', { id: postid} )
-      if (typeof foundPost.replies === 'undefined'){
-        foundPost.replies.unshift(commentData)
-        this.setState({
-          postComments: prevPostComments,
-        })
-
-        this.toggleReplyCommentBox(postid)
-      } else {
-        foundPost.replies.unshift(commentData)
-        this.setState({
-          postComments: prevPostComments,
-        })
-        this.toggleReplyCommentBox(postid)
-      }
+      // loop through index of prevpost
+      prevPostComments.map((post,index) => {
+        let foundPost = findFirst( prevPostComments[index], 'replies', { id: postid } )
+        if (foundPost !== false){
+          if (typeof foundPost.replies === 'undefined'){
+            // need to delete the original reply here
+            console.log(commentData)
+            foundPost.replies.unshift(commentData)
+            this.setState({
+              postComments: prevPostComments,
+            })
+            this.toggleReplyCommentBox(postid)
+          } else {
+            foundPost.replies.unshift(commentData)
+            this.setState({
+              postComments: prevPostComments,
+            })
+            this.toggleReplyCommentBox(postid)
+          }
+        }
+      })
+      
     }
 
     deleteComment(postid){
@@ -928,9 +988,13 @@ class Post extends Component {
               postComments: prevPostComments,
             })
         } else if (comment.replies !== undefined){ 
-          findAndDeleteFirst( prevPostComments[0], 'replies', { id: postid} )
-          this.setState({
-            postComments: prevPostComments,
+          prevPostComments.map((post,index) => {
+            let foundPost = findAndDeleteFirst( prevPostComments[index], 'replies', { id: postid } )
+            if (foundPost !== false){
+              this.setState({
+                postComments: prevPostComments,
+              })
+            }
           })
         }
         return null
@@ -967,7 +1031,7 @@ class Post extends Component {
         return (
           <div style={{float:'right'}}>
             {this.render0()}
-          <Button style={{ float:'right',marginLeft:16,height:35, marginTop:5, background:this.props.theme[0].PrimaryLinear}} onClick={() => this.addComment(this.state.comment,parentid)}>
+          <Button style={{ float:'right',marginLeft:16,height:35, marginTop:5, background:this.props.theme[0].PrimaryLinear}} onClick={() => this.addComment(this.state.comment)}>
             <div style={{verticalAlign: 'middle', letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
               <b>Comment</b>
             </div>
@@ -978,7 +1042,7 @@ class Post extends Component {
         return (
           <div style={{float:'right'}}>
             {this.render0()}
-            <Button disabled style={{float:'right',marginLeft:16, height:35, marginTop:5, border:0 ,background:this.props.theme[0].DisabledBackground}} onClick={() => this.addComment(this.state.comment,parentid)}>
+            <Button disabled style={{float:'right',marginLeft:16, height:35, marginTop:5, border:0 ,background:this.props.theme[0].DisabledBackground}} onClick={() => this.addComment(this.state.comment)}>
               <div style={{color:this.props.theme[0].DisabledText,verticalAlign: 'middle', letterSpacing:'-0.5px', fontSize:'13px', fontWeight:350, fontFamily:"-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\""}}>
                 <b>Comment</b>
               </div>

@@ -185,6 +185,46 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - Filtering by Tag
 - Vote System
 - Comments
+- Advertising Placement
+- Sponsors
+# Incident response phases
+## 1. Preparation
+- Develop and Document IR Policies: Establish policies, procedures, and agreements for incident response management.
+- Define Communication Guidelines: Create communication standards and guidelines to enable seamless communication during and after an incident.
+- Incorporate Threat Intelligence Feeds: Perform ongoing collection, analysis, and synchronization of your threat intelligence feeds.
+- Conduct Cyber Hunting Exercises: Conduct operational threat hunting exercises to find incidents occurring within your environment. This allows for more proactive incident response.
+- Assess Your Threat Detection Capability: Assess your current threat detection capability and update risk assessment and improvement programs.
+Resources:
+http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-84.pdf
+https://www.sans.org/reading-room/whitepapers/incident/incident-handling-annual-testing-training-34565
+## 2. DETECTION AND REPORTING
+- Monitor: Monitor security events in your environment using firewalls, intrusion prevention systems, and data loss prevention.
+- Detect: Detect potential security incidents by correlating alerts within a SIEM solution.
+- Alert: Analysts create an incident ticket, document initial findings, and assign an initial incident classification.
+- Report: Your reporting process should include accommodation for regulatory reporting escalations.
+## 3. TRIAGE AND ANALYSIS
+Endpoint Analysis
+- Determine what tracks may have been left behind by the threat actor.
+- Gather the artifacts needed to build a timeline of activities.
+- Analyze a bit-for-bit copy of systems from a forensic perspective and capture RAM to parse through and identify key artifacts to determine - - what occurred on a device.
+Binary Analysis
+- Investigate malicious binaries or tools leveraged by the attacker and document the functionalities of those programs. This analysis is performed in two ways.
+- Behavioral Analysis: Execute the malicious program in a VM to monitor its behavior
+- Static Analysis: Reverse engineer the malicious program to scope out the entire functionality.
+Enterprise Hunting
+- Analyze existing systems and event log technologies to determine the scope of compromise.
+- Document all compromised accounts, machines, etc. so that effective containment and neutralization can be performed.
+## 4. CONTAINMENT AND NEUTRALIZATION
+- Coordinated Shutdown: Once you have identified all systems within the environment that have been compromised by a threat actor, perform a coordinated shutdown of these devices. A notification must be sent to all IR team members to ensure proper timing.
+- Wipe and Rebuild: Wipe the infected devices and rebuild the operating system from the ground up. Change passwords of all compromised accounts.
+- Threat Mitigation Requests: If you have identified domains or IP addresses that are known to be leveraged by threat actors for command and control, issue threat mitigation requests to block the communication from all egress channels connected to these domains.
+## 5. POST-INCIDENT ACTIVITY
+- Complete an Incident Report: Documenting the incident will help to improve the incident response plan and augment additional security measures to avoid such security incidents in the future.
+- Monitor Post-Incident: Closely monitor for activities post-incident since threat actors will re-appear again. We recommend a security log hawk analyzing SIEM data for any signs of indicators tripping that may have been associated with the prior incident.
+- Update Threat Intelligence: Update the organization’s threat intelligence feeds.
+- Identify preventative measures: Create new security initiatives to prevent future incidents.
+- Gain Cross-Functional Buy-In: Coordinating across the organization is critical to the proper implementation of new security initiatives.
+Resource: https://info.digitalguardian.com/rs/768-OQW-145/images/Incident-Response-eBook-teaser.pdf
 ## Mobile
 - Notifications
 - Comments
@@ -216,12 +256,13 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - dispatch to redux add comment
 - dispatch to redux delete comment
 - dispatch to redux edit comment
+- thre should be something indicating collapse
 
 ## UI/UX
 - header user drawer instead
 
 ## Search
-- search bar - 70% - USE REDUX-SEARCH bvaughn.github.io
+- search bar - 10% - USE REDUX-SEARCH bvaughn.github.io
 - filter bar ; top
 - filter options
 
