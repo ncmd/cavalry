@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Header from '../components/header/header';
+import Header from '../../components/header/header';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
     pingBackend,
-} from '../redux/actions';
+} from '../../redux/actions';
 // import Typography from '@material-ui/core/Typography';
 import axios from "axios/index";
 

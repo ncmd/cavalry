@@ -126,17 +126,14 @@ export const darkThemeLoad = () => dispatch => {
   dispatch({ type: SET_THEME, payload: theme})
 }
 
-
 export const filterPostByTagAction = (filtertagname) => async dispatch => {
   const data = await auth.filterPostByTag(filtertagname)
-  // console.log("DAAATA",data)
   dispatch({ type: FILTERED_POSTS, payload: data})
 
 }
 
 // Get VerifyIDToken
 export const sendVerifyIdTokenToBackend = (token) => {
-  // console.log("Received Token: ",token)
   let data = {token:token}
   axios.post(backend+'/api/verify',data);
   // console.log("Response from backend:",res)
@@ -298,15 +295,15 @@ export const getTags = () => async dispatch => {
   const res = await axios.get(backend+'/api/posts')
     let allTags = []
     res.data.map((post) => {
-      // // console.log("getPost",post.tags)
       post.tags.map((tag) => {
-        allTags.push(tag)
+        if (allTags.indexOf(tag) <= -1) {
+          allTags.push(tag)
+       }
+        
         return null
       })
       return null
     })
-    // console.log("allTags:",allTags)
-    // console.log("resdata",res.data)
     dispatch({ type: SET_TAGS, payload: allTags})
     return res.data
 }
@@ -325,16 +322,12 @@ export const getRequests = () => async dispatch => {
       data.push({description:req.description, tags:req.tags})
       return null
     })
-
-    // console.log("getRequests Data",data)
     dispatch({ type: 'GET_REQUESTS', payload: data });
 };
 
 export const getStripeCustomerID = (email) => async dispatch => {
   const data = {email:email}
   const res = await axios.get(backend+'/api/user/customerid',data)
-  // console.log("getStripeCustomerID:",res.data.id)
-  // dispatch to account redux
   dispatch({ type: SET_STRIPE_CUSTOMERID, payload: res.data.id})
 }
 
@@ -417,10 +410,7 @@ export const editPost = (uri) => async dispatch => {
 }
 
 export const starPost = (postid,username,starred,action,index) => async dispatch => {
-  // action should either be 1 or -1
-  // let data = {id:postid, starred:starred, action:action}
   auth.starRunbookFirestore(postid,username,action)
-  // await axios.post(backend+'/api/post/star',data);
 
   if (index !== null){
     dispatch({ type: STAR_POST, payloadindex:index, payloadaction:action, payloadusername:username});

@@ -63,3 +63,19 @@ div#toolbar.fullToolbar {
 div.position-relative.form-group {
   margin-bottom: 8px
 }
+
+div > .p-accordion-content-wrapper.p-accordion-content-wrapper-expanded {
+  max-height: 100%
+}
+
+div > .p-accordion-content {
+  max-height: 100%
+}
+
+div > .p-accordion-content-wrapper.p-accordion-content-wrapper-expanded {
+  max-height: 100%
+}
+
+div > .p-accordion-content {
+  max-height: 100%
+}

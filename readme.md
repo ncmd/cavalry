@@ -138,6 +138,11 @@ npm run deploy-backend-local
 ```
 
 # Day-to-Day
+## Update latest React-Scripts Packages
+- https://github.com/facebook/create-react-app/blob/master/CHANGELOG.md#migrating-from-023-to-030
+```
+npm install --save --save-exact react-scripts@2.1.1
+```
 ## Work on ToDo List
 ```
 npm run local-frontend  | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --ignore-blank --realtime=false
@@ -177,8 +182,11 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 
 ## Web
 - User Accounts
+- force log out if more than 1 user
 - Posts
 - Search
+- Chat
+- Filter
 - Payments
 - Subscriptions
 - JWT Authenticated Pages
@@ -187,6 +195,7 @@ npm run backup-all-x | gnomon --type=elapsed-total --medium=20.0 --high=60.0 --i
 - Comments
 - Advertising Placement
 - Sponsors
+
 # Incident response phases
 ## 1. Preparation
 - Develop and Document IR Policies: Establish policies, procedures, and agreements for incident response management.
@@ -245,12 +254,33 @@ Resource: https://info.digitalguardian.com/rs/768-OQW-145/images/Incident-Respon
 - ending subscription
 
 ## Posts
+- max length on accordian...
+- version control...
+- editing post should open up the editor within objectives preview
+- publishing should prompt user before publish
+- attaching files
+- deleting old unused pictures
+- restricting access to pictures of private posts
+- voting system for objectives
+- suggest objective
+- versioning and edits
+- remember to fix editing page
+- star post
+- expand/unexpand all objectives
 - change URL scheme to be: 
 - Personal cavalry.com/username/post-title
 - Category cavalry.com/category-name/post-title
+- metrics (last edited, forks, views, stars, objectives, executions, comments)
 
 ## Comments
-- comments - 15%
+- show comments preview if not a member
+- if more than 1 reply comment box is open, then the style for the other comment box toolbar is gone
+- time posted
+- unique id comments
+- parent id 
+- parent depth
+- reply, remove old comment if reply; otherwise cancel will put it back to original state
+- comments - 25%
 - add comment to firestore
 - delete comment in firestore
 - dispatch to redux add comment
@@ -267,6 +297,8 @@ Resource: https://info.digitalguardian.com/rs/768-OQW-145/images/Incident-Respon
 - filter options
 
 ## Voting System
+- racecondition occuring
+- redux needs to fix the voting; something wrong; firestore is working for aggregation
 - stars - 85% - Use redux, then make update to firestore; must only done once per user
 - there needs to be a record of local user starring post
 - redux should contain this information
@@ -450,6 +482,7 @@ Resource: https://info.digitalguardian.com/rs/768-OQW-145/images/Incident-Respon
 - Todo
 
 ## Google Analytics Proxy
+
 - https://medium.freecodecamp.org/save-your-analytics-from-content-blockers-7ee08c6ec7ee
 - Edit node_modules source:
 - cd client & npm install ncmd/react-ga
@@ -457,6 +490,7 @@ Resource: https://info.digitalguardian.com/rs/768-OQW-145/images/Incident-Respon
 - edited 'react-ga' dist/react-ga.js
 - create analytics.js, replace all www.google-analytics.com with "+location.host+"/analytics
 - put analytics.js in public/ directory
+- NOTE: If google analytics is not working in production; follow steps below
 - setup firebase client to rewrite to a function: redirectHeroku for production
 ```
  "rewrites": [

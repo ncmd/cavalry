@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import Header from '../components/header/header';
+import Header from '../../components/header/header';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
     addUser,
-} from '../redux/actions';
+} from '../../redux/actions';
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 
 class Dashboard extends Component {

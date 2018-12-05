@@ -1,8 +1,50 @@
+p {
+  font-size: 13px;
+  line-height: 18.46px;
+}
+
+div.ql-editor p {
+  font-size: 13px;
+  line-height: 18.46px;
+}
+
+
+div.ql-editor h1 {
+  font-size: 26px;
+  line-height: 31.2px;
+}
+
+div.ql-editor h2 {
+  font-size: 19.5px;
+  line-height: 23.4px;
+}
+
 div.ql-container.ql-snow {
-  height:30vh;
+  height:14vh;
+
 }
 div.ql-container.ql-blank {
-  height:30vh;
+  height:14vh;
+}
+
+div.ql-toolbar.ql-snow {
+  border-top:0;
+  border-bottom:0;
+  border-left:0;
+  border-right:0;
+  height: 37px;
+  padding: 4px;
+}
+
+div.position-relative.form-group {
+  height:auto !important,
+}
+textarea.form-control {
+  height:auto !important,
+}
+
+div.position-relative.form-group textarea.form-control {
+  height:auto !important,
 }
 
 div.quill.quillFullScreen div.ql-container.ql-blank {
@@ -11,4 +53,29 @@ div.quill.quillFullScreen div.ql-container.ql-blank {
 
 div.quill.quillFullScreen div.ql-container.ql-snow {
   height:100vh;
+}
+
+div#toolbar.fullToolbar {
+  height: 50px;
+  padding-top: 5px;
+}
+
+div.position-relative.form-group {
+  margin-bottom: 8px
+}
+
+div > .p-accordion-content-wrapper.p-accordion-content-wrapper-expanded {
+  max-height: 100%
+}
+
+div > .p-accordion-content {
+  max-height: 100%
+}
+
+div > .p-accordion-content-wrapper.p-accordion-content-wrapper-expanded {
+  max-height: 100%
+}
+
+div > .p-accordion-content {
+  max-height: 100%
 }

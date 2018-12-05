@@ -3,7 +3,6 @@ import axios from 'axios';
 const keys = require('../../secrets/keys');
 let backend = keys.heroku_backend_uri
 
-
 export const testAdd = () => {
   db.collection("black").add({
     first: "Ada",
@@ -20,15 +19,10 @@ export const testAdd = () => {
 
 export const editRunbookFirestore = (postid) => {
   let runbookRef = db.collection("aggregation")
-  // insecure; going to grab all posts;
-  // runbookRef.where("last100", "array-contains", 0)
   runbookRef.update({
     last100: db.FieldValue.arrayUnion({author:'charles'})
 });
-
-
   console.log(runbookRef)
-
 }
 
 export const starsRunbookFirestoreRealTime = () => {
@@ -43,100 +37,114 @@ export const starsRunbookFirestoreRealTime = () => {
 
 export const starRunbookFirestore = (runbookid,username,action) => {
   var aggRef = db.collection("aggregation").doc("posts")
-
   var postRef = db.collection("posts").doc(runbookid)
+
+  // Adding Star in POSTS
   if (action === 1){
     postRef.get().then(function(doc) {
       if (doc.exists){
         var prevRunbook = doc.data()
-        prevRunbook.starred.push(username)
-        console.log("star",prevRunbook)
-        postRef.update({
-          starred: prevRunbook.starred,
-          stars: prevRunbook.stars + 1
-        })
+        // If username not found in 'starred' array
+        if (prevRunbook.starred.indexOf(username) <= -1) {
+          prevRunbook.starred.push(username)
+          postRef.update({
+            starred: prevRunbook.starred,
+            stars: prevRunbook.stars + 1
+          })
+        } else {
+            // If username is in array (because of a race condition, remove all occurences and subtract stars)
+            var array = prevRunbook.starred
+            var count = prevRunbook.starred.indexOf(username)
+            var filtered = array.filter(function(element) {
+                return element !== username;
+            });
+            prevRunbook.starred = filtered
+            prevRunbook.starred.push(username)
+            prevRunbook.stars = prevRunbook.stars-count
+            postRef.update({
+              starred: prevRunbook.starred,
+              stars: prevRunbook.stars
+            })
+        }
       }
     })
+    // Adding Star in AGGREGATION POSTS
     aggRef.get().then(function(doc){
       if(doc.exists){
         var prevAggregation = doc.data()
         prevAggregation.last100.map((post,index) => {
           if(post.id === runbookid){
-            console.log("Match!",post.id,runbookid)
-            prevAggregation.last100[index].starred.push(username)
-            prevAggregation.last100[index].stars = prevAggregation.last100[index].stars+1
-            aggRef.update({
-              last100:prevAggregation.last100
-            })
+            // If username not found in 'starred' array
+            if (prevAggregation.last100[index].starred.indexOf(username) <= -1) {
+              // Add username to 'starred' array and increment the 'stars' by +1
+              prevAggregation.last100[index].starred.push(username)
+              prevAggregation.last100[index].stars = prevAggregation.last100[index].stars+1
+              aggRef.update({
+                last100:prevAggregation.last100
+              })
+            } else {
+              // If username is in array (because of a race condition, remove all occurences and subtract stars)
+              var array = prevAggregation.last100[index].starred
+              var count = prevAggregation.last100[index].starred.indexOf(username)
+              var filtered = array.filter(function(element) {
+                  return element !== username;
+              }); // filtered contains no occurrences of hello
+              prevAggregation.last100[index].starred = filtered
+              prevAggregation.last100[index].starred.push(username)
+              prevAggregation.last100[index].stars = prevAggregation.last100[index].stars-count
+              aggRef.update({
+                last100:prevAggregation.last100
+              })
+
+            }
           }
           return null
         })
-
       }
     })
+    // Removing Star in POSTS
     } else if (action === -1){
       postRef.get().then(function(doc) {
         if (doc.exists){
           var prevRunbook = doc.data()
           var index = prevRunbook.starred.indexOf(username);
-          if (index !== -1) prevRunbook.starred.splice(index, 1);
-          console.log("star",prevRunbook)
-          postRef.update({
-            starred: prevRunbook.starred,
-            stars: prevRunbook.stars - 1
-          })
+          // if name exists, remove name
+          if (index >= 0){
+            prevRunbook.starred.splice(index, 1);
+            postRef.update({
+              starred: prevRunbook.starred,
+              stars: prevRunbook.stars-1
+            })
+          }
         }
       })
-
+      // Removing Start in AGGREGATION POSTS
       aggRef.get().then(function(doc){
         if(doc.exists){
           var prevAggregation = doc.data()
           prevAggregation.last100.map((post,ind) => {
             if(post.id === runbookid){
-              console.log("Match!",post.id,runbookid)
               var index = prevAggregation.last100[ind].starred.indexOf(username);
-              if (index !== -1) prevAggregation.last100[ind].starred.splice(index, 1);
-              prevAggregation.last100[ind].stars = prevAggregation.last100[ind].stars-1
-              aggRef.update({
-                last100:prevAggregation.last100
-              })
+              if (index >= 0){
+                prevAggregation.last100[ind].starred.splice(index, 1);
+                prevAggregation.last100[ind].stars = prevAggregation.last100[ind].stars-1
+                aggRef.update({
+                  last100:prevAggregation.last100
+                })
+              }
             }
             return null
           })
-
         }
       })
   }
-
-
 }
 
 
 export const addAccountActivityFirestore = (organizationname,accountid,index) => {
-
   var accountRef = db.collection("account").doc(accountid);
   accountRef.get().then(function(doc) {
       if (doc.exists){
-        // var prevActivity = doc.data().organizatioactivity
-      //   prevActivity.forEach(function(element, index, theArray) {
-      //     if (index === thisindex){
-            console.log("Account,",doc)
-      //       theArray[index] = {
-      //         accountid: element.accountid,
-      //         department: department,
-      //         emailaddress: element.emailaddress,
-      //         status: element.status,
-      //       }
-      //     }
-      //
-      //   });
-      // console.log("changeOrgMemberDepartmentFirestore PrevMembers:",prevActivity)
-
-      // now set firestore with new document
-      // accountRef.update({
-      //   activity: prevAccount
-      // })
-
       }
     }).catch(function(error) {
       // console.log("Error getting document:", error);
@@ -144,46 +152,40 @@ export const addAccountActivityFirestore = (organizationname,accountid,index) =>
 }
 
 export const filterPostByTag = (tagname) => {
-  // console.log(tagname)
   const  postsRef = db.collection("posts");
-
   let foundPosts = []
-
   var promise = new Promise(function(resolve, reject) {
-    resolve(postsRef.where("tags", "array-contains", tagname).get().then(function(filterPostResults) {
-      filterPostResults.forEach(function(doc) {
-          // doc.data() is never undefined for query doc snapshots
-          // console.log(doc.id, " => ", doc.data());
-          foundPosts.push(doc.data())
-      });
-      })
-    );})
-
+    try {
+      resolve(postsRef.where("tags", "array-contains", tagname).get().then(function(filterPostResults) {
+        filterPostResults.forEach(function(doc) {
+            foundPosts.push(doc.data())
+          });
+        })
+      );
+    }
+    catch(err) {
+        console.log(err.message)
+    }
+    
+  })
   return promise.then(() => {
-    // console.log("Finished",foundPosts)
     return foundPosts
   })
-
 }
 
 export const uploadImageForPost = (uploadfile,pathfilename) => {
-
   // Create a reference to 'posts/accountid/filename.jpg'
   var imageImagesRef = storage.child(pathfilename);
-
   var file = uploadfile
   var promise = new Promise(function(resolve, reject) {
     resolve(imageImagesRef.put(file).then(function(snapshot) {
       // console.log("Image uploaded!")
       })
     );})
-
   return promise.then((url) => {
   // console.log("Finished promise uploadImageForPost")
   // return getImageUrl(pathfilename)
   })
-
-
 }
 
 export const getImageUrl = (pathfilename) => {
@@ -195,12 +197,10 @@ export const getImageUrl = (pathfilename) => {
       return url
       })
     );})
-
   return promise.then((url) => {
   // console.log("Finished promise getImageUrl")
   return url
   })
-
 }
 
 export const loadOrganization = (organizationname) => {
@@ -244,10 +244,8 @@ export const changeOrgMemberDepartmentFirestore = (organizationname,thisindex,de
               status: element.status,
             }
           }
-
         });
       // console.log("changeOrgMemberDepartmentFirestore PrevMembers:",prevMembers)
-
       // now set firestore with new document
       membersRef.update({
         organizationmembers: prevMembers
@@ -293,7 +291,6 @@ export const addActivityToAccount = (activity, accountid) => {
   activityRef.get().then(function(doc) {
       if (doc.exists){
         var prevActivity = doc.data().activity
-        //
         // console.log("PrevActivity:",prevActivity)
         // console.log(activity.runbookid,activity.runbooktitle,activity.runbookstatus,activity.runbookobjectives)
         prevActivity.push({
@@ -327,7 +324,6 @@ export const getAccountActivityFromOrganization =  (organizationname, accountid)
 export const addActivityToOrganization = (organizationname, activity) => {
   // console.log("Activity:",activity)
   var activityRef = db.collection("organizations").doc(organizationname);
-
   activityRef.get().then(function(doc) {
       if (doc.exists){
         var prevActivity = doc.data().organizationactivity
@@ -375,7 +371,6 @@ export const addActivityToOrganization = (organizationname, activity) => {
 export const completeOrganizationActivityFirestore = (organizationname, activity) => {
   // console.log("Activity:",activity)
   var activityRef = db.collection("organizations").doc(organizationname);
-
   activityRef.get().then(function(doc) {
       if (doc.exists){
         var prevActivity = doc.data().organizationactivity
@@ -409,13 +404,13 @@ export const getOrganizationActivity = (organizationname) => {
     var activityRef = db.collection("organizations").doc(organizationname);
     activityRef.get().then(function(doc) {
         if (doc.exists) {
-            return doc.data().organizationactivity
+          return doc.data().organizationactivity
         } else {
-            // doc.data() will be undefined in this case
-            // console.log("No such document!");
+          // doc.data() will be undefined in this case
+          // console.log("No such document!");
         }
     }).catch(function(error) {
-        // console.log("Error getting document:", error);
+      // console.log("Error getting document:", error);
     });
 }
 
@@ -499,7 +494,6 @@ export const getJWTVerifyToken = () => {
   auth.onAuthStateChanged(function(user) {
     if (user) {
         // User is signed in.
-
         // Now verify JWT with backend
       user.getIdToken().then(function(data) {
         // console.log("Got Token:",data)
@@ -512,9 +506,7 @@ export const getJWTVerifyToken = () => {
       return null
     }
   });
-
 }
-
 
 // Sign out
 export const doSignOut = () =>
@@ -533,4 +525,4 @@ export const doPasswordReset = (email) =>
 
 // Password Change
 export const doPasswordUpdate = (password) =>
-    auth.currentUser.updatePassword(password);
+    auth.currentUser.updatePassword(password); 

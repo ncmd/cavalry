@@ -39,7 +39,7 @@ class Request extends Component {
 
     // Controls Onload Windows Height Dimensions
     componentDidMount() {
-
+      this.renderTheme()
       // if (this.props.users === undefined){
       //   this.props.history.push("/")
       // } else {

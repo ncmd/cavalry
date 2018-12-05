@@ -17,6 +17,10 @@ div.ql-editor p {
   line-height: 18.46px;
 }
 
+div.ql-editor.ql-blank::before {
+  color: #3d63ff;
+}
+
 div.ql-editor.ql-blank {
   min-height:10vh;
   height:auto !important;
@@ -41,7 +45,7 @@ div.ql-editor h2 {
   line-height: 23.4px;
 }
 
-div.text-editor div#toolbar.ql-toolbar.ql-snow {
+div.text-editor-root div#toolbar.ql-toolbar.ql-snow {
   background: white;
 }
 
@@ -65,4 +69,20 @@ div.quill.quillFullScreen div.ql-container.ql-blank {
 
 div.quill.quillFullScreen div.ql-container.ql-snow {
   height:100vh;
+}
+
+div > .p-accordion-content-wrapper.p-accordion-content-wrapper-expanded {
+  max-height: 100%
+}
+
+div > .p-accordion-content {
+  max-height: 100%
+}
+
+div > .p-accordion-content-wrapper.p-accordion-content-wrapper-expanded {
+  max-height: 100%
+}
+
+div > .p-accordion-content {
+  max-height: 100%
 }

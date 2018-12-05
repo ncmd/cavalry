@@ -113,6 +113,9 @@ exports.aggregate100Posts = functions.firestore.document('posts/{postId}').onCre
         return aggRef.set(next);
 });
 
+
+
+
 // when a document 'post/id' is created
 exports.aggregate100Requests = functions.firestore.document('requests/{requestId}').onCreate(async (snapshot,context) => {
         // post = all of snapshot data

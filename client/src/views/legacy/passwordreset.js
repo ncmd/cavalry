@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
-import Header from '../components/header/header';
+import Header from '../../components/header/header';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import {
     loginUser,
-} from '../redux/actions';
+} from '../../redux/actions';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import { InputGroup, InputGroupText, InputGroupAddon, Input, FormFeedback } from 'reactstrap';
-import * as auth from "../components/firebase/auth";
+import * as auth from "../../components/firebase/auth";
 
 const bodyBlue = "linear-gradient(#1a237e, #121858)";
 const resetPasswordButton = "linear-gradient(to right, #ff1744, #F44336 ";

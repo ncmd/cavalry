@@ -5,6 +5,15 @@
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "!/api/analytics/**",
+        "destination": "/index.html"
+      },{
+        "source": "/api/analytics/**",
+        "function": "redirectHeroku"
+      }
     ]
   }
 }
