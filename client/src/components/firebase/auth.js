@@ -3,6 +3,50 @@ import axios from 'axios';
 const keys = require('../../secrets/keys');
 let backend = keys.heroku_backend_uri
 
+
+export const replyCommentFirestore = (postid, commentid, commentdata) => {
+  console.log(postid,commentdata)
+  var postRef = db.collection("posts").doc(postid);
+  postRef.get().then(function (doc) {
+    if (doc.exists) {
+      var prevComments = doc.data().comments
+      prevComments.push({
+        id: doc.data().commentcount+1,
+        index: [0],
+        parentDepth: [0],
+        parentid: 0,
+        avatar: '/cavalry.svg',
+        user: commentdata.user,
+        timestamp: Date.now(),
+        comment: commentdata.comment,
+        collapse: false,
+        showCommentBox: false,
+        replies: []
+      })
+      postRef.update({
+        comments: prevComments,
+        commentcount: doc.data().commentcount+1
+      })
+    }
+  }).catch(function (error) {
+    console.log("Error getting document:", error);
+  });
+}
+
+export const getCommentsOfPostFirestore = (postid) => {
+  console.log(postid)
+  var postRef = db.collection("posts").doc(postid);
+  postRef.get().then(function (doc) {
+    if (doc.exists) {
+      var prevComments = doc.data().comments
+      return prevComments
+    }
+  }).catch(function (error) {
+    return null
+    console.log("Error getting document:", error);
+  });
+}
+
 export const addCommentFirestore = (postid,commentdata) => {
   console.log(postid,commentdata)
   var postRef = db.collection("posts").doc(postid);
@@ -22,9 +66,9 @@ export const addCommentFirestore = (postid,commentdata) => {
         showCommentBox: false,
         replies: []
       })
-
       postRef.update({
-        comments: prevComments
+        comments: prevComments,
+        commentcount: doc.data().commentcount+1
       })
     }
   }).catch(function (error) {
