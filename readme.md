@@ -274,6 +274,8 @@ Resource: https://info.digitalguardian.com/rs/768-OQW-145/images/Incident-Respon
 
 ## Comments
 - show comments preview if not a member
+- animation for collapsing
+- show how to collapse/expand
 - if more than 1 reply comment box is open, then the style for the other comment box toolbar is gone
 - time posted
 - unique id comments

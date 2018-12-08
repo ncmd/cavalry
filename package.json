@@ -62,7 +62,7 @@
     "deploy-backend-local": "run-s -c deploy-backend-local-1 deploy-backend-local-2",
     "deploy-backend-local-1": "cd server & echo 'godep save ./...' & godep save ./...",
     "deploy-backend-local-2": "cd server & heroku git:remote -a cavalry-app & heroku config:set APP_ENV=local & git add . & git commit -m \"Deploy\" & git push heroku master",
-    "deploy-backend-local-3": "cd server & ec ho 'heroku logs -a cavalry-app' & heroku logs -a cavalry-app --tail",
+    "deploy-backend-local-3": "cd server & echo 'heroku logs -a cavalry-app' & heroku logs -a cavalry-app --tail",
     "heroku-backend-refresh-local": "cross-var \"cd server & heroku git:remote -a cavalry-app & heroku apps:destroy --app $npm_package_config_servernamelocal --confirm $npm_package_config_servernamelocal & git init & git add . & heroku create $npm_package_config_servernamelocal & cd ..\"",
     "DEVELOPMENT-----------------------------------------------------------": "",
     "go-first-setup-dev": "cross-var \"cd server-dev & $npm_package_config_gosetup & cd ..\"",

@@ -109,7 +109,7 @@ class Landing extends Component {
             tags: post.tags,
             timestamp: post.timestamp,
             title: post.title,
-          })
+          })   
           return null
         })
         this.setState({

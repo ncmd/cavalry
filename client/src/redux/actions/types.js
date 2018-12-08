@@ -71,3 +71,4 @@ export const ASSIGN_OBJECTIVE_ORGANIZATION_ACTIVITY = 'assign_objective_organiza
 export const COMPLETE_OBJECTIVE_ACTIVITY = 'complete_objective_activity';
 export const COMPLETE_ACTIVITY_ORGANIZATION = 'complete_activity_organization';
 export const STAR_POST_LOCAL = 'star_post_local';
+export const ADD_COMMENT = 'add_comment';

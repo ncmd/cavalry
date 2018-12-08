@@ -114,15 +114,17 @@ func controllers_posts_create_post_in_firestore(w http.ResponseWriter, r *http.R
 	if r.Method != "OPTIONS" {
 		ref := client.Collection("posts").NewDoc()
 		_, err := ref.Set(context.Background(), map[string]interface{}{
-			"id":          ref.ID,
-			"title":       post.Title,
-			"author":      post.Author,
-			"description": post.Description,
-			"tags":        post.Tags,
-			"objectives":  post.Objectives,
-			"stars":       post.Stars,
-			"timestamp":   firestore.ServerTimestamp,
-			"starred":     []interface{}{},
+			"id":           ref.ID,
+			"title":        post.Title,
+			"author":       post.Author,
+			"description":  post.Description,
+			"tags":         post.Tags,
+			"objectives":   post.Objectives,
+			"stars":        post.Stars,
+			"timestamp":    firestore.ServerTimestamp,
+			"starred":      []interface{}{},
+			"comments":     []interface{}{},
+			"commentcount": 0,
 		})
 		if err != nil {
 			fmt.Println(err)

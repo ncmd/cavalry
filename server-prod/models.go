@@ -83,14 +83,16 @@ type Response struct {
 }
 
 type Post struct {
-	Id          string        `json:"id"`
-	Author      string        `json:"author"`
-	Title       string        `json:"title"`
-	Description string        `json:"description"`
-	Tags        []interface{} `json:"tags"`
-	Objectives  []interface{} `json:"objectives"`
-	Stars       int           `json:"stars"`
-	Starred     []interface{} `json:"starred"`
+	Id           string        `json:"id"`
+	Author       string        `json:"author"`
+	Title        string        `json:"title"`
+	Description  string        `json:"description"`
+	Tags         []interface{} `json:"tags"`
+	Objectives   []interface{} `json:"objectives"`
+	Stars        int           `json:"stars"`
+	Starred      []interface{} `json:"starred"`
+	Comments     []interface{} `json:"comments"`
+	CommentCount int           `json:"commentcount"`
 }
 
 type RequestRunbook struct {

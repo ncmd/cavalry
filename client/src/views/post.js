@@ -7,19 +7,13 @@ import {
   addActivityToOrganization,
   loadOrganizationAll,
   starPost,
-  lightThemeLoad
+  lightThemeLoad,
+  addCommentToPostFirestore
 } from '../redux/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Link } from "react-router-dom";
-// import Slide from '@material-ui/core/Slide';
-// import Dialog from '@material-ui/core/Dialog';
 import Select from 'react-select';
-// import Table from '@material-ui/core/Table';
-// import TableBody from '@material-ui/core/TableBody';
-// import TableCell from '@material-ui/core/TableCell';
-// import TableHead from '@material-ui/core/TableHead';
-// import TableRow from '@material-ui/core/TableRow';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import { InputGroup, InputGroupAddon, Button } from 'reactstrap';
@@ -35,7 +29,6 @@ import { Comment } from 'semantic-ui-react'
 import JavascriptTimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import ReactTimeAgo from 'react-time-ago/no-tooltip'
-// import * as objTraverse from 'obj-traverse/lib/obj-traverse';
 import { findFirst, findAndDeleteFirst } from 'obj-traverse/lib/obj-traverse';
 
 const styles = theme => ({
@@ -739,10 +732,11 @@ class Post extends Component {
     }
   }
 
-  addComment(comment) {
+  addComment(postid,comment) {
+    
     let prevPostComments = this.state.postComments
     let commentData = {
-      id: 23,
+      id: 33,
       index: [0],
       parentDepth: [0],
       parentid: 0,
@@ -754,6 +748,7 @@ class Post extends Component {
       showCommentBox: false,
       replies: []
     }
+    this.props.addCommentToPostFirestore(postid,commentData)
     prevPostComments.unshift(commentData)
     this.setState({
       postComments: prevPostComments,
@@ -937,7 +932,7 @@ class Post extends Component {
       return (
         <div style={{ float: 'right' }}>
           {this.renderCommentLengthCount()}
-          <Button style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, background: this.props.theme[0].PrimaryLinear }} onClick={() => this.addComment(this.state.comment)}>
+          <Button style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, background: this.props.theme[0].PrimaryLinear }} onClick={() => this.addComment(this.state.postId,this.state.comment)}>
             <div style={{ verticalAlign: 'middle', letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
               <b>Comment</b>
             </div>
@@ -948,7 +943,7 @@ class Post extends Component {
       return (
         <div style={{ float: 'right' }}>
           {this.renderCommentLengthCount()}
-          <Button disabled style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, border: 0, background: this.props.theme[0].DisabledBackground }} onClick={() => this.addComment(this.state.comment)}>
+          <Button disabled style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, border: 0, background: this.props.theme[0].DisabledBackground }} onClick={() => this.addComment(this.state.postId,this.state.comment)}>
             <div style={{ color: this.props.theme[0].DisabledText, verticalAlign: 'middle', letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
               <b>Comment</b>
             </div>
@@ -1188,5 +1183,6 @@ export default connect(mapStateToProps, {
   addActivityToOrganization,
   loadOrganizationAll,
   starPost,
-  lightThemeLoad
+  lightThemeLoad,
+  addCommentToPostFirestore
 })(withRouter(withStyles(styles)(Post)));
