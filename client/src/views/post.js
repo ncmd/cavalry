@@ -40,7 +40,7 @@ const styles = theme => ({
   }
 });
 
-const CommentData = require('../components/comments/CommentData.json')
+// const CommentData = require('../components/comments/CommentData.json')
 
 class Post extends Component {
   constructor(props) {

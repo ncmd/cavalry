@@ -4,55 +4,47 @@ import { findFirst } from 'obj-traverse/lib/obj-traverse';
 const keys = require('../../secrets/keys');
 let backend = keys.heroku_backend_uri
 
+// add comment - done
+// reply comment - done; sorta
+// delete comment
+// edit comment
 
 export const replyCommentFirestore = (postid, commentid, commentdata) => {
-  console.log(postid,commentdata)
+  console.log(postid, commentdata)
   var postRef = db.collection("posts").doc(postid);
   postRef.get().then(function (doc) {
     if (doc.exists) {
       var prevComments = doc.data().comments
-       // loop through index of prevpost
-       prevComments.map((post, index) => {
+      // loop through index of prevpost
+      prevComments.map((post, index) => {
         let foundPost = findFirst(prevComments[index], 'replies', { id: commentid })
+        let commentData = {
+          id: doc.data().commentcount + 1,
+          index: foundPost.index,
+          parentDepth: commentdata.parentDepth,
+          parentid: commentdata.parentid,
+          avatar: '/cavalry.svg',
+          user: commentdata.user,
+          timestamp: Date.now(),
+          comment: commentdata.comment,
+          collapse: false,
+          showCommentBox: false,
+          replies: []
+        }
+
         if (foundPost !== false) {
           if (typeof foundPost.replies === 'undefined') {
-            let commentData = {
-              id: doc.data().commentcount+1,
-              index: foundPost.index,
-              parentDepth: commentdata.parentDepth,
-              parentid: commentdata.parentid,
-              avatar: '/cavalry.svg',
-              user: commentdata.user,
-              timestamp: Date.now(),
-              comment: commentdata.comment,
-              collapse: false,
-              showCommentBox: false,
-              replies: []
-            }
             foundPost.replies.push(commentData)
             // need to delete the original reply here
             postRef.update({
               comments: prevComments,
-              commentcount: doc.data().commentcount+1
+              commentcount: doc.data().commentcount + 1
             })
           } else {
-            let commentData = {
-              id: doc.data().commentcount+1,
-              index: foundPost.index,
-              parentDepth: commentdata.parentDepth,
-              parentid: commentdata.parentid,
-              avatar: '/cavalry.svg',
-              user: commentdata.user,
-              timestamp: Date.now(),
-              comment: commentdata.comment,
-              collapse: false,
-              showCommentBox: false,
-              replies: []
-            }
             foundPost.replies.push(commentData)
             postRef.update({
               comments: prevComments,
-              commentcount: doc.data().commentcount+1
+              commentcount: doc.data().commentcount + 1
             })
             // this.toggleReplyCommentBox(postid)
           }
@@ -76,18 +68,18 @@ export const getCommentsOfPostFirestore = (postid) => {
   }).catch(function (error) {
     console.log("Error getting document:", error);
     return null
-   
+
   });
 }
 
-export const addCommentFirestore = (postid,commentdata) => {
-  console.log(postid,commentdata)
+export const addCommentFirestore = (postid, commentdata) => {
+  console.log(postid, commentdata)
   var postRef = db.collection("posts").doc(postid);
   postRef.get().then(function (doc) {
     if (doc.exists) {
       var prevComments = doc.data().comments
       prevComments.push({
-        id: doc.data().commentcount+1,
+        id: doc.data().commentcount + 1,
         index: [0],
         parentDepth: [0],
         parentid: 0,
@@ -101,7 +93,7 @@ export const addCommentFirestore = (postid,commentdata) => {
       })
       postRef.update({
         comments: prevComments,
-        commentcount: doc.data().commentcount+1
+        commentcount: doc.data().commentcount + 1
       })
     }
   }).catch(function (error) {
