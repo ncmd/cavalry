@@ -1,5 +1,6 @@
 import { auth, db, storage } from './firebase';
 import axios from 'axios';
+import { findFirst } from 'obj-traverse/lib/obj-traverse';
 const keys = require('../../secrets/keys');
 let backend = keys.heroku_backend_uri
 
@@ -10,22 +11,53 @@ export const replyCommentFirestore = (postid, commentid, commentdata) => {
   postRef.get().then(function (doc) {
     if (doc.exists) {
       var prevComments = doc.data().comments
-      prevComments.push({
-        id: doc.data().commentcount+1,
-        index: [0],
-        parentDepth: [0],
-        parentid: 0,
-        avatar: '/cavalry.svg',
-        user: commentdata.user,
-        timestamp: Date.now(),
-        comment: commentdata.comment,
-        collapse: false,
-        showCommentBox: false,
-        replies: []
-      })
-      postRef.update({
-        comments: prevComments,
-        commentcount: doc.data().commentcount+1
+       // loop through index of prevpost
+       prevComments.map((post, index) => {
+        let foundPost = findFirst(prevComments[index], 'replies', { id: commentid })
+        if (foundPost !== false) {
+          if (typeof foundPost.replies === 'undefined') {
+            let commentData = {
+              id: doc.data().commentcount+1,
+              index: foundPost.index,
+              parentDepth: commentdata.parentDepth,
+              parentid: commentdata.parentid,
+              avatar: '/cavalry.svg',
+              user: commentdata.user,
+              timestamp: Date.now(),
+              comment: commentdata.comment,
+              collapse: false,
+              showCommentBox: false,
+              replies: []
+            }
+            foundPost.replies.push(commentData)
+            // need to delete the original reply here
+            postRef.update({
+              comments: prevComments,
+              commentcount: doc.data().commentcount+1
+            })
+          } else {
+            let commentData = {
+              id: doc.data().commentcount+1,
+              index: foundPost.index,
+              parentDepth: commentdata.parentDepth,
+              parentid: commentdata.parentid,
+              avatar: '/cavalry.svg',
+              user: commentdata.user,
+              timestamp: Date.now(),
+              comment: commentdata.comment,
+              collapse: false,
+              showCommentBox: false,
+              replies: []
+            }
+            foundPost.replies.push(commentData)
+            postRef.update({
+              comments: prevComments,
+              commentcount: doc.data().commentcount+1
+            })
+            // this.toggleReplyCommentBox(postid)
+          }
+        }
+        return null
       })
     }
   }).catch(function (error) {
@@ -42,8 +74,9 @@ export const getCommentsOfPostFirestore = (postid) => {
       return prevComments
     }
   }).catch(function (error) {
-    return null
     console.log("Error getting document:", error);
+    return null
+   
   });
 }
 

@@ -8,7 +8,8 @@ import {
   loadOrganizationAll,
   starPost,
   lightThemeLoad,
-  addCommentToPostFirestore
+  addCommentToPostFirestore,
+  replyCommentInPostFirestore
 } from '../redux/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -66,6 +67,7 @@ class Post extends Component {
       postTimestamp: '',
       postStarred: [],
       postComments: [],
+      postCommentCount:0,
       comment: "",
       reply: "",
       rawcomment: "",
@@ -444,7 +446,7 @@ class Post extends Component {
                       </div>
                     </Grid>
                     <Grid item xs={12} style={{ maxWidth: 640 }}>
-                      {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment)}
+                      {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment,nestedComment.parentDepth)}
                     </Grid>
                   </Grid>
                   :
@@ -489,7 +491,7 @@ class Post extends Component {
                       </div>
                     </Grid>
                     <Grid item xs={12} style={{ maxWidth: 640 }}>
-                      {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment)}
+                      {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment,nestedComment.parentDepth)}
                     </Grid>
                   </Grid>
                   :
@@ -539,7 +541,7 @@ class Post extends Component {
                         </div>
                       </Grid>
                       <Grid item xs={12} style={{ maxWidth: 640 }}>
-                        {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment)}
+                        {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment,nestedComment.parentDepth)}
                       </Grid>
                     </Grid>
                     :
@@ -585,7 +587,7 @@ class Post extends Component {
                         </div>
                       </Grid>
                       <Grid item xs={12} style={{ maxWidth: 640 }}>
-                        {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment)}
+                        {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment,nestedComment.parentDepth)}
                       </Grid>
                     </Grid>
                     :
@@ -707,7 +709,7 @@ class Post extends Component {
                           </div>
                         </Grid>
                         <Grid item xs={12} style={{ maxWidth: 640 }}>
-                          {this.renderReplyButton(comment.id, comment.id, comment.comment, comment)}
+                          {this.renderReplyButton(comment.id, comment.id, comment.comment, comment,comment.parentDepth)}
                         </Grid>
                       </Grid>
                       :
@@ -741,13 +743,11 @@ class Post extends Component {
                 </Comment>
               )
             }
-
           }
           return null
         })
       )
     }
-
   }
 
   renderTime(time) {
@@ -874,17 +874,16 @@ class Post extends Component {
     })
   }
 
-  replyComment(postid, thiscomment, parentid) {
+  replyComment(commentid, commentdata, parentid, postid, parentdepth) {
     let prevPostComments = this.state.postComments
     let commentData = {
-      id: 99,
-      index: [0],
+      id: this.state.postCommentCount+1,
       parentDepth: [0],
       parentid: parentid,
       avatar: '/cavalry.svg',
       user: this.props.account.username,
       timestamp: Date.now(),
-      comment: this.findAndReplace(thiscomment, '<p><br></p><p><br></p><p><br></p><p><br></p>', ''),
+      comment: this.findAndReplace(commentdata, '<p><br></p><p><br></p><p><br></p><p><br></p>', ''),
       collapse: false,
       showCommentBox: false,
       replies: []
@@ -892,7 +891,7 @@ class Post extends Component {
 
     // loop through index of prevpost
     prevPostComments.map((post, index) => {
-      let foundPost = findFirst(prevPostComments[index], 'replies', { id: postid })
+      let foundPost = findFirst(prevPostComments[index], 'replies', { id: commentid })
       if (foundPost !== false) {
         if (typeof foundPost.replies === 'undefined') {
           // need to delete the original reply here
@@ -900,14 +899,18 @@ class Post extends Component {
           foundPost.replies.unshift(commentData)
           this.setState({
             postComments: prevPostComments,
+            postCommentCount: this.state.postCommentCount+1
           })
-          this.toggleReplyCommentBox(postid)
+          this.props.replyCommentInPostFirestore(postid, commentid, commentData)
+          this.toggleReplyCommentBox(commentid)
         } else {
           foundPost.replies.unshift(commentData)
           this.setState({
             postComments: prevPostComments,
+            postCommentCount: this.state.postCommentCount+1
           })
-          this.toggleReplyCommentBox(postid)
+          this.props.replyCommentInPostFirestore(postid, commentid, commentData)
+          this.toggleReplyCommentBox(commentid)
         }
       }
       return null
@@ -989,17 +992,17 @@ class Post extends Component {
     }
   }
 
-  renderReplyButton(postid, parentid, reply, replydata) {
+  renderReplyButton(commentid, parentid, parentdepth) {
     if ((this.state.rawreplylength - 1) > 0 && this.state.reply !== "<p><br></p>" && (this.state.rawreplylength - 1) <= 1000) {
       return (
         <div style={{ float: 'right' }}>
           {this.renderReplyLengthCount()}
-          <Button style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, background: this.props.theme[0].PrimaryLinear }} onClick={() => this.replyComment(postid, this.state.reply, parentid)}>
+          <Button style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, background: this.props.theme[0].PrimaryLinear }} onClick={() => this.replyComment(commentid, this.state.reply, parentid, this.state.postId,parentdepth)}>
             <div style={{ verticalAlign: 'middle', letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
               <b>Reply</b>
             </div>
           </Button>
-          <Button onClick={() => this.toggleReplyCommentBox(postid, true)} style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, border: 0, background: "transparent" }}>
+          <Button onClick={() => this.toggleReplyCommentBox(commentid, true)} style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, border: 0, background: "transparent" }}>
             <div style={{ color: this.props.theme[0].PrimaryLight, verticalAlign: 'middle', letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
               <b>Cancel</b>
             </div>
@@ -1015,7 +1018,7 @@ class Post extends Component {
               <b>Reply</b>
             </div>
           </Button>
-          <Button onClick={() => this.toggleReplyCommentBox(postid, true)} style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, border: 0, background: "transparent", color: this.props.theme[0].PrimaryLight }}>
+          <Button onClick={() => this.toggleReplyCommentBox(commentid, true)} style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, border: 0, background: "transparent", color: this.props.theme[0].PrimaryLight }}>
             <div style={{ color: this.props.theme[0].PrimaryLight, verticalAlign: 'middle', letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
               <b>Cancel</b>
             </div>
@@ -1220,5 +1223,7 @@ export default connect(mapStateToProps, {
   loadOrganizationAll,
   starPost,
   lightThemeLoad,
-  addCommentToPostFirestore
+  addCommentToPostFirestore,
+  replyCommentInPostFirestore
+
 })(withRouter(withStyles(styles)(Post)));

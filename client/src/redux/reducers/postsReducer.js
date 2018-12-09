@@ -7,7 +7,8 @@ import {
     GET_POST,
     FILTERED_POSTS,
     STAR_POST_LOCAL,
-    ADD_COMMENT
+    ADD_COMMENT,
+    REPLY_COMMENT,
 } from '../actions/types';
 
 export default function(state = [], action) {

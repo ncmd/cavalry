@@ -55,6 +55,8 @@ import {
   COMPLETE_ACTIVITY_ORGANIZATION,
   STAR_POST_LOCAL,
   ADD_COMMENT,
+  REPLY_COMMENT,
+
 } from './types';
 
 const keys = require('../../secrets/keys');
@@ -124,6 +126,11 @@ export const darkThemeLoad = () => dispatch => {
     AlgoliaSearchText: "black",
   }]
   dispatch({ type: SET_THEME, payload: theme })
+}
+
+export const replyCommentInPostFirestore = (postid, commentid, commentdata) => async dispatch => {
+  const data = await auth.replyCommentFirestore(postid, commentid, commentdata)
+  dispatch({ type: REPLY_COMMENT, payload: data })
 }
 
 export const addCommentToPostFirestore = (postid,commentdata) => async dispatch => {
