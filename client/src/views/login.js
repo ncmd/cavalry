@@ -13,7 +13,6 @@ import { Button, InputGroup, Input, FormFeedback, Modal, ModalHeader, ModalBody,
 import * as auth from "../components/firebase/auth";
 import { googleanalytics } from '../components/analytics';
 import { Link } from "react-router-dom";
-import Particles from 'react-particles-js';
 const resetPasswordButton = "linear-gradient(#F44336, #ff1744 ";
 
 class Login extends Component {
@@ -249,21 +248,6 @@ class Login extends Component {
     render() {
         return (
             <div>
-                <Particles
-                    style={{height:'100%',width:'100%', position:'fixed'}}
-                    params={{
-                        "particles": {
-                            "number": {
-                                "value": 10
-                            },
-                            "color": {
-                                "value": "#2196f3"
-                            },
-                            "size": {
-                                "value": 3
-                            },
-                        }
-                    }} />
                 <Header />
                 <div
                     style={{
@@ -309,6 +293,7 @@ class Login extends Component {
                             </Grid>
                         </Grid>
                     </Grid>
+                    
                 </div>
             </div>
         );

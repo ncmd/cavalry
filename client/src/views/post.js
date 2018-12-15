@@ -9,7 +9,8 @@ import {
   starPost,
   lightThemeLoad,
   addCommentToPostFirestore,
-  replyCommentInPostFirestore
+  replyCommentInPostFirestore,
+  deleteReplyCommentFirestore
 } from '../redux/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -30,7 +31,7 @@ import { Comment } from 'semantic-ui-react'
 import JavascriptTimeAgo from 'javascript-time-ago'
 import en from 'javascript-time-ago/locale/en'
 import ReactTimeAgo from 'react-time-ago/no-tooltip'
-import { findFirst, findAndDeleteFirst } from 'obj-traverse/lib/obj-traverse';
+import { findFirst, findAndDeleteAll } from 'obj-traverse/lib/obj-traverse';
 
 const styles = theme => ({
   root: {
@@ -67,7 +68,7 @@ class Post extends Component {
       postTimestamp: '',
       postStarred: [],
       postComments: [],
-      postCommentCount:0,
+      postCommentCount: 0,
       comment: "",
       reply: "",
       rawcomment: "",
@@ -83,9 +84,10 @@ class Post extends Component {
     this.handleChangeComment = this.handleChangeComment.bind(this);
   }
 
-  CustomToolbar() {
+  // Renders the custom toolbar for quill; need to change to slatejs.org later
+  CustomToolbar(id) {
     return (
-      <div id="toolbar" style={{ background: this.props.theme[0].PostsButtonBackground }}>
+      <div id={id} style={{ background: this.props.theme[0].PostsButtonBackground }}>
         <button className="ql-bold"></button>
         <button className="ql-list" value="bullet" />
         <button className="ql-list" value="ordered" />
@@ -94,47 +96,6 @@ class Post extends Component {
     )
   }
 
-  CustomToolbarReply() {
-    return (
-      <div id="toolbarReply" style={{ background: this.props.theme[0].PostsButtonBackground }}>
-        <button className="ql-bold"></button>
-        <button className="ql-list" value="bullet" />
-        <button className="ql-list" value="ordered" />
-        <button className="ql-link" />
-      </div>
-    )
-  }
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  handleCloseFullscreen = () => {
-    this.setState({ openFullscreen: false });
-  };
-
-  renderSelect(index, selectOption) {
-    if (this.state.selectValueOptions.length > 0) {
-      return (
-        <Select
-          name="organizationmemeber"
-          options={this.state.selectValueOptions}
-          className="basic-single"
-          isClearable={false}
-          classNamePrefix="select"
-          value={selectOption.value}
-          onChange={this.handleChangeSelect(index, 'selectValue')}
-        />
-      )
-    }
-  }
-
-  handleChangeSelect = (index, selectValue) => (event) => {
-    const prevObjectives = this.state.objectives;
-    prevObjectives[index].selectOption = event.value
-    prevObjectives[index].selectEmail = event.label
-    this.forceUpdate();
-  }
 
   // Controls Onload Windows Height Dimensions
   componentDidMount() {
@@ -251,8 +212,6 @@ class Post extends Component {
     return string;
   }
 
-
-
   renderObjectiveLength(objectivelength) {
     if (objectivelength === 1) {
       return (
@@ -302,6 +261,32 @@ class Post extends Component {
         </Link>
       )
     }
+  }
+
+  renderCommentQuill() {
+    return (
+      <ReactQuill
+        ref={(el) => this.quillRef = el}
+        placeholder={"What are your thoughts?"}
+        modules={this.modules}
+        value={this.state.comment}
+        style={{ background: this.props.theme[0].PostsButtonBackground, border: this.props.theme[0].PostsButtonBorder, borderRadius: this.props.theme[0].BorderRadius, color: this.props.theme[0].PostsTypographyTitle }}
+        onChange={this.handleChangeComment}
+      />
+    )
+  }
+
+  renderReplyCommentQuill() {
+    return (
+      <ReactQuill
+        ref={(el) => this.quillRefReply = el}
+        placeholder={"What are your thoughts?"}
+        modules={this.modulesReply}
+        value={this.state.reply}
+        style={{ background: this.props.theme[0].PostsButtonBackground, border: this.props.theme[0].PostsButtonBorder, borderRadius: this.props.theme[0].BorderRadius, color: this.props.theme[0].PostsTypographyTitle }}
+        onChange={this.handleChangeReply}
+      />
+    )
   }
 
   renderClickStar(postid, starred, index) {
@@ -402,96 +387,95 @@ class Post extends Component {
     })
   }
 
+  renderCommentTemplateEditDelete(postid, key, avatar, collapse, user, timestamp, parentid, commentid, commenttext, showcommentbox, allcommentdata, parentdepth, type) {
+
+    return (
+      <div key={key} >
+        <Comment.Group size='mini' collapsed={collapse}  >
+          <Comment style={{ border: this.props.theme[0].PrimaryOutlineBorder, borderRadius: this.props.theme[0].BorderRadius }}>
+            <Comment.Avatar as='a' src={avatar} />
+            <Comment.Content>
+              <Comment.Author as='a'><span style={{ color: this.props.theme[0].PostsTypographyTitle }}>{user}</span></Comment.Author>
+              <Comment.Metadata>
+                <span style={{ color: this.props.theme[0].PostsTypographyObjectives }}>{this.renderTime(timestamp)}</span>
+              </Comment.Metadata>
+              <Comment.Text>
+                <div className="ql-editor" style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 0 }} dangerouslySetInnerHTML={{ __html: commenttext }} />
+              </Comment.Text>
+              <Comment.Actions>
+                <Button onClick={() => this.editReplyComment(parentid, commentid, commenttext)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
+                  <b>Edit</b>
+                </Button>
+                <Button onClick={() => this.deleteComment(postid, commentid)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
+                  <b>Delete</b>
+                </Button>
+              </Comment.Actions>
+            </Comment.Content>
+          </Comment>
+          {showcommentbox
+            ?
+            <Grid container style={{ background: this.props.theme[0].PostsButtonBackground, margin: "0 auto", marginTop: 5, marginBottom: 5, maxWidth: "63em" }} alignItems={'flex-start'} justify={'center'} direction={'row'}>
+              <Grid item xs={12} style={{ maxWidth: 640 }}>
+                <div className="text-editor-reply">
+                  {this.CustomToolbar("toolbarReply")}
+                  {this.renderReplyCommentQuill()}
+                </div>
+              </Grid>
+              <Grid item xs={12} style={{ maxWidth: 640 }}>
+                {this.renderReplyButton(commentid, commentid, commenttext, allcommentdata, parentdepth)}
+              </Grid>
+            </Grid>
+            :
+            <div></div>
+          }
+        </Comment.Group>
+      </div>
+    )
+  }
+
+  renderCommentTemplateReplyContent(user, timestamp, comment, commentid) {
+    return (
+      <Comment.Content>
+        <Comment.Author as='a'><span style={{ color: this.props.theme[0].PostsTypographyTitle }}>{user}</span></Comment.Author>
+        <Comment.Metadata>
+          <span style={{ color: this.props.theme[0].PostsTypographyObjectives }}>{this.renderTime(timestamp)}</span>
+        </Comment.Metadata>
+        <Comment.Text>
+          <div className="ql-editor" style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 0 }} dangerouslySetInnerHTML={{ __html: comment }} />
+        </Comment.Text>
+        <Comment.Actions>
+          <Button onClick={() => this.toggleReplyCommentBox(commentid)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
+            <b>Reply</b>
+          </Button>
+        </Comment.Actions>
+      </Comment.Content>
+    )
+  }
+
   renderCommentReplies(rootComment, replies) {
     return (
       replies.map((nestedComment, index) => {
         if (nestedComment.replies === undefined) {
           if (this.props.account.username !== undefined && nestedComment.user === this.props.account.username) {
-            return (
-              <Comment.Group key={nestedComment.timestamp} size='mini' collapsed={nestedComment.collapse}  >
-                <Comment style={{ border: this.props.theme[0].PrimaryOutlineBorder, borderRadius: this.props.theme[0].BorderRadius }}>
-                  <Comment.Avatar as='a' src={nestedComment.avatar} />
-                  <Comment.Content>
-                    <Comment.Author as='a'><span style={{ color: this.props.theme[0].PostsTypographyTitle }}>{nestedComment.user}</span></Comment.Author>
-                    <Comment.Metadata>
-                      <span style={{ color: this.props.theme[0].PostsTypographyObjectives }}>{this.renderTime(nestedComment.timestamp)}</span>
-                    </Comment.Metadata>
-                    <Comment.Text>
-                      <div className="ql-editor" style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 0 }} dangerouslySetInnerHTML={{ __html: nestedComment.comment }} />
-                    </Comment.Text>
-                    <Comment.Actions>
-                      <Button onClick={() => this.editReplyComment(nestedComment.parentid, nestedComment.id, nestedComment.comment)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
-                        <b>Edit</b>
-                      </Button>
-                      <Button onClick={() => this.deleteComment(nestedComment.id)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
-                        <b>Delete</b>
-                      </Button>
-                    </Comment.Actions>
-                  </Comment.Content>
-                </Comment>
-                {nestedComment.showCommentBox
-                  ?
-                  <Grid container style={{ background: this.props.theme[0].PostsButtonBackground, margin: "0 auto", marginTop: 5, marginBottom: 5, maxWidth: "63em" }} alignItems={'flex-start'} justify={'center'} direction={'row'}>
-                    <Grid item xs={12} style={{ maxWidth: 640 }}>
-                      <div className="text-editor-reply">
-                        {this.CustomToolbarReply()}
-                        <ReactQuill
-                          ref={(el) => this.quillRefReply = el}
-                          placeholder={"What are your thoughts?"}
-                          modules={this.modulesReply}
-                          value={this.state.reply}
-                          style={{ background: this.props.theme[0].PostsButtonBackground, border: this.props.theme[0].PostsButtonBorder, color: this.props.theme[0].PostsTypographyTitle }}
-                          onChange={this.handleChangeReply}
-                        />
-                      </div>
-                    </Grid>
-                    <Grid item xs={12} style={{ maxWidth: 640 }}>
-                      {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment,nestedComment.parentDepth)}
-                    </Grid>
-                  </Grid>
-                  :
-                  <div></div>
-                }
-              </Comment.Group>
-            )
-          } else {
+            return (this.renderCommentTemplateEditDelete(this.state.postId, nestedComment.timestamp, nestedComment.avatar, nestedComment.collapse, nestedComment.user, nestedComment.timestamp, nestedComment.parentid, nestedComment.id, nestedComment.comment, nestedComment.showCommentBox, nestedComment, nestedComment.parentDepth))
+          } else if (this.props.account.username !== undefined && nestedComment.user !== this.props.account.username) {
             return (
               <Comment.Group key={nestedComment.timestamp} size='mini' collapsed={nestedComment.collapse}>
                 <Comment>
                   <Comment.Avatar as='a' src={nestedComment.avatar} />
-                  <Comment.Content>
-                    <Comment.Author as='a'><span style={{ color: this.props.theme[0].PostsTypographyTitle }}>{nestedComment.user}</span></Comment.Author>
-                    <Comment.Metadata>
-                      <span style={{ color: this.props.theme[0].PostsTypographyObjectives }}>{this.renderTime(nestedComment.timestamp)}</span>
-                    </Comment.Metadata>
-                    <Comment.Text>
-                      <div className="ql-editor" style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 0 }} dangerouslySetInnerHTML={{ __html: nestedComment.comment }} />
-                    </Comment.Text>
-                    <Comment.Actions>
-                      <Button onClick={() => this.toggleReplyCommentBox(nestedComment.id)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
-                        <b>Reply</b>
-                      </Button>
-                    </Comment.Actions>
-                  </Comment.Content>
+                  {this.renderCommentTemplateReplyContent(nestedComment.user, nestedComment.timestamp, nestedComment.comment, nestedComment.id)}
                 </Comment>
                 {nestedComment.showCommentBox
                   ?
                   <Grid container style={{ background: this.props.theme[0].PostsButtonBackground, margin: "0 auto", marginTop: 5, marginBottom: 5, maxWidth: "63em" }} alignItems={'flex-start'} justify={'center'} direction={'row'}>
                     <Grid item xs={12} style={{ maxWidth: 640 }}>
                       <div className="text-editor-reply">
-                        {this.CustomToolbarReply()}
-                        <ReactQuill
-                          ref={(el) => this.quillRefReply = el}
-                          placeholder={"What are your thoughts?"}
-                          modules={this.modulesReply}
-                          value={this.state.reply}
-                          style={{ background: this.props.theme[0].PostsButtonBackground, border: this.props.theme[0].PostsButtonBorder, color: this.props.theme[0].PostsTypographyTitle }}
-                          onChange={this.handleChangeReply}
-                        />
+                        {this.CustomToolbar("toolbarReply")}
+                        {this.renderReplyCommentQuill()}
                       </div>
                     </Grid>
                     <Grid item xs={12} style={{ maxWidth: 640 }}>
-                      {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment,nestedComment.parentDepth)}
+                      {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment, nestedComment.parentDepth)}
                     </Grid>
                   </Grid>
                   :
@@ -503,45 +487,24 @@ class Post extends Component {
         } else if (nestedComment.replies !== undefined) {
           // get this current state
           if (this.props.account.username !== undefined && nestedComment.user === this.props.account.username) {
+            return (this.renderCommentTemplateEditDelete(this.state.postId, nestedComment.timestamp, nestedComment.avatar, nestedComment.collapse, nestedComment.user, nestedComment.timestamp, nestedComment.parentid, nestedComment.id, nestedComment.comment, nestedComment.showCommentBox, nestedComment, nestedComment.parentDepth))
+          } else if (this.props.account.username !== undefined && nestedComment.user !== this.props.account.username) {
             return (
-              <Comment.Group key={nestedComment.timestamp} size='mini' collapsed={nestedComment.collapse} >
-                <Comment style={{ border: this.props.theme[0].PrimaryOutlineBorder, borderRadius: this.props.theme[0].BorderRadius }}>
+              <Comment.Group key={nestedComment.timestamp} size='mini' collapsed={nestedComment.collapse}>
+                <Comment>
                   <Comment.Avatar as='a' src={nestedComment.avatar} onClick={() => this.collapseNestedCommentNew(nestedComment.id)} />
-                  <Comment.Content>
-                    <Comment.Author as='a'><span style={{ color: this.props.theme[0].PostsTypographyTitle }}>{nestedComment.user}</span></Comment.Author>
-                    <Comment.Metadata>
-                      <span style={{ color: this.props.theme[0].PostsTypographyObjectives }}>{this.renderTime(nestedComment.timestamp)}</span>
-                    </Comment.Metadata>
-                    <Comment.Text>
-                      <div className="ql-editor" style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 0 }} dangerouslySetInnerHTML={{ __html: nestedComment.comment }} />
-                    </Comment.Text>
-                    <Comment.Actions>
-                      <Button onClick={() => this.editReplyComment(nestedComment.parentid, nestedComment.id, nestedComment.comment)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
-                        <b>Edit</b>
-                      </Button>
-                      <Button onClick={() => this.deleteComment(nestedComment.id)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
-                        <b>Delete</b>
-                      </Button>
-                    </Comment.Actions>
-                  </Comment.Content>
+                  {this.renderCommentTemplateReplyContent(nestedComment.user, nestedComment.timestamp, nestedComment.comment, nestedComment.id)}
                   {nestedComment.showCommentBox
                     ?
                     <Grid container style={{ background: this.props.theme[0].PostsButtonBackground, margin: "0 auto", marginTop: 5, marginBottom: 5, maxWidth: "63em" }} alignItems={'flex-start'} justify={'center'} direction={'row'}>
                       <Grid item xs={12} style={{ maxWidth: 640 }}>
                         <div className="text-editor-reply">
-                          {this.CustomToolbarReply()}
-                          <ReactQuill
-                            ref={(el) => this.quillRefReply = el}
-                            placeholder={"What are your thoughts?"}
-                            modules={this.modulesReply}
-                            value={this.state.reply}
-                            style={{ background: this.props.theme[0].PostsButtonBackground, border: this.props.theme[0].PostsButtonBorder, color: this.props.theme[0].PostsTypographyTitle }}
-                            onChange={this.handleChangeReply}
-                          />
+                          {this.CustomToolbar("toolbarReply")}
+                          {this.renderReplyCommentQuill()}
                         </div>
                       </Grid>
                       <Grid item xs={12} style={{ maxWidth: 640 }}>
-                        {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment,nestedComment.parentDepth)}
+                        {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment, nestedComment.parentDepth)}
                       </Grid>
                     </Grid>
                     :
@@ -564,35 +527,7 @@ class Post extends Component {
                     <Comment.Text>
                       <div className="ql-editor" style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 0 }} dangerouslySetInnerHTML={{ __html: nestedComment.comment }} />
                     </Comment.Text>
-                    <Comment.Actions>
-                      <Button onClick={() => this.toggleReplyCommentBox(nestedComment.id)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
-                        <b>Reply</b>
-                      </Button>
-                    </Comment.Actions>
                   </Comment.Content>
-                  {nestedComment.showCommentBox
-                    ?
-                    <Grid container style={{ background: this.props.theme[0].PostsButtonBackground, margin: "0 auto", marginTop: 5, marginBottom: 5, maxWidth: "63em" }} alignItems={'flex-start'} justify={'center'} direction={'row'}>
-                      <Grid item xs={12} style={{ maxWidth: 640 }}>
-                        <div className="text-editor-reply">
-                          {this.CustomToolbarReply()}
-                          <ReactQuill
-                            ref={(el) => this.quillRefReply = el}
-                            placeholder={"What are your thoughts?"}
-                            modules={this.modulesReply}
-                            value={this.state.reply}
-                            style={{ background: this.props.theme[0].PostsButtonBackground, border: this.props.theme[0].PostsButtonBorder, color: this.props.theme[0].PostsTypographyTitle }}
-                            onChange={this.handleChangeReply}
-                          />
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} style={{ maxWidth: 640 }}>
-                        {this.renderReplyButton(nestedComment.id, nestedComment.id, nestedComment.comment, nestedComment,nestedComment.parentDepth)}
-                      </Grid>
-                    </Grid>
-                    :
-                    <div></div>
-                  }
                   {this.renderCommentReplies(rootComment, nestedComment.replies)}
                 </Comment>
               </Comment.Group>
@@ -605,35 +540,17 @@ class Post extends Component {
   }
 
   renderAllComments() {
-    console.log("Post Comments:",this.state.postComments)
     if (this.state.postComments) {
       return (
         this.state.postComments.map((comment, index) => {
+          // If there are no replies for root comment
           if (comment.replies === undefined) {
+            // if user is logged in and this comment user === current signed in user
             if (this.props.account.username !== undefined && comment.user === this.props.account.username) {
-              return (
-                <Comment key={comment.timestamp} style={{ border: this.props.theme[0].PrimaryOutlineBorder, borderRadius: this.props.theme[0].BorderRadius }}>
-                  <Comment.Avatar as='a' src={comment.avatar} />
-                  <Comment.Content>
-                    <Comment.Author as='a'><span style={{ color: this.props.theme[0].PostsTypographyTitle }}>{comment.user}</span></Comment.Author>
-                    <Comment.Metadata>
-                      <span style={{ color: this.props.theme[0].PostsTypographyObjectives }}>{this.renderTime(comment.timestamp)}</span>
-                    </Comment.Metadata>
-                    <Comment.Text>
-                      <div className="ql-editor" style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 0 }} dangerouslySetInnerHTML={{ __html: comment.comment }} />
-                    </Comment.Text>
-                    <Comment.Actions>
-                      <Button onClick={() => this.editComment(comment.id, comment.comment)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
-                        <b>Edit</b>
-                      </Button>
-                      <Button onClick={() => this.deleteComment(comment.id)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
-                        <b>Delete</b>
-                      </Button>
-                    </Comment.Actions>
-                  </Comment.Content>
-                </Comment>
-              )
+              // Allow user to edit comment
+              return (this.renderCommentTemplateEditDelete(this.state.postId, comment.timestamp, comment.avatar, comment.collapse, comment.user, comment.timestamp, comment.parentid, comment.id, comment.comment, comment.showCommentBox, comment, comment.parentDepth, "editComment", "deleteComment"))
             } else {
+              //  Show a border if the user made the comment
               if (this.props.account.username !== undefined && comment.user === this.props.account.username) {
                 return (
                   <Comment key={comment.timestamp} style={{ border: this.props.theme[0].PrimaryBorder, borderRadius: this.props.theme[0].BorderRadius }}>
@@ -646,15 +563,11 @@ class Post extends Component {
                       <Comment.Text>
                         <div className="ql-editor" style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 0 }} dangerouslySetInnerHTML={{ __html: comment.comment }} />
                       </Comment.Text>
-                      <Comment.Actions>
-                        <Button onClick={() => this.toggleReplyCommentBox(comment.id)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
-                          <b>Reply</b>
-                        </Button>
-                      </Comment.Actions>
                     </Comment.Content>
                   </Comment>
                 )
               } else {
+                //  No border if the user did not make the comment
                 return (
                   <Comment key={comment.timestamp}>
                     <Comment.Avatar as='a' src={comment.avatar} />
@@ -671,45 +584,27 @@ class Post extends Component {
                 )
               }
             }
-
+            // if there are replies in root comment...
           } else if (comment.replies !== undefined) {
-            if (this.props.account.username !== undefined && comment.user !== this.props.account.username) {
+            // if user is logged in
+            if (this.props.account.username !== undefined) {
               return (
                 <Comment.Group threaded key={comment.timestamp} size='mini' >
                   <Comment >
                     <Comment.Avatar as='a' src={comment.avatar} onClick={() => this.collapseRootComment(index)} />
-                    <Comment.Content>
-                      <Comment.Author as='a'><span style={{ color: this.props.theme[0].PostsTypographyTitle }}>{comment.user}</span></Comment.Author>
-                      <Comment.Metadata>
-                        <span style={{ color: this.props.theme[0].PostsTypographyObjectives }}>{this.renderTime(comment.timestamp)}</span>
-                      </Comment.Metadata>
-                      <Comment.Text>
-                        <div className="ql-editor" style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 0 }} dangerouslySetInnerHTML={{ __html: comment.comment }} />
-                      </Comment.Text>
-                      <Comment.Actions>
-                        <Button onClick={() => this.toggleReplyCommentBox(comment.id)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
-                          <b>Reply</b>
-                        </Button>
-                      </Comment.Actions>
-                    </Comment.Content>
+                    {/* Allow user to reply to comment*/}
+                    {this.renderCommentTemplateReplyContent(comment.user,comment.timestamp,comment.comment,comment.id)}
                     {comment.showCommentBox
                       ?
                       <Grid container style={{ background: this.props.theme[0].PostsButtonBackground, margin: "0 auto", marginTop: 5, marginBottom: 5, maxWidth: "63em" }} alignItems={'flex-start'} justify={'center'} direction={'row'}>
                         <Grid item xs={12} style={{ maxWidth: 640 }}>
                           <div className="text-editor-reply">
-                            {this.CustomToolbarReply()}
-                            <ReactQuill
-                              ref={(el) => this.quillRefReply = el}
-                              placeholder={"What are your thoughts?"}
-                              modules={this.modulesReply}
-                              value={this.state.reply}
-                              style={{ background: this.props.theme[0].PostsButtonBackground, border: this.props.theme[0].PostsButtonBorder, color: this.props.theme[0].PostsTypographyTitle }}
-                              onChange={this.handleChangeReply}
-                            />
+                            {this.CustomToolbar("toolbarReply")}
+                            {this.renderReplyCommentQuill()}
                           </div>
                         </Grid>
                         <Grid item xs={12} style={{ maxWidth: 640 }}>
-                          {this.renderReplyButton(comment.id, comment.id, comment.comment, comment,comment.parentDepth)}
+                          {this.renderReplyButton(comment.id, comment.id, comment.comment, comment, comment.parentDepth)}
                         </Grid>
                       </Grid>
                       :
@@ -719,7 +614,8 @@ class Post extends Component {
                   </Comment>
                 </Comment.Group>
               )
-            } if (this.props.account.username !== undefined && comment.user === this.props.account.username) {
+              // If user is logged in and comment user === currently logged in user...
+            } else if (this.props.account.username !== undefined && comment.user === this.props.account.username) {
               return (
                 <Comment key={comment.timestamp} style={{ border: this.props.theme[0].PrimaryOutlineBorder, borderRadius: this.props.theme[0].BorderRadius }}>
                   <Comment.Avatar as='a' src={comment.avatar} />
@@ -735,11 +631,27 @@ class Post extends Component {
                       <Button onClick={() => this.editComment(comment.id, comment.comment)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
                         <b>Edit</b>
                       </Button>
-                      <Button onClick={() => this.deleteComment(comment.id)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
+                      <Button onClick={() => this.deleteComment(this.state.postId, comment.id)} style={{ paddingTop: 3, paddingBottom: 3, paddingLeft: 6, paddingRight: 6, border: 0, background: 'transparent', color: this.props.theme[0].PostsTypographyObjectives, letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
                         <b>Delete</b>
                       </Button>
                     </Comment.Actions>
                   </Comment.Content>
+                </Comment>
+              )
+            } else {
+              return (
+                <Comment key={comment.timestamp} >
+                  <Comment.Avatar as='a' src={comment.avatar} />
+                  <Comment.Content>
+                    <Comment.Author as='a'><span style={{ color: this.props.theme[0].PostsTypographyTitle }}>{comment.user}</span></Comment.Author>
+                    <Comment.Metadata>
+                      <span style={{ color: this.props.theme[0].PostsTypographyObjectives }}>{this.renderTime(comment.timestamp)}</span>
+                    </Comment.Metadata>
+                    <Comment.Text>
+                      <div className="ql-editor" style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 0 }} dangerouslySetInnerHTML={{ __html: comment.comment }} />
+                    </Comment.Text>
+                  </Comment.Content>
+                  {this.renderCommentReplies(index, this.state.postComments[index].replies)}
                 </Comment>
               )
             }
@@ -764,7 +676,7 @@ class Post extends Component {
 
     let prevPostComments = this.state.postComments
     let commentData = {
-      id: 33,
+      id: this.state.postCommentCount + 1,
       index: [0],
       parentDepth: [0],
       parentid: 0,
@@ -777,28 +689,29 @@ class Post extends Component {
       replies: []
     }
     this.props.addCommentToPostFirestore(postid, commentData)
-    if (prevPostComments){
-      prevPostComments.unshift(commentData) 
+    if (prevPostComments) {
+      prevPostComments.unshift(commentData)
       console.log(prevPostComments)
     } else {
-      prevPostComments.push(commentData) 
+      prevPostComments.push(commentData)
       console.log(prevPostComments)
     }
 
     this.setState({
+      postCommentCount: this.state.postCommentCount + 1,
       postComments: prevPostComments,
       comment: "",
       rawcommentlength: 0,
     })
-    
+
   }
 
-  toggleReplyCommentBox(postid, cancel = false) {
+  toggleReplyCommentBox(commentid, cancel = false) {
     let prevPostComments = this.state.postComments
 
     // loop through index of prevpost
     prevPostComments.map((post, index) => {
-      let foundPost = findFirst(prevPostComments[index], 'replies', { id: postid })
+      let foundPost = findFirst(prevPostComments[index], 'replies', { id: commentid })
       if (foundPost !== false) {
         if (typeof foundPost.replies === 'undefined') {
 
@@ -877,7 +790,7 @@ class Post extends Component {
   replyComment(commentid, commentdata, parentid, postid, parentdepth) {
     let prevPostComments = this.state.postComments
     let commentData = {
-      id: this.state.postCommentCount+1,
+      id: this.state.postCommentCount + 1,
       parentDepth: [0],
       parentid: parentid,
       avatar: '/cavalry.svg',
@@ -899,7 +812,7 @@ class Post extends Component {
           foundPost.replies.unshift(commentData)
           this.setState({
             postComments: prevPostComments,
-            postCommentCount: this.state.postCommentCount+1
+            postCommentCount: this.state.postCommentCount + 1
           })
           this.props.replyCommentInPostFirestore(postid, commentid, commentData)
           this.toggleReplyCommentBox(commentid)
@@ -907,7 +820,7 @@ class Post extends Component {
           foundPost.replies.unshift(commentData)
           this.setState({
             postComments: prevPostComments,
-            postCommentCount: this.state.postCommentCount+1
+            postCommentCount: this.state.postCommentCount + 1
           })
           this.props.replyCommentInPostFirestore(postid, commentid, commentData)
           this.toggleReplyCommentBox(commentid)
@@ -918,25 +831,39 @@ class Post extends Component {
 
   }
 
-  deleteComment(postid) {
+  deleteComment(postid, commentid) {
+
     let prevPostComments = this.state.postComments
+    // go through all comments
     prevPostComments.map((comment, index) => {
-      if (comment.id === postid) {
+      // if commentid === comment.id, remove that item in index
+      if (comment.id === commentid) {
+        console.log("Found match.... deleting")
         prevPostComments.splice(index, 1);
         this.setState({
           postComments: prevPostComments,
         })
-      } else if (comment.replies !== undefined) {
-        prevPostComments.map((post, index) => {
-          let foundPost = findAndDeleteFirst(prevPostComments[index], 'replies', { id: postid })
+        this.props.deleteReplyCommentFirestore(postid, commentid)
+      } else {
+        console.log("No match for index",index)
+        // if comment.id has no match, loop through replies with findFirst
+        if (comment.replies !== undefined) {
+          let foundPost = findFirst(prevPostComments[index], 'replies', { id: commentid })
           if (foundPost !== false) {
+            // prevPostComments.splice(index, 1);
+            findAndDeleteAll(prevPostComments[index], 'replies', { id: commentid })
+            console.log("Found Post, deleting...", commentid)
             this.setState({
               postComments: prevPostComments,
             })
+            this.props.deleteReplyCommentFirestore(postid, commentid)
           }
-          return null
-        })
+        }
       }
+
+      // if if the commentid is not found, look through replies
+
+
       return null
     })
   }
@@ -997,7 +924,7 @@ class Post extends Component {
       return (
         <div style={{ float: 'right' }}>
           {this.renderReplyLengthCount()}
-          <Button style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, background: this.props.theme[0].PrimaryLinear }} onClick={() => this.replyComment(commentid, this.state.reply, parentid, this.state.postId,parentdepth)}>
+          <Button style={{ float: 'right', marginLeft: 16, height: 35, marginTop: 5, background: this.props.theme[0].PrimaryLinear }} onClick={() => this.replyComment(commentid, this.state.reply, parentid, this.state.postId, parentdepth)}>
             <div style={{ verticalAlign: 'middle', letterSpacing: '-0.5px', fontSize: '13px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
               <b>Reply</b>
             </div>
@@ -1071,15 +998,8 @@ class Post extends Component {
           </Grid>
           <Grid item xs={12} style={{ maxWidth: 640 }}>
             <div className="text-editor">
-              {this.CustomToolbar()}
-              <ReactQuill
-                ref={(el) => this.quillRef = el}
-                placeholder={"What are your thoughts?"}
-                modules={this.modules}
-                value={this.state.comment}
-                style={{ background: this.props.theme[0].PostsButtonBackground, border: this.props.theme[0].PostsButtonBorder, color: this.props.theme[0].PostsTypographyTitle }}
-                onChange={this.handleChangeComment}
-              />
+              {this.CustomToolbar("toolbar")}
+              {this.renderCommentQuill()}
             </div>
           </Grid>
           <Grid item xs={12} style={{ maxWidth: 640 }}>
@@ -1224,6 +1144,6 @@ export default connect(mapStateToProps, {
   starPost,
   lightThemeLoad,
   addCommentToPostFirestore,
-  replyCommentInPostFirestore
-
+  replyCommentInPostFirestore,
+  deleteReplyCommentFirestore
 })(withRouter(withStyles(styles)(Post)));

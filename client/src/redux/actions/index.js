@@ -56,7 +56,8 @@ import {
   STAR_POST_LOCAL,
   ADD_COMMENT,
   REPLY_COMMENT,
-
+  DELETE_COMMENT,
+  post_objectives,
 } from './types';
 
 const keys = require('../../secrets/keys');
@@ -126,6 +127,11 @@ export const darkThemeLoad = () => dispatch => {
     AlgoliaSearchText: "black",
   }]
   dispatch({ type: SET_THEME, payload: theme })
+}
+
+export const deleteReplyCommentFirestore = (postid,commentid) => async dispatch => {
+  const data = await auth.deleteReplyCommentFirestore(postid,commentid)
+  dispatch({ type: DELETE_COMMENT, payload: data})
 }
 
 export const replyCommentInPostFirestore = (postid, commentid, commentdata) => async dispatch => {

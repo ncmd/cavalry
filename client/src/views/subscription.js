@@ -183,7 +183,7 @@ class Subscription extends Component {
     } else {
       return (
         <div style={{ width: 273, height: 360, marginBottom: 20, background: this.props.theme[0].PostsButtonBackground, border: this.props.theme[0].PostsButtonBorder, borderRadius: '5px 5px 5px 5px', textAlign: 'center', }}>
-          <div style={{ color: this.props.theme[0].PostsTypographyTitle, display: 'inline-block', padding: '25px 0' }} >Please select a plan</div>
+          <div style={{ color: this.props.theme[0].PostsTypographyTitle, display: 'inline-block', padding: '25px 0', letterSpacing: '-0.5px', fontSize: '18px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }} >Please select a plan</div>
         </div>
       )
     }
@@ -313,9 +313,9 @@ class Subscription extends Component {
                   <div style={{ color: this.props.theme[0].PostsTypographyTitle, letterSpacing: '-0.5px', fontSize: '21px', fontWeight: 100, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
                     <b>Why does Cavalry cost money?</b>
                   </div>
-                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, letterSpacing: '-0.5px', fontSize: '21px', fontWeight: 100, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
-                    I'm an Indie Maker, meaning that I've made Cavalry completely on my own in my own time without any funding or investment. I've put countless hours (70+ hours per week) into creating a product the commuity loves. Charging for Cavalry helps keep it sustainable and alive. Take a look at this <a target="_blank" rel="noopener noreferrer" href="http://web.archive.org/web/20170628224824/https://blog.pinboard.in/2011/12/don_t_be_a_free_user/">iconic blog post</a> for more information.
-                            </div>
+                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, letterSpacing: '-0.5px', fontSize: '18px', fontWeight: 100, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
+                    I'm an Indie Maker and made Cavalry completely on my own in my own time without any funding or investment. I've put countless hours into creating a product the commuity loves. Subscriptions keep this site <a target="_blank" rel="noopener noreferrer" href="http://web.archive.org/web/20170628224824/https://blog.pinboard.in/2011/12/don_t_be_a_free_user/">sustainable and alive</a>.
+                  </div>
                 </Grid>
               </Grid>
               <Grid container style={{ flexGrow: 1, margin: "0 auto", maxWidth: "50em", paddingTop: 20 }} direction={'column'} justify={'flex-start'} alignItems={'flex-start'}>
@@ -325,24 +325,23 @@ class Subscription extends Component {
                   </div>
                 </Grid>
               </Grid>
-              <Grid container style={{ flexGrow: 1, margin: "0 auto", maxWidth: "50em", paddingTop: 20 }} direction={'row'} justify={'flex-start'} alignItems={'flex-start'}>
+              <Grid container style={{ flexGrow: 1, margin: "0 auto", maxWidth: "50em", paddingTop: 20, paddingBottom:60}} direction={'row'} justify={'flex-start'} alignItems={'flex-start'}>
                 <Grid item xs style={{ padding: 40, paddingTop: 0, paddingBottom: 0 }}>
                   {this.renderStripe()}
                 </Grid>
                 <Grid item style={{ border: this.props.theme[0].PostsButtonBorder, borderRadius: this.props.theme[0].BorderRadius, background: this.props.theme[0].PostsButtonBackground, padding: 40 }} xs>
-                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, marginTop: -20, marginBottom: 10, letterSpacing: '-0.5px', fontSize: '21px', fontWeight: 100, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
+                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, marginTop: -20, marginBottom: 10, letterSpacing: '-0.5px', fontSize: '21px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>
                     You're going to <span aria-label="emoji" role="img">❤️</span> Cavalry
-                          </div>
-                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5 }} ><Check style={{ color: '#00e676' }} /> <span aria-label="emoji" role="img">🚫</span> No Advertisements</div>
-                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5 }} ><Check style={{ color: '#00e676' }} /> 24/7 support by <span aria-label="emoji" role="img">📧</span> email</div>
-                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5 }} ><Check style={{ color: '#00e676' }} /> Create unlimited <span aria-label="emoji" role="img">🔒</span> <b>private</b> runbooks</div>
-                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5 }} ><Check style={{ color: '#00e676' }} /> Able to request for <span aria-label="emoji" role="img">📕</span> runbooks</div>
-                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5 }} ><Check style={{ color: '#00e676' }} /> Able to request new <span aria-label="emoji" role="img">😍</span> features</div>
-                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5 }} ><Check style={{ color: '#00e676' }} /> Create & edit your <span aria-label="emoji" role="img">📖</span> runbooks</div>
-                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5 }} ><Check style={{ color: '#00e676' }} /> 99.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</div>
+                  </div>
+                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5, letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }} ><Check style={{ color: '#00e676' }} /> <span aria-label="emoji" role="img">🚫</span> No Advertisements</div>
+                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5, letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }} ><Check style={{ color: '#00e676' }} /> 24/7 support by <span aria-label="emoji" role="img">📧</span> email</div>
+                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5, letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }} ><Check style={{ color: '#00e676' }} /> Create unlimited <span aria-label="emoji" role="img">🔒</span> <b>private</b> runbooks</div>
+                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5, letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }} ><Check style={{ color: '#00e676' }} /> Able to request for <span aria-label="emoji" role="img">📕</span> runbooks</div>
+                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5, letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }} ><Check style={{ color: '#00e676' }} /> Able to request new <span aria-label="emoji" role="img">😍</span> features</div>
+                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5, letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }} ><Check style={{ color: '#00e676' }} /> Create & edit your <span aria-label="emoji" role="img">📖</span> runbooks</div>
+                  <div style={{ color: this.props.theme[0].PostsTypographyTitle, padding: 5, letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }} ><Check style={{ color: '#00e676' }} /> 99.9% SLA <span aria-label="emoji" role="img">👍</span> uptime</div>
                 </Grid>
               </Grid>
-
             </div>
             <Dialog
               disableBackdropClick
@@ -352,7 +351,6 @@ class Subscription extends Component {
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
             >
-
               <DialogTitle><div style={{ letterSpacing: '-0.5px', fontSize: '24px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>"Setting up your account..."</div></DialogTitle>
               <DialogContent>
                 <DialogContentText>

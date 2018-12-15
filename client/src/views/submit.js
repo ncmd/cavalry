@@ -27,6 +27,7 @@ import { Accordion, AccordionTab } from 'primereact/accordion';
 import 'primereact/resources/themes/nova-light/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
+import Slate from '../components/slate/slateEditor'
 
 Quill.register('modules/ImageResize', ImageResize);
 
@@ -843,6 +844,9 @@ class Submit extends Component {
                         {this.renderSelect()}
                         <div style={{ marginTop: 5, color: this.props.theme[0].PostsTypographyTitle, letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}>This is the ideal department you want to assign this objective.</div>
                       </FormGroup>
+                      {/* <FormGroup>
+                        <Slate/>
+                      </FormGroup>*/}
                       <FormGroup>
                         <div className="text-editor">
                           {this.CustomToolbar()}

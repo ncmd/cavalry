@@ -449,12 +449,12 @@ class Landing extends Component {
             paddingTop: 5,
           }}
         >
-          {this.renderBannerIfLoggedIn(this.state.isLoggedIn)}
+          {/* {this.renderBannerIfLoggedIn(this.state.isLoggedIn)} */}
           <Grid container style={{ flexGrow: 1, paddingTop: 0, margin: "0 auto", maxWidth: "63em" }} >
             {/* Hide if below at tablet size or lower*/}
             <Hidden smDown>
               <Grid item style={{ width: 180, borderColor: '#474f97', textTransform: 'none', marginRight: 20, marginLeft: 10 }}>
-                <div style={{ color: "#3d63ff" }} ><b>Filter by Tag</b></div>
+                <div style={{ color: "#3d63ff", letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }} ><b>Filter by Tag</b></div>
                 {this.renderSelect()}
               </Grid>
             </Hidden>

@@ -1,6 +1,6 @@
 import { auth, db, storage } from './firebase';
 import axios from 'axios';
-import { findFirst } from 'obj-traverse/lib/obj-traverse';
+import { findFirst,findAndDeleteAll } from 'obj-traverse/lib/obj-traverse';
 const keys = require('../../secrets/keys');
 let backend = keys.heroku_backend_uri
 
@@ -8,6 +8,44 @@ let backend = keys.heroku_backend_uri
 // reply comment - done; sorta
 // delete comment
 // edit comment
+
+
+export const deleteReplyCommentFirestore = (postid, commentid) => {
+  console.log(postid, commentid)
+  var postRef = db.collection("posts").doc(postid);
+  postRef.get().then(function (doc) {
+    if (doc.exists) {
+      var prevComments = doc.data().comments
+      // loop through index of prevpost
+      prevComments.map((comment, index) => {
+        if (comment.id === commentid){
+          let foundPost = findFirst(prevComments[index], 'replies', { id: commentid })
+          if (foundPost !== false) {
+            if (typeof foundPost.replies === 'undefined') {
+              console.log("Found Post, deleting...")
+              prevComments.splice(index, 1);
+              postRef.update({
+                comments: prevComments,
+                commentcount: doc.data().commentcount - 1
+              })
+            } else {
+              prevComments.splice(index, 1);
+              postRef.update({
+                comments: prevComments,
+                commentcount: doc.data().commentcount - 1
+              })
+              console.log("Could not find post",postid,commentid,comment,index)
+            }
+          } 
+        }
+        return null
+      })
+    }
+  }).catch(function (error) {
+    console.log("Error getting document:", error);
+  });
+}
+
 
 export const replyCommentFirestore = (postid, commentid, commentdata) => {
   console.log(postid, commentdata)
@@ -68,7 +106,6 @@ export const getCommentsOfPostFirestore = (postid) => {
   }).catch(function (error) {
     console.log("Error getting document:", error);
     return null
-
   });
 }
 

@@ -287,8 +287,10 @@ class header extends Component {
 
   renderUserNotLoggedIn() {
 
-    return (
-      <Grid item >
+    console.log(this.props.location.pathname)
+    if(this.props.location.pathname === '/login'){
+      return (
+        <Grid item >
         {this.state.backgroundTheme
           ?
           <Button style={{ height: 35, border: '0px solid #3d63ff', boxShadow: 'none', background: 'transparent', textTransform: 'none' }} onClick={() => this.setDarkTheme()} >
@@ -303,23 +305,76 @@ class header extends Component {
             </div>
           </Button>
         }
-
-        <Link to={{ pathname: '/login' }} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
-          <Button size="sm" style={{ marginLeft: 16, height: 40, background: 'transparent', width: 120, border: '1px solid #3d63ff', boxShadow: 'none' }}>
-            <div style={{ color: "#3d63ff", textTransform: 'none', letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}   >
-              <b>LOG IN</b>
-            </div>
-          </Button>
-        </Link>
         <Link to={{ pathname: '/signup' }} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignupbutton()}>
-          <Button raised="true" variant="raised" style={{ marginLeft: 16, height: 40, width: 120, background: this.props.theme[0].PrimaryLinear, border: this.props.theme[0].PrimaryBorder, textTransform: 'none' }} >
-            <div style={{ color: 'white', textTransform: 'none', letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}  >
-              <b>SIGN UP</b>
+            <Button raised="true" variant="raised" style={{ marginLeft: 16, height: 40, width: 120, background: this.props.theme[0].PrimaryLinear, border: this.props.theme[0].PrimaryBorder, textTransform: 'none' }} >
+              <div style={{ color: 'white', textTransform: 'none', letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}  >
+                <b>SIGN UP</b>
+              </div>
+            </Button>
+          </Link>
+      </Grid>
+      )
+    } else if (this.props.location.pathname === '/signup'){
+      return (
+        <Grid item >
+        {this.state.backgroundTheme
+          ?
+          <Button style={{ height: 35, border: '0px solid #3d63ff', boxShadow: 'none', background: 'transparent', textTransform: 'none' }} onClick={() => this.setDarkTheme()} >
+            <div style={{ color: 'white', textTransform: 'none' }}  >
+              <span aria-label="emoji" role="img">🌙</span>
             </div>
           </Button>
-        </Link>
+          :
+          <Button style={{ height: 35, border: '0px solid #3d63ff', boxShadow: 'none', background: 'transparent', textTransform: 'none' }} onClick={() => this.setLightTheme()}  >
+            <div style={{ color: 'white', textTransform: 'none' }}  >
+              <span aria-label="emoji" role="img">☀️</span>
+            </div>
+          </Button>
+        }
+        <Link to={{ pathname: '/login' }} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
+            <Button size="sm" style={{ marginLeft: 16, height: 40, background: 'transparent', width: 120, border: '1px solid #3d63ff', boxShadow: 'none' }}>
+              <div style={{ color: "#3d63ff", textTransform: 'none', letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}   >
+                <b>LOG IN</b>
+              </div>
+            </Button>
+          </Link>
       </Grid>
-    )
+      )
+    } else {
+      return (
+        <Grid item >
+          {this.state.backgroundTheme
+            ?
+            <Button style={{ height: 35, border: '0px solid #3d63ff', boxShadow: 'none', background: 'transparent', textTransform: 'none' }} onClick={() => this.setDarkTheme()} >
+              <div style={{ color: 'white', textTransform: 'none' }}  >
+                <span aria-label="emoji" role="img">🌙</span>
+              </div>
+            </Button>
+            :
+            <Button style={{ height: 35, border: '0px solid #3d63ff', boxShadow: 'none', background: 'transparent', textTransform: 'none' }} onClick={() => this.setLightTheme()}  >
+              <div style={{ color: 'white', textTransform: 'none' }}  >
+                <span aria-label="emoji" role="img">☀️</span>
+              </div>
+            </Button>
+          }
+  
+          <Link to={{ pathname: '/login' }} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedloginbutton()}>
+            <Button size="sm" style={{ marginLeft: 16, height: 40, background: 'transparent', width: 120, border: '1px solid #3d63ff', boxShadow: 'none' }}>
+              <div style={{ color: "#3d63ff", textTransform: 'none', letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}   >
+                <b>LOG IN</b>
+              </div>
+            </Button>
+          </Link>
+          <Link to={{ pathname: '/signup' }} onClick={() => googleanalytics.Cavalry_Webapp_Header_Header_Userclickedsignupbutton()}>
+            <Button raised="true" variant="raised" style={{ marginLeft: 16, height: 40, width: 120, background: this.props.theme[0].PrimaryLinear, border: this.props.theme[0].PrimaryBorder, textTransform: 'none' }} >
+              <div style={{ color: 'white', textTransform: 'none', letterSpacing: '-0.5px', fontSize: '14px', fontWeight: 350, fontFamily: "-apple-system,BlinkMacSystemFont,\"Segoe UI\",Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\",\"Segoe UI Symbol\"" }}  >
+                <b>SIGN UP</b>
+              </div>
+            </Button>
+          </Link>
+        </Grid>
+      )
+    }
   }
 
   firebaseSignout() {

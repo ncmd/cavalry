@@ -273,6 +273,7 @@ Resource: https://info.digitalguardian.com/rs/768-OQW-145/images/Incident-Respon
 - metrics (last edited, forks, views, stars, objectives, executions, comments)
 
 ## Comments
+- view x replies; hide x replies
 - show comments preview if not a member
 - animation for collapsing
 - show how to collapse/expand
